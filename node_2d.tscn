@@ -1,26 +1,26 @@
 [gd_scene load_steps=2 format=3 uid="uid://c0lcb3x18myu3"]
 
-[ext_resource type="Texture2D" uid="uid://d3fwu21hc8m2f" path="res://1553974902065.jpg" id="1_ekeqi"]
+[ext_resource type="Texture2D" uid="uid://d3fwu21hc8m2f" path="res://Assets/1553974902065.jpg" id="1_jswp1"]
 
 [node name="Node2D" type="Node2D"]
 
 [node name="1553974902065" type="Sprite2D" parent="."]
 position = Vector2(19.25, -14.75)
 scale = Vector2(0.314898, 0.825452)
-texture = ExtResource("1_ekeqi")
+texture = ExtResource("1_jswp1")
 
 [node name="1553974902066" type="Sprite2D" parent="."]
 position = Vector2(287, 109)
 scale = Vector2(0.314898, 0.825452)
-texture = ExtResource("1_ekeqi")
+texture = ExtResource("1_jswp1")
 
 [node name="1553974902065" type="Sprite2D" parent="1553974902066"]
 position = Vector2(603.369, 14.5375)
 scale = Vector2(0.314898, 0.825452)
-texture = ExtResource("1_ekeqi")
+texture = ExtResource("1_jswp1")
 
 [node name="1553974902065" type="Sprite2D" parent="1553974902066/1553974902065"]
 position = Vector2(-544.568, -8.80576)
 rotation = 1.46083
 scale = Vector2(0.314898, 0.825452)
-texture = ExtResource("1_ekeqi")
+texture = ExtResource("1_jswp1")
