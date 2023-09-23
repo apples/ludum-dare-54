@@ -4,6 +4,14 @@
 
 - Godot 4.1
 
+## Naming conventions
+
+File and folder names must be `snake_case`, and can only contain the following characters:
+
+```
+qwertyuiopasdfghjklzxcvbnm_1234567890
+```
+
 ## Project Organization
 
 Art and audio assets go in the `assets/` folder, organized by category/object.
