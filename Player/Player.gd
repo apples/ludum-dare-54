@@ -38,8 +38,8 @@ func take_damage(amount: int):
 
 	print("ouch! %s" % amount)
 	health -= amount
-	if health < 0:
-		health = 0
+	if health <= 0:
+		get_tree().change_scene_to_file("res://scenes/LoseScreen/Lose.tscn")
 	health_changed.emit()
 	invinicble = true
 	$IFrameTimer.start()

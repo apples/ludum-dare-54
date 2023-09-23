@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://vr1cyevty345"]
+
+[ext_resource type="Texture2D" uid="uid://hadpuld41iw6" path="res://Assets/victo.png" id="1_ql5a1"]
+
+[node name="Win" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(577.5, 324.5)
+scale = Vector2(0.68638, 0.989297)
+texture = ExtResource("1_ql5a1")
