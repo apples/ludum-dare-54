@@ -9,6 +9,11 @@ signal health_changed
 
 var invinicble: bool = false
 
+@onready var attack_area = $AttackArea
+
+func _ready():
+	attack_area.monitoring = false
+
 func _enter_tree():
 	GameState.player_node = self
 
@@ -19,6 +24,7 @@ func _exit_tree():
 func _process(delta):
 	if(Input.is_action_just_pressed("attack")):
 		sprite.play("heavy_assault")
+		attack_area.monitoring = true
 
 func _physics_process(delta):
 	var input_direction = Input.get_vector("left", "right", "up", "down")
@@ -42,7 +48,13 @@ func _on_i_frame_timer_timeout():
 	invinicble = false
 
 func _on_animated_sprite_2d_animation_finished():
+	attack_area.monitoring = false
 	if(velocity.length() > 0):
 		sprite.play("walk")
 	else:
 		sprite.play("idle")
+
+
+func _on_attack_area_body_entered(body):
+	if body.is_in_group("enemy"):
+		body.take_damage(1)

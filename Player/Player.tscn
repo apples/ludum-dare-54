@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://crdbmo7vy4lmt"]
+[gd_scene load_steps=5 format=3 uid="uid://crdbmo7vy4lmt"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_5qs4l"]
-[ext_resource type="SpriteFrames" uid="uid://pjja5pdmahti" path="res://Player/player_spriteframes.tres" id="2_rxpcx"]
+[ext_resource type="SpriteFrames" uid="uid://bfhinjxjy7kkg" path="res://Player/player_spriteframes.tres" id="2_rxpcx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4e4ad"]
 size = Vector2(56, 56)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m0gxe"]
+radius = 64.4981
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 motion_mode = 1
@@ -22,5 +25,11 @@ autoplay = "idle"
 wait_time = 0.5
 one_shot = true
 
+[node name="AttackArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+shape = SubResource("CircleShape2D_m0gxe")
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="timeout" from="IFrameTimer" to="." method="_on_i_frame_timer_timeout"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]

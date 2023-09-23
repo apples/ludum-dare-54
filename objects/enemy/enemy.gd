@@ -27,3 +27,10 @@ func _physics_process(delta):
 		var proj := collision.get_remainder().project(collision.get_normal())
 		var rem := collision.get_remainder() - proj
 		collision = move_and_collide(rem)
+
+func take_damage(amount):
+	print("yikes! ya got me!")
+	var expl = preload("res://objects/enemy_explosion/enemy_explosion.tscn").instantiate()
+	get_parent().add_child(expl)
+	expl.position = position
+	queue_free()
