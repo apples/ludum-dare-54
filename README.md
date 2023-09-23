@@ -24,3 +24,4 @@ Main scenes go in `scenes/` e.g. `scenes/main_menu/main_menu.tscn`, with associa
 
 Scripts not associated with anything go in `scripts/`.
 
+Autoload scripts *and* scenes go in `autoload/`.

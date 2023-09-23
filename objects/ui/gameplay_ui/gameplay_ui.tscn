@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://b78yxchg8y5ro"]
+
+[node name="GameplayUI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Healthbar" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="1" type="TextureRect" parent="Healthbar"]
+layout_mode = 2
