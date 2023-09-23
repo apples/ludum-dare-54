@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cmohmxqttdng"
-path="res://.godot/imported/cobblestone_ground.png-e1d6c05289d331f116e3dbd7a528a8f7.ctex"
+uid="uid://d0ou07cuwipv5"
+path="res://.godot/imported/this_is_an_animated_png,_I_didn't_know_these_existed_lol.png-c981d22852ffd9c6db80a4a834b38715.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://New folder/cobblestone_ground.png"
-dest_files=["res://.godot/imported/cobblestone_ground.png-e1d6c05289d331f116e3dbd7a528a8f7.ctex"]
+source_file="res://Assets/this_is_an_animated_png,_I_didn't_know_these_existed_lol.png"
+dest_files=["res://.godot/imported/this_is_an_animated_png,_I_didn't_know_these_existed_lol.png-c981d22852ffd9c6db80a4a834b38715.ctex"]
 
 [params]
 
