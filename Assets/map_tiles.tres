@@ -1,0 +1,37 @@
+[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://bletqbdoisivc"]
+
+[ext_resource type="Texture2D" uid="uid://0kmkfeydv6t" path="res://Assets/wrought_iron_gate.png" id="1_f7xnm"]
+[ext_resource type="Texture2D" uid="uid://c4nnh8xn4btxa" path="res://Assets/dirt_ground.png" id="2_notmy"]
+[ext_resource type="Texture2D" uid="uid://c7spjab3fcing" path="res://Assets/colloseum_wall.png" id="3_5066r"]
+[ext_resource type="Texture2D" uid="uid://dph086x83m2wl" path="res://Assets/cobblestone_ground.png" id="4_pc3n2"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sngsj"]
+texture = ExtResource("1_f7xnm")
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k7ui2"]
+texture = ExtResource("2_notmy")
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ylkc0"]
+texture = ExtResource("3_5066r")
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8ick0"]
+texture = ExtResource("4_pc3n2")
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+
+[resource]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_sngsj")
+sources/1 = SubResource("TileSetAtlasSource_k7ui2")
+sources/2 = SubResource("TileSetAtlasSource_ylkc0")
+sources/3 = SubResource("TileSetAtlasSource_8ick0")
