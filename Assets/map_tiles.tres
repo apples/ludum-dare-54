@@ -1,9 +1,9 @@
-[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://bletqbdoisivc"]
+[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://dpey8yfgl4c7m"]
 
-[ext_resource type="Texture2D" uid="uid://0kmkfeydv6t" path="res://Assets/wrought_iron_gate.png" id="1_f7xnm"]
-[ext_resource type="Texture2D" uid="uid://c4nnh8xn4btxa" path="res://Assets/dirt_ground.png" id="2_notmy"]
-[ext_resource type="Texture2D" uid="uid://c7spjab3fcing" path="res://Assets/colloseum_wall.png" id="3_5066r"]
-[ext_resource type="Texture2D" uid="uid://dph086x83m2wl" path="res://Assets/cobblestone_ground.png" id="4_pc3n2"]
+[ext_resource type="Texture2D" uid="uid://5mq0rs3ecpi8" path="res://Assets/wrought_iron_gate.png" id="1_f7xnm"]
+[ext_resource type="Texture2D" uid="uid://dp1p60wa2kskc" path="res://Assets/dirt_ground.png" id="2_notmy"]
+[ext_resource type="Texture2D" uid="uid://n7anpprnwhlr" path="res://Assets/colloseum_wall.png" id="3_5066r"]
+[ext_resource type="Texture2D" uid="uid://ddrq02ym671la" path="res://Assets/cobblestone_ground.png" id="4_pc3n2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sngsj"]
 texture = ExtResource("1_f7xnm")

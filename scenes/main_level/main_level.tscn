@@ -1,9 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://c1dl23ykjt0mg"]
+[gd_scene load_steps=3 format=3 uid="uid://c1dl23ykjt0mg"]
 
-[ext_resource type="TileSet" uid="uid://bletqbdoisivc" path="res://Assets/map_tiles.tres" id="1_xgu8a"]
+[ext_resource type="TileSet" uid="uid://dpey8yfgl4c7m" path="res://Assets/map_tiles.tres" id="1_xgu8a"]
+[ext_resource type="PackedScene" uid="uid://crdbmo7vy4lmt" path="res://Player/Player.tscn" id="2_wxm7o"]
 
 [node name="main_level" type="Node2D"]
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("1_xgu8a")
 format = 2
+
+[node name="Player" parent="." instance=ExtResource("2_wxm7o")]
+position = Vector2(296, 195)
