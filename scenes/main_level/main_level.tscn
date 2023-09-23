@@ -19,3 +19,10 @@ position = Vector2(156, 157)
 
 [node name="Enemy" parent="." instance=ExtResource("3_0d6v0")]
 position = Vector2(968, 488)
+
+[node name="SurvivalTimer" type="Timer" parent="."]
+wait_time = 30.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="SurvivalTimer" to="." method="_on_survival_timer_timeout"]

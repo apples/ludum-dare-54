@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5mvel7ecqpds"]
+
+[ext_resource type="Texture2D" uid="uid://bsr3486fe4bb8" path="res://Assets/ouch.png" id="1_cgv53"]
+
+[node name="Lose" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(576, 325.75)
+scale = Vector2(1.8, 2.97005)
+texture = ExtResource("1_cgv53")
