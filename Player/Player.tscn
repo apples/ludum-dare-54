@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b07a3q73osiui" path="res://Assets/full_player_spritesheet_final(1)(1).png" id="2_svftn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4e4ad"]
-size = Vector2(56, 56)
+size = Vector2(64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uo52f"]
 atlas = ExtResource("2_svftn")
@@ -56,7 +56,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_x0evg")
 }],
-"loop": true,
+"loop": false,
 "name": &"heavy_assault",
 "speed": 5.0
 }, {
@@ -64,7 +64,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0cn22")
 }],
-"loop": true,
+"loop": false,
 "name": &"idle",
 "speed": 5.0
 }, {
@@ -75,7 +75,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_te6ta")
 }],
-"loop": true,
+"loop": false,
 "name": &"walk",
 "speed": 80.0
 }]
@@ -85,10 +85,11 @@ motion_mode = 1
 script = ExtResource("1_5qs4l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(4, 4)
 shape = SubResource("RectangleShape2D_4e4ad")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_2jnwe")
 animation = &"walk"
-autoplay = "walk"
+autoplay = "idle"
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
