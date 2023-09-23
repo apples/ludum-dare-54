@@ -1,30 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://crdbmo7vy4lmt"]
+[gd_scene load_steps=8 format=3 uid="uid://crdbmo7vy4lmt"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_5qs4l"]
 [ext_resource type="Texture2D" uid="uid://b07a3q73osiui" path="res://Assets/full_player_spritesheet_final(1)(1).png" id="2_svftn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4e4ad"]
 size = Vector2(56, 56)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uo52f"]
-atlas = ExtResource("2_svftn")
-region = Rect2(64, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tpvm7"]
-atlas = ExtResource("2_svftn")
-region = Rect2(128, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_55i6x"]
-atlas = ExtResource("2_svftn")
-region = Rect2(0, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3e3rj"]
-atlas = ExtResource("2_svftn")
-region = Rect2(64, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_x0evg"]
-atlas = ExtResource("2_svftn")
-region = Rect2(128, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0cn22"]
 atlas = ExtResource("2_svftn")
@@ -40,26 +20,6 @@ region = Rect2(128, 64, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_2jnwe"]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_uo52f")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tpvm7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_55i6x")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3e3rj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_x0evg")
-}],
-"loop": true,
-"name": &"heavy_assault",
-"speed": 5.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0cn22")
@@ -90,5 +50,11 @@ shape = SubResource("RectangleShape2D_4e4ad")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_2jnwe")
-animation = &"heavy_assault"
+animation = &"idle"
 autoplay = "walk"
+
+[node name="IFrameTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="timeout" from="IFrameTimer" to="." method="_on_i_frame_timer_timeout"]

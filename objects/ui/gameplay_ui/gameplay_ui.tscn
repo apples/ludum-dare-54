@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://b78yxchg8y5ro"]
+[gd_scene load_steps=2 format=3 uid="uid://b78yxchg8y5ro"]
+
+[ext_resource type="Script" path="res://objects/ui/gameplay_ui/healthbar.gd" id="1_ohn2x"]
 
 [node name="GameplayUI" type="Control"]
 layout_mode = 3
@@ -10,6 +12,4 @@ offset_bottom = 40.0
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
-
-[node name="1" type="TextureRect" parent="Healthbar"]
-layout_mode = 2
+script = ExtResource("1_ohn2x")
