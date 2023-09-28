@@ -33,4 +33,14 @@ func take_damage(amount):
 	var expl = preload("res://objects/enemy_explosion/enemy_explosion.tscn").instantiate()
 	get_parent().add_child(expl)
 	expl.position = position
+	var enemy_new = preload("res://objects/enemy/enemy.tscn").instantiate()
+	randomize()
+	enemy_new.position= Vector2(randf_range(10,950),randf_range(10,470))
+	while (target.position.distance_to(enemy_new.position) < 50):
+		enemy_new.position= Vector2(randf_range(10,950),randf_range(10,470))
+		print("spawed too close")
+	get_parent().add_child(enemy_new)
+	print("spawed")
+	replace_by(enemy_new)
 	queue_free()
+	
