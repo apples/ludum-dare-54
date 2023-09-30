@@ -1,5 +1,5 @@
 extends RaftTile
-var player_ref: PlayerCharacter
+var player_ref
 var damage_number_scene = preload("res://objects/damage_numbers/damage_numbers.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -11,12 +11,11 @@ func _process(delta):
 		return
 		
 	if Input.is_action_just_released("interact"):
-		player_ref._change_state(PlayerCharacter.STATE_IDLE)
+		player_ref.release()
 
-func interact(player: PlayerCharacter):
+func interact(player):
 	player_ref = player
-#	player.input_disabled = true
-	player._change_state(PlayerCharacter.STATE_FIX)
+	player.fix()
 	print("Player interacted with FIRE LETS GOOOO at <%s, %s>." % [row_index, column_index])
 
 

@@ -1,4 +1,3 @@
-class_name PlayerCharacter
 extends CharacterBody2D
 
 @export var idle_sprite: Texture2D
@@ -101,6 +100,15 @@ func _physics_process(delta):
 		velocity = Vector2.ZERO
 	
 	move_and_slide()
+
+func release():
+	_change_state(STATE_IDLE)
+
+func sit():
+	_change_state(STATE_SIT)
+
+func fix():
+	_change_state(STATE_FIX)
 
 func add_tile(tile: Node):
 	nearby_tiles.append(tile)
