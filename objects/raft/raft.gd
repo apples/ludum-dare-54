@@ -5,6 +5,7 @@ extends Node2D
 @export var raft_starting_pos_x = 0
 @export var raft_starting_pos_y = 0
 var raft_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
+var raft_tile_cannon_scene = preload("res://objects/raft_tile/raft_tile_cannon.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -22,11 +23,20 @@ func generate_raft():
 			generate_raft_tile(Vector2(raft_pos_x, raft_pos_y), r, c)
 			raft_pos_x += 32
 
+#func convert_to_cannon_tile(r: int, c: int):
+#
+#	pass
+
 func generate_raft_tile(pos: Vector2, row: int, column: int):
-	var new_raft_tile = raft_tile_scene.instantiate()
+	var tile_to_spawn = raft_tile_scene
+	if row == 3 and column == 2:
+		tile_to_spawn = raft_tile_cannon_scene
+	
+	var new_raft_tile = tile_to_spawn.instantiate()
 	new_raft_tile.row_index = row
 	new_raft_tile.column_index = column
 	new_raft_tile.set_position(pos)
+	
 	self.add_child(new_raft_tile)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

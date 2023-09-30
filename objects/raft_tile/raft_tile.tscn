@@ -6,5 +6,5 @@
 [node name="raft_tile" type="Node2D"]
 script = ExtResource("1_swvh2")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="raft_tile" type="Sprite2D" parent="."]
 texture = ExtResource("2_aorjx")
