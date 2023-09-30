@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://gyhxh16efgsf"]
+[gd_scene load_steps=7 format=3 uid="uid://gyhxh16efgsf"]
 
 [ext_resource type="Script" path="res://objects/player/player.gd" id="1_x7ne4"]
-[ext_resource type="Texture2D" uid="uid://dd7c06hwpovoe" path="res://assets/textures/player.png" id="2_4dutv"]
+[ext_resource type="Texture2D" uid="uid://p4wk6v6atci5" path="res://assets/textures/player.png" id="2_4dutv"]
 [ext_resource type="Texture2D" uid="uid://cg8mbis4hkh64" path="res://assets/textures/player_sit.png" id="3_n5vmx"]
 [ext_resource type="Texture2D" uid="uid://8jux160oqr2" path="res://assets/textures/swimming.png" id="4_sf1fp"]
+[ext_resource type="Texture2D" uid="uid://bwv34n1c0ylh2" path="res://assets/textures/player_fix.png" id="5_5r3vi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nrjej"]
 radius = 20.6155
@@ -14,6 +15,7 @@ script = ExtResource("1_x7ne4")
 idle_sprite = ExtResource("2_4dutv")
 sit_sprite = ExtResource("3_n5vmx")
 swim_sprite = ExtResource("4_sf1fp")
+fix_sprite = ExtResource("5_5r3vi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_nrjej")
