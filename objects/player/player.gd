@@ -9,6 +9,7 @@ enum {
 	STATE_IDLE,
 	STATE_SIT,
 	STATE_SWIM,
+	STATE_FIX,
 }
 
 var nearby_tiles = []
@@ -27,6 +28,7 @@ func _process(delta):
 		STATE_IDLE: _process_idle(delta)
 		STATE_SIT: _process_sit(delta)
 		STATE_SWIM: _process_swim(delta)
+		STATE_FIX: _process_fix(delta)
 
 func _process_idle(delta):
 	if not _what_tile():
@@ -43,23 +45,35 @@ func _process_idle(delta):
 func _process_sit(delta):
 	pass
 
+func _process_fix(delta):
+	pass
+
 func _process_swim(delta):
 	if _what_tile() != null:
 		_change_state(STATE_IDLE)
 
 func _change_state(s):
+	# Previous state exit hook
 	match state:
 		STATE_IDLE:
 			pass
+		STATE_FIX:
+			input_disabled = false
 		STATE_SIT:
 			input_disabled = false
 		STATE_SWIM:
 			pass
 	state = s
+	# New state entrance hook
 	match state:
 		STATE_IDLE:
 			$Sprite.texture = idle_sprite
 			current_speed = walk_speed
+		STATE_FIX:
+			$Sprite.texture = sit_sprite
+			current_speed = walk_speed
+			input_disabled = true
+			current_speed = 0
 		STATE_SIT:
 			$Sprite.texture = sit_sprite
 			input_disabled = true
