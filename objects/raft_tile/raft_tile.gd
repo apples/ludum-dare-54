@@ -2,6 +2,7 @@ class_name RaftTile extends Area2D
 
 var row_index: int = 0
 var column_index: int = 0
+var raft_ref: Node2D
 
 @export var health: int = 3 :
 	set = _set_health
@@ -9,8 +10,9 @@ var column_index: int = 0
 var raft: Raft = get_parent() as Raft
 
 func copy_properties(raft_tile: Node2D):
+	self.raft_ref = raft_tile.raft_ref
 	self.row_index = raft_tile.row_index
-	self.column_index = raft_tile.row_index
+	self.column_index = raft_tile.column_index
 	self.position = raft_tile.position
 
 # Called when the node enters the scene tree for the first time.

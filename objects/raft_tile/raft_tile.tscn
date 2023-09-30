@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://berm3cck4qq7l"]
 
 [ext_resource type="Script" path="res://objects/raft_tile/raft_tile.gd" id="1_swvh2"]
-[ext_resource type="Texture2D" uid="uid://dn7fqi3klpubs" path="res://assets/textures/raft.png" id="2_aorjx"]
+[ext_resource type="Texture2D" uid="uid://h420a0yyb158" path="res://assets/textures/raft.png" id="2_aorjx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1bv7b"]
 size = Vector2(32, 32)
