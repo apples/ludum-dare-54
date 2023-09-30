@@ -132,3 +132,6 @@ func _on_child_exiting_tree(node):
 	if node is RaftTile:
 		if raft_data_structure.get(node.grid_pos) == node:
 			raft_data_structure.erase(node.grid_pos)
+
+func play_raft_hit_cannoball():
+	$raft_hit_cannonball.play()

@@ -1,9 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://xb7mdny33p7e"]
+[gd_scene load_steps=3 format=3 uid="uid://xb7mdny33p7e"]
 
 [ext_resource type="Script" path="res://objects/raft/raft.gd" id="1_bh8yu"]
+[ext_resource type="AudioStream" uid="uid://bbtiuerh6ttx4" path="res://assets/sfx/raft_hit_cannonball.ogg" id="2_yhgk4"]
 
 [node name="raft" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_bh8yu")
+
+[node name="raft_hit_cannonball" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_yhgk4")
 
 [connection signal="child_exiting_tree" from="." to="." method="_on_child_exiting_tree"]
