@@ -6,6 +6,7 @@
 
 [node name="raft_tile_cannon" instance=ExtResource("1_141ic")]
 script = ExtResource("2_aj0qe")
+target_starting_pos = Vector2(650, 200)
 
 [node name="cannon" type="Sprite2D" parent="." index="1"]
 texture = ExtResource("2_p5x5l")

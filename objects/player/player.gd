@@ -14,7 +14,7 @@ enum {
 
 var nearby_tiles = []
 
-var input_disabled := false
+var move_input_disabled := false
 
 var state: int = STATE_IDLE
 
@@ -31,6 +31,9 @@ func _process(delta):
 		STATE_FIX: _process_fix(delta)
 
 func _process_idle(delta):
+	if move_input_disabled:
+		return
+	
 	if not _what_tile():
 		_change_state(STATE_SWIM)
 		return
@@ -53,14 +56,15 @@ func _process_swim(delta):
 		_change_state(STATE_IDLE)
 
 func _change_state(s):
+	print(s)
 	# Previous state exit hook
 	match state:
 		STATE_IDLE:
 			pass
 		STATE_FIX:
-			input_disabled = false
+			move_input_disabled = false
 		STATE_SIT:
-			input_disabled = false
+			move_input_disabled = false
 		STATE_SWIM:
 			pass
 	state = s
@@ -72,11 +76,11 @@ func _change_state(s):
 		STATE_FIX:
 			$Sprite.texture = fix_sprite
 			current_speed = walk_speed
-			input_disabled = true
+			move_input_disabled = true
 			current_speed = 0
 		STATE_SIT:
 			$Sprite.texture = sit_sprite
-			input_disabled = true
+			move_input_disabled = true
 			current_speed = 0
 		STATE_SWIM:
 			$Sprite.texture = swim_sprite
@@ -87,7 +91,7 @@ func _what_tile():
 	return t
 
 func _physics_process(delta):
-	if input_disabled:
+	if move_input_disabled:
 		velocity = Vector2.ZERO
 		return
 	
