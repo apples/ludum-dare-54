@@ -98,4 +98,5 @@ func _on_reload_timer_timeout():
 
 
 func _on_tree_exiting():
+	if connected_player:
 		connected_player.call_deferred("release")

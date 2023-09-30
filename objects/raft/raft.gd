@@ -31,6 +31,12 @@ func swap_tile(tile_scene: PackedScene, row: int, column: int):
 	raft_data_structure[Vector2i(row, column)] = new_tile
 	self.add_child(new_tile)
 
+func delete_tile(row: int, column: int):
+	raft_data_structure.erase(Vector2i(row, column))
+	if raft_data_structure.is_empty():
+		queue_free()
+		get_parent().raft_destroyed(self)
+
 func generate_raft():
 	var raft_pos_y: float = raft_starting_pos_y
 	var raft_pos_x: float = raft_starting_pos_x

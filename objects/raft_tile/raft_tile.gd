@@ -40,6 +40,7 @@ func _on_body_exited(body):
 func _set_health(value: int):
 	health = value
 	if health <= 0:
+		raft_ref.delete_tile(row_index, column_index)
 		queue_free()
 
 func damage(value: int):
