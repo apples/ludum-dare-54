@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://berm3cck4qq7l"]
 
 [ext_resource type="Script" path="res://objects/raft_tile/raft_tile.gd" id="1_swvh2"]
-[ext_resource type="Texture2D" uid="uid://h420a0yyb158" path="res://assets/textures/raft.png" id="2_aorjx"]
+[ext_resource type="Texture2D" uid="uid://ba2lrx4jj1x3m" path="res://assets/textures/raff.png" id="2_t1sf4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1bv7b"]
 size = Vector2(32, 32)
@@ -11,7 +11,8 @@ collision_layer = 2
 script = ExtResource("1_swvh2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_aorjx")
+position = Vector2(-16, 20)
+texture = ExtResource("2_t1sf4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_1bv7b")
