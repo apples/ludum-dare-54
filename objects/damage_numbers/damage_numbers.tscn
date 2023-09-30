@@ -7,6 +7,7 @@
 script = ExtResource("1_2ps2t")
 
 [node name="number_label" type="Label" parent="."]
+z_index = 100
 offset_left = -8.0
 offset_top = -7.0
 offset_right = 32.0

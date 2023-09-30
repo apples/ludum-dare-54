@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://diqoievo0i3mt"]
+
+[ext_resource type="Script" path="res://objects/smoke/smoke.gd" id="1_dnhra"]
+[ext_resource type="Texture2D" uid="uid://b05by44t0qh7e" path="res://assets/textures/smoke_8x8.png" id="2_ftox3"]
+
+[node name="smoke" type="Node2D"]
+script = ExtResource("1_dnhra")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 50
+texture = ExtResource("2_ftox3")
+
+[node name="smoke_expires" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="smoke_expires" to="." method="_on_smoke_expires_timeout"]
