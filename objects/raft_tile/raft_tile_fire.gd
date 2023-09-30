@@ -1,5 +1,5 @@
 extends RaftTile
-var player_ref: PlayerCharacter
+var player_ref
 var fire_being_fixed = false
 var max_fire_value = 300
 
@@ -16,7 +16,7 @@ func _process(delta):
 		return
 		
 	if Input.is_action_just_released("interact"):
-		player_ref._change_state(PlayerCharacter.STATE_IDLE)
+		player_ref.release()
 		$fire_fix_meter.visible = false
 		fire_being_fixed = false
 		$fire_fix_meter.value = max_fire_value
@@ -26,12 +26,12 @@ func _process(delta):
 		$fire_fix_meter.value -= 1
 		
 	if $fire_fix_meter.value <= 0:
-		player_ref._change_state(PlayerCharacter.STATE_IDLE)
+		player_ref.release()
 		raft_ref.swap_tile(raft_tile_scene, row_index, column_index)
 		print("fire fixed!")
 		
 
-func interact(player: PlayerCharacter):
+func interact(player):
 	$fire_damage_timer.stop()
 	$fire_fix_meter.visible = true
 	fire_being_fixed = true
