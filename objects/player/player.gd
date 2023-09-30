@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export var idle_sprite: Texture2D
 @export var sit_sprite: Texture2D
 @export var swim_sprite: Texture2D
+@export var fix_sprite: Texture2D
 
 enum {
 	STATE_IDLE,
@@ -74,7 +75,7 @@ func _change_state(s):
 			$Sprite.texture = idle_sprite
 			current_speed = walk_speed
 		STATE_FIX:
-			$Sprite.texture = sit_sprite
+			$Sprite.texture = fix_sprite
 			current_speed = walk_speed
 			move_input_disabled = true
 			current_speed = 0

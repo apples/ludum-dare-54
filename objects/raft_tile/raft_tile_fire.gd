@@ -1,6 +1,6 @@
-extends raft_tile
+extends RaftTile
 var player_ref: PlayerCharacter
-
+var damage_number_scene = preload("res://objects/damage_numbers/damage_numbers.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
@@ -22,5 +22,8 @@ func interact(player: PlayerCharacter):
 
 func _on_fire_damage_timer_timeout():
 	self.health -= 1
+	var dmg_number = damage_number_scene.instantiate()
+	dmg_number.position = self.position
+	get_parent().add_child(dmg_number)
 	print(self.health)
 

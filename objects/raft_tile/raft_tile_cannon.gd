@@ -1,4 +1,4 @@
-extends raft_tile
+extends RaftTile
 
 @export var target_starting_pos = Vector2(400, 0)
 @export var reticle_speed = 5
@@ -38,3 +38,4 @@ func interact(player: PlayerCharacter):
 	reticle.position = target
 	add_child(reticle)
 	print("Player interacted with CANNON LETS GOOOO at <%s, %s>." % [row_index, column_index])
+
