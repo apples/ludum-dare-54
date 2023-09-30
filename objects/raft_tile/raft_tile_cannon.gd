@@ -1,8 +1,52 @@
 extends RaftTile
 
+@export var target_starting_pos = Vector2(400, 0)
+@export var reticle_speed = 5
+@export var refire_delay = 1
 
-func interact(player: PlayerCharacter):
-	player.input_disabled = true
-	player._change_state(PlayerCharacter.STATE_SIT)
+var connected_player
+var reticle
+var target = target_starting_pos
+var fire_allowed = true
+
+func _process(delta):
+	if not connected_player:
+		return
+	elif Input.is_action_just_pressed("interact"):
+		connected_player.call_deferred("release")
+		reticle.queue_free()
+		reticle = null
+		connected_player = null
+	elif Input.is_action_just_pressed("execute") and fire_allowed:
+		$refire_timer.start(refire_delay)
+		fire_allowed = false
+		print("Pew Pew")
+
+func _physics_process(delta):
+	if not connected_player:
+		return
+	
+	var velocity = Vector2.ZERO
+	var lr = Input.get_axis("left", "right")
+	var ud = Input.get_axis("up", "down")
+	var move_input = Vector2(lr, ud)
+	if move_input:
+		target += move_input.normalized() * reticle_speed
+	reticle.position = target
+
+
+func interact(player):
+	player.sit()
+	connected_player = player
+	reticle = Sprite2D.new()
+	reticle.texture = preload("res://assets/textures/reticle.png")
+	reticle.z_index = 10
+	reticle.position = target
+	add_child(reticle)
 	print("Player interacted with CANNON LETS GOOOO at <%s, %s>." % [row_index, column_index])
 
+
+
+func _on_refire_timer_timeout():
+	fire_allowed = true
+	print("Reloaded")

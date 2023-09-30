@@ -49,6 +49,7 @@ func generate_raft_tile(pos: Vector2, row: int, column: int):
 #		tile_to_spawn = raft_tile_cannon_scene
 	
 	var new_raft_tile = tile_to_spawn.instantiate()
+	new_raft_tile.raft_ref = self
 	new_raft_tile.row_index = row
 	new_raft_tile.column_index = column
 	new_raft_tile.set_position(pos)
