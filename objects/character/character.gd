@@ -48,6 +48,11 @@ var _player_input: InputState = InputState.new()
 var _player_input_pressed: InputState = InputState.new()
 var _player_input_released: InputState = InputState.new()
 
+func eat_inputs():
+	for k in ["up", "down", "left", "right", "interact", "cancel"]:
+		_player_input_pressed[k] = false
+		_player_input_released[k] = false
+
 func is_action_pressed(name: String) -> bool:
 	return _player_input[name]
 

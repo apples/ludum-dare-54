@@ -81,6 +81,7 @@ func _physics_process(delta):
 func interact(player):
 	player.sit()
 	connected_player = player
+	connected_player.eat_inputs()
 	reticle = Sprite2D.new()
 	reticle.texture = preload("res://assets/textures/reticle.png")
 	reticle.z_index = 10
