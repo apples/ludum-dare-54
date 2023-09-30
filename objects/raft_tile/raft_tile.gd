@@ -4,6 +4,10 @@ var row_index: int = 0
 var column_index: int = 0
 var raft_ref: Node2D
 
+var grid_pos: Vector2i:
+	get:
+		return Vector2i(column_index, row_index)
+
 @export var health: int = 3 :
 	set = _set_health
 
