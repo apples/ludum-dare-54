@@ -1,58 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://17cx4ee0x8o"]
+[gd_scene load_steps=3 format=3 uid="uid://17cx4ee0x8o"]
 
 [ext_resource type="PackedScene" uid="uid://berm3cck4qq7l" path="res://objects/raft_tile/raft_tile.tscn" id="1_ngp3m"]
-[ext_resource type="Script" path="res://objects/raft_tile/raft_tile_fire.gd" id="2_6j000"]
-[ext_resource type="Texture2D" uid="uid://cqbpyq532ek02" path="res://assets/textures/fire.png" id="2_7uidx"]
-[ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="4_60yc5"]
+[ext_resource type="PackedScene" uid="uid://nwlpc8nl72i8" path="res://objects/raft_objects/fire.tscn" id="3_vg78b"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_pyftr"]
-atlas = ExtResource("2_7uidx")
-region = Rect2(0, 0, 32, 32)
+[node name="raft_tile_fire" node_paths=PackedStringArray("tile_object") instance=ExtResource("1_ngp3m")]
+tile_object = NodePath("Fire")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_80vdf"]
-atlas = ExtResource("2_7uidx")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_uhwnt"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pyftr")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_80vdf")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
-[node name="raft_tile_fire" instance=ExtResource("1_ngp3m")]
-script = ExtResource("2_6j000")
-
-[node name="fire" type="AnimatedSprite2D" parent="." index="1"]
-sprite_frames = SubResource("SpriteFrames_uhwnt")
-autoplay = "default"
-frame_progress = 0.789397
-
-[node name="fire_damage_timer" type="Timer" parent="." index="2"]
-wait_time = 5.0
-autostart = true
-
-[node name="fire_fix_meter" type="ProgressBar" parent="." index="4"]
-visible = false
-z_index = 100
-offset_left = -16.0
-offset_top = 17.0
-offset_right = 16.0
-offset_bottom = 22.0
-theme = ExtResource("4_60yc5")
-max_value = 300.0
-value = 300.0
-show_percentage = false
-
-[node name="smoke_added_timer" type="Timer" parent="." index="5"]
-wait_time = 0.175
-
-[connection signal="timeout" from="fire_damage_timer" to="." method="_on_fire_damage_timer_timeout"]
-[connection signal="timeout" from="smoke_added_timer" to="." method="_on_smoke_added_timer_timeout"]
+[node name="Fire" parent="." index="2" instance=ExtResource("3_vg78b")]

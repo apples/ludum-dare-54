@@ -11,7 +11,7 @@ var grid_pos: Vector2i:
 @export var health: int = 3 :
 	set = _set_health
 
-var raft = get_parent()
+@export var tile_object: Node
 
 func copy_properties(raft_tile: Node2D):
 	self.raft_ref = raft_tile.raft_ref
@@ -21,14 +21,14 @@ func copy_properties(raft_tile: Node2D):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	if tile_object:
+		tile_object.raft = raft_ref
+		tile_object.grid_pos = grid_pos
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
 
-func interact(player):
-	print("Player interacted with dumb tile at <%s, %s>." % [row_index, column_index])
 
 func _on_body_entered(body):
 	if body is Node:
@@ -54,16 +54,16 @@ func heal(value: int):
 	health += value
 
 func get_north_tile() -> RaftTile:
-	return raft.get_relative_tile(raft.NORTH, self)
+	return raft_ref.get_relative_tile(raft_ref.NORTH, self)
 
 func get_south_tile() -> RaftTile:
-	return raft.get_relative_tile(raft.SOUTH, self)
+	return raft_ref.get_relative_tile(raft_ref.SOUTH, self)
 
 func get_west_tile() -> RaftTile:
-	return raft.get_relative_tile(raft.WEST, self)
+	return raft_ref.get_relative_tile(raft_ref.WEST, self)
 
 func get_east_tile() -> RaftTile:
-	return raft.get_relative_tile(raft.EAST, self)
+	return raft_ref.get_relative_tile(raft_ref.EAST, self)
 
 func get_surrounding_tiles() -> Array[RaftTile]:
 	var array: Array[RaftTile] = []

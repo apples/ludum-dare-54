@@ -121,8 +121,9 @@ func _process_idle(delta):
 		nearby_tiles.sort_custom(func (a, b):
 			return global_position.distance_squared_to(a.global_position) < global_position.distance_squared_to(b.global_position)
 		)
-		if nearby_tiles.size() > 0:
-			nearby_tiles[0].interact(self)
+		var tile = raft.get_tile(grid_current_position.y, grid_current_position.x)
+		if tile != null and tile.tile_object != null:
+			tile.tile_object.interact(self)
 
 func _process_sit(delta):
 	pass
@@ -135,7 +136,6 @@ func _process_swim(delta):
 		_change_state(STATE_IDLE)
 
 func _change_state(s):
-	print(s)
 	# Previous state exit hook
 	match state:
 		STATE_IDLE:
