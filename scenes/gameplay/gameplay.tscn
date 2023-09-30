@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/gameplay/gameplay.gd" id="1_8n8ih"]
 [ext_resource type="PackedScene" uid="uid://xb7mdny33p7e" path="res://objects/raft/raft.tscn" id="2_k13pe"]
-[ext_resource type="TileSet" uid="uid://m8mfhf5hc5rb" path="res://assets/map_tiles.tres" id="3_1yaes"]
+[ext_resource type="TileSet" uid="uid://bxqtnvjdndf4n" path="res://assets/map_tiles.tres" id="3_1yaes"]
 [ext_resource type="PackedScene" uid="uid://gyhxh16efgsf" path="res://objects/player/player.tscn" id="4_85nev"]
 [ext_resource type="Material" uid="uid://cpoey1ek0owuq" path="res://assets/materials/pixelize_material.tres" id="4_fa5ln"]
 [ext_resource type="Material" uid="uid://un7v62ivswp4" path="res://assets/materials/water_shader_material.tres" id="5_rakto"]
