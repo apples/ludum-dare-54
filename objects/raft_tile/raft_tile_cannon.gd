@@ -5,6 +5,8 @@ extends RaftTile
 @export var refire_delay = 1
 @export var projectile_scene = preload("res://objects/projectile/projectile.tscn")
 @onready var cannon_hole = $CannonHole
+@onready var trajectory = $Trajectory
+@onready var reload_timer = $ReloadTimer
 
 var connected_player
 var reticle
@@ -13,21 +15,28 @@ var fire_allowed = true
 
 func _process(delta):
 	if not connected_player:
-		#$Trajectory.visible = false
+		trajectory.visible = false
 		return
 	
-	$Trajectory.visible = true
+	trajectory.visible = true
 	_calculate_trajectory()
 	
-	if Input.is_action_just_pressed("interact"):
+	if Input.is_action_just_pressed("cancel"):
 		connected_player.call_deferred("release")
 		reticle.queue_free()
 		reticle = null
 		connected_player = null
-	elif Input.is_action_just_pressed("execute") and fire_allowed:
-		$refire_timer.start(refire_delay)
+	elif Input.is_action_just_pressed("interact") and fire_allowed:
+		connected_player.call_deferred("release")
+		connected_player = null
+		reload_timer.start(refire_delay)
 		fire_allowed = false
 		print("Pew Pew")
+		var ball = projectile_scene.instantiate()
+		ball.global_position = global_position
+		ball.trajectory = trajectory.points
+		ball.travel_time = 1.0
+		raft_ref.get_parent().add_child(ball)
 
 func _calculate_trajectory():
 	var start = cannon_hole.global_position
@@ -51,8 +60,8 @@ func _calculate_trajectory():
 	
 	points.append(end)
 	
-	$Trajectory.global_position = Vector2.ZERO
-	$Trajectory.points = points
+	trajectory.global_position = Vector2.ZERO
+	trajectory.points = points
 
 func _physics_process(delta):
 	if not connected_player:
@@ -78,7 +87,11 @@ func interact(player):
 	print("Player interacted with CANNON LETS GOOOO at <%s, %s>." % [row_index, column_index])
 
 
-
 func _on_refire_timer_timeout():
 	fire_allowed = true
 	print("Reloaded")
+
+
+
+func _on_reload_timer_timeout():
+	fire_allowed = true
