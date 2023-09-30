@@ -13,6 +13,7 @@ func _process(delta):
 	var t = _t / travel_time
 	
 	if t >= 1.0:
+		_sploosh()
 		queue_free()
 		return
 	
@@ -21,3 +22,10 @@ func _process(delta):
 	var b = trajectory[int(i)+1]
 	var x = lerp(a, b, i-int(i))
 	global_position = x
+
+
+func _sploosh():
+	var hit = $RayCast2D.get_collider()
+	print(hit)
+	if hit != null:
+		hit.damage(1)

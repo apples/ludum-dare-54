@@ -5,6 +5,8 @@ extends "res://objects/character/character.gd"
 @export var swim_sprite: Texture2D
 @export var fix_sprite: Texture2D
 
+@export var raft: Node
+
 enum {
 	STATE_IDLE,
 	STATE_SIT,
@@ -22,6 +24,12 @@ var walk_speed := 300
 var swim_speed := 100
 
 var current_speed := walk_speed
+
+var is_grid_based := false
+
+var grid_previous_position := Vector2i(position)
+var grid_current_position := Vector2i(position)
+var grid_lerp_t := 1.0
 
 func _process(delta):
 	match state:
@@ -98,12 +106,31 @@ func _physics_process(delta):
 	var lr = Input.get_axis("left", "right")
 	var ud = Input.get_axis("up", "down")
 	var move_input = Vector2(lr, ud)
-	if move_input:
-		velocity = move_input.normalized() * current_speed
-	else:
-		velocity = Vector2.ZERO
 	
-	move_and_slide()
+	if is_grid_based:
+		if move_input:
+			if grid_lerp_t >= 1.0:
+				var dir := Vector2i()
+				if lr < 0:
+					dir = Vector2i(-1,0)
+				if lr > 0:
+					dir = Vector2i(1,0)
+				if ud < 0:
+					dir = Vector2i(0,-1)
+				if ud > 0:
+					dir = Vector2i(0,1)
+				assert(dir)
+				var next_tile = raft.get_relative_tile(dir, _what_tile())
+				if next_tile != null:
+					var next_grid_position = grid_current_position + dir
+					# TODO
+	else:
+		if move_input:
+			velocity = move_input.normalized() * current_speed
+		else:
+			velocity = Vector2.ZERO
+		
+		move_and_slide()
 
 func release():
 	_change_state(STATE_IDLE)
