@@ -4,7 +4,7 @@ var upgrade_select_scene = preload("res://scenes/upgrade_select/upgrade_select.t
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
-#	enemy_destroyed()
+#	raft_destroyed($enemy_raft)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

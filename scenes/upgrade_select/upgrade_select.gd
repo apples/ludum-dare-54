@@ -8,8 +8,8 @@ var select_index = 0
 func _ready():
 	options = {
 		0: [$option_1, preload("res://resources/raft_modules/1x1_blank.gd")],
-		1: [$option_2, preload("res://resources/raft_modules/1x1_blank.gd")],
-		2: [$option_3, preload("res://resources/raft_modules/1x1_blank.gd")],
+		1: [$option_2, preload("res://resources/raft_modules/short_L_cannon.gd")],
+		2: [$option_3, preload("res://resources/raft_modules/short_hori_i_cannon.gd")],
 	}
 	
 	render_raft_module(options[0][1], options[0][0].position)
