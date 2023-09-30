@@ -35,6 +35,7 @@ func interact(player):
 	connected_player = player
 	reticle = Sprite2D.new()
 	reticle.texture = preload("res://assets/textures/reticle.png")
+	reticle.z_index = 10
 	reticle.position = target
 	add_child(reticle)
 	print("Player interacted with CANNON LETS GOOOO at <%s, %s>." % [row_index, column_index])
