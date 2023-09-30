@@ -10,8 +10,16 @@ func _process(delta):
 	pass
 
 
-func _on_button_pressed():
+func _on_start_game_pressed():
 	current_scene.queue_free()
 	var new_scene = ResourceLoader.load("res://scenes/gameplay/gameplay.tscn")
 	current_scene = new_scene.instantiate()
 	get_tree().get_root().add_child(current_scene)
+
+
+func _on_options_pressed():
+	current_scene.queue_free()
+	var new_scene = ResourceLoader.load("res://scenes/options_menu/options_menu.tscn")
+	current_scene = new_scene.instantiate()
+	get_tree().get_root().add_child(current_scene)
+
