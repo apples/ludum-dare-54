@@ -21,12 +21,12 @@ func _process(delta):
 	trajectory.visible = true
 	_calculate_trajectory()
 	
-	if Input.is_action_just_pressed("cancel"):
+	if connected_player.is_action_just_pressed("cancel"):
 		connected_player.call_deferred("release")
 		reticle.queue_free()
 		reticle = null
 		connected_player = null
-	elif Input.is_action_just_pressed("interact") and fire_allowed:
+	elif connected_player.is_action_just_pressed("interact") and fire_allowed:
 		connected_player.call_deferred("release")
 		connected_player = null
 		reload_timer.start(refire_delay)
@@ -70,8 +70,8 @@ func _physics_process(delta):
 		return
 	
 	var velocity = Vector2.ZERO
-	var lr = Input.get_axis("left", "right")
-	var ud = Input.get_axis("up", "down")
+	var lr = connected_player.get_axis("left", "right")
+	var ud = connected_player.get_axis("up", "down")
 	var move_input = Vector2(lr, ud)
 	if move_input:
 		target += move_input.normalized() * reticle_speed

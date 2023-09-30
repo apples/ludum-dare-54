@@ -16,7 +16,7 @@ func _process(delta):
 	if not player_ref:
 		return
 		
-	if Input.is_action_just_released("interact"):
+	if player_ref.is_action_just_released("interact"):
 		player_ref.release()
 		$fire_fix_meter.visible = false
 		fire_being_fixed = false
