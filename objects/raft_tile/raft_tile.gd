@@ -49,16 +49,16 @@ func heal(value: int):
 	health += value
 
 func get_north_tile() -> RaftTile:
-	return raft.get_relative_tile(raft.north, self)
+	return raft.get_relative_tile(raft.NORTH, self)
 
 func get_south_tile() -> RaftTile:
-	return raft.get_relative_tile(raft.South, self)
+	return raft.get_relative_tile(raft.SOUTH, self)
 
 func get_west_tile() -> RaftTile:
-	return raft.get_relative_tile(raft.west, self)
+	return raft.get_relative_tile(raft.WEST, self)
 
 func get_east_tile() -> RaftTile:
-	return raft.get_relative_tile(raft.east, self)
+	return raft.get_relative_tile(raft.EAST, self)
 
 func get_surrounding_tiles() -> Array[RaftTile]:
 	var array: Array[RaftTile] = []

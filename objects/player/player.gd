@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends "res://objects/character/character.gd"
 
 @export var idle_sprite: Texture2D
 @export var sit_sprite: Texture2D
