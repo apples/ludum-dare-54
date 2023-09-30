@@ -13,6 +13,7 @@ config_version=5
 config/name="Ludum Dare 54"
 run/main_scene="res://scenes/gameplay/gameplay.tscn"
 config/features=PackedStringArray("4.1", "Mobile")
+boot_splash/image="res://assets/textures/splatter_blue.png"
 config/icon="res://icon.svg"
 
 [display]

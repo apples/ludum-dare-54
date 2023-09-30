@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bsp3jiyycm32b"]
 
-[ext_resource type="TileSet" uid="uid://djfaelxeymp2a" path="res://assets/map_tiles.tres" id="1_x44bh"]
+[ext_resource type="TileSet" uid="uid://bxqtnvjdndf4n" path="res://assets/map_tiles.tres" id="1_x44bh"]
 
 [node name="upgrade" type="Node2D"]
 

@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=6 format=3 uid="uid://djfaelxeymp2a"]
+[gd_resource type="TileSet" load_steps=6 format=3 uid="uid://bxqtnvjdndf4n"]
 
 [ext_resource type="Texture2D" uid="uid://dpnxctpmdyy1x" path="res://assets/textures/water.png" id="1_rgl4x"]
 [ext_resource type="Texture2D" uid="uid://c3qf0w1na5vlf" path="res://assets/textures/misc_border.png" id="2_y0d25"]
@@ -25,11 +25,13 @@ texture_region_size = Vector2i(32, 32)
 1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_301ya"]
+resource_name = "Border"
 texture = ExtResource("2_y0d25")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 
 [resource]
 tile_size = Vector2i(32, 32)
