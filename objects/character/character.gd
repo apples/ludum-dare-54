@@ -48,11 +48,31 @@ var _player_input: InputState = InputState.new()
 var _player_input_pressed: InputState = InputState.new()
 var _player_input_released: InputState = InputState.new()
 
+func is_action_pressed(name: String) -> bool:
+	return _player_input[name]
+
+func is_action_released(name: String) -> bool:
+	return not _player_input[name]
+
+func is_action_just_pressed(name: String) -> bool:
+	return _player_input_pressed[name]
+
+func is_action_just_released(name: String) -> bool:
+	return _player_input_released[name]
+
+func get_axis(neg: String, pos: String) -> float:
+	return (1.0 if _player_input[pos] else 0.0) - (1.0 if _player_input[neg] else 0.0)
+
 func _get_player_input() -> InputState:
 	push_error("Not implemented")
 	return InputState.new()
 
 func _ready():
+	if not raft:
+		push_error("Character has no raft :(")
+		queue_free()
+		return
+	
 	if is_grid_based:
 		var t = raft.get_tile_at(position)
 		if t != null:
@@ -163,7 +183,6 @@ func _physics_process(delta):
 				dir = Vector2i(0,-1)
 			if ud > 0:
 				dir = Vector2i(0,1)
-			assert(dir)
 			grid_buffered_input = dir
 		
 		if grid_lerp_t < 1.0:

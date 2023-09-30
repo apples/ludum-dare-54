@@ -1,31 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://gyhxh16efgsf"]
+[gd_scene load_steps=3 format=3 uid="uid://o12ndw11l4ek"]
 
 [ext_resource type="Script" path="res://objects/player/player.gd" id="1_5evaa"]
-[ext_resource type="Texture2D" uid="uid://p4wk6v6atci5" path="res://assets/textures/player.png" id="2_4dutv"]
-[ext_resource type="Texture2D" uid="uid://cg8mbis4hkh64" path="res://assets/textures/player_sit.png" id="3_n5vmx"]
-[ext_resource type="Texture2D" uid="uid://8jux160oqr2" path="res://assets/textures/swimming.png" id="4_sf1fp"]
-[ext_resource type="Texture2D" uid="uid://bwv34n1c0ylh2" path="res://assets/textures/player_fix.png" id="5_5r3vi"]
+[ext_resource type="PackedScene" uid="uid://gyhxh16efgsf" path="res://objects/character/character.tscn" id="1_rhq3x"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_nrjej"]
-radius = 20.6155
-
-[node name="Player" type="CharacterBody2D" groups=["player"]]
-motion_mode = 1
+[node name="Player" instance=ExtResource("1_rhq3x")]
 script = ExtResource("1_5evaa")
-idle_sprite = ExtResource("2_4dutv")
-sit_sprite = ExtResource("3_n5vmx")
-swim_sprite = ExtResource("4_sf1fp")
-fix_sprite = ExtResource("5_5r3vi")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_nrjej")
-
-[node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_4dutv")
-
-[node name="RayCast2D" type="RayCast2D" parent="."]
-target_position = Vector2(0, 0)
-collision_mask = 2
-hit_from_inside = true
-collide_with_areas = true
-collide_with_bodies = false
+idle_sprite = null
+sit_sprite = null
+swim_sprite = null
+fix_sprite = null
