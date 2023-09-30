@@ -3,6 +3,8 @@ extends RaftTile
 @export var target_starting_pos = Vector2(400, 0)
 @export var reticle_speed = 5
 @export var refire_delay = 1
+@export var projectile_scene = preload("res://objects/projectile/projectile.tscn")
+@onready var cannon_hole = $CannonHole
 
 var connected_player
 var reticle
@@ -11,8 +13,13 @@ var fire_allowed = true
 
 func _process(delta):
 	if not connected_player:
+		#$Trajectory.visible = false
 		return
-	elif Input.is_action_just_pressed("interact"):
+	
+	$Trajectory.visible = true
+	_calculate_trajectory()
+	
+	if Input.is_action_just_pressed("interact"):
 		connected_player.call_deferred("release")
 		reticle.queue_free()
 		reticle = null
@@ -21,6 +28,31 @@ func _process(delta):
 		$refire_timer.start(refire_delay)
 		fire_allowed = false
 		print("Pew Pew")
+
+func _calculate_trajectory():
+	var start = cannon_hole.global_position
+	var end = reticle.global_position
+	var initial_y_vel: float = -4.0
+	var offset_y: float = 0.0
+	
+	var points = PackedVector2Array()
+	
+	#points.append(start)
+	
+	var n = 100
+	for i in range(0,n+1):
+		var tx = float(i) / float(n+1)
+		var ty = float(i) / float(n)
+		var x = lerp(start.x, end.x, tx)
+		var y = lerp(start.y, end.y, ty)
+		var y_vel = lerp(initial_y_vel, -initial_y_vel, ty)
+		points.append(Vector2(x, y+offset_y))
+		offset_y += y_vel
+	
+	points.append(end)
+	
+	$Trajectory.global_position = Vector2.ZERO
+	$Trajectory.points = points
 
 func _physics_process(delta):
 	if not connected_player:

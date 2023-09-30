@@ -1,19 +1,29 @@
-[gd_scene load_steps=4 format=3 uid="uid://1aisrao08lfd"]
+[gd_scene load_steps=5 format=3 uid="uid://1aisrao08lfd"]
 
 [ext_resource type="PackedScene" uid="uid://berm3cck4qq7l" path="res://objects/raft_tile/raft_tile.tscn" id="1_141ic"]
 [ext_resource type="Script" path="res://objects/raft_tile/raft_tile_cannon.gd" id="2_aj0qe"]
 [ext_resource type="Texture2D" uid="uid://ukxm7akriypo" path="res://assets/textures/cannon.png" id="2_p5x5l"]
+[ext_resource type="PackedScene" uid="uid://dx6opkdirhv1" path="res://objects/projectile/projectile.tscn" id="3_8h6yg"]
 
 [node name="raft_tile_cannon" instance=ExtResource("1_141ic")]
 script = ExtResource("2_aj0qe")
 target_starting_pos = Vector2(650, 200)
 reticle_speed = 5
 refire_delay = 1
+projectile_scene = ExtResource("3_8h6yg")
 
 [node name="cannon" type="Sprite2D" parent="." index="1"]
 texture = ExtResource("2_p5x5l")
 
-[node name="refire_timer" type="Timer" parent="." index="3"]
-one_shot = true
+[node name="Trajectory" type="Line2D" parent="." index="3"]
+z_index = 5
+position = Vector2(-62, -10)
+points = PackedVector2Array(105.041, -25.9804, 115.669, -41.4595, 60.2439, -3.46405, 134.39, -44.1667, 172.236, -123.84, 265.691, -15.5882, 41.7073, -37.2386, 115.081, -92.6635, 147.52, -19.0523)
+width = 5.0
+default_color = Color(0.52549, 0.243137, 1, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
 
-[connection signal="timeout" from="refire_timer" to="." method="_on_refire_timer_timeout"]
+[node name="CannonHole" type="Node2D" parent="." index="4"]
+position = Vector2(16, -12)
