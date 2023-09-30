@@ -95,3 +95,7 @@ func _on_refire_timer_timeout():
 
 func _on_reload_timer_timeout():
 	fire_allowed = true
+
+
+func _on_tree_exiting():
+		connected_player.call_deferred("release")

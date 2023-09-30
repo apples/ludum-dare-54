@@ -30,4 +30,5 @@ position = Vector2(16, -12)
 [node name="ReloadTimer" type="Timer" parent="." index="5"]
 one_shot = true
 
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
