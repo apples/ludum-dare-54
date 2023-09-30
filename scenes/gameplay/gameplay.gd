@@ -3,8 +3,8 @@ var upgrade_select_scene = preload("res://scenes/upgrade_select/upgrade_select.t
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	raft_destroyed($enemy_raft)
 	pass
-#	raft_destroyed($enemy_raft)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -19,3 +19,6 @@ func raft_destroyed(raft: Raft):
 		self.add_child(display_upgrade_select)
 	elif raft == $player_raft:
 		print("oops you lost") # game over
+
+func start_placing_module(module):
+	print("got a module")
