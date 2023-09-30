@@ -17,11 +17,9 @@ func _process(delta):
 func _set_health(value: int):
 	health = value
 	if health <= 0:
-		print("killed")
 		get_parent().remove_child(self)
 
 func damage(value: int):
-	print("damaged: %d, remaining: %d" % [value, health - value])
 	health -= value
 
 func heal(value: int):
