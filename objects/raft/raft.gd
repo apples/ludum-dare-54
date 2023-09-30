@@ -2,8 +2,8 @@ extends Node2D
 
 @export var raft_tile_length = 5
 @export var raft_tile_height = 4
-@export var raft_starting_pos_x = 350
-@export var raft_starting_pos_y = 100
+@export var raft_starting_pos_x = 0
+@export var raft_starting_pos_y = 0
 var raft_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
 
 # Called when the node enters the scene tree for the first time.
