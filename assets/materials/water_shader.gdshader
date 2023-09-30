@@ -7,6 +7,7 @@ shader_type canvas_item;
 uniform vec2 R = vec2(.8, .6);
 uniform float scale = 1.5;
 uniform float speed = 0.5;
+uniform float moveSpeed = 0.1;
 uniform vec3 direction = vec3(0.5,1,0);
 uniform float distortion = 0.5;
 uniform float layers = 2.;
@@ -30,7 +31,8 @@ float fbm (vec3 seed)
 
 void fragment()
 {
-    vec2 p = (2.*UV-R)/R.y;
+	vec2 movementUV = UV + (TIME * moveSpeed);
+    vec2 p = (2.*movementUV-R)/R.y;
     float shape = fbm(vec3(p*scale, 0.));
     float gradient = fract(shape*layers);
     float shade = round(pow(gradient, 4.)*shades)/shades;
