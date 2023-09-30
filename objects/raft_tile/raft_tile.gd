@@ -13,6 +13,9 @@ func _process(delta):
 	pass
 
 
+func interact(player: PlayerCharacter):
+	print("Player interacted with dumb tile at <%s, %s>." % [row_index, column_index])
+
 func _on_body_entered(body):
 	if body is Node:
 		if body.is_in_group("player"):

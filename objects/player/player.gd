@@ -1,3 +1,4 @@
+class_name PlayerCharacter
 extends CharacterBody2D
 
 @export var idle_sprite: Texture2D
@@ -27,6 +28,24 @@ func _process(delta):
 		STATE_SIT: _process_sit(delta)
 		STATE_SWIM: _process_swim(delta)
 
+func _process_idle(delta):
+	if not _what_tile():
+		_change_state(STATE_SWIM)
+		return
+	
+	if Input.is_action_just_pressed("interact"):
+		nearby_tiles.sort_custom(func (a, b):
+			return global_position.distance_squared_to(a.global_position) < global_position.distance_squared_to(b.global_position)
+		)
+		if nearby_tiles.size() > 0:
+			nearby_tiles[0].interact(self)
+
+func _process_sit(delta):
+	pass
+
+func _process_swim(delta):
+	if _what_tile() != null:
+		_change_state(STATE_IDLE)
 
 func _change_state(s):
 	match state:
@@ -48,17 +67,6 @@ func _change_state(s):
 		STATE_SWIM:
 			$Sprite.texture = swim_sprite
 			current_speed = swim_speed
-
-func _process_idle(delta):
-	if not _what_tile():
-		_change_state(STATE_SWIM)
-
-func _process_sit(delta):
-	pass
-
-func _process_swim(delta):
-	if _what_tile() != null:
-		_change_state(STATE_IDLE)
 
 func _what_tile():
 	var t = $RayCast2D.get_collider()
