@@ -11,7 +11,7 @@ func _process(delta):
 	if not connected_player:
 		return
 	elif Input.is_action_just_pressed("interact"):
-		connected_player.call_deferred("_change_state", PlayerCharacter.STATE_IDLE)
+		connected_player.call_deferred("release")
 		reticle.queue_free()
 		reticle = null
 		connected_player = null
@@ -28,13 +28,14 @@ func _physics_process(delta):
 	if move_input:
 		target += move_input.normalized() * reticle_speed
 	reticle.position = target
-	
 
-func interact(player: PlayerCharacter):
+
+func interact(player):
+	player.sit()
 	connected_player = player
-	player._change_state(PlayerCharacter.STATE_SIT)
 	reticle = Sprite2D.new()
 	reticle.texture = preload("res://assets/textures/reticle.png")
+	reticle.z_index = 10
 	reticle.position = target
 	add_child(reticle)
 	print("Player interacted with CANNON LETS GOOOO at <%s, %s>." % [row_index, column_index])

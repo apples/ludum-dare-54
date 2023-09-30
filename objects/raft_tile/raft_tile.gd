@@ -7,7 +7,7 @@ var raft_ref: Node2D
 @export var health: int = 3 :
 	set = _set_health
 
-var raft: Raft = get_parent() as Raft
+var raft = get_parent()
 
 func copy_properties(raft_tile: Node2D):
 	self.raft_ref = raft_tile.raft_ref
@@ -23,7 +23,7 @@ func _ready():
 func _process(delta):
 	pass
 
-func interact(player: PlayerCharacter):
+func interact(player):
 	print("Player interacted with dumb tile at <%s, %s>." % [row_index, column_index])
 
 func _on_body_entered(body):

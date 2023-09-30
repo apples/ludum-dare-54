@@ -36,8 +36,7 @@ func interact(player: PlayerCharacter):
 	$fire_fix_meter.visible = true
 	fire_being_fixed = true
 	player_ref = player
-#	player.input_disabled = true
-	player._change_state(PlayerCharacter.STATE_FIX)
+	player.fix()
 	print("Player interacted with FIRE LETS GOOOO at <%s, %s>." % [row_index, column_index])
 
 
