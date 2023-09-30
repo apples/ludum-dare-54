@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cpoey1ek0owuq"]
+
+[ext_resource type="Shader" path="res://assets/materials/pixelize_shader.gdshader" id="1_mevy6"]
+
+[resource]
+shader = ExtResource("1_mevy6")
+shader_parameter/pixelSize = 4.0
