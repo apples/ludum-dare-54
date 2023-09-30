@@ -51,4 +51,8 @@ max_value = 300.0
 value = 300.0
 show_percentage = false
 
+[node name="smoke_added_timer" type="Timer" parent="." index="5"]
+wait_time = 0.175
+
 [connection signal="timeout" from="fire_damage_timer" to="." method="_on_fire_damage_timer_timeout"]
+[connection signal="timeout" from="smoke_added_timer" to="." method="_on_smoke_added_timer_timeout"]

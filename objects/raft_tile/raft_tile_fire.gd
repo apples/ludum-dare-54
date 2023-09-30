@@ -5,10 +5,11 @@ var max_fire_value = 300
 
 var damage_number_scene = preload("res://objects/damage_numbers/damage_numbers.tscn")
 var raft_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
+var smoke_scene = preload("res://objects/smoke/smoke.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	$smoke_added_timer.start()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -29,7 +30,7 @@ func _process(delta):
 		player_ref.release()
 		raft_ref.swap_tile(raft_tile_scene, row_index, column_index)
 		print("fire fixed!")
-		
+
 
 func interact(player):
 	$fire_damage_timer.stop()
@@ -46,3 +47,15 @@ func _on_fire_damage_timer_timeout():
 	dmg_number.position = self.position
 	get_parent().add_child(dmg_number)
 
+
+func _on_smoke_added_timer_timeout():
+	add_smoke()
+	add_smoke()
+	add_smoke()
+
+func add_smoke():
+	var smoke = smoke_scene.instantiate()
+	smoke.position = self.position
+	smoke.position.x += randf_range(-3, 3)
+	smoke.position.y += randf_range(-5, 5)
+	get_parent().add_child(smoke)
