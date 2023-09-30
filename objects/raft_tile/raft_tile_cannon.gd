@@ -91,7 +91,5 @@ func _on_refire_timer_timeout():
 	fire_allowed = true
 	print("Reloaded")
 
-
-
 func _on_reload_timer_timeout():
 	fire_allowed = true
