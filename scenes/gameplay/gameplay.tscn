@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bynqvjcdpggd0"]
+[gd_scene load_steps=3 format=3 uid="uid://bynqvjcdpggd0"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/gameplay.gd" id="1_8n8ih"]
+[ext_resource type="PackedScene" uid="uid://xb7mdny33p7e" path="res://objects/raft/raft.tscn" id="2_k13pe"]
 
 [node name="gameplay" type="Node2D"]
 script = ExtResource("1_8n8ih")
+
+[node name="raft" parent="." instance=ExtResource("2_k13pe")]

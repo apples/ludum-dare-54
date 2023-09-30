@@ -15,10 +15,6 @@ run/main_scene="res://scenes/gameplay/gameplay.tscn"
 config/features=PackedStringArray("4.1", "Mobile")
 config/icon="res://icon.svg"
 
-[autoload]
-
-GameState="*res://autoload/gamestate.gd"
-
 [display]
 
 window/size/viewport_width=960
