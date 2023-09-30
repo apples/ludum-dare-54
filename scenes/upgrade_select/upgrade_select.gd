@@ -1,4 +1,5 @@
 extends Control
+signal initiate_module_placement(module)
 #var player_ref: PlayerCharacter # may not need
 
 var options = []
@@ -64,4 +65,5 @@ func _process(delta):
 		
 	if Input.is_action_just_pressed("interact"):
 		queue_free()
-		get_parent().start_placing_module(options[select_index][1])
+		initiate_module_placement.emit(options[select_index][1])
+#		get_parent().start_placing_module(options[select_index][1])
