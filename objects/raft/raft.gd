@@ -10,6 +10,11 @@ var raft_tile_fire_scene = preload("res://objects/raft_tile/raft_tile_fire.tscn"
 
 var raft_data_structure = {}
 
+const NORTH := Vector2i(0, -1)
+const SOUTH := Vector2i(0, 1)
+const WEST := Vector2i(-1, 0)
+const EAST := Vector2i(1, 0)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	generate_raft()
@@ -44,6 +49,7 @@ func generate_raft_tile(pos: Vector2, row: int, column: int):
 #		tile_to_spawn = raft_tile_cannon_scene
 	
 	var new_raft_tile = tile_to_spawn.instantiate()
+	new_raft_tile.raft_ref = self
 	new_raft_tile.row_index = row
 	new_raft_tile.column_index = column
 	new_raft_tile.set_position(pos)
@@ -54,13 +60,47 @@ func generate_raft_tile(pos: Vector2, row: int, column: int):
 func get_tile(row: int, column: int) -> RaftTile:
 	return raft_data_structure.get(Vector2i(row, column))
 
-const north := Vector2i(0, -1)
-const south := Vector2i(0, 1)
-const west := Vector2i(-1, 0)
-const east := Vector2i(1, 0)
-
 func get_relative_tile(direction: Vector2i, tile: RaftTile) -> RaftTile:
 	return get_tile(tile.row_index + direction.x, tile.column_index + direction.y)
+
+func get_relative_tile_rc(direction: Vector2i, row: int, column: int) -> RaftTile:
+	return get_tile(row + direction.x, column + direction.y)
+
+var relative_tile_in_radius_cache = {}
+func get_relative_positions_in_radius(radius: float) -> Array[Vector2i]:
+	if relative_tile_in_radius_cache.has(radius):
+		return relative_tile_in_radius_cache.get(radius)
+	
+	var positions: Array[Vector2i] = []
+	
+	# https://www.redblobgames.com/grids/circle-drawing/#bounding-circle
+	var top: int = ceil(-radius)
+	var bottom: int = floor(radius)
+	
+	for y in range(top, bottom + 1):
+		var dy: int = y
+		var dx: float = sqrt(radius * radius - dy * dy)
+		
+		var left: int = ceil(-dx)
+		var right: int = floor(dx)
+		
+		for x in range(left, right + 1):
+			positions.append(Vector2i(x, y))
+	
+	relative_tile_in_radius_cache[radius] = positions
+	
+	return positions
+
+func get_tiles_in_radius(row: int, column: int, radius: float) -> Array[RaftTile]:
+	var positions: Array[Vector2i] = get_relative_positions_in_radius(radius)
+	var tiles: Array[RaftTile] = []
+
+	for position in positions:
+		var tile: RaftTile = get_relative_tile_rc(position, row, column)
+		if tile != null:
+			tiles.append(tile)
+
+	return tiles
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

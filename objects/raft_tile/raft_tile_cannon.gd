@@ -2,10 +2,12 @@ extends RaftTile
 
 @export var target_starting_pos = Vector2(400, 0)
 @export var reticle_speed = 5
+@export var refire_delay = 1
 
 var connected_player
 var reticle
 var target = target_starting_pos
+var fire_allowed = true
 
 func _process(delta):
 	if not connected_player:
@@ -15,8 +17,11 @@ func _process(delta):
 		reticle.queue_free()
 		reticle = null
 		connected_player = null
-		
-	
+	elif Input.is_action_just_pressed("execute") and fire_allowed:
+		$refire_timer.start(refire_delay)
+		fire_allowed = false
+		print("Pew Pew")
+
 func _physics_process(delta):
 	if not connected_player:
 		return
@@ -40,3 +45,8 @@ func interact(player):
 	add_child(reticle)
 	print("Player interacted with CANNON LETS GOOOO at <%s, %s>." % [row_index, column_index])
 
+
+
+func _on_refire_timer_timeout():
+	fire_allowed = true
+	print("Reloaded")

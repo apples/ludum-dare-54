@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://17cx4ee0x8o"]
+[gd_scene load_steps=8 format=3 uid="uid://17cx4ee0x8o"]
 
 [ext_resource type="PackedScene" uid="uid://berm3cck4qq7l" path="res://objects/raft_tile/raft_tile.tscn" id="1_ngp3m"]
 [ext_resource type="Script" path="res://objects/raft_tile/raft_tile_fire.gd" id="2_6j000"]
 [ext_resource type="Texture2D" uid="uid://cqbpyq532ek02" path="res://assets/textures/fire.png" id="2_7uidx"]
+[ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="4_60yc5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pyftr"]
 atlas = ExtResource("2_7uidx")
@@ -37,5 +38,17 @@ frame_progress = 0.789397
 [node name="fire_damage_timer" type="Timer" parent="." index="2"]
 wait_time = 5.0
 autostart = true
+
+[node name="fire_fix_meter" type="ProgressBar" parent="." index="4"]
+visible = false
+z_index = 100
+offset_left = -16.0
+offset_top = 17.0
+offset_right = 16.0
+offset_bottom = 22.0
+theme = ExtResource("4_60yc5")
+max_value = 300.0
+value = 300.0
+show_percentage = false
 
 [connection signal="timeout" from="fire_damage_timer" to="." method="_on_fire_damage_timer_timeout"]
