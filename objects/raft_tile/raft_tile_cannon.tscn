@@ -8,6 +8,12 @@
 script = ExtResource("2_aj0qe")
 target_starting_pos = Vector2(650, 200)
 reticle_speed = 5
+refire_delay = 1
 
 [node name="cannon" type="Sprite2D" parent="." index="1"]
 texture = ExtResource("2_p5x5l")
+
+[node name="refire_timer" type="Timer" parent="." index="3"]
+one_shot = true
+
+[connection signal="timeout" from="refire_timer" to="." method="_on_refire_timer_timeout"]
