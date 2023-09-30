@@ -53,6 +53,7 @@ func _process_swim(delta):
 		_change_state(STATE_IDLE)
 
 func _change_state(s):
+	# Previous state exit hook
 	match state:
 		STATE_IDLE:
 			pass
@@ -63,6 +64,7 @@ func _change_state(s):
 		STATE_SWIM:
 			pass
 	state = s
+	# New state entrance hook
 	match state:
 		STATE_IDLE:
 			$Sprite.texture = idle_sprite
