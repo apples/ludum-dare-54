@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://1aisrao08lfd"]
+[gd_scene load_steps=6 format=3 uid="uid://1aisrao08lfd"]
 
 [ext_resource type="PackedScene" uid="uid://berm3cck4qq7l" path="res://objects/raft_tile/raft_tile.tscn" id="1_141ic"]
 [ext_resource type="Script" path="res://objects/raft_tile/raft_tile_cannon.gd" id="2_aj0qe"]
 [ext_resource type="Texture2D" uid="uid://ukxm7akriypo" path="res://assets/textures/cannon.png" id="2_p5x5l"]
 [ext_resource type="PackedScene" uid="uid://dx6opkdirhv1" path="res://objects/projectile/projectile.tscn" id="3_8h6yg"]
+[ext_resource type="AudioStream" uid="uid://b6yaw76r5re2y" path="res://assets/sfx/cannon_sfx.ogg" id="5_1aya3"]
 
 [node name="raft_tile_cannon" instance=ExtResource("1_141ic")]
 script = ExtResource("2_aj0qe")
@@ -29,6 +30,10 @@ position = Vector2(16, -12)
 
 [node name="ReloadTimer" type="Timer" parent="." index="5"]
 one_shot = true
+
+[node name="cannon_sfx" type="AudioStreamPlayer2D" parent="." index="6"]
+stream = ExtResource("5_1aya3")
+bus = &"Sound_effects"
 
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

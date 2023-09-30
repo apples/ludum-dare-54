@@ -32,6 +32,7 @@ func _process(delta):
 		reload_timer.start(refire_delay)
 		fire_allowed = false
 		print("Pew Pew")
+		$cannon_sfx.play()
 		var ball = projectile_scene.instantiate()
 		ball.global_position = global_position
 		ball.trajectory = trajectory.points
