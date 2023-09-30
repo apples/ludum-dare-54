@@ -7,9 +7,22 @@ extends Node2D
 var raft_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
 var raft_tile_cannon_scene = preload("res://objects/raft_tile/raft_tile_cannon.tscn")
 
+var raft_data_structure = {}
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	generate_raft()
+	upgrade_tile(raft_tile_cannon_scene, 2, 4)
+	
+func upgrade_tile(tile_scene: PackedScene, row: int, column: int):
+	var new_tile = tile_scene.instantiate()
+	new_tile.position = raft_data_structure[Vector2(row, column)].position
+	raft_data_structure[Vector2(row, column)].queue_free()
+	raft_data_structure[Vector2(row, column)] = new_tile
+	self.add_child(new_tile)
+	
+func downgrade_tile():
+	pass
 
 func generate_raft():
 	var raft_pos_y = raft_starting_pos_y
@@ -29,14 +42,15 @@ func generate_raft():
 
 func generate_raft_tile(pos: Vector2, row: int, column: int):
 	var tile_to_spawn = raft_tile_scene
-	if row == 3 and column == 2:
-		tile_to_spawn = raft_tile_cannon_scene
+#	if row == 3 and column == 2:
+#		tile_to_spawn = raft_tile_cannon_scene
 	
 	var new_raft_tile = tile_to_spawn.instantiate()
 	new_raft_tile.row_index = row
 	new_raft_tile.column_index = column
 	new_raft_tile.set_position(pos)
-	
+	raft_data_structure[Vector2(row, column)] = new_raft_tile
+#	raft_data_structure.keys()
 	self.add_child(new_raft_tile)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
