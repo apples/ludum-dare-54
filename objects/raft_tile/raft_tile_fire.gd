@@ -1,4 +1,4 @@
-extends raft_tile
+extends RaftTile
 var player_ref: PlayerCharacter
 
 # Called when the node enters the scene tree for the first time.
