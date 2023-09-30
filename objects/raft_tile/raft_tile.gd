@@ -3,7 +3,7 @@ class_name raft_tile extends Node2D
 var row_index: int = 0
 var column_index: int = 0
 
-var health: int = 100 :
+@export var health: int = 3 :
 	set = _set_health
 
 func copy_properties(raft_tile: Node2D):

@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://17cx4ee0x8o"]
+[gd_scene load_steps=7 format=3 uid="uid://17cx4ee0x8o"]
 
 [ext_resource type="PackedScene" uid="uid://berm3cck4qq7l" path="res://objects/raft_tile/raft_tile.tscn" id="1_ngp3m"]
+[ext_resource type="Script" path="res://objects/raft_tile/raft_tile_fire.gd" id="2_6j000"]
 [ext_resource type="Texture2D" uid="uid://cqbpyq532ek02" path="res://assets/textures/fire.png" id="2_7uidx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pyftr"]
@@ -26,8 +27,15 @@ animations = [{
 }]
 
 [node name="raft_tile_fire" instance=ExtResource("1_ngp3m")]
+script = ExtResource("2_6j000")
 
 [node name="fire" type="AnimatedSprite2D" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_uhwnt")
 autoplay = "default"
 frame_progress = 0.789397
+
+[node name="fire_damage_timer" type="Timer" parent="." index="2"]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="fire_damage_timer" to="." method="_on_fire_damage_timer_timeout"]
