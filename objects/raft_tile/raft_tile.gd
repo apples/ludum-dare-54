@@ -1,9 +1,9 @@
-class_name RaftTile extends Node2D
+class_name RaftTile extends Area2D
 
 var row_index: int = 0
 var column_index: int = 0
 
-var health: int = 100 :
+@export var health: int = 3 :
 	set = _set_health
 
 var raft: Raft = get_parent() as Raft
@@ -20,6 +20,20 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+func interact(player: PlayerCharacter):
+	print("Player interacted with dumb tile at <%s, %s>." % [row_index, column_index])
+
+func _on_body_entered(body):
+	if body is Node:
+		if body.is_in_group("player"):
+			body.add_tile(self)
+
+
+func _on_body_exited(body):
+	if body is Node:
+		if body.is_in_group("player"):
+			body.remove_tile(self)
 
 func _set_health(value: int):
 	health = value

@@ -6,6 +6,7 @@ class_name Raft extends Node2D
 @export var raft_starting_pos_y: float = 0
 var raft_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
 var raft_tile_cannon_scene = preload("res://objects/raft_tile/raft_tile_cannon.tscn")
+var raft_tile_fire_scene = preload("res://objects/raft_tile/raft_tile_fire.tscn")
 
 var raft_data_structure = {}
 
@@ -13,6 +14,10 @@ var raft_data_structure = {}
 func _ready():
 	generate_raft()
 	swap_tile(raft_tile_cannon_scene, 2, 4)
+	swap_tile(raft_tile_fire_scene, 0, 0)
+	swap_tile(raft_tile_fire_scene, 0, 1)
+	swap_tile(raft_tile_fire_scene, 1, 1)
+	swap_tile(raft_tile_fire_scene, 3, 4)
 	
 func swap_tile(tile_scene: PackedScene, row: int, column: int):
 	var new_tile = tile_scene.instantiate()
