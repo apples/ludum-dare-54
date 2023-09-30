@@ -3,7 +3,7 @@ var upgrade_select_scene = preload("res://scenes/upgrade_select/upgrade_select.t
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	raft_destroyed($enemy_raft)
+#	raft_destroyed($enemy_raft)
 	pass
 
 
