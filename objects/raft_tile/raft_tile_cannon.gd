@@ -9,7 +9,7 @@ extends RaftTile
 @onready var reload_timer = $ReloadTimer
 
 var connected_player
-var reticle
+var reticle: Node2D
 var target = target_starting_pos
 var fire_allowed = true
 
@@ -36,6 +36,8 @@ func _process(delta):
 		ball.global_position = global_position
 		ball.trajectory = trajectory.points
 		ball.travel_time = 1.0
+		ball.reticle = reticle
+		reticle = null
 		raft_ref.get_parent().add_child(ball)
 
 func _calculate_trajectory():
