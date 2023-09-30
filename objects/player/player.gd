@@ -25,13 +25,34 @@ var swim_speed := 100
 
 var current_speed := walk_speed
 
-var is_grid_based := false
+var is_grid_based := true
 
-var grid_previous_position := Vector2i(position)
-var grid_current_position := Vector2i(position)
+var grid_previous_position : Vector2i
+var grid_current_position : Vector2i
 var grid_lerp_t := 1.0
+var grid_lerp_speed := 8.0
+var grid_buffered_input: Vector2i = Vector2i.ZERO
+
+func _ready():
+	if is_grid_based:
+		var t = raft.get_tile_at(position)
+		if t != null:
+			grid_current_position = t.grid_pos
+		else:
+			grid_current_position = raft.get_closest_empty_tile(position).grid_pos
+		
+		position = raft.rc_to_pos(grid_current_position)
 
 func _process(delta):
+	if is_grid_based:
+		grid_lerp_t += delta * grid_lerp_speed
+		if grid_lerp_t < 1.0:
+			var a = raft.rc_to_pos(grid_previous_position)
+			var b = raft.rc_to_pos(grid_current_position)
+			position = lerp(a, b, grid_lerp_t)
+		else:
+			position = raft.rc_to_pos(grid_current_position)
+	
 	match state:
 		STATE_IDLE: _process_idle(delta)
 		STATE_SIT: _process_sit(delta)
@@ -108,22 +129,40 @@ func _physics_process(delta):
 	var move_input = Vector2(lr, ud)
 	
 	if is_grid_based:
-		if move_input:
-			if grid_lerp_t >= 1.0:
-				var dir := Vector2i()
-				if lr < 0:
-					dir = Vector2i(-1,0)
-				if lr > 0:
-					dir = Vector2i(1,0)
-				if ud < 0:
-					dir = Vector2i(0,-1)
-				if ud > 0:
-					dir = Vector2i(0,1)
-				assert(dir)
-				var next_tile = raft.get_relative_tile(dir, _what_tile())
-				if next_tile != null:
-					var next_grid_position = grid_current_position + dir
-					# TODO
+		if move_input and grid_lerp_t >= 1.0:
+			var dir := Vector2i()
+			if lr < 0:
+				dir = Vector2i(-1,0)
+			if lr > 0:
+				dir = Vector2i(1,0)
+			if ud < 0:
+				dir = Vector2i(0,-1)
+			if ud > 0:
+				dir = Vector2i(0,1)
+			assert(dir)
+			grid_buffered_input = dir
+		
+		if grid_lerp_t < 1.0:
+			var dir := Vector2i()
+			if Input.is_action_just_pressed("left"):
+				dir = Vector2i(-1,0)
+			if Input.is_action_just_pressed("right"):
+				dir = Vector2i(1,0)
+			if Input.is_action_just_pressed("up"):
+				dir = Vector2i(0,-1)
+			if Input.is_action_just_pressed("down"):
+				dir = Vector2i(0,1)
+			if dir:
+				grid_buffered_input = dir
+		
+		if grid_lerp_t >= 1.0 and grid_buffered_input != Vector2i.ZERO:
+			var next_grid_position = grid_current_position + grid_buffered_input
+			var next_tile = raft.get_tile(next_grid_position.y, next_grid_position.x)
+			if next_tile != null:
+				grid_previous_position = grid_current_position
+				grid_current_position = next_grid_position
+				grid_lerp_t = 0
+			grid_buffered_input = Vector2i.ZERO
 	else:
 		if move_input:
 			velocity = move_input.normalized() * current_speed

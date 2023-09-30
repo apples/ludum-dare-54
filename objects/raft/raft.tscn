@@ -5,3 +5,5 @@
 [node name="raft" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_bh8yu")
+
+[connection signal="child_exiting_tree" from="." to="." method="_on_child_exiting_tree"]

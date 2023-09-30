@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://bynqvjcdpggd0"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/gameplay.gd" id="1_8n8ih"]
-[ext_resource type="TileSet" uid="uid://ddakmqeqs0fmb" path="res://assets/map_tiles2.tres" id="2_gt3fp"]
+[ext_resource type="TileSet" uid="uid://d1rudubi7bvre" path="res://assets/map_tiles2.tres" id="2_gt3fp"]
 [ext_resource type="PackedScene" uid="uid://xb7mdny33p7e" path="res://objects/raft/raft.tscn" id="2_k13pe"]
 [ext_resource type="TileSet" uid="uid://bxqtnvjdndf4n" path="res://assets/map_tiles.tres" id="3_1yaes"]
 [ext_resource type="PackedScene" uid="uid://gyhxh16efgsf" path="res://objects/player/player.tscn" id="4_85nev"]
@@ -38,12 +38,11 @@ offset_right = 448.0
 offset_bottom = 512.0
 
 [node name="player_raft" parent="." instance=ExtResource("2_k13pe")]
-raft_starting_pos_x = 175
-raft_starting_pos_y = 200
+position = Vector2(48, 48)
 
 [node name="enemy_raft" parent="." instance=ExtResource("2_k13pe")]
-raft_starting_pos_x = 650
-raft_starting_pos_y = 200
+position = Vector2(528, 48)
 
-[node name="Player" parent="." instance=ExtResource("4_85nev")]
-position = Vector2(237, 267)
+[node name="Player" parent="." node_paths=PackedStringArray("raft") instance=ExtResource("4_85nev")]
+position = Vector2(238, 432)
+raft = NodePath("../player_raft")
