@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bimoh7pybv8ag"]
+[gd_scene load_steps=6 format=3 uid="uid://bimoh7pybv8ag"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_jmiv1"]
 [ext_resource type="TileSet" uid="uid://m8mfhf5hc5rb" path="res://assets/map_tiles.tres" id="1_x5nns"]
 [ext_resource type="Texture2D" uid="uid://bs0gpry3qi3f6" path="res://assets/textures/title_image.png" id="3_63m12"]
 [ext_resource type="Texture2D" uid="uid://bvmks1y37tkks" path="res://assets/textures/instructions_image.png" id="4_xp3ti"]
+[ext_resource type="AudioStream" uid="uid://cmif6ike1jjed" path="res://assets/music/battleraft_menu_theme.ogg" id="5_oug78"]
 
 [node name="main_menu" type="Node2D"]
 script = ExtResource("1_jmiv1")
@@ -36,5 +37,9 @@ offset_right = 530.0
 offset_bottom = 447.0
 action_mode = 0
 text = "START GAME"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_oug78")
+autoplay = true
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
