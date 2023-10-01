@@ -63,6 +63,16 @@ func _set_health(value: int):
 func damage(value: int):
 	health -= value
 	generate_dmg_number(-value)
+	process_damage_frames(health)
+
+func process_damage_frames(current_health_value):
+	if current_health_value == 2:
+		$damage_frames.frame = 1
+	elif current_health_value == 1:
+		$damage_frames.frame = 2
+	else:
+		$damage_frames.frame = 0
+	
 
 func generate_dmg_number(number_value):
 	var dmg_number = damage_number_scene.instantiate()

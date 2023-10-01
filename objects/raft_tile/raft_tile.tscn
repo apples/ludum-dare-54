@@ -1,10 +1,40 @@
-[gd_scene load_steps=4 format=3 uid="uid://berm3cck4qq7l"]
+[gd_scene load_steps=9 format=3 uid="uid://berm3cck4qq7l"]
 
 [ext_resource type="Script" path="res://objects/raft_tile/raft_tile.gd" id="1_swvh2"]
 [ext_resource type="Texture2D" uid="uid://ba2lrx4jj1x3m" path="res://assets/textures/raff.png" id="2_t1sf4"]
+[ext_resource type="Texture2D" uid="uid://co34v85nbglg1" path="res://assets/textures/raft_tile_damage.png" id="3_msbt2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1bv7b"]
 size = Vector2(32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0e1xl"]
+atlas = ExtResource("3_msbt2")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vndin"]
+atlas = ExtResource("3_msbt2")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_imatm"]
+atlas = ExtResource("3_msbt2")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2hd7l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0e1xl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vndin")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_imatm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="raft_tile" type="Area2D" groups=["tile"]]
 collision_layer = 2
@@ -16,6 +46,9 @@ texture = ExtResource("2_t1sf4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_1bv7b")
+
+[node name="damage_frames" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_2hd7l")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
