@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://o12ndw11l4ek" path="res://objects/player/player.tscn" id="4_85nev"]
 [ext_resource type="Texture2D" uid="uid://dndc10kxm14um" path="res://assets/textures/char1.png" id="6_sl4bn"]
 [ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="8_86bl7"]
-[ext_resource type="Texture2D" uid="uid://bgpvapyotr84g" path="res://assets/textures/char2.png" id="7_x3mow"]
 [ext_resource type="AudioStream" uid="uid://bqwvc1mimfnlo" path="res://assets/sfx/river_water_moving.ogg" id="9_ojlhc"]
 
 [node name="gameplay" type="Node2D"]
@@ -46,10 +45,6 @@ layer_0/tile_data = PackedInt32Array(12, 1, 0, 1048588, 1, 0, 13, 1, 0, 1048589,
 [node name="Char1" type="Sprite2D" parent="Overlay2"]
 position = Vector2(80, 256)
 texture = ExtResource("6_sl4bn")
-
-[node name="Char2" type="Sprite2D" parent="Overlay2"]
-position = Vector2(880, 256)
-texture = ExtResource("7_x3mow")
 
 [node name="player_raft" parent="." instance=ExtResource("2_k13pe")]
 position = Vector2(210, 48)
