@@ -13,21 +13,20 @@ func _ready():
 		"o", "i1", "i2", "s1", "s2", "z1", "z2", "t1", "t2", "t3", "t4",
 		"j1", "j2", "j3", "j4", "l1", "l2", "l3", "l4",
 	]
-	var base_fmt = "res://resources/raft_modules/fixed_tetrominoes/%s_base.gd"
-	var cannon_fmt = "res://resources/raft_modules/fixed_tetrominoes/%s_cannon.gd"
+	var base_fmt = "res://resources/raft_modules/fixed_tetrominoes/%s_1up.gd"
 	
 	options = {
-		0: [$option_1, load(base_fmt % tetros[randi() % tetros.size()])],
-		1: [$option_2, load(base_fmt % tetros[randi() % tetros.size()])],
-		2: [$option_3, load(base_fmt % tetros[randi() % tetros.size()])],
+		0: [$option_1, load(base_fmt % tetros[randi() % tetros.size()]).get_structure()],
+		1: [$option_2, load(base_fmt % tetros[randi() % tetros.size()]).get_structure()],
+		2: [$option_3, load(base_fmt % tetros[randi() % tetros.size()]).get_structure()],
 	}
 	
 	render_raft_module(options[0][1], options[0][0].position)
 	render_raft_module(options[1][1], options[1][0].position)
 	render_raft_module(options[2][1], options[2][0].position)
 
-func render_raft_module(module, pos: Vector2):
-	var raft_module_structure = module.get_structure()
+func render_raft_module(raft_module_structure, pos: Vector2):
+	#var raft_module_structure = module.get_structure()
 	var max_x = -999
 	var max_y = -999
 	var min_x = 999

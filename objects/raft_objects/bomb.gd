@@ -1,6 +1,7 @@
 extends "res://objects/raft_objects/raft_object.gd"
 var bomb_explosion_scene = preload("res://objects/VFX/bomb_explosion/bomb_explosion.tscn")
 var fire_scene = preload("res://objects/raft_objects/fire.tscn")
+
 func get_kind() -> StringName:
 	return "bomb"
 

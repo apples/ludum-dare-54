@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://ckp46e4kacqqe"]
+
+[ext_resource type="Script" path="res://objects/VFX/sparkle/sparkle.gd" id="1_0rbuf"]
+[ext_resource type="Texture2D" uid="uid://lksix2y7v2ol" path="res://assets/textures/sparkle2.png" id="2_5lucb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cutb5"]
+atlas = ExtResource("2_5lucb")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ff4m0"]
+atlas = ExtResource("2_5lucb")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uox0g"]
+atlas = ExtResource("2_5lucb")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_megni"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cutb5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ff4m0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uox0g")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[node name="sparkle" type="Node2D"]
+script = ExtResource("1_0rbuf")
+
+[node name="sparkle_sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_megni")
+frame_progress = 0.00686414
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.5
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
