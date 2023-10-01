@@ -4,6 +4,8 @@ signal module_valid_connection_updated(valid)
 var module_ui_scene = preload("res://objects/module_ui/module_ui.tscn")
 var upgrade_select_scene = preload("res://scenes/upgrade_select/upgrade_select.tscn")
 var lose_screen_scene = preload("res://scenes/lose_screen/lose_scene.tscn")
+
+const bounds_grid_coords = Vector2i(17, 13)
 var placing_raft_module = false
 var module_container: Node2D
 var grid_position = Vector2i(7, 7)
@@ -19,16 +21,16 @@ func _process(_delta):
 func process_module_placement():
 	if Input.is_action_just_pressed("up"):
 		grid_position.y -= 1
-		valid_connection = check_tile_neighbors()
+		valid_connection = check_valid_connection()
 	if Input.is_action_just_pressed("down"):
 		grid_position.y += 1
-		valid_connection = check_tile_neighbors()
+		valid_connection = check_valid_connection()
 	if Input.is_action_just_pressed("left"):
 		grid_position.x -= 1
-		valid_connection = check_tile_neighbors()
+		valid_connection = check_valid_connection()
 	if Input.is_action_just_pressed("right"):
 		grid_position.x += 1
-		valid_connection = check_tile_neighbors()
+		valid_connection = check_valid_connection()
 		
 	if Input.is_action_just_pressed("interact") and valid_connection:
 		confirm_module_connection()
@@ -47,23 +49,26 @@ func confirm_module_connection():
 	module_container
 	valid_connection = false
 
-func check_tile_neighbors() -> bool:
+func check_valid_connection() -> bool:
 	var touching_neighbor = false
 	var overlap = false
+	var in_bounds = true
+	
 	for tile in module_container.get_children():
 		var tile_new_grid_pos_row = tile.grid_pos.y + grid_position.y
 		var tile_new_grid_pos_col = tile.grid_pos.x + grid_position.x
+		
+		if tile_new_grid_pos_row > bounds_grid_coords.y or tile_new_grid_pos_row < 0 or tile_new_grid_pos_col > bounds_grid_coords.x or tile_new_grid_pos_col < 0:
+			in_bounds = false
 		if $player_raft.get_tile(tile_new_grid_pos_row, tile_new_grid_pos_col):
 			overlap = true
 		if $player_raft.get_relative_tile_rc($player_raft.NORTH, tile_new_grid_pos_row, tile_new_grid_pos_col) or $player_raft.get_relative_tile_rc($player_raft.EAST, tile_new_grid_pos_row, tile_new_grid_pos_col) or $player_raft.get_relative_tile_rc($player_raft.SOUTH, tile_new_grid_pos_row, tile_new_grid_pos_col) or $player_raft.get_relative_tile_rc($player_raft.WEST, tile_new_grid_pos_row, tile_new_grid_pos_col):
 			touching_neighbor = true
 	
-	if touching_neighbor and not overlap:
-		module_valid_connection_updated.emit(true)
-	else:
-		module_valid_connection_updated.emit(false)
+	var valid_connection_condition = touching_neighbor and not overlap and in_bounds
+	module_valid_connection_updated.emit(valid_connection_condition)
 	
-	return touching_neighbor and not overlap
+	return valid_connection_condition
 
 
 func overlay_upgrade_scene():
@@ -92,7 +97,7 @@ func on_initiate_module_placement(module):
 	placing_raft_module = true
 #	$player_raft.rc_to_pos(Vector2(5, 5))
 	render_raft_module(module, $player_raft.rc_to_pos(grid_position))
-	valid_connection = check_tile_neighbors()
+	valid_connection = check_valid_connection()
 
 func render_raft_module(raft_module_structure, pos: Vector2):
 	module_container = Node2D.new()
