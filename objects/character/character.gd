@@ -31,6 +31,8 @@ var grid_lerp_t := 1.0
 var grid_lerp_speed := 12.0
 var grid_buffered_input: Vector2i = Vector2i.ZERO
 
+var temp_locked_dir = Vector2i.ZERO
+
 enum {
 	FACING_UP,
 	FACING_DOWN,
@@ -160,6 +162,10 @@ func _process_idle(delta):
 					o.grid_pos = t.grid_pos
 					o.position = Vector2.ZERO
 					o.held_by = null
+	elif _player_input.interact:
+		var tile = raft.get_tile(grid_current_position.y, grid_current_position.x)
+		if tile != null and tile.tile_object != null:
+			tile.tile_object.interact(self)
 	
 	match grid_facing:
 		FACING_LEFT:
@@ -281,7 +287,23 @@ func _physics_process(delta):
 			if grid_buffered_input.y > 0:
 				grid_facing = FACING_DOWN
 		
+		if temp_locked_dir == grid_buffered_input:
+			return
+		else:
+			temp_locked_dir = Vector2i.ZERO
+		
 		if held_object != null:
+			if grid_buffered_input != Vector2i.ZERO:
+				var f = grid_current_position + get_facing_dir()
+				var t = raft.get_tile(f.y, f.x)
+				if t != null and t.tile_object == null:
+					var o = held_object
+					o.reparent(t)
+					t.tile_object = o
+					o.grid_pos = t.grid_pos
+					o.position = Vector2.ZERO
+					o.held_by = null
+				temp_locked_dir = grid_buffered_input
 			grid_buffered_input = Vector2i.ZERO
 		
 		if grid_lerp_t >= 1.0 and grid_buffered_input != Vector2i.ZERO:
