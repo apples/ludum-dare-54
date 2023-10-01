@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://nwlpc8nl72i8"]
+[gd_scene load_steps=8 format=3 uid="uid://nwlpc8nl72i8"]
 
 [ext_resource type="Texture2D" uid="uid://cqbpyq532ek02" path="res://assets/textures/fire.png" id="1_hvt38"]
 [ext_resource type="Script" path="res://objects/raft_objects/fire.gd" id="2_07v4s"]
 [ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="2_c5n6h"]
+[ext_resource type="AudioStream" uid="uid://cy00b2n8c0qqk" path="res://assets/sfx/fire_burning.wav" id="4_2e5fx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pyftr"]
 atlas = ExtResource("1_hvt38")
@@ -52,6 +53,10 @@ show_percentage = false
 [node name="smoke_added_timer" type="Timer" parent="."]
 wait_time = 0.175
 autostart = true
+
+[node name="fire_burning" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_2e5fx")
+autoplay = true
 
 [connection signal="timeout" from="fire_damage_timer" to="." method="_on_fire_damage_timer_timeout"]
 [connection signal="timeout" from="smoke_added_timer" to="." method="_on_smoke_added_timer_timeout"]
