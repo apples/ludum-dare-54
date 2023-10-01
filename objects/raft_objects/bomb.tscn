@@ -1,10 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://ybjnc13xqifq"]
+[gd_scene load_steps=3 format=3 uid="uid://bnnskls5d5og6"]
 
 [ext_resource type="Texture2D" uid="uid://db2miqtwbyiwy" path="res://assets/textures/bomb.png" id="1_0x6u7"]
 [ext_resource type="Script" path="res://objects/raft_objects/bomb.gd" id="1_n0rwi"]
 
 [node name="bomb" type="Node2D"]
 script = ExtResource("1_n0rwi")
+is_pushable = true
+is_holdable = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 5
 texture = ExtResource("1_0x6u7")

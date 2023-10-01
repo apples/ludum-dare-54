@@ -3,7 +3,6 @@ extends "res://objects/raft_objects/raft_object.gd"
 var fire_being_fixed = false
 var max_fire_value = 300
 
-var damage_number_scene = preload("res://objects/damage_numbers/damage_numbers.tscn")
 var raft_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
 var smoke_scene = preload("res://objects/smoke/smoke.tscn")
 
@@ -38,9 +37,6 @@ func _on_player_connected():
 
 func _on_fire_damage_timer_timeout():
 	raft.get_tile(grid_pos.y, grid_pos.x).damage(1)
-	var dmg_number = damage_number_scene.instantiate()
-	dmg_number.position = self.position
-	get_parent().add_child(dmg_number)
 
 
 func _on_smoke_added_timer_timeout():
