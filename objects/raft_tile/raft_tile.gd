@@ -94,16 +94,16 @@ func get_surrounding_tiles() -> Array[RaftTile]:
 		array.append(north_tile)
 
 	var south_tile = get_south_tile()
-	if north_tile != null:
-		array.append(north_tile)
+	if south_tile != null:
+		array.append(south_tile)
 
 	var west_tile = get_west_tile()
-	if north_tile != null:
-		array.append(north_tile)
+	if west_tile != null:
+		array.append(west_tile)
 
 	var east_tile = get_east_tile()
-	if north_tile != null:
-		array.append(north_tile)
+	if east_tile != null:
+		array.append(east_tile)
 
 	return array
 

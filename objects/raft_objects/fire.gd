@@ -5,6 +5,7 @@ var max_fire_value = 300
 
 var raft_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
 var smoke_scene = preload("res://objects/VFX/smoke/smoke.tscn")
+var fire_scene = load("res://objects/raft_objects/fire.tscn") # load not preload
 
 func get_kind() -> StringName:
 	return "fire"
@@ -37,9 +38,24 @@ func _on_player_connected():
 
 func _on_fire_damage_timer_timeout():
 	var burning_tile = raft.get_tile(grid_pos.y, grid_pos.x)
+	
 	if burning_tile:
-		raft.get_tile(grid_pos.y, grid_pos.x).damage(1)
+		burning_tile.damage(1)
+		spread_fire_to_adjacent_tiles(burning_tile)
 
+func spread_fire_to_adjacent_tiles(burning_tile: RaftTile):
+	var adjacent_tiles = burning_tile.get_surrounding_tiles()
+	
+	for tile in adjacent_tiles:
+		var fire_spread_chance = randi_range(0, 5)
+		
+		if fire_spread_chance == 1:
+			if tile.tile_object == null:
+				var fire = fire_scene.instantiate()
+				fire.grid_pos = tile.grid_pos
+				fire.raft = self.raft
+				tile.add_child(fire)
+				tile.tile_object = fire
 
 func _on_smoke_added_timer_timeout():
 	add_smoke()
