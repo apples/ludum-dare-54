@@ -36,7 +36,9 @@ func _on_player_connected():
 
 
 func _on_fire_damage_timer_timeout():
-	raft.get_tile(grid_pos.y, grid_pos.x).damage(1)
+	var burning_tile = raft.get_tile(grid_pos.y, grid_pos.x)
+	if burning_tile:
+		raft.get_tile(grid_pos.y, grid_pos.x).damage(1)
 
 
 func _on_smoke_added_timer_timeout():
