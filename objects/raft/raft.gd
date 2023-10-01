@@ -25,6 +25,8 @@ func _ready():
 	swap_tile(raft_tile_fire_scene, 2, 6)
 	swap_tile(raft_tile_fire_scene, 4, 9)
 	swap_tile(raft_tile_cannonball_scene, 3, 6)
+	swap_tile(raft_tile_cannonball_scene, 1, 7)
+	swap_tile(raft_tile_cannonball_scene, 1, 8)
 	
 func swap_tile(tile_scene: PackedScene, row: int, column: int):
 	var new_tile = tile_scene.instantiate()

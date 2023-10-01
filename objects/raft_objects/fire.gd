@@ -7,6 +7,9 @@ var damage_number_scene = preload("res://objects/damage_numbers/damage_numbers.t
 var raft_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
 var smoke_scene = preload("res://objects/smoke/smoke.tscn")
 
+func get_kind() -> StringName:
+	return "fire"
+
 func _process_connected(delta):
 	if connected_player.is_action_just_released("interact"):
 		connected_player.release()

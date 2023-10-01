@@ -12,6 +12,9 @@ var reticle: Node2D
 var target = target_starting_pos
 var fire_allowed = true
 
+func get_kind() -> StringName:
+	return "cannon"
+
 func _process_connected(delta):
 	trajectory.visible = true
 	_calculate_trajectory()
