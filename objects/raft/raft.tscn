@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://xb7mdny33p7e"]
+[gd_scene load_steps=4 format=3 uid="uid://xb7mdny33p7e"]
 
 [ext_resource type="Script" path="res://objects/raft/raft.gd" id="1_bh8yu"]
 [ext_resource type="AudioStream" uid="uid://bbtiuerh6ttx4" path="res://assets/sfx/raft_hit_cannonball.ogg" id="2_yhgk4"]
+[ext_resource type="Script" path="res://objects/raft/item_spawner.gd" id="3_vnloc"]
 
 [node name="raft" type="Node2D"]
 y_sort_enabled = true
@@ -10,4 +11,13 @@ script = ExtResource("1_bh8yu")
 [node name="raft_hit_cannonball" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_yhgk4")
 
+[node name="ItemSpawner" type="Node2D" parent="."]
+script = ExtResource("3_vnloc")
+
+[node name="Timer" type="Timer" parent="ItemSpawner"]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
 [connection signal="child_exiting_tree" from="." to="." method="_on_child_exiting_tree"]
+[connection signal="timeout" from="ItemSpawner/Timer" to="ItemSpawner" method="_on_timer_timeout"]

@@ -91,6 +91,13 @@ func get_relative_tile(direction: Vector2i, tile: RaftTile) -> RaftTile:
 func get_relative_tile_rc(direction: Vector2i, row: int, column: int) -> RaftTile:
 	return get_tile(row + direction.y, column + direction.x)
 
+func get_random_empty_tile():
+	var empts = []
+	for k in raft_data_structure:
+		if raft_data_structure[k] != null and raft_data_structure[k].tile_object == null:
+			empts.append(raft_data_structure[k])
+	return empts.pick_random()
+
 var relative_tile_in_radius_cache = {}
 func get_relative_positions_in_radius(radius: float) -> Array[Vector2i]:
 	if relative_tile_in_radius_cache.has(radius):
