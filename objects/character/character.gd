@@ -1,11 +1,8 @@
 extends CharacterBody2D
 
-@export var idle_sprite: Texture2D
-@export var sit_sprite: Texture2D
-@export var swim_sprite: Texture2D
-@export var fix_sprite: Texture2D
-
 @export var raft: Node
+
+@onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 
 enum {
 	STATE_IDLE,
@@ -32,6 +29,15 @@ var grid_current_position : Vector2i
 var grid_lerp_t := 1.0
 var grid_lerp_speed := 12.0
 var grid_buffered_input: Vector2i = Vector2i.ZERO
+
+enum {
+	FACING_UP,
+	FACING_DOWN,
+	FACING_LEFT,
+	FACING_RIGHT,
+}
+
+var grid_facing: int = FACING_DOWN
 
 class InputState:
 	var up: bool
@@ -124,6 +130,16 @@ func _process_idle(delta):
 		var tile = raft.get_tile(grid_current_position.y, grid_current_position.x)
 		if tile != null and tile.tile_object != null:
 			tile.tile_object.interact(self)
+	
+	match grid_facing:
+		FACING_LEFT:
+			anim.play("left")
+		FACING_RIGHT:
+			anim.play("right")
+		FACING_UP:
+			anim.play("up")
+		FACING_DOWN:
+			anim.play("down")
 
 func _process_sit(delta):
 	pass
@@ -150,19 +166,19 @@ func _change_state(s):
 	# New state entrance hook
 	match state:
 		STATE_IDLE:
-			$Sprite.texture = idle_sprite
+			anim.pause()
 			current_speed = walk_speed
 		STATE_FIX:
-			$Sprite.texture = fix_sprite
+			anim.play("fix")
 			current_speed = walk_speed
 			move_input_disabled = true
 			current_speed = 0
 		STATE_SIT:
-			$Sprite.texture = sit_sprite
+			anim.play("sit")
 			move_input_disabled = true
 			current_speed = 0
 		STATE_SWIM:
-			$Sprite.texture = swim_sprite
+			anim.play("down")
 			current_speed = swim_speed
 
 func _what_tile():
@@ -204,6 +220,14 @@ func _physics_process(delta):
 				grid_buffered_input = dir
 		
 		if grid_lerp_t >= 1.0 and grid_buffered_input != Vector2i.ZERO:
+			if grid_buffered_input.x < 0:
+				grid_facing = FACING_LEFT
+			if grid_buffered_input.x > 0:
+				grid_facing = FACING_RIGHT
+			if grid_buffered_input.y < 0:
+				grid_facing = FACING_UP
+			if grid_buffered_input.y > 0:
+				grid_facing = FACING_DOWN
 			var next_grid_position = grid_current_position + grid_buffered_input
 			var next_tile = raft.get_tile(next_grid_position.y, next_grid_position.x)
 			if next_tile and next_tile.tile_object:
