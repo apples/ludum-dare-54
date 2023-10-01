@@ -8,7 +8,7 @@ var spawn_rate_max = 7.0
 
 
 var spawnables = [
-	{ weight = 10.0, scene = preload("res://objects/raft_objects/water_bucket.tscn") },
+	{ weight = 1000.0, scene = preload("res://objects/raft_objects/water_bucket.tscn") },
 	{ weight = 10.0, scene = preload("res://objects/raft_objects/fire.tscn") },
 	{ weight = 20.0, scene = preload("res://objects/raft_objects/driftwood.tscn") },
 	{ weight = 15.0, scene = preload("res://objects/raft_objects/bomb.tscn") },

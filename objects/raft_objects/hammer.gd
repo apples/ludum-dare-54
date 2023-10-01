@@ -20,5 +20,5 @@ func _process_unconnected(delta):
 			i._set_health(3)
 			splash = repair_splash_scene.instantiate()
 			get_tree().get_root().add_child(splash)
-			splash.position = i.position
+			splash.global_position = i.global_position
 		b.queue_free()

@@ -80,7 +80,7 @@ func get_tile_row(row: int) -> Array:
 	var tile
 	for i in range(0, 12):
 		tile = get_tile(row, i)
-		if tile != null && tile.tile_object != null:
+		if tile != null:
 			tiles.push_back(tile)
 	return tiles
 
@@ -89,7 +89,7 @@ func get_tile_column(column: int) -> Array:
 	var tile
 	for i in range(0, 14):
 		tile = get_tile(i, column)
-		if tile != null && tile.tile_object != null:
+		if tile != null:
 			tiles.push_back(tile)
 	return tiles
 
