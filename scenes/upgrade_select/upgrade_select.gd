@@ -13,8 +13,7 @@ func _ready():
 		"o", "i1", "i2", "s1", "s2", "z1", "z2", "t1", "t2", "t3", "t4",
 		"j1", "j2", "j3", "j4", "l1", "l2", "l3", "l4",
 	]
-	var base_fmt = "res://resources/raft_modules/fixed_tetrominoes/%s_base.gd"
-	var cannon_fmt = "res://resources/raft_modules/fixed_tetrominoes/%s_cannon.gd"
+	var base_fmt = "res://resources/raft_modules/fixed_tetrominoes/%s_1up.gd"
 	
 	options = {
 		0: [$option_1, load(base_fmt % tetros[randi() % tetros.size()])],
