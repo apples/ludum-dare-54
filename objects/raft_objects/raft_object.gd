@@ -189,4 +189,3 @@ func boss_toss(toss_start: Vector2):
 	toss_path = points
 	toss_t = 0.0
 	zoop.play()
-
