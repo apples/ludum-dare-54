@@ -3,27 +3,56 @@ extends Node2D
 var upgrade_select_scene = preload("res://scenes/upgrade_select/upgrade_select.tscn")
 var placing_raft_module = false
 var module_container: Node2D
+var grid_position = Vector2i(5, 5)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-#	raft_destroyed($enemy_raft)
+	raft_destroyed($enemy_raft)
 	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if placing_raft_module:
+	if placing_raft_module and module_container:
 		process_module_placement()
 
 func process_module_placement():
-	if Input.is_action_just_pressed("up") and module_container:
-		module_container.position.y -= 32
-	if Input.is_action_just_pressed("down") and module_container:
-		module_container.position.y += 32
-	if Input.is_action_just_pressed("left") and module_container:
-		module_container.position.x -= 32
-	if Input.is_action_just_pressed("right") and module_container:
-		module_container.position.x += 32
+	if Input.is_action_just_pressed("up"):
+		grid_position.y -= 1
+		check_tile_neighbors()
+	if Input.is_action_just_pressed("down"):
+		grid_position.y += 1
+		check_tile_neighbors()
+	if Input.is_action_just_pressed("left"):
+		grid_position.x -= 1
+		check_tile_neighbors()
+	if Input.is_action_just_pressed("right"):
+		grid_position.x += 1
+		check_tile_neighbors()
+		
+	module_container.global_position = $player_raft.rc_to_pos(grid_position)
+
+func check_tile_neighbors():
+	var overlap = false
+	var valid_connection = false
+	
+	for tile in module_container.get_children():
+		var tile_new_grid_pos_row = tile.grid_pos.y + grid_position.y
+		var tile_new_grid_pos_col = tile.grid_pos.x + grid_position.x
+		if $player_raft.get_tile(tile_new_grid_pos_row, tile_new_grid_pos_col):
+			overlap = true
+		if $player_raft.get_relative_tile_rc($player_raft.NORTH, tile_new_grid_pos_row, tile_new_grid_pos_col) or $player_raft.get_relative_tile_rc($player_raft.EAST, tile_new_grid_pos_row, tile_new_grid_pos_col) or $player_raft.get_relative_tile_rc($player_raft.SOUTH, tile_new_grid_pos_row, tile_new_grid_pos_col) or $player_raft.get_relative_tile_rc($player_raft.WEST, tile_new_grid_pos_row, tile_new_grid_pos_col):
+			valid_connection = true
+	
+#	print('overlap:')
+#	print(overlap)
+#	print('valid connection:')
+#	print(valid_connection)
+	
+	if valid_connection and not overlap:
+		print("valid connection")
+	else:
+		print("invalid connection")
 
 
 func raft_destroyed(raft: Raft):
@@ -39,7 +68,7 @@ func raft_destroyed(raft: Raft):
 func on_initiate_module_placement(module):
 	placing_raft_module = true
 #	$player_raft.rc_to_pos(Vector2(5, 5))
-	render_raft_module(module, $player_raft.rc_to_pos(Vector2(5, 5)))
+	render_raft_module(module, $player_raft.rc_to_pos(grid_position))
 
 func render_raft_module(module, pos: Vector2):
 	module_container = Node2D.new()
@@ -62,6 +91,8 @@ func render_raft_module(module, pos: Vector2):
 		var tile_x_offset = 32 * k.x
 		var tile_y_offset = 32 * k.y
 		var raft_tile = raft_module_structure[k].instantiate()
+		raft_tile.row_index = k.y
+		raft_tile.column_index = k.x
 		raft_tile.position.x += tile_x_offset # - module_width/4
 		raft_tile.position.y += tile_y_offset # - module_height/4
 		module_container.add_child(raft_tile)
