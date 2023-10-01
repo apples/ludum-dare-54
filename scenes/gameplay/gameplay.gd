@@ -108,9 +108,13 @@ func check_valid_connection() -> Array:
 	return [valid_connection_condition, at_direction_edge]
 
 
-func overlay_upgrade_scene():
+func overlay_upgrade_scene(upgrade_strength: int = 0):
 	$Player.sit()
 	var upgrade_select = upgrade_select_scene.instantiate()
+	if upgrade_strength > 1:
+		upgrade_select.upgrade_type = "2up"
+	else:
+		upgrade_select.upgrade_type = ["base", "1up"][upgrade_strength]
 	upgrade_select.initiate_module_placement.connect(self.on_initiate_module_placement)
 	self.add_child(upgrade_select)
 
