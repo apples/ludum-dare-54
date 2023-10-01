@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 GLOBAL_VARS="*res://autoload/global_vars.gd"
+UTILS="*res://autoload/utils.gd"
 
 [display]
 

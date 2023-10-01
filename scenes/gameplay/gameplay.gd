@@ -3,7 +3,7 @@ signal module_valid_connection_updated(valid)
 
 var module_ui_scene = preload("res://objects/module_ui/module_ui.tscn")
 var upgrade_select_scene = preload("res://scenes/upgrade_select/upgrade_select.tscn")
-var lose_screen_scene = preload("res://scenes/lose_screen/lose_scene.tscn")
+var lose_screen_scene_file = "res://scenes/lose_screen/lose_scene.tscn"
 
 const bounds_grid_coords = Vector2i(17, 13)
 var placing_raft_module = false
@@ -130,10 +130,7 @@ func raft_destroyed(raft: Raft):
 		upgrade_select.initiate_module_placement.connect(self.on_initiate_module_placement)
 		self.add_child(upgrade_select)
 	elif raft == $player_raft:
-		var root = get_tree().get_root()
-		root.get_child(root.get_child_count() - 1).queue_free()
-		var lose_screen = lose_screen_scene.instantiate()
-		get_tree().get_root().add_child(lose_screen)
+		UTILS.change_to_scene(lose_screen_scene_file)
 
 
 func on_initiate_module_placement(module):

@@ -1,9 +1,10 @@
 extends Node
-var current_scene = null
+var gameplay_scene_file = "res://scenes/gameplay/gameplay.tscn"
+var options_scene_file = "res://scenes/options_menu/options_menu.tscn"
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var root = get_tree().get_root()
-	current_scene = root.get_child(root.get_child_count() - 1)
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -11,15 +12,9 @@ func _process(delta):
 
 
 func _on_start_game_pressed():
-	current_scene.queue_free()
-	var new_scene = ResourceLoader.load("res://scenes/gameplay/gameplay.tscn")
-	current_scene = new_scene.instantiate()
-	get_tree().get_root().add_child(current_scene)
+	UTILS.change_to_scene(gameplay_scene_file)
 
 
 func _on_options_pressed():
-	current_scene.queue_free()
-	var new_scene = ResourceLoader.load("res://scenes/options_menu/options_menu.tscn")
-	current_scene = new_scene.instantiate()
-	get_tree().get_root().add_child(current_scene)
+	UTILS.change_to_scene(options_scene_file)
 
