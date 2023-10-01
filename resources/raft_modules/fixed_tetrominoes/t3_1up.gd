@@ -7,7 +7,7 @@ static func get_structure():
 		Vector2i(-1, -1): base_tile(),
 		#Vector2i(0, -1): base_tile(),
 		#Vector2i(1, -1): base_tile(),
-		Vector2i(-1, 0): base_tile(),
+		Vector2i(-1, 0): random_tile(),
 		Vector2i(0, 0): base_tile(),
 		#Vector2i(1, 0): base_tile(),
 		Vector2i(-1, 1): base_tile(),

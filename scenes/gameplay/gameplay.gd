@@ -94,10 +94,10 @@ func on_initiate_module_placement(module):
 	render_raft_module(module, $player_raft.rc_to_pos(grid_position))
 	valid_connection = check_tile_neighbors()
 
-func render_raft_module(module, pos: Vector2):
+func render_raft_module(raft_module_structure, pos: Vector2):
 	module_container = Node2D.new()
 	module_container.position = pos
-	var raft_module_structure = module.get_structure()
+	#var raft_module_structure = module
 	var max_x = -999
 	var max_y = -999
 	var min_x = 999
