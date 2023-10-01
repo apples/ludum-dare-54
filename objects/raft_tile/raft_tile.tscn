@@ -1,54 +1,56 @@
-[gd_scene load_steps=9 format=3 uid="uid://berm3cck4qq7l"]
+[gd_scene load_steps=8 format=3 uid="uid://berm3cck4qq7l"]
 
 [ext_resource type="Script" path="res://objects/raft_tile/raft_tile.gd" id="1_swvh2"]
 [ext_resource type="Texture2D" uid="uid://ba2lrx4jj1x3m" path="res://assets/textures/raff.png" id="2_t1sf4"]
-[ext_resource type="Texture2D" uid="uid://co34v85nbglg1" path="res://assets/textures/raft_tile_damage.png" id="3_msbt2"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1bv7b"]
-size = Vector2(32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_joypw"]
+atlas = ExtResource("2_t1sf4")
+region = Rect2(128, 91, 32, 55)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0e1xl"]
-atlas = ExtResource("3_msbt2")
-region = Rect2(0, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_1jb66"]
+atlas = ExtResource("2_t1sf4")
+region = Rect2(160, 91, 32, 55)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vndin"]
-atlas = ExtResource("3_msbt2")
-region = Rect2(32, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_oeq62"]
+atlas = ExtResource("2_t1sf4")
+region = Rect2(192, 91, 32, 55)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_imatm"]
-atlas = ExtResource("3_msbt2")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_2hd7l"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_y7oa1"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0e1xl")
+"texture": SubResource("AtlasTexture_joypw")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_vndin")
+"texture": SubResource("AtlasTexture_1jb66")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_imatm")
+"texture": SubResource("AtlasTexture_oeq62")
 }],
 "loop": true,
 "name": &"default",
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1bv7b"]
+size = Vector2(32, 32)
+
 [node name="raft_tile" type="Area2D" groups=["tile"]]
 collision_layer = 2
 script = ExtResource("1_swvh2")
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-16, 20)
+sprite_frames = SubResource("SpriteFrames_y7oa1")
+offset = Vector2(16, -9.5)
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(-16, 20)
 texture = ExtResource("2_t1sf4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_1bv7b")
-
-[node name="damage_frames" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_2hd7l")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

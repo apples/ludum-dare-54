@@ -59,6 +59,8 @@ func _set_health(value: int):
 	if health <= 0:
 		raft_ref.delete_tile(row_index, column_index)
 		queue_free()
+	else:
+		process_damage_frames(health)
 
 func damage(value: int):
 	health -= value
@@ -67,11 +69,11 @@ func damage(value: int):
 
 func process_damage_frames(current_health_value):
 	if current_health_value == 2:
-		$damage_frames.frame = 1
+		$AnimatedSprite2D.frame = 1
 	elif current_health_value == 1:
-		$damage_frames.frame = 2
+		$AnimatedSprite2D.frame = 2
 	else:
-		$damage_frames.frame = 0
+		$AnimatedSprite2D.frame = 0
 	
 
 func generate_dmg_number(number_value):
