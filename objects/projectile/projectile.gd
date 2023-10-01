@@ -22,10 +22,10 @@ func _process(delta):
 
 
 func _sploosh():
-	reticle.queue_free()
+	reticle.queue_free() 
 	queue_free()
 	
 	var hit = $RayCast2D.get_collider()
 	if hit != null:
 		hit.damage(1)
-
+		get_parent().get_node("player_raft").play_raft_hit_cannoball()

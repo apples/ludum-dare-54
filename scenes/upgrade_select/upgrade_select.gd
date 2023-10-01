@@ -1,8 +1,10 @@
 extends Control
+signal initiate_module_placement(module)
 #var player_ref: PlayerCharacter # may not need
 
 var options = []
 var select_index = 0
+var locked_selection = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -42,23 +44,26 @@ func render_raft_module(module, pos: Vector2):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if Input.is_action_just_pressed("up"):
-		if select_index > 0:
-			select_index -= 1
-			print(select_index)
-			$selected_option.position = options[select_index][0].position
-			print(options[select_index][1])
-			$selected_option.position.y -= 5
-			$selected_option.position.x -= 5
-			print("up yo")
+	if Input.is_action_just_pressed("up") and select_index > 0 and not locked_selection:
+		select_index -= 1
+		print(select_index)
+		$selected_option.position = options[select_index][0].position
+		print(options[select_index][1])
+		$selected_option.position.y -= 5
+		$selected_option.position.x -= 5
+		print("up yo")
 	
-	if Input.is_action_just_pressed("down"):
-		if select_index < 2:
-			select_index += 1
-			print(select_index)
-#			print($selected_option.position)
-			$selected_option.position = options[select_index][0].position
-			print(options[select_index][1])
-			$selected_option.position.y -= 5
-			$selected_option.position.x -= 5
-			print("down yo")
+	if Input.is_action_just_pressed("down") and select_index < 2:
+		select_index += 1
+		print(select_index)
+		#print($selected_option.position)
+		$selected_option.position = options[select_index][0].position
+		print(options[select_index][1])
+		$selected_option.position.y -= 5
+		$selected_option.position.x -= 5
+		print("down yo")
+		
+	if Input.is_action_just_pressed("interact"):
+		queue_free()
+		initiate_module_placement.emit(options[select_index][1])
+#		get_parent().start_placing_module(options[select_index][1])
