@@ -6,6 +6,9 @@ var grid_pos: Vector2i
 
 @export var is_interactable := false
 @export var is_pushable := false
+@export var is_holdable := false
+
+var held_by: Node = null
 
 var being_pushed := false
 var push_speed := 32.0 * 12.0
@@ -33,6 +36,12 @@ func _init():
 	z_index = 5
 
 func _exit_tree():
+	if connected_player:
+		connected_player.call_deferred("release")
+		_on_player_disconnected()
+	detach_raft()
+
+func detach_raft():
 	if raft:
 		var t = raft.get_tile(grid_pos.y, grid_pos.x)
 		if t.tile_object == self:
@@ -79,11 +88,6 @@ func push(player_grid_pos: Vector2i):
 		cur_tile.tile_object = null
 		being_pushed = true
 		return
-
-func _on_tree_exiting():
-	if connected_player:
-		connected_player.call_deferred("release")
-		_on_player_disconnected()
 
 func release_player():
 	connected_player.call_deferred("release")
