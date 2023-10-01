@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cyej5ccc618dp"]
+
+[ext_resource type="PackedScene" uid="uid://berm3cck4qq7l" path="res://objects/raft_tile/raft_tile.tscn" id="1_fqlwd"]
+[ext_resource type="PackedScene" uid="uid://bfmrtnkteata8" path="res://objects/raft_objects/driftwood.tscn" id="2_8gh7a"]
+
+[node name="raft_tile_driftwood" node_paths=PackedStringArray("tile_object") instance=ExtResource("1_fqlwd")]
+tile_object = NodePath("driftwood")
+
+[node name="driftwood" parent="." index="2" instance=ExtResource("2_8gh7a")]
+is_pushable = true
