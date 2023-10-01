@@ -7,6 +7,16 @@ var grid_pos: Vector2i
 @export var is_interactable := false
 @export var is_pushable := false
 
+var being_pushed := false
+var push_speed := 32.0 * 12.0
+
+func get_kind() -> StringName:
+	assert(false, "get_kind() not implemented")
+	return ""
+
+func _process_unconnected(delta):
+	pass
+
 func _process_connected(delta):
 	pass
 
@@ -19,8 +29,25 @@ func _on_player_connected():
 func _on_player_disconnected():
 	pass
 
+func _init():
+	z_index = 5
+
+func _exit_tree():
+	if raft:
+		var t = raft.get_tile(grid_pos.y, grid_pos.x)
+		if t.tile_object == self:
+			t.tile_object = null
+
 func _process(delta):
+	if being_pushed:
+		position = position.move_toward(Vector2.ZERO, push_speed * delta)
+		if position == Vector2.ZERO:
+			being_pushed = false
+		else:
+			return
+	
 	if not connected_player:
+		_process_unconnected(delta)
 		return
 	
 	_process_connected(delta)
@@ -48,10 +75,10 @@ func push(player_grid_pos: Vector2i):
 	if next_tile and next_tile.tile_object == null:
 		reparent(next_tile)
 		grid_pos = next_tile.grid_pos
-		position = Vector2.ZERO
 		next_tile.tile_object = self
 		cur_tile.tile_object = null
-		return 
+		being_pushed = true
+		return
 
 func _on_tree_exiting():
 	if connected_player:
@@ -62,3 +89,19 @@ func release_player():
 	connected_player.call_deferred("release")
 	connected_player = null
 	_on_player_disconnected()
+
+func find_neighboring_objects(of_kind: StringName):
+	var nbors = []
+	
+	for d in [Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1), Vector2i(0, 1)]:
+		var nbor = raft.get_tile(grid_pos.y + d.y, grid_pos.x + d.x)
+		if not nbor:
+			continue
+		if not nbor.tile_object:
+			continue
+		if nbor.tile_object.being_pushed:
+			continue
+		if nbor.tile_object.get_kind() == of_kind:
+			nbors.append(nbor.tile_object)
+	
+	return nbors
