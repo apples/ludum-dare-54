@@ -46,7 +46,7 @@ func confirm_module_connection():
 	for tile in module_container.get_children():
 		var tile_new_grid_pos_row = tile.grid_pos.y + grid_position.y
 		var tile_new_grid_pos_col = tile.grid_pos.x + grid_position.x
-		$player_raft.swap_tile(load(tile.scene_file_path), tile_new_grid_pos_row, tile_new_grid_pos_col)
+		$player_raft.set_tile(load(tile.scene_file_path), tile_new_grid_pos_row, tile_new_grid_pos_col)
 		$Player.release()
 	
 	grid_position = Vector2i(7, 7)
@@ -122,8 +122,7 @@ func render_raft_module(module, pos: Vector2):
 		var tile_x_offset = 32 * k.x
 		var tile_y_offset = 32 * k.y
 		var raft_tile = raft_module_structure[k].instantiate()
-		raft_tile.row_index = k.y
-		raft_tile.column_index = k.x
+		raft_tile.grid_pos = k
 		raft_tile.position.x += tile_x_offset # - module_width/4
 		raft_tile.position.y += tile_y_offset # - module_height/4
 		module_container.add_child(raft_tile)

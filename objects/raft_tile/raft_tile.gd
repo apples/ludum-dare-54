@@ -2,13 +2,8 @@ class_name RaftTile extends Area2D
 
 var damage_number_scene = preload("res://objects/damage_numbers/damage_numbers.tscn")
 
-var row_index: int = 0
-var column_index: int = 0
 var raft_ref: Node2D
-
-var grid_pos: Vector2i:
-	get:
-		return Vector2i(column_index, row_index)
+var grid_pos: Vector2i
 
 @export var health: int = 3 :
 	set = _set_health
@@ -25,12 +20,6 @@ var grid_pos: Vector2i:
 
 func _on_tile_object_tree_exited():
 	tile_object = null
-
-func copy_properties(raft_tile: Node2D):
-	self.raft_ref = raft_tile.raft_ref
-	self.row_index = raft_tile.row_index
-	self.column_index = raft_tile.column_index
-	self.position = raft_tile.position
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -57,7 +46,6 @@ func _on_body_exited(body):
 func _set_health(value: int):
 	health = value
 	if health <= 0:
-		raft_ref.delete_tile(row_index, column_index)
 		queue_free()
 	else:
 		process_damage_frames(health)
@@ -68,12 +56,13 @@ func damage(value: int):
 	process_damage_frames(health)
 
 func process_damage_frames(current_health_value):
-	if current_health_value == 2:
-		$AnimatedSprite2D.frame = 1
-	elif current_health_value == 1:
-		$AnimatedSprite2D.frame = 2
-	else:
-		$AnimatedSprite2D.frame = 0
+	match current_health_value:
+		2:
+			$AnimatedSprite2D.frame = 1
+		1:
+			$AnimatedSprite2D.frame = 2
+		_:
+			$AnimatedSprite2D.frame = 0
 	
 
 func generate_dmg_number(number_value):
