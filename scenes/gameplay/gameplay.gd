@@ -3,10 +3,12 @@ signal module_valid_connection_updated(valid)
 
 var module_ui_scene = preload("res://objects/module_ui/module_ui.tscn")
 var upgrade_select_scene = preload("res://scenes/upgrade_select/upgrade_select.tscn")
+var lose_screen_scene = preload("res://scenes/lose_screen/lose_scene.tscn")
 var placing_raft_module = false
 var module_container: Node2D
 var grid_position = Vector2i(7, 7)
 var valid_connection = false
+var current_level = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -70,12 +72,17 @@ func check_tile_neighbors() -> bool:
 
 func raft_destroyed(raft: Raft):
 	if raft == $enemy_raft:
+		$Level.text = "Level: %s" % GLOBAL_VARS
+		GLOBAL_VARS.current_level += 1
 		$Player.sit()
 		var upgrade_select = upgrade_select_scene.instantiate()
 		upgrade_select.initiate_module_placement.connect(self.on_initiate_module_placement)
 		self.add_child(upgrade_select)
 	elif raft == $player_raft:
-		print("oops you lost") # game over
+		var root = get_tree().get_root()
+		root.get_child(root.get_child_count() - 1).queue_free()
+		var lose_screen = lose_screen_scene.instantiate()
+		get_tree().get_root().add_child(lose_screen)
 
 
 func on_initiate_module_placement(module):

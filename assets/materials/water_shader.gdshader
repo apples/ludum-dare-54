@@ -5,7 +5,7 @@
 shader_type canvas_item;
 
 uniform vec2 R = vec2(.8, .6);
-uniform float scale = 1.5;
+uniform float scale = 0.5;
 uniform float speed = 0.5;
 uniform float moveSpeed = 0.1;
 uniform vec3 direction = vec3(0.5,1,0);
