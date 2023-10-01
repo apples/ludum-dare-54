@@ -69,7 +69,7 @@ func get_tile_at(pos: Vector2) -> RaftTile:
 
 func get_tile(row: int, column: int) -> RaftTile:
 	return raft_data_structure.get(Vector2i(column, row))
-	
+
 func get_tile_row(row: int) -> Array:
 	var tiles = []
 	var tile
@@ -140,23 +140,18 @@ func get_relative_positions_in_radius(radius: float) -> Array[Vector2i]:
 func get_tiles_in_radius(row: int, column: int, radius: float) -> Array[RaftTile]:
 	var positions: Array[Vector2i] = get_relative_positions_in_radius(radius)
 	var tiles: Array[RaftTile] = []
-
+	
 	for position in positions:
 		var tile: RaftTile = get_relative_tile_rc(position, row, column)
 		if tile != null:
 			tiles.append(tile)
-
+	
 	return tiles
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
 
-
-func _on_child_exiting_tree(node):
-	if node is RaftTile:
-		if raft_data_structure.get(node.grid_pos) == node:
-			raft_data_structure.erase(node.grid_pos)
 
 func play_raft_hit_cannoball():
 	$raft_hit_cannonball.play()
