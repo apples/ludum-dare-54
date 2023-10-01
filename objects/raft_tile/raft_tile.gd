@@ -11,7 +11,18 @@ var grid_pos: Vector2i:
 @export var health: int = 3 :
 	set = _set_health
 
-@export var tile_object: Node
+@export var tile_object: Node:
+	get:
+		return tile_object
+	set(v):
+		if tile_object:
+			tile_object.tree_exited.disconnect(_on_tile_object_tree_exited)
+		tile_object = v
+		if tile_object:
+			tile_object.tree_exited.connect(_on_tile_object_tree_exited)
+
+func _on_tile_object_tree_exited():
+	tile_object = null
 
 func copy_properties(raft_tile: Node2D):
 	self.raft_ref = raft_tile.raft_ref
