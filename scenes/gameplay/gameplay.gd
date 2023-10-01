@@ -70,6 +70,13 @@ func check_tile_neighbors() -> bool:
 	return touching_neighbor and not overlap
 
 
+func overlay_upgrade_scene():
+	$Player.sit()
+	var upgrade_select = upgrade_select_scene.instantiate()
+	upgrade_select.initiate_module_placement.connect(self.on_initiate_module_placement)
+	self.add_child(upgrade_select)
+
+
 func raft_destroyed(raft: Raft):
 	if raft == $enemy_raft:
 		$Level.text = "Level: %s" % GLOBAL_VARS
