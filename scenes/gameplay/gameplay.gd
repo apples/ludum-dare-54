@@ -10,6 +10,12 @@ var placing_raft_module = false
 var module_container: Node2D
 var grid_position = Vector2i(7, 7)
 var valid_connection = false
+var at_direction_edge = {
+	'UP': false,
+	'DOWN': false,
+	'LEFT': false,
+	'RIGHT': false,
+}
 #var current_level = 0
 
 
@@ -19,18 +25,23 @@ func _process(_delta):
 		process_module_placement()
 
 func process_module_placement():
-	if Input.is_action_just_pressed("up"):
+	var check_connection_check_bounds = func():
+		var connection_response = check_valid_connection()
+		valid_connection = connection_response[0]
+		at_direction_edge = connection_response[1]
+		
+	if Input.is_action_just_pressed("up") and not at_direction_edge['UP']:
 		grid_position.y -= 1
-		valid_connection = check_valid_connection()
-	if Input.is_action_just_pressed("down"):
+		check_connection_check_bounds.call()
+	if Input.is_action_just_pressed("down") and not at_direction_edge['DOWN']:
 		grid_position.y += 1
-		valid_connection = check_valid_connection()
-	if Input.is_action_just_pressed("left"):
+		check_connection_check_bounds.call()
+	if Input.is_action_just_pressed("left") and not at_direction_edge['LEFT']:
 		grid_position.x -= 1
-		valid_connection = check_valid_connection()
-	if Input.is_action_just_pressed("right"):
+		check_connection_check_bounds.call()
+	if Input.is_action_just_pressed("right") and not at_direction_edge['RIGHT']:
 		grid_position.x += 1
-		valid_connection = check_valid_connection()
+		check_connection_check_bounds.call()
 		
 	if Input.is_action_just_pressed("interact") and valid_connection:
 		confirm_module_connection()
@@ -49,7 +60,15 @@ func confirm_module_connection():
 	module_container
 	valid_connection = false
 
-func check_valid_connection() -> bool:
+# Returns [valid_connection_condition, Dict<at_direction_edge>]
+func check_valid_connection() -> Array:
+	var at_direction_edge = {
+		'UP': false,
+		'DOWN': false,
+		'LEFT': false,
+		'RIGHT': false,
+	}
+	
 	var touching_neighbor = false
 	var overlap = false
 	var in_bounds = true
@@ -58,8 +77,19 @@ func check_valid_connection() -> bool:
 		var tile_new_grid_pos_row = tile.grid_pos.y + grid_position.y
 		var tile_new_grid_pos_col = tile.grid_pos.x + grid_position.x
 		
-		if tile_new_grid_pos_row > bounds_grid_coords.y or tile_new_grid_pos_row < 0 or tile_new_grid_pos_col > bounds_grid_coords.x or tile_new_grid_pos_col < 0:
+		if tile_new_grid_pos_row > bounds_grid_coords.y:
+			at_direction_edge['DOWN'] = true
 			in_bounds = false
+		if tile_new_grid_pos_row < 0:
+			at_direction_edge['UP'] = true
+			in_bounds = false
+		if tile_new_grid_pos_col > bounds_grid_coords.x:
+			at_direction_edge['RIGHT'] = true
+			in_bounds = false
+		if tile_new_grid_pos_col < 0:
+			at_direction_edge['LEFT'] = true
+			in_bounds = false
+		
 		if $player_raft.get_tile(tile_new_grid_pos_row, tile_new_grid_pos_col):
 			overlap = true
 		if $player_raft.get_relative_tile_rc($player_raft.NORTH, tile_new_grid_pos_row, tile_new_grid_pos_col) or $player_raft.get_relative_tile_rc($player_raft.EAST, tile_new_grid_pos_row, tile_new_grid_pos_col) or $player_raft.get_relative_tile_rc($player_raft.SOUTH, tile_new_grid_pos_row, tile_new_grid_pos_col) or $player_raft.get_relative_tile_rc($player_raft.WEST, tile_new_grid_pos_row, tile_new_grid_pos_col):
@@ -68,7 +98,7 @@ func check_valid_connection() -> bool:
 	var valid_connection_condition = touching_neighbor and not overlap and in_bounds
 	module_valid_connection_updated.emit(valid_connection_condition)
 	
-	return valid_connection_condition
+	return [valid_connection_condition, at_direction_edge]
 
 
 func overlay_upgrade_scene():
