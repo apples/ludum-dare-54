@@ -61,6 +61,7 @@ func confirm_module_connection():
 		var tile_new_grid_pos_col = tile.grid_pos.x + grid_position.x
 		$player_raft.set_tile(load(tile.scene_file_path), tile_new_grid_pos_row, tile_new_grid_pos_col)
 		$Player.release()
+		GLOBAL_VARS.match3_paused = false
 	
 	grid_position = Vector2i(7, 7)
 	delete_children(module_container)
@@ -110,6 +111,7 @@ func check_valid_connection() -> Array:
 
 func overlay_upgrade_scene():
 	$Player.sit()
+	GLOBAL_VARS.match3_paused = true
 	var upgrade_select = upgrade_select_scene.instantiate()
 	upgrade_select.initiate_module_placement.connect(self.on_initiate_module_placement)
 	self.add_child(upgrade_select)

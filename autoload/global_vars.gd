@@ -1,6 +1,7 @@
 extends Node
 
 var score = 0
+var match3_paused = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
