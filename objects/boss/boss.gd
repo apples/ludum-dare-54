@@ -7,10 +7,25 @@ var bomb_scene = preload("res://objects/raft_objects/bomb.tscn")
 
 var attack_delay := 5.0
 
+enum {
+	LOOKING_STRAIGHT,
+	LOOKING_RIGHT,
+	LOOKING_DOWN,
+}
+
+var is_talking := false
+var is_smug := true
+var looking_dir := LOOKING_STRAIGHT
+
+@onready var animation_tree = $AnimationTree
+@onready var blink_timer = $BlinkTimer
+
 func _ready():
-	assert(raft != null)
+	animation_tree.active = true
 
 func _perform_attack():
+	if not raft:
+		return
 	for i in range(3):
 		var t = raft.get_random_empty_tile()
 		var bomb = bomb_scene.instantiate()
@@ -27,3 +42,9 @@ func _on_next_attack_timeout():
 	_perform_attack()
 
 
+
+
+func _on_blink_timer_timeout():
+	print("blink")
+	animation_tree["parameters/Blink/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
+	blink_timer.start(randf_range(0.5, 5.0))

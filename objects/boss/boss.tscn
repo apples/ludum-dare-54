@@ -1,11 +1,392 @@
-[gd_scene load_steps=3 format=3 uid="uid://db55dqikpqoof"]
+[gd_scene load_steps=46 format=3 uid="uid://db55dqikpqoof"]
 
-[ext_resource type="Texture2D" uid="uid://2ymtry5brpk1" path="res://assets/textures/boss.png" id="1_1eai6"]
+[ext_resource type="Texture2D" uid="uid://dt1fhrcl5w22s" path="res://assets/textures/char2_base.png" id="1_4b4qy"]
 [ext_resource type="Script" path="res://objects/boss/boss.gd" id="2_tau8x"]
+[ext_resource type="SpriteFrames" uid="uid://c6tnqwadci4ua" path="res://objects/boss/pupil_frames.tres" id="3_fgpyr"]
+[ext_resource type="SpriteFrames" uid="uid://f3e2p2eukvp5" path="res://objects/boss/eye_frames.tres" id="4_uvnq0"]
+[ext_resource type="SpriteFrames" uid="uid://c524gr8xkbw0w" path="res://objects/boss/mouth_frames.tres" id="5_nfts5"]
+
+[sub_resource type="Animation" id="Animation_6s47w"]
+resource_name = "idle"
+
+[sub_resource type="Animation" id="Animation_783kw"]
+resource_name = "blink"
+length = 0.500002
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Eyes:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.216667, 0.35, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 1, 0]
+}
+
+[sub_resource type="Animation" id="Animation_3280u"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Eyes:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Mouth:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Mouth:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"1"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Pupils:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_o4mvq"]
+resource_name = "talking"
+loop_mode = 1
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Mouth:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.416667, 0.55, 0.666667, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 1, 2, 1, 0, 2, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Mouth:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"1"]
+}
+
+[sub_resource type="Animation" id="Animation_5ah2m"]
+resource_name = "mouth_closed"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Mouth:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Mouth:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"1"]
+}
+
+[sub_resource type="Animation" id="Animation_u0qfr"]
+resource_name = "talking_smug"
+loop_mode = 1
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Mouth:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.416667, 0.55, 0.666667, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 1, 2, 1, 0, 2, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Mouth:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"2"]
+}
+
+[sub_resource type="Animation" id="Animation_li1jt"]
+resource_name = "mouth_closed_smug"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Mouth:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Mouth:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"2"]
+}
+
+[sub_resource type="Animation" id="Animation_cwbga"]
+resource_name = "look_straight"
+length = 0.10001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pupils:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_deg06"]
+resource_name = "look_right"
+length = 0.10001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pupils:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
+[sub_resource type="Animation" id="Animation_tlgjm"]
+resource_name = "look_down"
+length = 0.10001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pupils:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i4hll"]
+_data = {
+"RESET": SubResource("Animation_3280u"),
+"blink": SubResource("Animation_783kw"),
+"idle": SubResource("Animation_6s47w"),
+"look_down": SubResource("Animation_tlgjm"),
+"look_right": SubResource("Animation_deg06"),
+"look_straight": SubResource("Animation_cwbga"),
+"mouth_closed": SubResource("Animation_5ah2m"),
+"mouth_closed_smug": SubResource("Animation_li1jt"),
+"talking": SubResource("Animation_o4mvq"),
+"talking_smug": SubResource("Animation_u0qfr")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_atugj"]
+animation = &"blink"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_uflod"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_kv8s6"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_htqtl"]
+animation = &"mouth_closed"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rpaeb"]
+animation = &"talking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_o1yy6"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_254ro"]
+advance_mode = 2
+advance_expression = "is_talking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hm1u0"]
+advance_mode = 2
+advance_expression = "not is_talking"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_farfl"]
+states/mouth_closed/node = SubResource("AnimationNodeAnimation_htqtl")
+states/mouth_closed/position = Vector2(389, 100)
+states/talking/node = SubResource("AnimationNodeAnimation_rpaeb")
+states/talking/position = Vector2(617, 100)
+transitions = ["Start", "mouth_closed", SubResource("AnimationNodeStateMachineTransition_o1yy6"), "mouth_closed", "talking", SubResource("AnimationNodeStateMachineTransition_254ro"), "talking", "mouth_closed", SubResource("AnimationNodeStateMachineTransition_hm1u0")]
+graph_offset = Vector2(-34, -107)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4m3qi"]
+animation = &"mouth_closed_smug"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_87x05"]
+animation = &"talking_smug"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wbs2k"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_nedu0"]
+advance_mode = 2
+advance_expression = "is_talking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cqnlh"]
+advance_mode = 2
+advance_expression = "not is_talking"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_jionl"]
+states/mouth_closed_smug/node = SubResource("AnimationNodeAnimation_4m3qi")
+states/mouth_closed_smug/position = Vector2(447, 100)
+states/talking_smug/node = SubResource("AnimationNodeAnimation_87x05")
+states/talking_smug/position = Vector2(675, 100)
+transitions = ["Start", "mouth_closed_smug", SubResource("AnimationNodeStateMachineTransition_wbs2k"), "mouth_closed_smug", "talking_smug", SubResource("AnimationNodeStateMachineTransition_nedu0"), "talking_smug", "mouth_closed_smug", SubResource("AnimationNodeStateMachineTransition_cqnlh")]
+graph_offset = Vector2(46, -33)
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ji2of"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mf7a3"]
+advance_mode = 2
+advance_expression = "is_smug
+"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_igvv5"]
+advance_mode = 2
+advance_expression = "not is_smug"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_gb6ul"]
+states/End/position = Vector2(898, 65)
+states/Normal/node = SubResource("AnimationNodeStateMachine_farfl")
+states/Normal/position = Vector2(448, -35)
+states/Smug/node = SubResource("AnimationNodeStateMachine_jionl")
+states/Smug/position = Vector2(448, 129)
+states/Start/position = Vector2(157, 71)
+transitions = ["Start", "Normal", SubResource("AnimationNodeStateMachineTransition_ji2of"), "Normal", "Smug", SubResource("AnimationNodeStateMachineTransition_mf7a3"), "Smug", "Normal", SubResource("AnimationNodeStateMachineTransition_igvv5")]
+graph_offset = Vector2(-115, -176)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_v2rki"]
+animation = &"look_down"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qkh1m"]
+animation = &"look_right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vrddd"]
+animation = &"look_straight"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_uly6m"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2so3j"]
+advance_mode = 2
+advance_expression = "looking_dir == LOOKING_DOWN"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_e6a6l"]
+advance_mode = 2
+advance_expression = "looking_dir != LOOKING_RIGHT"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3dgsg"]
+advance_mode = 2
+advance_expression = "looking_dir == LOOKING_RIGHT"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6ve3y"]
+advance_mode = 2
+advance_expression = "looking_dir != LOOKING_DOWN"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_vdp4c"]
+states/Start/position = Vector2(194, 100)
+states/look_down/node = SubResource("AnimationNodeAnimation_v2rki")
+states/look_down/position = Vector2(371, -40)
+states/look_right/node = SubResource("AnimationNodeAnimation_qkh1m")
+states/look_right/position = Vector2(371, 227)
+states/look_straight/node = SubResource("AnimationNodeAnimation_vrddd")
+states/look_straight/position = Vector2(371, 100)
+transitions = ["Start", "look_straight", SubResource("AnimationNodeStateMachineTransition_uly6m"), "look_straight", "look_down", SubResource("AnimationNodeStateMachineTransition_2so3j"), "look_right", "look_straight", SubResource("AnimationNodeStateMachineTransition_e6a6l"), "look_straight", "look_right", SubResource("AnimationNodeStateMachineTransition_3dgsg"), "look_down", "look_straight", SubResource("AnimationNodeStateMachineTransition_6ve3y")]
+graph_offset = Vector2(-235, -121)
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_q67ad"]
+graph_offset = Vector2(-116.841, 14.7063)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_atugj")
+nodes/Animation/position = Vector2(0, 180)
+nodes/Blink/node = SubResource("AnimationNodeOneShot_uflod")
+nodes/Blink/position = Vector2(200, 60)
+nodes/FinalBlend/node = SubResource("AnimationNodeBlend2_kv8s6")
+nodes/FinalBlend/position = Vector2(620, 60)
+nodes/MouthStateMachine/node = SubResource("AnimationNodeStateMachine_gb6ul")
+nodes/MouthStateMachine/position = Vector2(420, 160)
+nodes/PupilStateMachine/node = SubResource("AnimationNodeStateMachine_vdp4c")
+nodes/PupilStateMachine/position = Vector2(-280, 60)
+nodes/output/position = Vector2(820, 100)
+node_connections = [&"output", 0, &"FinalBlend", &"FinalBlend", 0, &"Blink", &"FinalBlend", 1, &"MouthStateMachine", &"Blink", 0, &"PupilStateMachine", &"Blink", 1, &"Animation"]
 
 [node name="Boss" type="Sprite2D"]
 position = Vector2(864, 128)
-texture = ExtResource("1_1eai6")
+texture = ExtResource("1_4b4qy")
 script = ExtResource("2_tau8x")
 
 [node name="NextAttack" type="Timer" parent="."]
@@ -15,4 +396,34 @@ autostart = true
 [node name="TossSource" type="Node2D" parent="."]
 position = Vector2(0, 64)
 
+[node name="Pupils" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("3_fgpyr")
+
+[node name="Eyes" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("4_uvnq0")
+
+[node name="Mouth" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("5_nfts5")
+animation = &"1"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_i4hll")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeBlendTree_q67ad")
+anim_player = NodePath("../AnimationPlayer")
+advance_expression_base_node = NodePath("..")
+active = true
+parameters/Blink/active = false
+parameters/Blink/internal_active = false
+parameters/Blink/request = 0
+parameters/FinalBlend/blend_amount = 0.5
+
+[node name="BlinkTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
 [connection signal="timeout" from="NextAttack" to="." method="_on_next_attack_timeout"]
+[connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]
