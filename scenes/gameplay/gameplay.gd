@@ -1,5 +1,7 @@
 extends Node2D
+signal module_valid_connection_updated(valid)
 
+var module_ui_scene = preload("res://objects/module_ui/module_ui.tscn")
 var upgrade_select_scene = preload("res://scenes/upgrade_select/upgrade_select.tscn")
 var placing_raft_module = false
 var module_container: Node2D
@@ -8,7 +10,7 @@ var valid_connection = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	raft_destroyed($enemy_raft)
+	#	raft_destroyed($enemy_raft)
 	pass
 
 
@@ -41,12 +43,11 @@ func confirm_module_connection():
 		var tile_new_grid_pos_row = tile.grid_pos.y + grid_position.y
 		var tile_new_grid_pos_col = tile.grid_pos.x + grid_position.x
 		$player_raft.swap_tile(load(tile.scene_file_path), tile_new_grid_pos_row, tile_new_grid_pos_col)
-		print("kill module")
 		$Player.release()
 	
 	delete_children(module_container)
 	module_container
-	valid_connection = false # kill module
+	valid_connection = false
 
 func check_tile_neighbors() -> bool:
 	var touching_neighbor = false
@@ -60,9 +61,9 @@ func check_tile_neighbors() -> bool:
 			touching_neighbor = true
 	
 	if touching_neighbor and not overlap:
-		print("valid connection")
+		module_valid_connection_updated.emit(true)
 	else:
-		print("invalid connection")
+		module_valid_connection_updated.emit(false)
 	
 	return touching_neighbor and not overlap
 
@@ -81,6 +82,7 @@ func on_initiate_module_placement(module):
 	placing_raft_module = true
 #	$player_raft.rc_to_pos(Vector2(5, 5))
 	render_raft_module(module, $player_raft.rc_to_pos(grid_position))
+	valid_connection = check_tile_neighbors()
 
 func render_raft_module(module, pos: Vector2):
 	module_container = Node2D.new()
@@ -108,6 +110,11 @@ func render_raft_module(module, pos: Vector2):
 		raft_tile.position.x += tile_x_offset # - module_width/4
 		raft_tile.position.y += tile_y_offset # - module_height/4
 		module_container.add_child(raft_tile)
+		
+		var module_ui = module_ui_scene.instantiate()
+		self.module_valid_connection_updated.connect(module_ui.on_module_valid_connection_updated)
+#		module_ui.position = raft_tile.position
+		raft_tile.add_child(module_ui)
 	
 	self.add_child(module_container)
 
