@@ -3,6 +3,7 @@ extends CharacterBody2D
 @export var raft: Node
 
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
+@onready var hold_root = $HoldRoot
 
 enum {
 	STATE_IDLE,
@@ -38,6 +39,21 @@ enum {
 }
 
 var grid_facing: int = FACING_DOWN
+
+var held_object:
+	get:
+		if hold_root.get_child_count() > 0:
+			return hold_root.get_child(0)
+		else:
+			return null
+	set(v):
+		if hold_root.get_child_count() > 0:
+			if v != hold_root.get_child(0):
+				hold_root.remove_child(hold_root.get_child(0))
+		if v != null:
+			v.reparent(hold_root)
+			v.held_by = self
+
 
 class InputState:
 	var up: bool
@@ -124,12 +140,25 @@ func _process_idle(delta):
 		return
 	
 	if _player_input_pressed.interact:
-		nearby_tiles.sort_custom(func (a, b):
-			return global_position.distance_squared_to(a.global_position) < global_position.distance_squared_to(b.global_position)
-		)
 		var tile = raft.get_tile(grid_current_position.y, grid_current_position.x)
 		if tile != null and tile.tile_object != null:
 			tile.tile_object.interact(self)
+		else:
+			if not held_object:
+				var facing_obj = get_facing_object()
+				if facing_obj != null and facing_obj.is_holdable:
+					facing_obj.detach_raft()
+					held_object = facing_obj
+					facing_obj.position = Vector2.ZERO
+			else:
+				var f = grid_current_position + get_facing_dir()
+				var t = raft.geat_tile(f.y, f.x)
+				if t != null and t.tile_object == null:
+					var o = held_object
+					o.reparent(t)
+					t.tile_object = o
+					o.position = Vector2.ZERO
+					o.held_by = null
 	
 	match grid_facing:
 		FACING_LEFT:
@@ -181,6 +210,28 @@ func _change_state(s):
 			anim.play("down")
 			current_speed = swim_speed
 
+func get_facing_dir() -> Vector2i:
+	match grid_facing:
+		FACING_LEFT:
+			return Vector2i(-1, 0)
+		FACING_RIGHT:
+			return Vector2i(1, 0)
+		FACING_UP:
+			return Vector2i(-1, 0)
+		FACING_DOWN:
+			return Vector2i(1, 0)
+		_:
+			assert(false)
+			return Vector2i()
+	
+
+func get_facing_object():
+	var f = grid_current_position + get_facing_dir()
+	var tile = raft.get_tile(f.y, f.x)
+	if tile == null:
+		return null
+	return tile.tile_object
+
 func _what_tile():
 	var t = $RayCast2D.get_collider()
 	return t
@@ -219,7 +270,7 @@ func _physics_process(delta):
 			if dir:
 				grid_buffered_input = dir
 		
-		if grid_lerp_t >= 1.0 and grid_buffered_input != Vector2i.ZERO:
+		if grid_lerp_t >= 1.0:
 			if grid_buffered_input.x < 0:
 				grid_facing = FACING_LEFT
 			if grid_buffered_input.x > 0:
@@ -228,6 +279,11 @@ func _physics_process(delta):
 				grid_facing = FACING_UP
 			if grid_buffered_input.y > 0:
 				grid_facing = FACING_DOWN
+		
+		if held_object != null:
+			grid_buffered_input = Vector2i.ZERO
+		
+		if grid_lerp_t >= 1.0 and grid_buffered_input != Vector2i.ZERO:
 			var next_grid_position = grid_current_position + grid_buffered_input
 			var next_tile = raft.get_tile(next_grid_position.y, next_grid_position.x)
 			if next_tile and next_tile.tile_object:
