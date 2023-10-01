@@ -40,6 +40,19 @@ func interact(player):
 	
 	_on_player_connected()
 
+func push(player_grid_pos: Vector2i):
+	var cur_tile = raft.get_tile(grid_pos.y, grid_pos.x)	
+	var d := grid_pos - player_grid_pos
+	var next_pos := grid_pos + d
+	var next_tile = raft.get_tile(next_pos.y, next_pos.x)
+	if next_tile and next_tile.tile_object == null:
+		reparent(next_tile)
+		grid_pos = next_tile.grid_pos
+		position = Vector2.ZERO
+		next_tile.tile_object = self
+		cur_tile.tile_object = null
+		return 
+
 func _on_tree_exiting():
 	if connected_player:
 		connected_player.call_deferred("release")

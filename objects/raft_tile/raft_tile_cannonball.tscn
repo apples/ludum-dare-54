@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://r7dthp0nyebe"]
+
+[ext_resource type="PackedScene" uid="uid://berm3cck4qq7l" path="res://objects/raft_tile/raft_tile.tscn" id="1_ds1wa"]
+[ext_resource type="PackedScene" uid="uid://dk27weyrqhb7n" path="res://objects/raft_objects/cannon_ball.tscn" id="2_8rmpt"]
+
+[node name="raft_tile_fire" node_paths=PackedStringArray("tile_object") instance=ExtResource("1_ds1wa")]
+tile_object = NodePath("CannonBall")
+
+[node name="CannonBall" parent="." index="2" instance=ExtResource("2_8rmpt")]

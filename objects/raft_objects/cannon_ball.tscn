@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dk27weyrqhb7n"]
+
+[ext_resource type="Script" path="res://objects/raft_objects/cannon_ball.gd" id="1_jrbcx"]
+[ext_resource type="Texture2D" uid="uid://c4pcetsk4y7oy" path="res://assets/textures/cannonball.png" id="2_qykon"]
+
+[node name="CannonBall" type="Node2D"]
+script = ExtResource("1_jrbcx")
+is_pushable = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_qykon")

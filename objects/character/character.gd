@@ -30,7 +30,7 @@ var is_grid_based := true
 var grid_previous_position : Vector2i
 var grid_current_position : Vector2i
 var grid_lerp_t := 1.0
-var grid_lerp_speed := 8.0
+var grid_lerp_speed := 12.0
 var grid_buffered_input: Vector2i = Vector2i.ZERO
 
 class InputState:
@@ -206,6 +206,10 @@ func _physics_process(delta):
 		if grid_lerp_t >= 1.0 and grid_buffered_input != Vector2i.ZERO:
 			var next_grid_position = grid_current_position + grid_buffered_input
 			var next_tile = raft.get_tile(next_grid_position.y, next_grid_position.x)
+			if next_tile and next_tile.tile_object:
+				if next_tile.tile_object.is_pushable:
+					if not next_tile.tile_object.push(grid_current_position):
+						next_tile = null
 			if next_tile != null:
 				grid_previous_position = grid_current_position
 				grid_current_position = next_grid_position
