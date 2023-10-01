@@ -1,255 +1,11 @@
-[gd_scene load_steps=46 format=3 uid="uid://db55dqikpqoof"]
+[gd_scene load_steps=36 format=3 uid="uid://db55dqikpqoof"]
 
 [ext_resource type="Texture2D" uid="uid://dt1fhrcl5w22s" path="res://assets/textures/char2_base.png" id="1_4b4qy"]
 [ext_resource type="Script" path="res://objects/boss/boss.gd" id="2_tau8x"]
 [ext_resource type="SpriteFrames" uid="uid://c6tnqwadci4ua" path="res://objects/boss/pupil_frames.tres" id="3_fgpyr"]
 [ext_resource type="SpriteFrames" uid="uid://f3e2p2eukvp5" path="res://objects/boss/eye_frames.tres" id="4_uvnq0"]
 [ext_resource type="SpriteFrames" uid="uid://c524gr8xkbw0w" path="res://objects/boss/mouth_frames.tres" id="5_nfts5"]
-
-[sub_resource type="Animation" id="Animation_6s47w"]
-resource_name = "idle"
-
-[sub_resource type="Animation" id="Animation_783kw"]
-resource_name = "blink"
-length = 0.500002
-step = 0.0166667
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Eyes:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.216667, 0.35, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 1, 0]
-}
-
-[sub_resource type="Animation" id="Animation_3280u"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Eyes:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Mouth:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Mouth:animation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"1"]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Pupils:frame")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
-[sub_resource type="Animation" id="Animation_o4mvq"]
-resource_name = "talking"
-loop_mode = 1
-step = 0.0166667
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Mouth:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.416667, 0.55, 0.666667, 0.8, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 1, 2, 1, 0, 2, 0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Mouth:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"1"]
-}
-
-[sub_resource type="Animation" id="Animation_5ah2m"]
-resource_name = "mouth_closed"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Mouth:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Mouth:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"1"]
-}
-
-[sub_resource type="Animation" id="Animation_u0qfr"]
-resource_name = "talking_smug"
-loop_mode = 1
-step = 0.0166667
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Mouth:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.416667, 0.55, 0.666667, 0.8, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 1, 2, 1, 0, 2, 0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Mouth:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"2"]
-}
-
-[sub_resource type="Animation" id="Animation_li1jt"]
-resource_name = "mouth_closed_smug"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Mouth:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Mouth:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"2"]
-}
-
-[sub_resource type="Animation" id="Animation_cwbga"]
-resource_name = "look_straight"
-length = 0.10001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Pupils:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
-[sub_resource type="Animation" id="Animation_deg06"]
-resource_name = "look_right"
-length = 0.10001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Pupils:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [2]
-}
-
-[sub_resource type="Animation" id="Animation_tlgjm"]
-resource_name = "look_down"
-length = 0.10001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Pupils:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [1]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_i4hll"]
-_data = {
-"RESET": SubResource("Animation_3280u"),
-"blink": SubResource("Animation_783kw"),
-"idle": SubResource("Animation_6s47w"),
-"look_down": SubResource("Animation_tlgjm"),
-"look_right": SubResource("Animation_deg06"),
-"look_straight": SubResource("Animation_cwbga"),
-"mouth_closed": SubResource("Animation_5ah2m"),
-"mouth_closed_smug": SubResource("Animation_li1jt"),
-"talking": SubResource("Animation_o4mvq"),
-"talking_smug": SubResource("Animation_u0qfr")
-}
+[ext_resource type="AnimationLibrary" uid="uid://b0u81dbshlaik" path="res://objects/boss/animation_library.res" id="6_y80qs"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_atugj"]
 animation = &"blink"
@@ -370,7 +126,7 @@ transitions = ["Start", "look_straight", SubResource("AnimationNodeStateMachineT
 graph_offset = Vector2(-235, -121)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_q67ad"]
-graph_offset = Vector2(-116.841, 14.7063)
+graph_offset = Vector2(-155, 58)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_atugj")
 nodes/Animation/position = Vector2(0, 180)
 nodes/Blink/node = SubResource("AnimationNodeOneShot_uflod")
@@ -382,7 +138,7 @@ nodes/MouthStateMachine/position = Vector2(420, 160)
 nodes/PupilStateMachine/node = SubResource("AnimationNodeStateMachine_vdp4c")
 nodes/PupilStateMachine/position = Vector2(-280, 60)
 nodes/output/position = Vector2(820, 100)
-node_connections = [&"output", 0, &"FinalBlend", &"FinalBlend", 0, &"Blink", &"FinalBlend", 1, &"MouthStateMachine", &"Blink", 0, &"PupilStateMachine", &"Blink", 1, &"Animation"]
+node_connections = [&"output", 0, &"FinalBlend", &"Blink", 0, &"PupilStateMachine", &"Blink", 1, &"Animation", &"FinalBlend", 0, &"Blink", &"FinalBlend", 1, &"MouthStateMachine"]
 
 [node name="Boss" type="Sprite2D"]
 position = Vector2(864, 128)
@@ -408,7 +164,7 @@ animation = &"1"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_i4hll")
+"": ExtResource("6_y80qs")
 }
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
