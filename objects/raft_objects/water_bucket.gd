@@ -28,5 +28,6 @@ func _process_unconnected(delta):
 			get_tree().get_root().add_child(splash)
 			splash.global_position = i.global_position
 		var sparkle_scene_b = sparkle_scene.instantiate()
+		sparkle_scene_b.init( Color(1,1,0))
 		b.get_parent().add_child(sparkle_scene_b)
 		b.queue_free()
