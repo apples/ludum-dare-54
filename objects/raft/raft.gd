@@ -74,6 +74,24 @@ func get_tile_at(pos: Vector2) -> RaftTile:
 
 func get_tile(row: int, column: int) -> RaftTile:
 	return raft_data_structure.get(Vector2i(column, row))
+	
+func get_tile_row(row: int) -> Array:
+	var tiles = []
+	var tile
+	for i in range(0, 12):
+		tile = get_tile(row, i)
+		if tile != null && tile.tile_object != null:
+			tiles.push_back(tile)
+	return tiles
+
+func get_tile_column(column: int) -> Array:
+	var tiles = []
+	var tile
+	for i in range(0, 14):
+		tile = get_tile(i, column)
+		if tile != null && tile.tile_object != null:
+			tiles.push_back(tile)
+	return tiles
 
 func get_closest_empty_tile(pos: Vector2):
 	var gp := Vector2i((pos + TILE_SPACING/2.0) / TILE_SPACING)
