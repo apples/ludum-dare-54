@@ -6,6 +6,9 @@ var grid_pos: Vector2i
 
 @export var is_interactable := false
 @export var is_pushable := false
+@export var is_holdable := false
+
+var held_by: Node = null
 
 var being_pushed := false
 var push_speed := 32.0 * 12.0
@@ -33,6 +36,12 @@ func _init():
 	z_index = 5
 
 func _exit_tree():
+	if connected_player:
+		connected_player.call_deferred("release")
+		_on_player_disconnected()
+	detach_raft()
+
+func detach_raft():
 	if raft:
 		var t = raft.get_tile(grid_pos.y, grid_pos.x)
 		if t.tile_object == self:
@@ -80,11 +89,6 @@ func push(player_grid_pos: Vector2i):
 		being_pushed = true
 		return
 
-func _on_tree_exiting():
-	if connected_player:
-		connected_player.call_deferred("release")
-		_on_player_disconnected()
-
 func release_player():
 	connected_player.call_deferred("release")
 	connected_player = null
@@ -105,3 +109,20 @@ func find_neighboring_objects(of_kind: StringName):
 			nbors.append(nbor.tile_object)
 	
 	return nbors
+
+func match3():
+	var kind := get_kind()
+	var ball_nbors = [self]
+	
+	var i = 0;
+	while i < ball_nbors.size():
+		for o in ball_nbors[i].find_neighboring_objects(kind):
+			if not o in ball_nbors:
+				ball_nbors.append(o)
+		i += 1
+	
+	if ball_nbors.size() < 3:
+		return []
+	
+	return ball_nbors
+
