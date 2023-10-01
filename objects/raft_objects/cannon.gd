@@ -11,6 +11,7 @@ extends "res://objects/raft_objects/raft_object.gd"
 var reticle: Node2D
 var target = target_starting_pos
 var fire_allowed = true
+var player_disconected_loops = 0
 
 func get_kind() -> StringName:
 	return "cannon"
@@ -67,10 +68,20 @@ func _physics_process_connected(delta):
 	var lr = connected_player.get_axis("left", "right")
 	var ud = connected_player.get_axis("up", "down")
 	var move_input = Vector2(lr, ud)
+	if (self.connected_player && self.connected_player.move_input_disabled == false):
+		player_disconected_loops = player_disconected_loops + 1
+		print("err")
+	else:
+		player_disconected_loops=0
+	
 	if move_input:
 		target += move_input.normalized() * reticle_speed
 	reticle.position = target
-
+	if(player_disconected_loops > 5):
+		print("freeze")
+		connected_player.sit()
+		player_disconected_loops=0
+	
 
 func _on_player_connected():
 	connected_player.sit()
