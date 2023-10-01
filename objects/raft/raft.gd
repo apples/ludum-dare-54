@@ -19,6 +19,9 @@ const TILE_SPACING := Vector2(32, 32)
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	generate_raft()
+	swap_tile(raft_tile_cannonball_scene, 6, 7)
+	swap_tile(raft_tile_cannonball_scene, 6, 8)
+	swap_tile(raft_tile_cannonball_scene, 6, 10)
 	
 func swap_tile(tile_scene: PackedScene, row: int, column: int):
 	var new_tile = tile_scene.instantiate()
@@ -46,7 +49,7 @@ func delete_tile(row: int, column: int):
 
 func generate_raft():
 	for r in range(6, 9):
-		for c in range(7, 11):
+		for c in range(7, 12):
 			generate_raft_tile(r, c)
 
 func generate_raft_tile(row: int, column: int):

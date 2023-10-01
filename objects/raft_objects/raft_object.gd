@@ -109,3 +109,20 @@ func find_neighboring_objects(of_kind: StringName):
 			nbors.append(nbor.tile_object)
 	
 	return nbors
+
+func match3():
+	var kind := get_kind()
+	var ball_nbors = [self]
+	
+	var i = 0;
+	while i < ball_nbors.size():
+		for o in ball_nbors[i].find_neighboring_objects(kind):
+			if not o in ball_nbors:
+				ball_nbors.append(o)
+		i += 1
+	
+	if ball_nbors.size() < 3:
+		return []
+	
+	return ball_nbors
+
