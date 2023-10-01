@@ -11,6 +11,7 @@ var spawnables = [
 	{ weight = 10.0, scene = preload("res://objects/raft_objects/fire.tscn") },
 	{ weight = 20.0, scene = preload("res://objects/raft_objects/driftwood.tscn") },
 	{ weight = 15.0, scene = preload("res://objects/raft_objects/bomb.tscn") },
+	{ weight = 15.0, scene = preload("res://objects/raft_objects/gem.tscn") },
 ] 
 
 func _pick_a_thing():

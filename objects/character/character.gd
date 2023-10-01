@@ -31,7 +31,7 @@ var grid_lerp_t := 1.0
 var grid_lerp_speed := 12.0
 var grid_buffered_input: Vector2i = Vector2i.ZERO
 
-var temp_locked_dir = Vector2i.ZERO
+var temp_dir_locked = false
 
 enum {
 	FACING_UP,
@@ -248,6 +248,11 @@ func _physics_process(delta):
 		velocity = Vector2.ZERO
 		return
 	
+	if !_player_input.right and !_player_input.left and !_player_input.down and !_player_input.up:
+		temp_dir_locked = false
+	if temp_dir_locked:
+		return
+	
 	if is_grid_based:
 		var has_input := _player_input.right or _player_input.left or _player_input.down or _player_input.up
 		if has_input and grid_lerp_t >= 1.0:
@@ -286,11 +291,11 @@ func _physics_process(delta):
 				grid_facing = FACING_UP
 			if grid_buffered_input.y > 0:
 				grid_facing = FACING_DOWN
-		
-		if temp_locked_dir == grid_buffered_input:
-			return
-		else:
-			temp_locked_dir = Vector2i.ZERO
+#
+#		if temp_locked_dir == grid_buffered_input:
+#			return
+#		else:
+#			temp_locked_dir = Vector2i.ZERO
 		
 		if held_object != null:
 			if grid_buffered_input != Vector2i.ZERO:
@@ -303,7 +308,8 @@ func _physics_process(delta):
 					o.grid_pos = t.grid_pos
 					o.position = Vector2.ZERO
 					o.held_by = null
-				temp_locked_dir = grid_buffered_input
+#				temp_locked_dir = grid_buffered_input
+				temp_dir_locked = true
 			grid_buffered_input = Vector2i.ZERO
 		
 		if grid_lerp_t >= 1.0 and grid_buffered_input != Vector2i.ZERO:

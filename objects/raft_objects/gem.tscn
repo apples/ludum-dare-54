@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://ds4oy5tkow40v"]
+
+[ext_resource type="Texture2D" uid="uid://cy0t58yymeug1" path="res://assets/textures/gem.png" id="1_6i3rs"]
+[ext_resource type="Script" path="res://objects/raft_objects/gem.gd" id="1_f0dyn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a3nw3"]
+atlas = ExtResource("1_6i3rs")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nuhy3"]
+atlas = ExtResource("1_6i3rs")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u3gud"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a3nw3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nuhy3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="gem" type="Node2D"]
+script = ExtResource("1_f0dyn")
+is_pushable = true
+is_holdable = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_u3gud")
+autoplay = "default"
