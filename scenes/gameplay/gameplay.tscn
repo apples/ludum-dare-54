@@ -77,3 +77,10 @@ raft = NodePath("../enemy_raft")
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("9_ojlhc")
 volume_db = -4.0
+
+[node name="Level" type="RichTextLabel" parent="."]
+offset_left = 432.0
+offset_right = 528.0
+offset_bottom = 32.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Level : 1"
