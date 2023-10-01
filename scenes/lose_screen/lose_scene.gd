@@ -14,7 +14,6 @@ func _process(delta):
 
 func _on_start_game_pressed():
 	current_scene.queue_free()
-	GLOBAL_VARS.score=0
 	var new_scene = ResourceLoader.load("res://scenes/gameplay/gameplay.tscn")
 	current_scene = new_scene.instantiate()
 	get_tree().get_root().add_child(current_scene)
