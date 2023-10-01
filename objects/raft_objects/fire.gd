@@ -64,7 +64,8 @@ func _on_smoke_added_timer_timeout():
 
 func add_smoke():
 	var smoke = smoke_scene.instantiate()
-	smoke.position = self.position
+	smoke.position = self.global_position
 	smoke.position.x += randf_range(-3, 3)
 	smoke.position.y += randf_range(-5, 5)
-	get_parent().add_child(smoke)
+
+	get_tree().get_root().add_child(smoke)
