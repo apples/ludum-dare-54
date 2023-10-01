@@ -15,6 +15,6 @@ func _process_unconnected(delta):
 	
 	for b in ball_nbors:
 		var sparkle_scene_b = sparkle_scene.instantiate()
-		sparkle_scene_b.init( Color(1,0,0))
+		sparkle_scene_b.init( Color(1,1,0))
 		b.get_parent().add_child(sparkle_scene_b)
 		b.queue_free()
