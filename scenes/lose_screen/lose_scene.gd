@@ -7,7 +7,6 @@ func _ready():
 	var root = get_tree().get_root()
 	current_scene = root.get_child(root.get_child_count() - 1)
 #	player_vars = get_node("/root/PlayerVariables")
-	$RichTextLabel.text = "You Got a Score of %s!" % GLOBAL_VARS.score
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

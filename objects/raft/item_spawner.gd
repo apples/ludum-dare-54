@@ -40,14 +40,13 @@ func _spawn_a_thing():
 		var lose_screen = lose_screen_scene.instantiate()
 		get_tree().get_root().add_child(lose_screen)
 		return
-#	assert(t.tile_object == null)
 	
 	var obj = s.scene.instantiate()
 	obj.grid_pos = t.grid_pos
 	obj.raft = raft
 	t.add_child(obj)
 	t.tile_object = obj
-	
+
 
 func _on_timer_timeout():
 	_spawn_a_thing()
