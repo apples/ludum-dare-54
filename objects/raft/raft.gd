@@ -8,6 +8,7 @@ var raft_tile_fire_scene = preload("res://objects/raft_tile/raft_tile_fire.tscn"
 var raft_tile_cannonball_scene = preload("res://objects/raft_tile/raft_tile_cannonball.tscn")
 var raft_tile_water_bucket_scene = preload("res://objects/raft_tile/raft_tile_water_bucket.tscn")
 var raft_tile_driftwood_scene = preload("res://objects/raft_tile/raft_tile_driftwood.tscn")
+var raft_tile_bomb_scene = preload("res://objects/raft_tile/raft_tile_bomb.tscn")
 
 var raft_data_structure = {}
 
@@ -24,9 +25,9 @@ func _ready():
 	swap_tile(raft_tile_water_bucket_scene, 6, 7)
 	swap_tile(raft_tile_water_bucket_scene, 6, 8)
 	swap_tile(raft_tile_water_bucket_scene, 6, 10)
-	swap_tile(raft_tile_driftwood_scene, 7, 7)
-	swap_tile(raft_tile_driftwood_scene, 7, 8)
-	swap_tile(raft_tile_driftwood_scene, 7, 10)
+	swap_tile(raft_tile_bomb_scene, 7, 7)
+	swap_tile(raft_tile_bomb_scene, 7, 8)
+	swap_tile(raft_tile_bomb_scene, 7, 10)
 	
 func swap_tile(tile_scene: PackedScene, row: int, column: int):
 	var new_tile = tile_scene.instantiate()
