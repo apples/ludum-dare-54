@@ -49,6 +49,7 @@ func confirm_module_connection():
 		$player_raft.swap_tile(load(tile.scene_file_path), tile_new_grid_pos_row, tile_new_grid_pos_col)
 		$Player.release()
 	
+	grid_position = Vector2i(7, 7)
 	delete_children(module_container)
 	module_container
 	valid_connection = false
