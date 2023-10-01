@@ -10,6 +10,8 @@ func _process_unconnected(delta):
 	if ball_nbors.size() == 0:
 		return
 	
+	GLOBAL_VARS.score -= 5
+	
 	for b in ball_nbors:
 		b.on_match()
 		b.queue_free()
