@@ -62,10 +62,11 @@ func _set_health(value: int):
 
 func damage(value: int):
 	health -= value
-	generate_dmg_number()
+	generate_dmg_number(-value)
 
-func generate_dmg_number():
+func generate_dmg_number(number_value):
 	var dmg_number = damage_number_scene.instantiate()
+	dmg_number.number_value = number_value
 	dmg_number.position = self.position
 	get_parent().add_child(dmg_number)
 

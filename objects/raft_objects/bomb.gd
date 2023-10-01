@@ -10,29 +10,27 @@ func _process_unconnected(delta):
 	if ball_nbors.size() == 0:
 		return
 	
-#	var bomb_match = false
 	for b in ball_nbors:
-#		bomb_match = true
 		b.on_match()
 		b.queue_free()
 
 func on_match():
-	# TODO: Chance of start fire
 	explode_fire_dmg()
-#		self.raft.get_tile(grid_pos.y, grid_pos.x).damage(3)
-	print("boomy")
-	for n in 3:
-		generate_explosion()
 
 func explode_fire_dmg():
 	var obj_on_tile = self.raft.get_tile(grid_pos.y, grid_pos.x)
 	obj_on_tile.damage(1)
 	
-	var fire = fire_scene.instantiate()
-	fire.grid_pos = self.grid_pos
-	fire.raft = self.raft
-	obj_on_tile.add_child(fire)
-	obj_on_tile.tile_object = fire
+	for n in 3:
+		generate_explosion()
+	
+	var random_fire_chance = randi_range(0, 1)
+	if random_fire_chance == 1:
+		var fire = fire_scene.instantiate()
+		fire.grid_pos = self.grid_pos
+		fire.raft = self.raft
+		obj_on_tile.add_child(fire)
+		obj_on_tile.tile_object = fire
 		
 func generate_explosion():
 	var bomb_explosion: Node2D = bomb_explosion_scene.instantiate()
