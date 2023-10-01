@@ -13,6 +13,8 @@ func _process_unconnected(delta):
 	if ball_nbors.size() == 0:
 		return
 	
+	GLOBAL_VARS.score += 10
+	
 	var splash: Node2D
 	for b in ball_nbors:
 		for i in self.raft.get_tiles_in_radius(b.grid_pos.y, b.grid_pos.x, 1):

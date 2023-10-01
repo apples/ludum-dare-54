@@ -10,6 +10,9 @@ func _process_unconnected(delta):
 	
 	if ball_nbors.size() == 0:
 		return
+	
+	GLOBAL_VARS.score += 25
+	
 	for b in ball_nbors:
 		var sparkle_scene_b = sparkle_scene.instantiate()
 		sparkle_scene_b.init( Color(1,1,0))

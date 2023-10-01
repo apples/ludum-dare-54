@@ -9,12 +9,19 @@ var module_container: Node2D
 var grid_position = Vector2i(7, 7)
 var valid_connection = false
 #var current_level = 0
+var score
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+#	raft_destroyed($enemy_raft)
+	score = $Score
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if placing_raft_module and module_container:
 		process_module_placement()
+	score.text = "Score: %s" % GLOBAL_VARS.score
 
 func process_module_placement():
 	if Input.is_action_just_pressed("up"):
