@@ -3,7 +3,8 @@ extends Node2D
 var upgrade_select_scene = preload("res://scenes/upgrade_select/upgrade_select.tscn")
 var placing_raft_module = false
 var module_container: Node2D
-var grid_position = Vector2i(5, 5)
+var grid_position = Vector2i(7, 7)
+var valid_connection = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,40 +20,51 @@ func _process(_delta):
 func process_module_placement():
 	if Input.is_action_just_pressed("up"):
 		grid_position.y -= 1
-		check_tile_neighbors()
+		valid_connection = check_tile_neighbors()
 	if Input.is_action_just_pressed("down"):
 		grid_position.y += 1
-		check_tile_neighbors()
+		valid_connection = check_tile_neighbors()
 	if Input.is_action_just_pressed("left"):
 		grid_position.x -= 1
-		check_tile_neighbors()
+		valid_connection = check_tile_neighbors()
 	if Input.is_action_just_pressed("right"):
 		grid_position.x += 1
-		check_tile_neighbors()
+		valid_connection = check_tile_neighbors()
+		
+	if Input.is_action_just_pressed("interact") and valid_connection:
+		confirm_module_connection()
 		
 	module_container.global_position = $player_raft.rc_to_pos(grid_position)
 
-func check_tile_neighbors():
-	var overlap = false
-	var valid_connection = false
+func confirm_module_connection():
+	for tile in module_container.get_children():
+		var tile_new_grid_pos_row = tile.grid_pos.y + grid_position.y
+		var tile_new_grid_pos_col = tile.grid_pos.x + grid_position.x
+		$player_raft.swap_tile(load(tile.scene_file_path), tile_new_grid_pos_row, tile_new_grid_pos_col)
+		print("kill module")
+		$Player.release()
 	
+	delete_children(module_container)
+	module_container
+	valid_connection = false # kill module
+
+func check_tile_neighbors() -> bool:
+	var touching_neighbor = false
+	var overlap = false
 	for tile in module_container.get_children():
 		var tile_new_grid_pos_row = tile.grid_pos.y + grid_position.y
 		var tile_new_grid_pos_col = tile.grid_pos.x + grid_position.x
 		if $player_raft.get_tile(tile_new_grid_pos_row, tile_new_grid_pos_col):
 			overlap = true
 		if $player_raft.get_relative_tile_rc($player_raft.NORTH, tile_new_grid_pos_row, tile_new_grid_pos_col) or $player_raft.get_relative_tile_rc($player_raft.EAST, tile_new_grid_pos_row, tile_new_grid_pos_col) or $player_raft.get_relative_tile_rc($player_raft.SOUTH, tile_new_grid_pos_row, tile_new_grid_pos_col) or $player_raft.get_relative_tile_rc($player_raft.WEST, tile_new_grid_pos_row, tile_new_grid_pos_col):
-			valid_connection = true
+			touching_neighbor = true
 	
-#	print('overlap:')
-#	print(overlap)
-#	print('valid connection:')
-#	print(valid_connection)
-	
-	if valid_connection and not overlap:
+	if touching_neighbor and not overlap:
 		print("valid connection")
 	else:
 		print("invalid connection")
+	
+	return touching_neighbor and not overlap
 
 
 func raft_destroyed(raft: Raft):
@@ -98,3 +110,8 @@ func render_raft_module(module, pos: Vector2):
 		module_container.add_child(raft_tile)
 	
 	self.add_child(module_container)
+
+func delete_children(node):
+	for n in node.get_children():
+		node.remove_child(n)
+		n.queue_free()
