@@ -152,7 +152,7 @@ func _process_idle(delta):
 					facing_obj.position = Vector2.ZERO
 			else:
 				var f = grid_current_position + get_facing_dir()
-				var t = raft.geat_tile(f.y, f.x)
+				var t = raft.get_tile(f.y, f.x)
 				if t != null and t.tile_object == null:
 					var o = held_object
 					o.reparent(t)
@@ -217,9 +217,9 @@ func get_facing_dir() -> Vector2i:
 		FACING_RIGHT:
 			return Vector2i(1, 0)
 		FACING_UP:
-			return Vector2i(-1, 0)
+			return Vector2i(0, -1)
 		FACING_DOWN:
-			return Vector2i(1, 0)
+			return Vector2i(0, 1)
 		_:
 			assert(false)
 			return Vector2i()

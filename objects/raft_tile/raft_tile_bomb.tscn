@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cttda7dxxsdba"]
+[gd_scene load_steps=3 format=3 uid="uid://bjyv6tey81140"]
 
 [ext_resource type="PackedScene" uid="uid://berm3cck4qq7l" path="res://objects/raft_tile/raft_tile.tscn" id="1_exb5u"]
-[ext_resource type="PackedScene" uid="uid://bnnskls5d5og6" path="res://objects/raft_objects/bomb.tscn" id="2_3e301"]
+[ext_resource type="PackedScene" uid="uid://ybjnc13xqifq" path="res://objects/raft_objects/bomb.tscn" id="2_3e301"]
 
 [node name="raft_tile_bomb" node_paths=PackedStringArray("tile_object") instance=ExtResource("1_exb5u")]
 tile_object = NodePath("bomb")

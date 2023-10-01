@@ -5,3 +5,7 @@
 
 [node name="Player" instance=ExtResource("1_rhq3x")]
 script = ExtResource("1_5evaa")
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+animation = &"down"
+frame_progress = 0.875096
