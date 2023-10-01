@@ -64,16 +64,22 @@ class InputState:
 	var right: bool
 	var interact: bool
 	var cancel: bool
+	var one: bool
+	var two: bool
+	var three: bool
+	var four: bool
+	var five: bool
+	var six: bool
 	
 	func _to_string():
-		return "%s, %s, %s, %s, %s, %s" % [up, down, left, right, interact, cancel]
+		return "%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s" % [up, down, left, right, interact, cancel,one,two,three,four,five,six]
 
 var _player_input: InputState = InputState.new()
 var _player_input_pressed: InputState = InputState.new()
 var _player_input_released: InputState = InputState.new()
 
 func eat_inputs():
-	for k in ["up", "down", "left", "right", "interact", "cancel"]:
+	for k in ["up", "down", "left", "right", "interact", "cancel","one","two","three","four","five","six"]:
 		_player_input_pressed[k] = false
 		_player_input_released[k] = false
 
@@ -113,7 +119,7 @@ func _ready():
 
 func _process(delta):
 	var input = _get_player_input()
-	for k in ["up", "down", "left", "right", "interact", "cancel"]:
+	for k in ["up", "down", "left", "right", "interact", "cancel","one","two","three","four","five","six"]:
 		_player_input_pressed[k] = input[k] and not _player_input[k]
 		_player_input_released[k] = not input[k] and _player_input[k]
 		_player_input[k] = input[k]
@@ -140,8 +146,11 @@ func _process_idle(delta):
 	if not _what_tile():
 		_change_state(STATE_SWIM)
 		return
+	var god_mode_action = god_mode_process(_player_input_pressed)
 	
-	if _player_input_pressed.interact:
+	if god_mode_action:
+		print("I have the power")
+	elif _player_input_pressed.interact:
 		var tile = raft.get_tile(grid_current_position.y, grid_current_position.x)
 		if tile != null and tile.tile_object != null:
 			tile.tile_object.interact(self)
@@ -349,3 +358,51 @@ func add_tile(tile: Node):
 
 func remove_tile(tile: Node):
 	nearby_tiles.erase(tile)
+	
+	
+func god_mode_process( _player_input_pressed ):
+	#todo  remove god_mode before publishing
+	#return false
+	if  _player_input_pressed.one:
+		var raft_object_instance =  preload("res://objects/raft_objects/water_bucket.tscn").instantiate()
+		var tile = raft.get_tile(grid_current_position.y, grid_current_position.x)
+		raft_object_instance.grid_pos = tile.grid_pos
+		raft_object_instance.raft = raft
+		tile.add_child(raft_object_instance)
+		held_object = raft_object_instance
+		return true
+	elif _player_input_pressed.two:
+		var raft_object_instance =  preload("res://objects/raft_objects/driftwood.tscn").instantiate()
+		var tile = raft.get_tile(grid_current_position.y, grid_current_position.x)
+		raft_object_instance.grid_pos = tile.grid_pos
+		raft_object_instance.raft = raft
+		tile.add_child(raft_object_instance)
+		held_object = raft_object_instance
+		return true
+	
+	elif  _player_input_pressed.three:
+		var raft_object_instance =  preload("res://objects/raft_objects/bomb.tscn").instantiate()
+		var tile = raft.get_tile(grid_current_position.y, grid_current_position.x)
+		raft_object_instance.grid_pos = tile.grid_pos
+		raft_object_instance.raft = raft
+		tile.add_child(raft_object_instance)
+		held_object = raft_object_instance
+		return true
+	
+	elif _player_input_pressed.four:
+		var raft_object_instance =  preload("res://objects/raft_objects/gem.tscn").instantiate()
+		var tile = raft.get_tile(grid_current_position.y, grid_current_position.x)
+		raft_object_instance.grid_pos = tile.grid_pos
+		raft_object_instance.raft = raft
+		tile.add_child(raft_object_instance)
+		held_object = raft_object_instance
+		return true
+	
+	elif _player_input_pressed.five:
+		var raft_object_instance =  preload("res://objects/raft_objects/hammer.tscn").instantiate()
+		var tile = raft.get_tile(grid_current_position.y, grid_current_position.x)
+		raft_object_instance.grid_pos = tile.grid_pos
+		raft_object_instance.raft = raft
+		tile.add_child(raft_object_instance)
+		held_object = raft_object_instance
+		return true

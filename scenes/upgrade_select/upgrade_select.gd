@@ -5,6 +5,7 @@ signal initiate_module_placement(module)
 var options = []
 var select_index = 0
 var locked_selection = false
+var upgrade_type = "base"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -13,7 +14,7 @@ func _ready():
 		"o", "i1", "i2", "s1", "s2", "z1", "z2", "t1", "t2", "t3", "t4",
 		"j1", "j2", "j3", "j4", "l1", "l2", "l3", "l4",
 	]
-	var base_fmt = "res://resources/raft_modules/fixed_tetrominoes/%s_1up.gd"
+	var base_fmt = "res://resources/raft_modules/fixed_tetrominoes/%s_" + upgrade_type + ".gd"
 	
 	options = {
 		0: [$option_1, load(base_fmt % tetros[randi() % tetros.size()]).get_structure()],

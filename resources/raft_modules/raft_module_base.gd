@@ -3,7 +3,7 @@ class_name RaftModuleBase
 
 static func random_tile():
 	return [
-		preload("res://objects/raft_tile/raft_tile.tscn"),
+		preload("res://objects/raft_tile/raft_tile_hammer.tscn"),
 		preload("res://objects/raft_tile/raft_tile_driftwood.tscn"),
 		preload("res://objects/raft_tile/raft_tile_water_bucket.tscn")
 	][randi() % 3]

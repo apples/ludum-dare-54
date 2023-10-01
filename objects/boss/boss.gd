@@ -50,7 +50,7 @@ func _perform_attack():
 		return
 	for i in range(3):
 		var t = raft.get_random_empty_tile()
-		if t != null:
+		if t:
 			var bomb = bomb_scene.instantiate()
 			t.add_child(bomb)
 			t.tile_object = bomb
@@ -58,6 +58,7 @@ func _perform_attack():
 			bomb.grid_pos = t.grid_pos
 			bomb.boss_toss(toss_source.global_position)
 		await get_tree().create_timer(0.5).timeout
+	
 	$NextAttack.start(attack_delay)
 
 

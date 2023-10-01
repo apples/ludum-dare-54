@@ -3,7 +3,7 @@ signal module_valid_connection_updated(valid)
 
 var module_ui_scene = preload("res://objects/module_ui/module_ui.tscn")
 var upgrade_select_scene = preload("res://scenes/upgrade_select/upgrade_select.tscn")
-var lose_screen_scene = preload("res://scenes/lose_screen/lose_scene.tscn")
+var lose_screen_scene_file = "res://scenes/lose_screen/lose_scene.tscn"
 
 const bounds_grid_coords = Vector2i(17, 13)
 var placing_raft_module = false
@@ -61,6 +61,7 @@ func confirm_module_connection():
 		var tile_new_grid_pos_col = tile.grid_pos.x + grid_position.x
 		$player_raft.set_tile(load(tile.scene_file_path), tile_new_grid_pos_row, tile_new_grid_pos_col)
 		$Player.release()
+		GLOBAL_VARS.match3_paused = false
 	
 	grid_position = Vector2i(7, 7)
 	delete_children(module_container)
@@ -108,9 +109,14 @@ func check_valid_connection() -> Array:
 	return [valid_connection_condition, at_direction_edge]
 
 
-func overlay_upgrade_scene():
+func overlay_upgrade_scene(upgrade_strength: int = 0):
 	$Player.sit()
+	GLOBAL_VARS.match3_paused = true
 	var upgrade_select = upgrade_select_scene.instantiate()
+	if upgrade_strength > 1:
+		upgrade_select.upgrade_type = "2up"
+	else:
+		upgrade_select.upgrade_type = ["base", "1up"][upgrade_strength]
 	upgrade_select.initiate_module_placement.connect(self.on_initiate_module_placement)
 	self.add_child(upgrade_select)
 
@@ -124,10 +130,7 @@ func raft_destroyed(raft: Raft):
 		upgrade_select.initiate_module_placement.connect(self.on_initiate_module_placement)
 		self.add_child(upgrade_select)
 	elif raft == $player_raft:
-		var root = get_tree().get_root()
-		root.get_child(root.get_child_count() - 1).queue_free()
-		var lose_screen = lose_screen_scene.instantiate()
-		get_tree().get_root().add_child(lose_screen)
+		UTILS.change_to_scene(lose_screen_scene_file)
 
 
 func on_initiate_module_placement(module):

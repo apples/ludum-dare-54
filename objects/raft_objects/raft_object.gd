@@ -144,6 +144,9 @@ func find_neighboring_objects(of_kind: StringName):
 	return nbors
 
 func match3():
+	if GLOBAL_VARS.match3_paused:
+		return []
+		
 	if not raft:
 		return []
 		

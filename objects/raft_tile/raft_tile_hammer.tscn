@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://uyesds6m60oi"]
+
+[ext_resource type="PackedScene" uid="uid://berm3cck4qq7l" path="res://objects/raft_tile/raft_tile.tscn" id="1_r3btk"]
+[ext_resource type="PackedScene" uid="uid://cos7h51ypuf8c" path="res://objects/raft_objects/hammer.tscn" id="2_k33dg"]
+
+[node name="raft_tile_hammer" node_paths=PackedStringArray("tile_object") instance=ExtResource("1_r3btk")]
+tile_object = NodePath("hammer")
+
+[node name="hammer" parent="." index="2" instance=ExtResource("2_k33dg")]

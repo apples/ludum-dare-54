@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var raft = get_parent()
-var lose_screen_scene = preload("res://scenes/lose_screen/lose_scene.tscn")
+var lose_screen_scene_file = "res://scenes/lose_screen/lose_scene.tscn"
 
 var spawn_rate_min = 5.0
 var spawn_rate_max = 7.0
@@ -36,10 +36,7 @@ func _spawn_a_thing():
 	
 	var t = raft.get_random_empty_tile()
 	if t == null || t.tile_object != null:
-		var root = get_tree().get_root()
-		root.get_child(root.get_child_count() - 1).queue_free()
-		var lose_screen = lose_screen_scene.instantiate()
-		get_tree().get_root().add_child(lose_screen)
+		UTILS.change_to_scene(lose_screen_scene_file)
 		return
 #	assert(t.tile_object == null)
 	
