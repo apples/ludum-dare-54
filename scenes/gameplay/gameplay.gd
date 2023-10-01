@@ -8,7 +8,7 @@ var valid_connection = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-#	raft_destroyed($enemy_raft)
+	raft_destroyed($enemy_raft)
 	pass
 
 
