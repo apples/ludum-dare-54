@@ -6,6 +6,7 @@ var raft_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
 var raft_tile_cannon_scene = preload("res://objects/raft_tile/raft_tile_cannon.tscn")
 var raft_tile_fire_scene = preload("res://objects/raft_tile/raft_tile_fire.tscn")
 var raft_tile_cannonball_scene = preload("res://objects/raft_tile/raft_tile_cannonball.tscn")
+var raft_tile_water_bucket_scene = preload("res://objects/raft_tile/raft_tile_water_bucket.tscn")
 
 var raft_data_structure = {}
 
@@ -19,9 +20,9 @@ const TILE_SPACING := Vector2(32, 32)
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	generate_raft()
-	swap_tile(raft_tile_cannonball_scene, 6, 7)
-	swap_tile(raft_tile_cannonball_scene, 6, 8)
-	swap_tile(raft_tile_cannonball_scene, 6, 10)
+	swap_tile(raft_tile_water_bucket_scene, 6, 7)
+	swap_tile(raft_tile_water_bucket_scene, 6, 8)
+	swap_tile(raft_tile_water_bucket_scene, 6, 10)
 	
 func swap_tile(tile_scene: PackedScene, row: int, column: int):
 	var new_tile = tile_scene.instantiate()

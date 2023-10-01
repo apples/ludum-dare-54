@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://vvv88x6mhtgh"]
+
+[ext_resource type="PackedScene" uid="uid://berm3cck4qq7l" path="res://objects/raft_tile/raft_tile.tscn" id="1_nfduq"]
+[ext_resource type="PackedScene" uid="uid://bc6jpgu7a4evp" path="res://objects/raft_objects/water_bucket.tscn" id="2_208kb"]
+
+[node name="raft_tile_water_bucket" node_paths=PackedStringArray("tile_object") instance=ExtResource("1_nfduq")]
+tile_object = NodePath("water_bucket")
+
+[node name="water_bucket" parent="." index="2" instance=ExtResource("2_208kb")]

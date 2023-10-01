@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://r7dthp0nyebe"]
+[gd_scene load_steps=3 format=3 uid="uid://8ssahqgxj6qb"]
 
 [ext_resource type="PackedScene" uid="uid://berm3cck4qq7l" path="res://objects/raft_tile/raft_tile.tscn" id="1_ds1wa"]
 [ext_resource type="PackedScene" uid="uid://dk27weyrqhb7n" path="res://objects/raft_objects/cannon_ball.tscn" id="2_8rmpt"]

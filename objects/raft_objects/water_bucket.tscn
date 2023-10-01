@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bc6jpgu7a4evp"]
+
+[ext_resource type="Script" path="res://objects/raft_objects/water_bucket.gd" id="1_or1c1"]
+[ext_resource type="Texture2D" uid="uid://k3qht7uajmwr" path="res://assets/textures/water_bucket.png" id="1_wbukr"]
+
+[node name="water_bucket" type="Node2D"]
+script = ExtResource("1_or1c1")
+is_pushable = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_wbukr")
