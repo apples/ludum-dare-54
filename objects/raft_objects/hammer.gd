@@ -2,6 +2,7 @@ extends "res://objects/raft_objects/raft_object.gd"
 
 var raft_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
 var repair_splash_scene = preload("res://objects/VFX/repair_splash/repair_splash.tscn")
+var sparkle_scene = preload("res://objects/VFX/sparkle/sparkle.tscn")
 
 func get_kind() -> StringName:
 	return "hammer"
@@ -19,4 +20,7 @@ func _process_unconnected(delta):
 			splash = repair_splash_scene.instantiate()
 			get_tree().get_root().add_child(splash)
 			splash.global_position = i.global_position
+		var sparkle_scene_b = sparkle_scene.instantiate()
+		sparkle_scene_b.init( Color(0,1,0))
+		b.get_parent().add_child(sparkle_scene_b)
 		b.queue_free()

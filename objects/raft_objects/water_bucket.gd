@@ -2,6 +2,7 @@ extends "res://objects/raft_objects/raft_object.gd"
 
 var raft_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
 var water_splash_scene = preload("res://objects/VFX/water_splash/water_splash.tscn")
+var sparkle_scene = preload("res://objects/VFX/sparkle/sparkle.tscn")
 
 func get_kind() -> StringName:
 	return "water_bucket"
@@ -26,4 +27,6 @@ func _process_unconnected(delta):
 			splash = water_splash_scene.instantiate()
 			get_tree().get_root().add_child(splash)
 			splash.global_position = i.global_position
+		var sparkle_scene_b = sparkle_scene.instantiate()
+		b.get_parent().add_child(sparkle_scene_b)
 		b.queue_free()
