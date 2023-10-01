@@ -157,6 +157,7 @@ func _process_idle(delta):
 					var o = held_object
 					o.reparent(t)
 					t.tile_object = o
+					o.grid_pos = t.grid_pos
 					o.position = Vector2.ZERO
 					o.held_by = null
 	
