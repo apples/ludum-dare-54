@@ -1,5 +1,7 @@
 extends Node2D
 
+static var next_id = 1
+var id = 0
 var connected_player: Node
 var raft: Node
 var grid_pos: Vector2i
@@ -33,6 +35,8 @@ func _on_player_disconnected():
 	pass
 
 func _init():
+	id = next_id
+	next_id += 1
 	z_index = 5
 
 func _exit_tree():
@@ -44,7 +48,7 @@ func _exit_tree():
 func detach_raft():
 	if raft:
 		var t = raft.get_tile(grid_pos.y, grid_pos.x)
-		if t.tile_object == self:
+		if t and t.tile_object == self:
 			t.tile_object = null
 
 func _process(delta):
@@ -116,15 +120,17 @@ func match3():
 		
 	var kind := get_kind()
 	var ball_nbors = [self]
+	var min_id = id
 	
 	var i = 0;
 	while i < ball_nbors.size():
+		min_id = min(min_id, ball_nbors[i].id)
 		for o in ball_nbors[i].find_neighboring_objects(kind):
 			if not o in ball_nbors:
 				ball_nbors.append(o)
 		i += 1
 	
-	if ball_nbors.size() < 3:
+	if ball_nbors.size() < 3 or min_id != id:
 		return []
 	
 	return ball_nbors
