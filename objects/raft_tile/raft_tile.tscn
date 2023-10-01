@@ -3,29 +3,29 @@
 [ext_resource type="Script" path="res://objects/raft_tile/raft_tile.gd" id="1_swvh2"]
 [ext_resource type="Texture2D" uid="uid://ba2lrx4jj1x3m" path="res://assets/textures/raff.png" id="2_t1sf4"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_joypw"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_5tnp2"]
 atlas = ExtResource("2_t1sf4")
-region = Rect2(128, 91, 32, 55)
+region = Rect2(0, 0, 32, 45)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1jb66"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_l22vu"]
 atlas = ExtResource("2_t1sf4")
-region = Rect2(160, 91, 32, 55)
+region = Rect2(32, 0, 32, 45)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_oeq62"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fa3si"]
 atlas = ExtResource("2_t1sf4")
-region = Rect2(192, 91, 32, 55)
+region = Rect2(64, 0, 32, 45)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_y7oa1"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_joypw")
+"texture": SubResource("AtlasTexture_5tnp2")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1jb66")
+"texture": SubResource("AtlasTexture_l22vu")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_oeq62")
+"texture": SubResource("AtlasTexture_fa3si")
 }],
 "loop": true,
 "name": &"default",
@@ -43,11 +43,6 @@ script = ExtResource("1_swvh2")
 position = Vector2(-16, 20)
 sprite_frames = SubResource("SpriteFrames_y7oa1")
 offset = Vector2(16, -9.5)
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(-16, 20)
-texture = ExtResource("2_t1sf4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_1bv7b")

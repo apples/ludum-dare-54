@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bbxul8qxbbtx8"]
 
-[ext_resource type="Texture2D" uid="uid://bmi05uwgklewy" path="res://assets/textures/bomb_explosion.png" id="1_cxubn"]
+[ext_resource type="Texture2D" uid="uid://bmi05uwgklewy" path="res://assets/textures/bomb_explosion.png" id="1_6mq4c"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_burmj"]
 particles_animation = true
@@ -21,7 +21,7 @@ z_index = 100
 material = SubResource("CanvasItemMaterial_burmj")
 amount = 4
 speed_scale = 1.5
-texture = ExtResource("1_cxubn")
+texture = ExtResource("1_6mq4c")
 emission_shape = 1
 emission_sphere_radius = 20.0
 gravity = Vector2(0, 0)

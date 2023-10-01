@@ -4,7 +4,7 @@ var fire_being_fixed = false
 var max_fire_value = 300
 
 var raft_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
-var smoke_scene = preload("res://objects/smoke/smoke.tscn")
+var smoke_scene = preload("res://objects/VFX/smoke/smoke.tscn")
 
 func get_kind() -> StringName:
 	return "fire"
