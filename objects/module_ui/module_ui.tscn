@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://btkff5w84v8wg"]
+
+[ext_resource type="Texture2D" uid="uid://c0o48tm5jljle" path="res://assets/textures/module_ui.png" id="1_co8q7"]
+[ext_resource type="Script" path="res://objects/module_ui/module_ui.gd" id="1_euju5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mgrvm"]
+atlas = ExtResource("1_co8q7")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ct2pm"]
+atlas = ExtResource("1_co8q7")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8tj0b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mgrvm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ct2pm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="module_ui" type="Node2D"]
+script = ExtResource("1_euju5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.529412)
+sprite_frames = SubResource("SpriteFrames_8tj0b")

@@ -8,10 +8,18 @@ var locked_selection = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	var tetros = [
+		"o", "i1", "i2", "s1", "s2", "z1", "z2", "t1", "t2", "t3", "t4",
+		"j1", "j2", "j3", "j4", "l1", "l2", "l3", "l4",
+	]
+	var base_fmt = "res://resources/raft_modules/fixed_tetrominoes/%s_base.gd"
+	var cannon_fmt = "res://resources/raft_modules/fixed_tetrominoes/%s_cannon.gd"
+	
 	options = {
-		0: [$option_1, preload("res://resources/raft_modules/1x1_blank.gd")],
-		1: [$option_2, preload("res://resources/raft_modules/short_L_cannon.gd")],
-		2: [$option_3, preload("res://resources/raft_modules/short_hori_i_cannon.gd")],
+		0: [$option_1, load(base_fmt % tetros[randi() % tetros.size()])],
+		1: [$option_2, load(base_fmt % tetros[randi() % tetros.size()])],
+		2: [$option_3, load(base_fmt % tetros[randi() % tetros.size()])],
 	}
 	
 	render_raft_module(options[0][1], options[0][0].position)
