@@ -22,7 +22,11 @@ func explode_fire_dmg():
 	obj_on_tile.damage(1)
 	
 	for n in 3:
-		generate_explosion()
+		var bomb_explosion: Node2D = bomb_explosion_scene.instantiate()
+		get_tree().get_root().add_child(bomb_explosion)
+		bomb_explosion.position = self.global_position
+		if n == 0:
+			bomb_explosion.get_node("SFX").play()
 	
 	var random_fire_chance = randi_range(0, 1)
 	if random_fire_chance == 1:
@@ -31,8 +35,3 @@ func explode_fire_dmg():
 		fire.raft = self.raft
 		obj_on_tile.add_child(fire)
 		obj_on_tile.tile_object = fire
-		
-func generate_explosion():
-	var bomb_explosion: Node2D = bomb_explosion_scene.instantiate()
-	get_tree().get_root().add_child(bomb_explosion)
-	bomb_explosion.position = self.global_position

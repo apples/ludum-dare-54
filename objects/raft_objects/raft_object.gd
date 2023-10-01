@@ -12,8 +12,21 @@ var grid_pos: Vector2i
 
 var held_by: Node = null
 
-var being_pushed := false
+var zoop: AudioStreamPlayer
+
+enum {
+	IDLE,
+	PUSHED,
+	TOSSED,
+}
+
+var state := IDLE
+
 var push_speed := 32.0 * 12.0
+var toss_speed := 1.0
+var toss_t := 0.0
+
+var toss_path: PackedVector2Array
 
 func get_kind() -> StringName:
 	assert(false, "get_kind() not implemented")
@@ -39,6 +52,12 @@ func _init():
 	next_id += 1
 	z_index = 5
 
+func _ready():
+	zoop = AudioStreamPlayer.new()
+	zoop.stream = preload("res://assets/sfx/zoop.wav")
+	zoop.bus = "Sound_effect"
+	add_child(zoop)
+
 func _exit_tree():
 	if connected_player:
 		connected_player.call_deferred("release")
@@ -52,18 +71,28 @@ func detach_raft():
 			t.tile_object = null
 
 func _process(delta):
-	if being_pushed:
-		position = position.move_toward(Vector2.ZERO, push_speed * delta)
-		if position == Vector2.ZERO:
-			being_pushed = false
-		else:
-			return
-	
-	if not connected_player:
-		_process_unconnected(delta)
-		return
-	
-	_process_connected(delta)
+	match state:
+		PUSHED:
+			position = position.move_toward(Vector2.ZERO, push_speed * delta)
+			if position == Vector2.ZERO:
+				state = IDLE
+		TOSSED:
+			toss_t += delta * toss_speed
+			
+			if toss_t >= 1.0:
+				state = IDLE
+				position = Vector2.ZERO
+			else:
+				var i = toss_t * float(toss_path.size()-1)
+				var a = toss_path[int(i)]
+				var b = toss_path[int(i)+1]
+				var x = lerp(a, b, i-int(i))
+				global_position = x
+		IDLE:
+			if not connected_player:
+				_process_unconnected(delta)
+			else:
+				_process_connected(delta)
 
 func _physics_process(delta):
 	if not connected_player:
@@ -90,7 +119,7 @@ func push(player_grid_pos: Vector2i):
 		grid_pos = next_tile.grid_pos
 		next_tile.tile_object = self
 		cur_tile.tile_object = null
-		being_pushed = true
+		state = PUSHED
 		return
 
 func release_player():
@@ -107,7 +136,7 @@ func find_neighboring_objects(of_kind: StringName):
 			continue
 		if not nbor.tile_object:
 			continue
-		if nbor.tile_object.being_pushed:
+		if nbor.tile_object.state != IDLE:
 			continue
 		if nbor.tile_object.get_kind() == of_kind:
 			nbors.append(nbor.tile_object)
@@ -134,4 +163,30 @@ func match3():
 		return []
 	
 	return ball_nbors
+
+func boss_toss(toss_start: Vector2):
+	var start = toss_start
+	var end = raft.rc_to_pos(grid_pos)
+	var initial_y_vel: float = -2.0
+	var offset_y: float = 0.0
+	
+	var points = PackedVector2Array()
+	
+	var n = 100
+	for i in range(0,n+1):
+		var tx = float(i) / float(n+1)
+		var ty = float(i) / float(n)
+		var x = lerp(start.x, end.x, tx)
+		var y = lerp(start.y, end.y, ty)
+		var y_vel = lerp(initial_y_vel, -initial_y_vel, ty)
+		points.append(Vector2(x, y+offset_y))
+		offset_y += y_vel
+	
+	points.append(end)
+	
+	state = TOSSED
+	global_position = points[0]
+	toss_path = points
+	toss_t = 0.0
+	zoop.play()
 

@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bbxul8qxbbtx8"]
+[gd_scene load_steps=6 format=3 uid="uid://bbxul8qxbbtx8"]
 
 [ext_resource type="Texture2D" uid="uid://bmi05uwgklewy" path="res://assets/textures/bomb_explosion.png" id="1_6mq4c"]
+[ext_resource type="AudioStream" uid="uid://r4ao0a4itcuq" path="res://assets/sfx/kaboom.wav" id="2_tg7v3"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_burmj"]
 particles_animation = true
@@ -39,6 +40,9 @@ autostart = true
 wait_time = 5.0
 one_shot = true
 autostart = true
+
+[node name="SFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_tg7v3")
 
 [connection signal="timeout" from="particle_shutoff" to="." method="set_emitting" binds= [false]]
 [connection signal="timeout" from="queue_free_bomb_explosion" to="." method="queue_free"]

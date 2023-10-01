@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://db55dqikpqoof"]
+
+[ext_resource type="Texture2D" uid="uid://2ymtry5brpk1" path="res://assets/textures/boss.png" id="1_1eai6"]
+[ext_resource type="Script" path="res://objects/boss/boss.gd" id="2_tau8x"]
+
+[node name="Boss" type="Sprite2D"]
+position = Vector2(864, 128)
+texture = ExtResource("1_1eai6")
+script = ExtResource("2_tau8x")
+
+[node name="NextAttack" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="TossSource" type="Node2D" parent="."]
+position = Vector2(0, 64)
+
+[connection signal="timeout" from="NextAttack" to="." method="_on_next_attack_timeout"]
