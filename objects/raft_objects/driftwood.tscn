@@ -1,12 +1,35 @@
-[gd_scene load_steps=3 format=3 uid="uid://bfmrtnkteata8"]
+[gd_scene load_steps=6 format=3 uid="uid://bfmrtnkteata8"]
 
 [ext_resource type="Script" path="res://objects/raft_objects/driftwood.gd" id="1_7t427"]
 [ext_resource type="Texture2D" uid="uid://gjuu4n56twal" path="res://assets/textures/driftwood.png" id="2_sgk62"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aj544"]
+atlas = ExtResource("2_sgk62")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yfvue"]
+atlas = ExtResource("2_sgk62")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dydgr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aj544")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yfvue")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="driftwood" type="Node2D"]
 script = ExtResource("1_7t427")
 is_pushable = true
 is_holdable = true
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_sgk62")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_dydgr")
+autoplay = "default"
