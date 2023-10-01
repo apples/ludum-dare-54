@@ -1,6 +1,7 @@
 class_name RaftTile extends Area2D
 
 var damage_number_scene = preload("res://objects/damage_numbers/damage_numbers.tscn")
+var tile_break_scene = preload("res://objects/VFX/tile_break/tile_break.tscn")
 
 var raft_ref: Node2D
 var grid_pos: Vector2i
@@ -20,6 +21,7 @@ var grid_pos: Vector2i
 
 func _on_tile_object_tree_exited():
 	tile_object = null
+	
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -47,6 +49,9 @@ func _set_health(value: int):
 	health = value
 	if health <= 0:
 		queue_free()
+		var tile_break= tile_break_scene.instantiate()
+		tile_break.position = self.position
+		get_parent().add_child(tile_break)
 	else:
 		process_damage_frames(health)
 
