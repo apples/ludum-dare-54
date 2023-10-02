@@ -21,7 +21,6 @@ config/icon="res://icon.svg"
 GLOBAL_VARS="*res://autoload/global_vars.gd"
 UTILS="*res://autoload/utils.gd"
 DATA_STORE="*res://autoload/data_store.gd"
-MenuMusic="*res://scenes/menu_music/menu_music.tscn"
 
 [display]
 
