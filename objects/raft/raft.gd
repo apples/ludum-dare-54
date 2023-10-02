@@ -24,9 +24,9 @@ const TILE_SPACING := Vector2(32, 32)
 func _ready():
 	print(DATA_STORE.current.highscore)
 	generate_raft()
-	set_tile(raft_tile_driftwood_scene, 6, 7)
-	set_tile(raft_tile_driftwood_scene, 6, 8)
-	set_tile(raft_tile_driftwood_scene, 6, 10)
+	set_tile(raft_tile_driftwood_scene, 8, 7)
+	set_tile(raft_tile_driftwood_scene, 8, 8)
+	set_tile(raft_tile_driftwood_scene, 8, 10)
 
 
 func find_all_tiles(tile_type):
@@ -65,8 +65,8 @@ func delete_tile(row: int, column: int):
 		get_parent().raft_destroyed(self)
 
 func generate_raft():
-	for r in range(6, 9):
-		for c in range(7, 12):
+	for r in range(8, 12):
+		for c in range(6, 11):
 			set_tile(raft_tile_scene, r, c)
 
 func rc_to_pos(rc: Vector2i) -> Vector2:
