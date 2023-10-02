@@ -25,9 +25,9 @@ func _ready():
 	set_tile(raft_tile_driftwood_scene, 6, 7)
 	set_tile(raft_tile_driftwood_scene, 6, 8)
 	set_tile(raft_tile_driftwood_scene, 6, 10)
-	set_tile(raft_tile_bomb_scene, 7, 7)
-	set_tile(raft_tile_bomb_scene, 7, 8)
-	set_tile(raft_tile_bomb_scene, 7, 10)
+	set_tile(raft_tile_cannon_scene, 7, 7)
+	set_tile(raft_tile_cannon_scene, 7, 8)
+	set_tile(raft_tile_cannon_scene, 7, 10)
 	
 func set_tile(tile_scene: PackedScene, row: int, column: int):
 	var new_tile: Node = tile_scene.instantiate()

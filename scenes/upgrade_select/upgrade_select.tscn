@@ -1,14 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cp30wt1ago535"]
+[gd_scene load_steps=3 format=3 uid="uid://cp30wt1ago535"]
 
 [ext_resource type="Script" path="res://scenes/upgrade_select/upgrade_select.gd" id="1_n80f4"]
-[ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="1_q26wp"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q6v18"]
-bg_color = Color(0.741176, 0.572549, 0.14902, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+[ext_resource type="PackedScene" uid="uid://bfmc3bv8rgnl3" path="res://objects/module_select_widget/module_select_widget.tscn" id="3_6oeuw"]
 
 [node name="upgrade_select" type="Control"]
 layout_mode = 3
@@ -19,35 +12,23 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_n80f4")
 
-[node name="selected_option" type="Panel" parent="."]
-layout_mode = 0
-offset_left = 620.0
-offset_top = 86.0
-offset_right = 792.0
-offset_bottom = 197.0
-theme = ExtResource("1_q26wp")
-theme_override_styles/panel = SubResource("StyleBoxFlat_q6v18")
+[node name="module_select_widget1" parent="." instance=ExtResource("3_6oeuw")]
+layout_mode = 1
+offset_left = 290.0
+offset_top = 132.0
+offset_right = 290.0
+offset_bottom = 132.0
 
-[node name="option_1" type="Panel" parent="."]
-layout_mode = 0
-offset_left = 625.0
-offset_top = 90.0
-offset_right = 787.0
-offset_bottom = 192.0
-theme = ExtResource("1_q26wp")
+[node name="module_select_widget2" parent="." instance=ExtResource("3_6oeuw")]
+layout_mode = 1
+offset_left = 290.0
+offset_top = 282.0
+offset_right = 290.0
+offset_bottom = 282.0
 
-[node name="option_2" type="Panel" parent="."]
-layout_mode = 0
-offset_left = 628.0
-offset_top = 219.0
-offset_right = 790.0
-offset_bottom = 321.0
-theme = ExtResource("1_q26wp")
-
-[node name="option_3" type="Panel" parent="."]
-layout_mode = 0
-offset_left = 628.0
-offset_top = 357.0
-offset_right = 790.0
-offset_bottom = 459.0
-theme = ExtResource("1_q26wp")
+[node name="module_select_widget3" parent="." instance=ExtResource("3_6oeuw")]
+layout_mode = 1
+offset_left = 290.0
+offset_top = 431.0
+offset_right = 290.0
+offset_bottom = 431.0

@@ -1,11 +1,12 @@
-[gd_scene load_steps=36 format=3 uid="uid://db55dqikpqoof"]
+[gd_scene load_steps=37 format=3 uid="uid://db55dqikpqoof"]
 
-[ext_resource type="Texture2D" uid="uid://dt1fhrcl5w22s" path="res://assets/textures/char2_base.png" id="1_4b4qy"]
+[ext_resource type="Texture2D" uid="uid://d3u5e7iuyk16" path="res://assets/textures/char2_base.png" id="1_4b4qy"]
 [ext_resource type="Script" path="res://objects/boss/boss.gd" id="2_tau8x"]
 [ext_resource type="SpriteFrames" uid="uid://c6tnqwadci4ua" path="res://objects/boss/pupil_frames.tres" id="3_fgpyr"]
 [ext_resource type="SpriteFrames" uid="uid://f3e2p2eukvp5" path="res://objects/boss/eye_frames.tres" id="4_uvnq0"]
 [ext_resource type="SpriteFrames" uid="uid://c524gr8xkbw0w" path="res://objects/boss/mouth_frames.tres" id="5_nfts5"]
 [ext_resource type="AnimationLibrary" uid="uid://b0u81dbshlaik" path="res://objects/boss/animation_library.res" id="6_y80qs"]
+[ext_resource type="Texture2D" uid="uid://b0f4ii8880exo" path="res://assets/textures/healthbar.png" id="7_68mms"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_atugj"]
 animation = &"blink"
@@ -126,7 +127,6 @@ transitions = ["Start", "look_straight", SubResource("AnimationNodeStateMachineT
 graph_offset = Vector2(-235, -121)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_q67ad"]
-graph_offset = Vector2(-155, 58)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_atugj")
 nodes/Animation/position = Vector2(0, 180)
 nodes/Blink/node = SubResource("AnimationNodeOneShot_uflod")
@@ -180,6 +180,18 @@ parameters/FinalBlend/blend_amount = 0.5
 [node name="BlinkTimer" type="Timer" parent="."]
 one_shot = true
 autostart = true
+
+[node name="HealthBar" type="TextureRect" parent="."]
+modulate = Color(0.870588, 0, 0.627451, 1)
+offset_left = -38.0
+offset_top = 85.0
+offset_right = 90.0
+offset_bottom = 535.0
+scale = Vector2(0.667, 0.667)
+texture = ExtResource("7_68mms")
+expand_mode = 1
+stretch_mode = 1
+flip_v = true
 
 [connection signal="timeout" from="NextAttack" to="." method="_on_next_attack_timeout"]
 [connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]

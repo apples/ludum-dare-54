@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://bfmc3bv8rgnl3"]
+
+[ext_resource type="Texture2D" uid="uid://rgnqi22atdxj" path="res://assets/textures/upgrade_select_frame.png" id="1_jhqc3"]
+[ext_resource type="Script" path="res://objects/module_select_widget/module_select_widget.gd" id="1_n6cor"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_waskj"]
+atlas = ExtResource("1_jhqc3")
+region = Rect2(0, 0, 140, 145)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t7pvf"]
+atlas = ExtResource("1_jhqc3")
+region = Rect2(140, 0, 140, 145)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tuxnv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_waskj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t7pvf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="module_select_widget" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_n6cor")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_tuxnv")
