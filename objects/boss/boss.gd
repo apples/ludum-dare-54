@@ -5,6 +5,7 @@ signal boss_defeated
 @export var raft: Node
 @onready var toss_source = $TossSource
 @onready var ouch_sfx = $OuchSFX
+@onready var boss_music = $BossMusic
 
 var bomb_scene = preload("res://objects/raft_objects/bomb.tscn")
 
@@ -71,7 +72,14 @@ var looking_dir := LOOKING_STRAIGHT
 @onready var health_bar_initial_position = health_bar.position
 @onready var health_bar_initial_height = health_bar.size.y
 
+var music_vol: float:
+	get:
+		return db_to_linear(boss_music.volume_db)
+	set(v):
+		boss_music.volume_db = linear_to_db(v)
+
 func _ready():
+	music_vol = 0
 	animation_tree.active = true
 	is_stunned = true
 	_set_healthbar(0)
@@ -116,6 +124,11 @@ func death():
 	bomb_count_thrown += 6 * 5 / difficulty_acceleration
 	
 	boss_defeated.emit()
+	
+	var tween = create_tween()
+	tween.tween_property(self, "music_vol", 0.0, 2.0)
+	await tween.finished
+	AudioServer.set_bus_mute(AudioServer.get_bus_index("BossMusic"), true)
 
 
 func _on_stun_timer_timeout():
@@ -132,3 +145,8 @@ func _on_stun_timer_timeout():
 	health = max_health
 	_set_healthbar(float(health) / float(max_health))
 	print("New boss health: ", max_health)
+	
+	AudioServer.set_bus_mute(AudioServer.get_bus_index("BossMusic"), false)
+	var tween = create_tween()
+	music_vol = 0
+	tween.tween_property(self, "music_vol", 1.0, 2.0)

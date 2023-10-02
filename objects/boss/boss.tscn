@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://db55dqikpqoof"]
+[gd_scene load_steps=24 format=3 uid="uid://db55dqikpqoof"]
 
 [ext_resource type="Texture2D" uid="uid://d3u5e7iuyk16" path="res://assets/textures/char2_base.png" id="1_4b4qy"]
 [ext_resource type="Script" path="res://objects/boss/boss.gd" id="2_tau8x"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://bmi05uwgklewy" path="res://assets/textures/bomb_explosion.png" id="8_ych7h"]
 [ext_resource type="AudioStream" uid="uid://svqdr5vwvgld" path="res://assets/sfx/bagguy_hit.ogg" id="10_0hmrm"]
 [ext_resource type="AudioStream" uid="uid://b8qaisy0585n7" path="res://assets/sfx/bagguy_ouch.ogg" id="11_5ud4b"]
+[ext_resource type="AudioStream" uid="uid://kn2wii8sp7pq" path="res://assets/music/bgm_badguy_drums.ogg" id="13_hmbe7"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3ht5n"]
 animation = &"fade_in"
@@ -161,6 +162,11 @@ bus = &"Sound_effects"
 [node name="OuchSFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_0hmrm")
 bus = &"Sound_effects"
+
+[node name="BossMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("13_hmbe7")
+autoplay = true
+bus = &"BossMusic"
 
 [connection signal="timeout" from="NextAttack" to="." method="_on_next_attack_timeout"]
 [connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]
