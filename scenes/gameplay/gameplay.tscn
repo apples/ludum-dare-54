@@ -85,7 +85,7 @@ text = "Level : 1"
 horizontal_alignment = 1
 
 [node name="Boss" parent="." node_paths=PackedStringArray("raft") instance=ExtResource("8_86bl7")]
-position = Vector2(864, 131)
+position = Vector2(880, 130)
 raft = NodePath("../player_raft")
 
 [node name="ItemSpawner" type="Node2D" parent="." node_paths=PackedStringArray("raft")]

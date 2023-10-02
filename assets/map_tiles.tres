@@ -2,8 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://eh8dulx4ptjc" path="res://assets/textures/water.png" id="1_rgl4x"]
 [ext_resource type="Texture2D" uid="uid://c3qf0w1na5vlf" path="res://assets/textures/misc_border.png" id="2_y0d25"]
-[ext_resource type="Texture2D" uid="uid://duthyupk3pip" path="res://assets/textures/racks.png" id="3_52p7f"]
-[ext_resource type="Texture2D" uid="uid://lpyyek8b6rcx" path="res://assets/textures/dirdt.png" id="4_becli"]
+[ext_resource type="Texture2D" uid="uid://scm6a3cy2xwb" path="res://assets/textures/racks.png" id="3_52p7f"]
+[ext_resource type="Texture2D" uid="uid://buov0np7rqca6" path="res://assets/textures/dirdt.png" id="4_becli"]
 [ext_resource type="Texture2D" uid="uid://k1o6tc2sewef" path="res://assets/textures/leafs.png" id="5_fvrxc"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vmwah"]
