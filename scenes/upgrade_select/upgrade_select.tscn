@@ -52,7 +52,6 @@ animations = [{
 }]
 
 [node name="upgrade_select" type="Control"]
-z_index = 500
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

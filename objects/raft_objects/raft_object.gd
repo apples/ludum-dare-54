@@ -13,7 +13,9 @@ var grid_pos: Vector2i
 var held_by: Node = null
 
 var zoop: AudioStreamPlayer
-var reticle: Sprite2D
+var zeep: AudioStreamPlayer
+var reticle_scene = preload("res://objects/alert/alert.tscn")
+var reticle: AnimatedSprite2D
 
 enum {
 	IDLE,
@@ -57,7 +59,14 @@ func _ready():
 	zoop = AudioStreamPlayer.new()
 	zoop.stream = preload("res://assets/sfx/bomb_throw.ogg")
 	zoop.bus = "Sound_effects"
+	zoop.volume_db = 5
 	add_child(zoop)
+	
+	zeep = AudioStreamPlayer.new()
+	zeep.stream = preload("res://assets/sfx/new_item_pickup.ogg")
+	zeep.bus = "Sound_effects"
+	zeep.volume_db = 5
+	add_child(zeep)
 
 func _exit_tree():
 	if connected_player:
@@ -188,7 +197,7 @@ func replace_with_gem():
 	replace_object(preload("res://objects/raft_objects/gem.tscn"))
 
 
-func boss_toss(toss_start: Vector2, reticle_modulate: Color = Color(0.9, 0.1, 0.1, 0.9)):
+func boss_toss(toss_start: Vector2, reticle_animation: String = "bad_thing", buoy: bool = false):
 	var start = toss_start
 	var end = raft.rc_to_pos(grid_pos)
 	var initial_y_vel: float = -2.0
@@ -212,10 +221,12 @@ func boss_toss(toss_start: Vector2, reticle_modulate: Color = Color(0.9, 0.1, 0.
 	global_position = points[0]
 	toss_path = points
 	toss_t = 0.0
-	zoop.play()
+	if buoy:
+		zeep.play()
+	else:
+		zoop.play()
 	
-	reticle = Sprite2D.new()
-	reticle.texture = preload("res://assets/textures/reticle.png")
-	reticle.modulate = reticle_modulate
+	reticle = reticle_scene.instantiate()
 	reticle.global_position = raft.rc_to_pos(grid_pos)
+	reticle.play(reticle_animation)
 	add_child(reticle)

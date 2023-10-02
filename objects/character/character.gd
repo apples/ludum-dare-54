@@ -46,7 +46,8 @@ var grid_buffered_input: Vector2i = Vector2i.ZERO
 
 var base_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
 
-var temp_dir_locked = false
+var temp_dir_locked := false
+var just_picked_up := false
 
 enum {
 	FACING_UP,
@@ -162,6 +163,8 @@ func _process_idle(delta):
 		Engine.time_scale = 10.0
 	else:
 		Engine.time_scale = 1.0
+	if Input.is_key_pressed((KEY_8)) or Input.is_key_pressed((KEY_KP_8)):
+		get_tree().get_root().get_node("gameplay").overlay_upgrade_scene(1)
 	
 	if move_input_disabled:
 		return
@@ -190,6 +193,7 @@ func _process_idle(delta):
 					held_object = facing_obj
 					facing_obj.position = Vector2.ZERO
 					swap_possible = true
+					just_picked_up = true
 				elif facing_obj == null:
 					grab_area.global_position = self.global_position + ((get_facing_dir() * 32) as Vector2)
 					if grab_area.has_overlapping_areas():
@@ -212,6 +216,7 @@ func _process_idle(delta):
 					o.grid_pos = t.grid_pos
 					o.position = Vector2.ZERO
 					o.held_by = null
+				just_picked_up = false
 	
 	match grid_facing:
 		FACING_LEFT:
@@ -297,6 +302,7 @@ func _physics_process(delta):
 	
 	if !_player_input.right and !_player_input.left and !_player_input.down and !_player_input.up:
 		temp_dir_locked = false
+		just_picked_up = false
 	if temp_dir_locked:
 		return
 	
@@ -352,7 +358,7 @@ func _physics_process(delta):
 #			temp_locked_dir = Vector2i.ZERO
 	
 	if held_object != null:
-		if grid_buffered_input != Vector2i.ZERO:
+		if grid_buffered_input != Vector2i.ZERO && !just_picked_up:
 			var f = grid_current_position + get_facing_dir()
 			var t = raft.get_tile(f.y, f.x)
 			if t != null and t.tile_object == null:

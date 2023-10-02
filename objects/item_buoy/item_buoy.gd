@@ -22,5 +22,5 @@ func _on_area_entered(area):
 		item.grid_pos = tile.grid_pos
 		item.reparent(tile)
 		tile.tile_object = item
-		item.boss_toss(item.global_position, Color(0.1, 0.9, 0.1, 0.9))
+		item.boss_toss(item.global_position, "good_thing", true)
 	queue_free()
