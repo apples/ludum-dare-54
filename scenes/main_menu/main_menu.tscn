@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://bimoh7pybv8ag"]
 
-[ext_resource type="Script" path="res://objects/raft/item_spawner.gd" id="1_n47ym"]
+[ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_n47ym"]
 [ext_resource type="TileSet" uid="uid://bxqtnvjdndf4n" path="res://assets/map_tiles.tres" id="1_x5nns"]
 [ext_resource type="TileSet" uid="uid://ddakmqeqs0fmb" path="res://assets/map_tiles2.tres" id="2_1fpvc"]
 [ext_resource type="Texture2D" uid="uid://bs0gpry3qi3f6" path="res://assets/textures/title_image.png" id="3_63m12"]
@@ -53,12 +53,10 @@ texture = ExtResource("4_61pwo")
 position = Vector2(80, 256)
 texture = ExtResource("5_20plm")
 
-[node name="Boss" parent="." node_paths=PackedStringArray("raft") instance=ExtResource("6_cs5oe")]
-raft = NodePath("")
+[node name="Boss" parent="." instance=ExtResource("6_cs5oe")]
 
-[node name="ItemSpawner" type="Node2D" parent="." node_paths=PackedStringArray("raft")]
+[node name="ItemSpawner" type="Node2D" parent="."]
 script = ExtResource("1_n47ym")
-raft = NodePath("")
 
 [node name="Timer" type="Timer" parent="ItemSpawner"]
 wait_time = 5.0
