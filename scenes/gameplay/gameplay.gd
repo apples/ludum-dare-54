@@ -132,7 +132,7 @@ func raft_destroyed(raft: Raft):
 		upgrade_select.initiate_module_placement.connect(self.on_initiate_module_placement)
 		self.add_child(upgrade_select)
 	elif raft == $player_raft:
-		UTILS.change_to_scene(lose_screen_scene_file)
+		$Fade_out.play()
 
 
 func on_initiate_module_placement(module):
@@ -180,3 +180,8 @@ func delete_children(node):
 	for n in node.get_children():
 		node.remove_child(n)
 		n.queue_free()
+
+
+func _on_fade_out_animation_finished():
+	$Fade_out.frame = 0
+	UTILS.change_to_scene(lose_screen_scene_file)
