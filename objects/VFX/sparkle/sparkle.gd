@@ -15,3 +15,12 @@ func _on_timer_timeout():
 
 func init( colour):
 	$sparkle_sprite.modulate = colour 
+
+func play_gem():
+	$gem_sound_effect.play()
+
+func play_hammer():
+	$hammer_sound_effect.play()
+	
+func play_cannon():
+	$cannon_sound_effect.play()

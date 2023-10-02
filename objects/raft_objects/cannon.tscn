@@ -7,3 +7,4 @@
 texture = ExtResource("1_5f6a7")
 script = ExtResource("2_w3xid")
 is_pushable = true
+is_holdable = true

@@ -1,7 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://ckp46e4kacqqe"]
+[gd_scene load_steps=10 format=3 uid="uid://ckp46e4kacqqe"]
 
 [ext_resource type="Script" path="res://objects/VFX/sparkle/sparkle.gd" id="1_0rbuf"]
 [ext_resource type="Texture2D" uid="uid://lksix2y7v2ol" path="res://assets/textures/sparkle2.png" id="2_5lucb"]
+[ext_resource type="AudioStream" uid="uid://c3gfs6lqb5ku8" path="res://assets/sfx/gem_combo_get.ogg" id="3_ued6v"]
+[ext_resource type="AudioStream" uid="uid://mojh5pusan8o" path="res://assets/sfx/repair_hammer.ogg" id="4_xo0sk"]
+[ext_resource type="AudioStream" uid="uid://b6yaw76r5re2y" path="res://assets/sfx/cannon_sfx.ogg" id="5_w1pey"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cutb5"]
 atlas = ExtResource("2_5lucb")
@@ -47,5 +50,17 @@ frame_progress = 0.00686414
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.8
 autostart = true
+
+[node name="gem_sound_effect" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ued6v")
+bus = &"Sound_effects"
+
+[node name="hammer_sound_effect" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_xo0sk")
+bus = &"Sound_effects"
+
+[node name="cannon_sound_effect" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_w1pey")
+bus = &"Sound_effects"
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

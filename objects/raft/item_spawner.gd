@@ -49,7 +49,7 @@ func _spawn_a_buoy():
 	if(raft):
 		buoy.global_position = raft.global_position + Vector2(_get_col() * 32, 0)
 	else:
-		buoy.global_position =  Vector2(randi_range(8,22) * 32, 0)
+		buoy.global_position =  Vector2(randi_range(8,22) * 32, 200)
 	
 	buoy.item = _pick_a_thing().scene.instantiate()
 	buoy.item.position = Vector2(0, -8)

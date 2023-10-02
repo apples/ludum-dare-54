@@ -3,24 +3,24 @@
 [ext_resource type="Texture2D" uid="uid://rgnqi22atdxj" path="res://assets/textures/upgrade_select_frame.png" id="1_jhqc3"]
 [ext_resource type="Script" path="res://objects/module_select_widget/module_select_widget.gd" id="1_n6cor"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_waskj"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_mhmu3"]
 atlas = ExtResource("1_jhqc3")
-region = Rect2(0, 0, 140, 145)
+region = Rect2(0, 0, 144, 149)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_t7pvf"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ppst"]
 atlas = ExtResource("1_jhqc3")
-region = Rect2(140, 0, 140, 145)
+region = Rect2(144, 0, 144, 149)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_tuxnv"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_eulqo"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_waskj")
+"texture": SubResource("AtlasTexture_mhmu3")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_t7pvf")
+"texture": SubResource("AtlasTexture_0ppst")
 }],
-"loop": true,
+"loop": false,
 "name": &"default",
 "speed": 5.0
 }]
@@ -35,4 +35,4 @@ grow_vertical = 2
 script = ExtResource("1_n6cor")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_tuxnv")
+sprite_frames = SubResource("SpriteFrames_eulqo")

@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bra2onanj8tmn"]
+
+[ext_resource type="PackedScene" uid="uid://berm3cck4qq7l" path="res://objects/raft_tile/raft_tile.tscn" id="1_cup7s"]
+[ext_resource type="PackedScene" uid="uid://ds4oy5tkow40v" path="res://objects/raft_objects/gem.tscn" id="2_b7yd6"]
+
+[node name="raft_tile_gem" node_paths=PackedStringArray("tile_object") instance=ExtResource("1_cup7s")]
+tile_object = NodePath("gem")
+
+[node name="gem" parent="." index="2" instance=ExtResource("2_b7yd6")]

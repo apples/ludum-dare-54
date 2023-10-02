@@ -8,6 +8,7 @@ var grid_pos: Vector2i
 
 @export var health: int = 3 :
 	set = _set_health
+@export var max_health: int =3
 
 @export var tile_object: Node:
 	get:
@@ -78,6 +79,8 @@ func generate_dmg_number(number_value):
 
 func heal(value: int):
 	health += value
+	if health > max_health:
+		health = max_health
 
 func get_north_tile() -> RaftTile:
 	return raft_ref.get_relative_tile(raft_ref.NORTH, self)
