@@ -113,6 +113,8 @@ func interact(player):
 	_on_player_connected()
 
 func push(player_grid_pos: Vector2i):
+	if state != IDLE:
+		return false
 	var cur_tile = raft.get_tile(grid_pos.y, grid_pos.x)	
 	var d := grid_pos - player_grid_pos
 	var next_pos := grid_pos + d
@@ -123,7 +125,7 @@ func push(player_grid_pos: Vector2i):
 		next_tile.tile_object = self
 		cur_tile.tile_object = null
 		state = PUSHED
-		return
+		return true
 
 func release_player():
 	connected_player.call_deferred("release")

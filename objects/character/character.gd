@@ -258,6 +258,8 @@ func get_facing_object():
 	var tile = raft.get_tile(f.y, f.x)
 	if tile == null:
 		return null
+	if tile.tile_object and tile.tile_object.state == 0:
+		return null
 	return tile.tile_object
 
 func _what_tile():
