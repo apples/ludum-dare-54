@@ -171,6 +171,7 @@ func get_tiles_in_radius(row: int, column: int, radius: float) -> Array[RaftTile
 func heal_all_tiles(amt: int = 1):
 	for coord in raft_data_structure:
 		raft_data_structure[coord].heal(amt)
+		raft_data_structure[coord].fire_health = 0
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
