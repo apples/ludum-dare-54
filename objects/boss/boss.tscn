@@ -5,13 +5,13 @@
 [ext_resource type="SpriteFrames" uid="uid://c6tnqwadci4ua" path="res://objects/boss/pupil_frames.tres" id="3_fgpyr"]
 [ext_resource type="SpriteFrames" uid="uid://f3e2p2eukvp5" path="res://objects/boss/eye_frames.tres" id="4_uvnq0"]
 [ext_resource type="SpriteFrames" uid="uid://c524gr8xkbw0w" path="res://objects/boss/mouth_frames.tres" id="5_nfts5"]
-[ext_resource type="SpriteFrames" uid="uid://pwrnp4gmr0jd" path="res://assets/char2_fadeout.tres" id="6_nmpi0"]
+[ext_resource type="SpriteFrames" uid="uid://ql4oavivx2xt" path="res://assets/char2_fadeout.tres" id="6_nmpi0"]
 [ext_resource type="AnimationLibrary" uid="uid://b0u81dbshlaik" path="res://objects/boss/animation_library.res" id="6_y80qs"]
 [ext_resource type="Texture2D" uid="uid://b0f4ii8880exo" path="res://assets/textures/healthbar.png" id="7_68mms"]
-[ext_resource type="AnimationNodeBlendTree" uid="uid://b1jxfet7myqqm" path="res://objects/boss/blend_tree.tres" id="8_c2cxv"]
+[ext_resource type="AnimationNodeBlendTree" uid="uid://clof3yh6rbfo4" path="res://objects/boss/blend_tree.tres" id="8_c2cxv"]
 [ext_resource type="Texture2D" uid="uid://bmi05uwgklewy" path="res://assets/textures/bomb_explosion.png" id="8_ych7h"]
-[ext_resource type="AudioStream" uid="uid://bwpc0aiomv2kb" path="res://assets/sfx/scream.ogg" id="9_4jvwq"]
 [ext_resource type="AudioStream" uid="uid://svqdr5vwvgld" path="res://assets/sfx/bagguy_hit.ogg" id="10_0hmrm"]
+[ext_resource type="AudioStream" uid="uid://b8qaisy0585n7" path="res://assets/sfx/bagguy_ouch.ogg" id="11_5ud4b"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3ht5n"]
 animation = &"fade_in"
@@ -155,7 +155,8 @@ anim_speed_max = 5.0
 wait_time = 10.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("9_4jvwq")
+stream = ExtResource("11_5ud4b")
+bus = &"Sound_effects"
 
 [node name="OuchSFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_0hmrm")
