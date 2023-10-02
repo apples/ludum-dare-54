@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bynqvjcdpggd0"]
+[gd_scene load_steps=12 format=3 uid="uid://bynqvjcdpggd0"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/gameplay.gd" id="1_8n8ih"]
 [ext_resource type="TileSet" uid="uid://ddakmqeqs0fmb" path="res://assets/map_tiles2.tres" id="2_gt3fp"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="8_86bl7"]
 [ext_resource type="AudioStream" uid="uid://bqwvc1mimfnlo" path="res://assets/sfx/river_water_moving.ogg" id="9_ojlhc"]
 [ext_resource type="Script" path="res://objects/raft/item_spawner.gd" id="10_kdn02"]
+[ext_resource type="AudioStream" uid="uid://bflv5fnr5rfe2" path="res://assets/music/down_the_river.ogg" id="11_8jgfc"]
 
 [node name="gameplay" type="Node2D"]
 script = ExtResource("1_8n8ih")
@@ -81,5 +82,9 @@ raft = NodePath("../player_raft")
 wait_time = 5.0
 one_shot = true
 autostart = true
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_8jgfc")
+autoplay = true
 
 [connection signal="timeout" from="ItemSpawner/Timer" to="ItemSpawner" method="_on_timer_timeout"]
