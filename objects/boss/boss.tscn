@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://db55dqikpqoof"]
+[gd_scene load_steps=40 format=3 uid="uid://db55dqikpqoof"]
 
 [ext_resource type="Texture2D" uid="uid://d3u5e7iuyk16" path="res://assets/textures/char2_base.png" id="1_4b4qy"]
 [ext_resource type="Script" path="res://objects/boss/boss.gd" id="2_tau8x"]
@@ -7,6 +7,8 @@
 [ext_resource type="SpriteFrames" uid="uid://c524gr8xkbw0w" path="res://objects/boss/mouth_frames.tres" id="5_nfts5"]
 [ext_resource type="AnimationLibrary" uid="uid://b0u81dbshlaik" path="res://objects/boss/animation_library.res" id="6_y80qs"]
 [ext_resource type="Texture2D" uid="uid://b0f4ii8880exo" path="res://assets/textures/healthbar.png" id="7_68mms"]
+[ext_resource type="Texture2D" uid="uid://bmi05uwgklewy" path="res://assets/textures/bomb_explosion.png" id="8_ych7h"]
+[ext_resource type="AudioStream" uid="uid://bwpc0aiomv2kb" path="res://assets/sfx/scream.ogg" id="9_4jvwq"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_atugj"]
 animation = &"blink"
@@ -140,6 +142,12 @@ nodes/PupilStateMachine/position = Vector2(-280, 60)
 nodes/output/position = Vector2(820, 100)
 node_connections = [&"output", 0, &"FinalBlend", &"Blink", 0, &"PupilStateMachine", &"Blink", 1, &"Animation", &"FinalBlend", 0, &"Blink", &"FinalBlend", 1, &"MouthStateMachine"]
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_6abmh"]
+particles_animation = true
+particles_anim_h_frames = 16
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
 [node name="Boss" type="Sprite2D"]
 position = Vector2(864, 128)
 texture = ExtResource("1_4b4qy")
@@ -197,6 +205,26 @@ flip_v = true
 wait_time = 10.0
 one_shot = true
 
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_6abmh")
+emitting = false
+amount = 16
+texture = ExtResource("8_ych7h")
+emission_shape = 3
+emission_rect_extents = Vector2(60, 60)
+gravity = Vector2(0, 0)
+scale_amount_min = 2.0
+scale_amount_max = 2.0
+anim_speed_min = 2.0
+anim_speed_max = 5.0
+
+[node name="ExplosionTimer" type="Timer" parent="CPUParticles2D"]
+wait_time = 10.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_4jvwq")
+
 [connection signal="timeout" from="NextAttack" to="." method="_on_next_attack_timeout"]
 [connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]
 [connection signal="timeout" from="StunTimer" to="." method="_on_stun_timer_timeout"]
+[connection signal="timeout" from="CPUParticles2D/ExplosionTimer" to="CPUParticles2D" method="set_emitting" binds= [false]]
