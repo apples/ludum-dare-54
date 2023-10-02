@@ -1,4 +1,4 @@
-extends Sprite2D
+extends Node2D
 
 signal boss_defeated
 
@@ -22,17 +22,18 @@ var health := max_health:
 	set(v):
 		if not is_stunned:
 			if v < health:
-				animation_tree["parameters/wince/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
+				animation_tree["parameters/Normal/wince/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
 				ouch_sfx.play()
 			health = v
 			if health <= 0:
 				health = 0
 				death()
 			if health_bar:
-				var percent := float(health) / float(max_health)
-				health_bar.size.y = health_bar_initial_height * percent
-				health_bar.position.y = health_bar_initial_position.y + (health_bar_initial_height - health_bar.size.y) * health_bar.scale.y
+				_set_healthbar(float(health) / float(max_health))
 
+func _set_healthbar(t: float):
+	health_bar.size.y = health_bar_initial_height * t
+	health_bar.position.y = health_bar_initial_position.y + (health_bar_initial_height - health_bar.size.y) * health_bar.scale.y
 
 enum {
 	LOOKING_STRAIGHT,
@@ -51,6 +52,9 @@ enum {
 	EYES_ANGRY,
 }
 
+var is_alive: bool:
+	get:
+		return not is_stunned
 var is_talking := false
 var mouth_shape := MOUTH_NORMAL
 var eyes_shape := EYES_NORMAL
@@ -66,12 +70,14 @@ var looking_dir := LOOKING_STRAIGHT
 func _ready():
 	animation_tree.active = true
 	is_stunned = true
-	$StunTimer.start(5)
+	_set_healthbar(0)
+	if raft:
+		$StunTimer.start(5)
 
 func _perform_attack():
 	if not raft:
 		return
-	animation_tree["parameters/emote_raise_eyes/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
+	animation_tree["parameters/Normal/emote_raise_eyes/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
 	for i in range(floor(bomb_count_thrown)):
 		var t = raft.get_random_empty_tile()
 		if t:
@@ -92,7 +98,7 @@ func _on_next_attack_timeout():
 	$NextAttack.start(attack_delay * randf_range(0.9, 1.1))
 
 func _on_blink_timer_timeout():
-	animation_tree["parameters/Blink/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
+	animation_tree["parameters/Normal/Blink/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
 	blink_timer.start(randf_range(0.5, 5.0))
 
 func death():
@@ -114,7 +120,5 @@ func _on_stun_timer_timeout():
 	if health <= 0:
 		GLOBAL_VARS.level += 1
 		max_health += 3
-		health = max_health
-		health_bar.size.y = health_bar_initial_height
-		health_bar.position.y = health_bar_initial_position.y + (health_bar_initial_height - health_bar.size.y) * health_bar.scale.y
-	
+	health = max_health
+	_set_healthbar(float(health) / float(max_health))

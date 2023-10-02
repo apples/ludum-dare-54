@@ -124,7 +124,19 @@ func get_random_empty_tile():
 	# If anything tries to find an empty tile and can't we transition to the lose state
 	if empts.is_empty():
 		UTILS.change_to_scene("res://scenes/lose_screen/lose_scene.tscn")
-	return empts.pick_random()
+	
+	# filter out tiles near player if possible
+	var not_near_player = []
+	for e in empts:
+		var d = e.grid_pos - player.grid_pos
+		var grid_dist = abs(d.x) + abs(d.y)
+		if grid_dist > 1:
+			not_near_player.append(e)
+	
+	if not_near_player.is_empty():
+		return empts.pick_random()
+	else:
+		return not_near_player.pick_random()
 
 
 var relative_tile_in_radius_cache = {}
