@@ -52,6 +52,7 @@ animations = [{
 }]
 
 [node name="upgrade_select" type="Control"]
+z_index = 500
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -86,7 +87,7 @@ position = Vector2(556, 164)
 sprite_frames = SubResource("SpriteFrames_xt382")
 autoplay = "default"
 
-[node name="wasd" type="Node" parent="."]
+[node name="wasd" type="Node2D" parent="."]
 
 [node name="w_key" type="AnimatedSprite2D" parent="wasd"]
 position = Vector2(442, 82)
@@ -144,7 +145,7 @@ theme = ExtResource("1_q26wp")
 text = "D"
 metadata/_edit_use_anchors_ = true
 
-[node name="arrow_keys" type="Node" parent="."]
+[node name="arrow_keys" type="Node2D" parent="."]
 
 [node name="up_key" type="AnimatedSprite2D" parent="arrow_keys"]
 position = Vector2(661, 79)
