@@ -4,7 +4,6 @@ signal initiate_module_placement(module)
 
 var options = []
 var select_index = 0
-var locked_selection = false
 var upgrade_type = "base"
 
 # Called when the node enters the scene tree for the first time.
@@ -59,15 +58,22 @@ func render_selected_module_widget(old_index: int, new_index: int):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var old_select_index = select_index
-	if Input.is_action_just_pressed("up") and select_index > 0 and not locked_selection:
-		select_index -= 1
+	if Input.is_action_just_pressed("up"):
+		if select_index == 0:
+			select_index = 2
+		else:
+			select_index -= 1
 		render_selected_module_widget(old_select_index, select_index)
 		print(select_index)
 		print(options[select_index][1])
 		
 	
-	if Input.is_action_just_pressed("down") and select_index < 2:
-		select_index += 1
+	if Input.is_action_just_pressed("down"):
+		if select_index == 2:
+			select_index = 0
+		else:
+			select_index += 1
+			
 		render_selected_module_widget(old_select_index, select_index)
 		print(select_index)
 		print(options[select_index][1])
