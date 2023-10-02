@@ -46,6 +46,8 @@ enum {
 
 var grid_facing: int = FACING_DOWN
 
+var push_delay: float = 0.0
+
 var held_object:
 	get:
 		if hold_root.get_child_count() > 0:
@@ -256,6 +258,8 @@ func get_facing_object():
 	var tile = raft.get_tile(f.y, f.x)
 	if tile == null:
 		return null
+	if tile.tile_object and tile.tile_object.state == 0:
+		return null
 	return tile.tile_object
 
 func _what_tile():
@@ -300,8 +304,10 @@ func _physics_process(delta):
 				dir = Vector2i(0,1)
 			if dir:
 				grid_buffered_input = dir
+			push_delay = 0.1
 		
 		if grid_lerp_t >= 1.0:
+			var p = grid_facing
 			if grid_buffered_input.x < 0:
 				grid_facing = FACING_LEFT
 			if grid_buffered_input.x > 0:
@@ -310,6 +316,12 @@ func _physics_process(delta):
 				grid_facing = FACING_UP
 			if grid_buffered_input.y > 0:
 				grid_facing = FACING_DOWN
+			if p != grid_facing:
+				push_delay = 0.1
+		
+		if push_delay > 0.0:
+			push_delay -= delta
+		
 #
 #		if temp_locked_dir == grid_buffered_input:
 #			return
@@ -336,7 +348,9 @@ func _physics_process(delta):
 			var next_tile = raft.get_tile(next_grid_position.y, next_grid_position.x)
 			if next_tile and next_tile.tile_object:
 				if next_tile.tile_object.is_pushable:
-					if not next_tile.tile_object.push(grid_current_position):
+					if push_delay > 0.0:
+						next_tile = null
+					elif not next_tile.tile_object.push(grid_current_position):
 						next_tile = null
 			if next_tile != null:
 				grid_previous_position = grid_current_position

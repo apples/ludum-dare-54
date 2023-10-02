@@ -13,6 +13,7 @@ var grid_pos: Vector2i
 var held_by: Node = null
 
 var zoop: AudioStreamPlayer
+var reticle: Sprite2D
 
 enum {
 	IDLE,
@@ -82,12 +83,14 @@ func _process(delta):
 			if toss_t >= 1.0:
 				state = IDLE
 				position = Vector2.ZERO
+				reticle.queue_free()
 			else:
 				var i = toss_t * float(toss_path.size()-1)
 				var a = toss_path[int(i)]
 				var b = toss_path[int(i)+1]
 				var x = lerp(a, b, i-int(i))
 				global_position = x
+				reticle.global_position = raft.rc_to_pos(grid_pos)
 		IDLE:
 			if not connected_player:
 				_process_unconnected(delta)
@@ -110,6 +113,8 @@ func interact(player):
 	_on_player_connected()
 
 func push(player_grid_pos: Vector2i):
+	if state != IDLE:
+		return false
 	var cur_tile = raft.get_tile(grid_pos.y, grid_pos.x)	
 	var d := grid_pos - player_grid_pos
 	var next_pos := grid_pos + d
@@ -120,7 +125,7 @@ func push(player_grid_pos: Vector2i):
 		next_tile.tile_object = self
 		cur_tile.tile_object = null
 		state = PUSHED
-		return
+		return true
 
 func release_player():
 	connected_player.call_deferred("release")
@@ -167,7 +172,7 @@ func match3():
 	
 	return ball_nbors
 
-func boss_toss(toss_start: Vector2):
+func boss_toss(toss_start: Vector2, reticle_modulate: Color = Color(0.9, 0.1, 0.1, 0.9)):
 	var start = toss_start
 	var end = raft.rc_to_pos(grid_pos)
 	var initial_y_vel: float = -2.0
@@ -192,3 +197,9 @@ func boss_toss(toss_start: Vector2):
 	toss_path = points
 	toss_t = 0.0
 	zoop.play()
+	
+	reticle = Sprite2D.new()
+	reticle.texture = preload("res://assets/textures/reticle.png")
+	reticle.modulate = reticle_modulate
+	reticle.global_position = raft.rc_to_pos(grid_pos)
+	add_child(reticle)

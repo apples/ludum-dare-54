@@ -1,6 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://bimoh7pybv8ag"]
+[gd_scene load_steps=11 format=3 uid="uid://bimoh7pybv8ag"]
 
-[ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_jmiv1"]
+[ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_n47ym"]
 [ext_resource type="TileSet" uid="uid://bxqtnvjdndf4n" path="res://assets/map_tiles.tres" id="1_x5nns"]
 [ext_resource type="TileSet" uid="uid://ddakmqeqs0fmb" path="res://assets/map_tiles2.tres" id="2_1fpvc"]
 [ext_resource type="Texture2D" uid="uid://bs0gpry3qi3f6" path="res://assets/textures/title_image.png" id="3_63m12"]
@@ -9,9 +9,10 @@
 [ext_resource type="Texture2D" uid="uid://dndc10kxm14um" path="res://assets/textures/char1.png" id="5_20plm"]
 [ext_resource type="AudioStream" uid="uid://cmif6ike1jjed" path="res://assets/music/battleraft_menu_theme.ogg" id="5_oug78"]
 [ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="6_cs5oe"]
+[ext_resource type="Script" path="res://objects/raft/item_spawner.gd" id="7_sdryq"]
 
 [node name="main_menu" type="Node2D"]
-script = ExtResource("1_jmiv1")
+script = ExtResource("1_n47ym")
 metadata/_edit_vertical_guides_ = []
 metadata/_edit_horizontal_guides_ = []
 
@@ -53,10 +54,18 @@ texture = ExtResource("4_61pwo")
 position = Vector2(80, 256)
 texture = ExtResource("5_20plm")
 
-[node name="Boss" parent="." node_paths=PackedStringArray("raft") instance=ExtResource("6_cs5oe")]
-raft = NodePath("")
+[node name="Boss" parent="." instance=ExtResource("6_cs5oe")]
+
+[node name="ItemSpawner" type="Node2D" parent="."]
+script = ExtResource("7_sdryq")
+
+[node name="Timer" type="Timer" parent="ItemSpawner"]
+wait_time = 5.0
+one_shot = true
+autostart = true
 
 [node name="TextureRect" type="TextureRect" parent="."]
+z_index = 12
 offset_left = 228.0
 offset_top = -1.0
 offset_right = 728.0
@@ -66,6 +75,7 @@ size_flags_vertical = 4
 texture = ExtResource("3_63m12")
 
 [node name="TextureRect2" type="TextureRect" parent="."]
+z_index = 12
 offset_left = 274.0
 offset_top = 226.0
 offset_right = 782.0
@@ -92,5 +102,6 @@ offset_right = 515.0
 offset_bottom = 486.0
 text = "Options"
 
+[connection signal="timeout" from="ItemSpawner/Timer" to="ItemSpawner" method="_on_timer_timeout"]
 [connection signal="pressed" from="start_game" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="options" to="." method="_on_options_pressed"]
