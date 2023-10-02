@@ -684,9 +684,9 @@ texture = ExtResource("4_xp3ti")
 [node name="start_game" type="Button" parent="."]
 z_index = 9
 offset_left = 428.0
-offset_top = 395.0
+offset_top = 218.0
 offset_right = 529.0
-offset_bottom = 429.0
+offset_bottom = 252.0
 theme = ExtResource("10_qnbff")
 action_mode = 0
 shortcut = SubResource("Shortcut_gkbda")
@@ -695,9 +695,9 @@ text = "START GAME"
 [node name="options" type="Button" parent="."]
 z_index = 9
 offset_left = 445.0
-offset_top = 445.0
+offset_top = 268.0
 offset_right = 509.0
-offset_bottom = 469.0
+offset_bottom = 292.0
 theme = ExtResource("10_qnbff")
 text = "Options"
 
@@ -705,72 +705,12 @@ text = "Options"
 
 [node name="spacebar" type="AnimatedSprite2D" parent="keycaps"]
 z_index = 9
-position = Vector2(478, 364)
+position = Vector2(379, 440)
 sprite_frames = SubResource("SpriteFrames_4jipb")
-
-[node name="w_key" type="AnimatedSprite2D" parent="keycaps"]
-z_index = 9
-position = Vector2(360, 245)
-sprite_frames = SubResource("SpriteFrames_gkoan")
-
-[node name="key_label" type="Label" parent="keycaps/w_key"]
-z_index = 10
-offset_left = -2.0
-offset_top = -9.0
-offset_right = 8.0
-offset_bottom = 6.0
-theme = ExtResource("10_qnbff")
-text = "W"
-metadata/_edit_use_anchors_ = true
-
-[node name="s_key" type="AnimatedSprite2D" parent="keycaps"]
-z_index = 9
-position = Vector2(369, 283)
-sprite_frames = SubResource("SpriteFrames_gkoan")
-
-[node name="key_label" type="Label" parent="keycaps/s_key"]
-z_index = 10
-offset_left = -2.0
-offset_top = -9.0
-offset_right = 8.0
-offset_bottom = 6.0
-theme = ExtResource("10_qnbff")
-text = "S"
-metadata/_edit_use_anchors_ = true
-
-[node name="a_key" type="Sprite2D" parent="keycaps"]
-z_index = 9
-position = Vector2(331, 283)
-texture = ExtResource("14_1tcap")
-
-[node name="key_label" type="Label" parent="keycaps/a_key"]
-z_index = 10
-offset_left = -2.0
-offset_top = -9.0
-offset_right = 10.0
-offset_bottom = 6.0
-theme = ExtResource("10_qnbff")
-text = "A"
-metadata/_edit_use_anchors_ = true
-
-[node name="d_key" type="Sprite2D" parent="keycaps"]
-z_index = 9
-position = Vector2(407, 283)
-texture = ExtResource("14_1tcap")
-
-[node name="key_label" type="Label" parent="keycaps/d_key"]
-z_index = 10
-offset_left = -2.0
-offset_top = -9.0
-offset_right = 8.0
-offset_bottom = 6.0
-theme = ExtResource("10_qnbff")
-text = "D"
-metadata/_edit_use_anchors_ = true
 
 [node name="up_key" type="AnimatedSprite2D" parent="keycaps"]
 z_index = 9
-position = Vector2(579, 242)
+position = Vector2(378, 331)
 sprite_frames = SubResource("SpriteFrames_gkoan")
 
 [node name="key_label" type="Label" parent="keycaps/up_key"]
@@ -786,15 +726,15 @@ metadata/_edit_use_anchors_ = true
 
 [node name="down_key" type="AnimatedSprite2D" parent="keycaps"]
 z_index = 9
-position = Vector2(579, 280)
+position = Vector2(378, 369)
 sprite_frames = SubResource("SpriteFrames_gkoan")
 
 [node name="key_label" type="Label" parent="keycaps/down_key"]
 z_index = 10
 offset_left = 8.0
-offset_top = -7.0
+offset_top = -6.0
 offset_right = 20.0
-offset_bottom = 8.0
+offset_bottom = 9.0
 rotation = -4.71238
 theme = ExtResource("10_qnbff")
 text = "→"
@@ -802,7 +742,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="right_key" type="Sprite2D" parent="keycaps"]
 z_index = 9
-position = Vector2(617, 280)
+position = Vector2(416, 369)
 texture = ExtResource("14_1tcap")
 
 [node name="key_label" type="Label" parent="keycaps/right_key"]
@@ -817,7 +757,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="left_key" type="Sprite2D" parent="keycaps"]
 z_index = 9
-position = Vector2(541, 280)
+position = Vector2(340, 369)
 texture = ExtResource("14_1tcap")
 
 [node name="key_label" type="Label" parent="keycaps/left_key"]
@@ -833,34 +773,33 @@ metadata/_edit_use_anchors_ = true
 
 [node name="movement_label" type="Label" parent="keycaps"]
 z_index = 9
-offset_left = 437.0
-offset_top = 213.0
-offset_right = 515.0
-offset_bottom = 294.0
+offset_left = 312.0
+offset_top = 391.0
+offset_right = 448.0
+offset_bottom = 424.0
 theme = ExtResource("10_qnbff")
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
-text = "Move /
- Place"
+text = "Move / Place"
 
 [node name="spacebar" type="Label" parent="."]
 z_index = 9
-offset_left = 263.0
-offset_top = 309.0
-offset_right = 721.0
-offset_bottom = 343.0
+offset_left = 312.0
+offset_top = 455.0
+offset_right = 440.0
+offset_bottom = 489.0
 theme = ExtResource("10_qnbff")
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
-text = "Pick up / Place / Extinguish / x2 to Swap"
+text = "Interact"
 horizontal_alignment = 1
 
 [node name="highscore" type="Label" parent="."]
 z_index = 9
-offset_left = 404.0
-offset_top = 475.0
-offset_right = 548.0
-offset_bottom = 507.0
+offset_left = 403.0
+offset_top = 177.0
+offset_right = 547.0
+offset_bottom = 209.0
 theme = ExtResource("10_qnbff")
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
@@ -868,7 +807,7 @@ text = "Highscore : 0"
 
 [node name="legend_frame" type="AnimatedSprite2D" parent="."]
 z_index = 9
-position = Vector2(645, 425)
+position = Vector2(556, 400)
 sprite_frames = SubResource("SpriteFrames_cbowt")
 autoplay = "default"
 
@@ -888,7 +827,7 @@ z_index = 9
 position = Vector2(40, -48)
 sprite_frames = SubResource("SpriteFrames_4rhwf")
 autoplay = "default"
-frame_progress = 0.354308
+frame_progress = 0.826551
 
 [node name="water_splash" type="AnimatedSprite2D" parent="legend_frame"]
 z_index = 9
@@ -907,6 +846,7 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
 text = "x3"
 horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="equals" type="Label" parent="legend_frame"]
 z_index = 9
@@ -919,6 +859,7 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
 text = "="
 horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="hammer" type="AnimatedSprite2D" parent="legend_frame"]
 z_index = 9
@@ -937,6 +878,7 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
 text = "x3"
 horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="driftwood" type="AnimatedSprite2D" parent="legend_frame"]
 z_index = 9
@@ -955,16 +897,18 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
 text = "x3"
 horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="driftwood_x4" type="Label" parent="legend_frame"]
 z_index = 9
-offset_left = -10.0
+offset_left = -9.0
 offset_top = 58.0
-offset_right = 19.0
+offset_right = 20.0
 offset_bottom = 92.0
 theme = ExtResource("10_qnbff")
 text = "etc.."
 horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="red_x" type="Sprite2D" parent="legend_frame"]
 visible = false
@@ -983,6 +927,7 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
 text = "="
 horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="full_raft" type="AnimatedSprite2D" parent="legend_frame"]
 z_index = 9
@@ -1018,6 +963,7 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
 text = "="
 horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="repairing_raft" type="AnimatedSprite2D" parent="legend_frame"]
 z_index = 9
