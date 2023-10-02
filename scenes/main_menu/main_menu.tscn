@@ -1,18 +1,23 @@
-[gd_scene load_steps=20 format=3 uid="uid://bimoh7pybv8ag"]
+[gd_scene load_steps=21 format=3 uid="uid://bimoh7pybv8ag"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_n47ym"]
 [ext_resource type="TileSet" uid="uid://bxqtnvjdndf4n" path="res://assets/map_tiles.tres" id="1_x5nns"]
 [ext_resource type="TileSet" uid="uid://ddakmqeqs0fmb" path="res://assets/map_tiles2.tres" id="2_1fpvc"]
-[ext_resource type="Texture2D" uid="uid://bs0gpry3qi3f6" path="res://assets/textures/title_image.png" id="3_63m12"]
 [ext_resource type="Texture2D" uid="uid://cn0qmsqk0rxr4" path="res://assets/textures/border.png" id="4_61pwo"]
 [ext_resource type="Texture2D" uid="uid://bvmks1y37tkks" path="res://assets/textures/instructions_image.png" id="4_xp3ti"]
 [ext_resource type="Texture2D" uid="uid://dndc10kxm14um" path="res://assets/textures/char1.png" id="5_20plm"]
-[ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="6_cs5oe"]
+[ext_resource type="Texture2D" uid="uid://c3k0k8bv0ywm" path="res://assets/textures/logo.png" id="7_bfq6d"]
 [ext_resource type="Script" path="res://objects/raft/item_spawner.gd" id="7_sdryq"]
 [ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="10_qnbff"]
 [ext_resource type="Texture2D" uid="uid://bxw6lmushninn" path="res://assets/textures/spacebar_frames.png" id="12_bqw08"]
 [ext_resource type="Texture2D" uid="uid://b7jwxfl5bst8b" path="res://assets/textures/keycap_frames.png" id="13_22h5w"]
 [ext_resource type="Texture2D" uid="uid://ccemrr8cwl7r6" path="res://assets/textures/keycap.png" id="14_1tcap"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_n4y43"]
+action = &"interact"
+
+[sub_resource type="Shortcut" id="Shortcut_gkbda"]
+events = [SubResource("InputEventAction_n4y43")]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qyl8d"]
 atlas = ExtResource("12_bqw08")
@@ -98,10 +103,10 @@ position = Vector2(480, 272)
 texture = ExtResource("4_61pwo")
 
 [node name="Char1" type="Sprite2D" parent="."]
-position = Vector2(80, 256)
+position = Vector2(88, 271)
 texture = ExtResource("5_20plm")
-
-[node name="Boss" parent="." instance=ExtResource("6_cs5oe")]
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 422)
 
 [node name="ItemSpawner" type="Node2D" parent="."]
 script = ExtResource("7_sdryq")
@@ -113,13 +118,14 @@ autostart = true
 
 [node name="TextureRect" type="TextureRect" parent="."]
 z_index = 12
-offset_left = 228.0
-offset_top = -1.0
-offset_right = 728.0
-offset_bottom = 199.0
+offset_left = 249.0
+offset_top = 52.0
+offset_right = 700.0
+offset_bottom = 208.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource("3_63m12")
+texture = ExtResource("7_bfq6d")
+stretch_mode = 5
 
 [node name="TextureRect2" type="TextureRect" parent="."]
 visible = false
@@ -137,6 +143,7 @@ offset_right = 529.0
 offset_bottom = 429.0
 theme = ExtResource("10_qnbff")
 action_mode = 0
+shortcut = SubResource("Shortcut_gkbda")
 text = "START GAME"
 
 [node name="options" type="Button" parent="."]

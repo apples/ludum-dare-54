@@ -51,8 +51,10 @@ position = Vector2(480, 272)
 texture = ExtResource("5_sl3p5")
 
 [node name="Char1" type="Sprite2D" parent="."]
-position = Vector2(80, 256)
+position = Vector2(88, 271)
 texture = ExtResource("6_sl4bn")
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 422)
 
 [node name="player_raft" parent="." node_paths=PackedStringArray("player") instance=ExtResource("2_k13pe")]
 position = Vector2(210, 48)
@@ -83,6 +85,7 @@ text = "Level : 1"
 horizontal_alignment = 1
 
 [node name="Boss" parent="." node_paths=PackedStringArray("raft") instance=ExtResource("8_86bl7")]
+position = Vector2(864, 131)
 raft = NodePath("../player_raft")
 
 [node name="ItemSpawner" type="Node2D" parent="." node_paths=PackedStringArray("raft")]
