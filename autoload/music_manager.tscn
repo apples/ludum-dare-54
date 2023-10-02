@@ -13,3 +13,4 @@ bus = &"Music"
 
 [node name="DownTheRiver" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_0osqb")
+bus = &"Music"
