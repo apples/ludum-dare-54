@@ -22,6 +22,7 @@ const TILE_SPACING := Vector2(32, 32)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	print(DATA_STORE.current.highscore)
 	generate_raft()
 	set_tile(raft_tile_driftwood_scene, 6, 7)
 	set_tile(raft_tile_driftwood_scene, 6, 8)
@@ -117,7 +118,16 @@ func get_random_empty_tile():
 	# If anything tries to find an empty tile and can't we transition to the lose state
 	if empts.is_empty():
 		UTILS.change_to_scene("res://scenes/lose_screen/lose_scene.tscn")
+		check_and_set_highscore()
+		
+		DATA_STORE.current['highscore']
 	return empts.pick_random()
+
+func check_and_set_highscore():
+	if DATA_STORE.current.has('highscore'):
+		if DATA_STORE.current.highscore < GLOBAL_VARS.score:
+			DATA_STORE.current.highscore = GLOBAL_VARS.score
+			DATA_STORE.save()
 
 var relative_tile_in_radius_cache = {}
 func get_relative_positions_in_radius(radius: float) -> Array[Vector2i]:
