@@ -5,7 +5,6 @@ class_name Raft extends Node2D
 @export var raft_tile_height: int = 4
 var raft_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
 var raft_tile_cannon_scene = preload("res://objects/raft_tile/raft_tile_cannon.tscn")
-var raft_tile_fire_scene = preload("res://objects/raft_tile/raft_tile_fire.tscn")
 var raft_tile_cannonball_scene = preload("res://objects/raft_tile/raft_tile_cannonball.tscn")
 var raft_tile_water_bucket_scene = preload("res://objects/raft_tile/raft_tile_water_bucket.tscn")
 var raft_tile_driftwood_scene = preload("res://objects/raft_tile/raft_tile_driftwood.tscn")

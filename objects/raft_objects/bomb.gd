@@ -1,6 +1,5 @@
 extends "res://objects/raft_objects/raft_object.gd"
 var bomb_explosion_scene = preload("res://objects/VFX/bomb_explosion/bomb_explosion.tscn")
-var fire_scene = preload("res://objects/raft_objects/fire.tscn")
 
 func get_kind() -> StringName:
 	return "bomb"
@@ -33,8 +32,4 @@ func explode_fire_dmg():
 	
 	var random_fire_chance = randi_range(0, 1)
 	if random_fire_chance == 1:
-		var fire = fire_scene.instantiate()
-		fire.grid_pos = self.grid_pos
-		fire.raft = self.raft
-		obj_on_tile.add_child(fire)
-		obj_on_tile.tile_object = fire
+		obj_on_tile.ignite()

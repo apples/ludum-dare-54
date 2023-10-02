@@ -18,12 +18,5 @@ sprite_frames = ExtResource("6_nl5pa")
 animation = &"left"
 frame_progress = 0.655764
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
-target_position = Vector2(0, 0)
-collision_mask = 2
-hit_from_inside = true
-collide_with_areas = true
-collide_with_bodies = false
-
 [node name="HoldRoot" type="Node2D" parent="."]
 position = Vector2(0, -16)

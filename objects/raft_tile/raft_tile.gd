@@ -2,9 +2,14 @@ class_name RaftTile extends Area2D
 
 var damage_number_scene = preload("res://objects/damage_numbers/damage_numbers.tscn")
 var tile_break_scene = preload("res://objects/VFX/tile_break/tile_break.tscn")
+@onready var fire_burning = $FireBurning
+@onready var fire_fix_meter = $FireSprite/FireFixMeter
 
 var raft_ref: Node2D
 var grid_pos: Vector2i
+
+@onready var fire_sprite = $FireSprite
+@onready var fire_damage_timer = $FireDamageTimer
 
 @export var health: int = 3 :
 	set = _set_health
@@ -20,6 +25,20 @@ var grid_pos: Vector2i
 		if tile_object:
 			tile_object.tree_exited.connect(_on_tile_object_tree_exited)
 
+var player_obj: Node
+
+var fire_max_health := 1.5
+var fire_health := 0.0
+
+var is_on_fire: bool:
+	get:
+		return fire_health > 0.0
+
+func ignite():
+	if not is_on_fire:
+		fire_health = fire_max_health
+	
+
 func _on_tile_object_tree_exited():
 	tile_object = null
 	
@@ -32,7 +51,25 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	if is_on_fire:
+		if not fire_burning.playing:
+			fire_burning.play()
+		if fire_damage_timer.is_stopped():
+			fire_damage_timer.start()
+		if player_obj != null and player_obj.is_standing():
+			fire_damage_timer.paused = true
+			if Input.is_action_pressed("interact"):
+				if Input.is_action_just_pressed("interact"):
+					fire_health -= 0.1
+				fire_health -= delta
+		else:
+			fire_damage_timer.paused = false
+		fire_fix_meter.value = fire_health / fire_max_health
+		fire_fix_meter.visible = fire_health < fire_max_health
+	else:
+		fire_burning.stop()
+	
+	fire_sprite.visible = is_on_fire
 
 
 func _on_body_entered(body):
@@ -123,3 +160,17 @@ func visual_only():
 	monitorable = false
 	if tile_object:
 		tile_object.process_mode = Node.PROCESS_MODE_DISABLED
+
+
+func _on_fire_damage_timer_timeout():
+	damage(1)
+	spread_fire_to_adjacent_tiles()
+
+func spread_fire_to_adjacent_tiles():
+	var adjacent_tiles = get_surrounding_tiles()
+	
+	for tile in adjacent_tiles:
+		var fire_spread_chance = randi_range(0, 5)
+		
+		if fire_spread_chance == 1:
+			tile.ignite()

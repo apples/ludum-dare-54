@@ -10,6 +10,7 @@ enum {
 	STATE_SIT,
 	STATE_SWIM,
 	STATE_FIX,
+	STATE_EXTINGUISH,
 }
 
 var nearby_tiles = []
@@ -23,14 +24,21 @@ var swim_speed := 100
 
 var current_speed := walk_speed
 
-var is_grid_based := true
-
 var grid_pos: Vector2i:
 	get:
 		return grid_current_position
 
 var grid_previous_position : Vector2i
-var grid_current_position : Vector2i
+var grid_current_position : Vector2i:
+	set(v):
+		var t = _what_tile()
+		if t:
+			t.player_obj = null
+		grid_current_position = v
+		t = _what_tile()
+		if t:
+			t.player_obj = self
+
 var grid_lerp_t := 1.0
 var grid_lerp_speed := 12.0
 var grid_buffered_input: Vector2i = Vector2i.ZERO
@@ -86,6 +94,9 @@ var _player_input: InputState = InputState.new()
 var _player_input_pressed: InputState = InputState.new()
 var _player_input_released: InputState = InputState.new()
 
+func is_standing() -> bool:
+	return state == STATE_IDLE and grid_lerp_t >= 1.0
+
 func eat_inputs():
 	for k in ["up", "down", "left", "right", "interact", "cancel","one","two","three","four","five","six"]:
 		_player_input_pressed[k] = false
@@ -115,15 +126,14 @@ func _ready():
 		push_error("Character has no raft :(")
 		queue_free()
 		return
+
+	var t = raft.get_tile_at(position)
+	if t != null:
+		grid_current_position = t.grid_pos
+	else:
+		grid_current_position = raft.get_closest_empty_tile(position).grid_pos
 	
-	if is_grid_based:
-		var t = raft.get_tile_at(position)
-		if t != null:
-			grid_current_position = t.grid_pos
-		else:
-			grid_current_position = raft.get_closest_empty_tile(position).grid_pos
-		
-		position = raft.rc_to_pos(grid_current_position)
+	position = raft.rc_to_pos(grid_current_position)
 
 func _process(delta):
 	var input = _get_player_input()
@@ -132,19 +142,17 @@ func _process(delta):
 		_player_input_released[k] = not input[k] and _player_input[k]
 		_player_input[k] = input[k]
 	
-	if is_grid_based:
-		grid_lerp_t += delta * grid_lerp_speed
-		if grid_lerp_t < 1.0:
-			var a = raft.rc_to_pos(grid_previous_position)
-			var b = raft.rc_to_pos(grid_current_position)
-			position = lerp(a, b, grid_lerp_t)
-		else:
-			position = raft.rc_to_pos(grid_current_position)
+	grid_lerp_t += delta * grid_lerp_speed
+	if grid_lerp_t < 1.0:
+		var a = raft.rc_to_pos(grid_previous_position)
+		var b = raft.rc_to_pos(grid_current_position)
+		position = lerp(a, b, grid_lerp_t)
+	else:
+		position = raft.rc_to_pos(grid_current_position)
 	
 	match state:
 		STATE_IDLE: _process_idle(delta)
 		STATE_SIT: _process_sit(delta)
-		STATE_SWIM: _process_swim(delta)
 		STATE_FIX: _process_fix(delta)
 
 func _process_idle(delta):
@@ -157,7 +165,11 @@ func _process_idle(delta):
 		return
 	
 	if not _what_tile():
-		_change_state(STATE_SWIM)
+		var t = raft.get_random_empty_tile()
+		grid_current_position = t.grid_pos
+		grid_previous_position = t.grid_pos
+		global_position = t.global_position
+		_change_state(STATE_IDLE)
 		return
 	
 	var god_mode_action = god_mode_process(_player_input_pressed)
@@ -185,10 +197,6 @@ func _process_idle(delta):
 					o.grid_pos = t.grid_pos
 					o.position = Vector2.ZERO
 					o.held_by = null
-	elif _player_input.interact:
-		var tile = raft.get_tile(grid_current_position.y, grid_current_position.x)
-		if tile != null and tile.tile_object != null:
-			tile.tile_object.interact(self)
 	
 	match grid_facing:
 		FACING_LEFT:
@@ -265,8 +273,7 @@ func get_facing_object():
 	return tile.tile_object
 
 func _what_tile():
-	var t = $RayCast2D.get_collider()
-	return t
+	return raft.get_tile(grid_current_position.y, grid_current_position.x)
 
 func _physics_process(delta):
 	if move_input_disabled:
@@ -278,97 +285,87 @@ func _physics_process(delta):
 	if temp_dir_locked:
 		return
 	
-	if is_grid_based:
-		var has_input := _player_input.right or _player_input.left or _player_input.down or _player_input.up
-		if has_input and grid_lerp_t >= 1.0:
-			var lr = (1.0 if _player_input.right else 0.0) - (1.0 if _player_input.left else 0.0)
-			var ud = (1.0 if _player_input.down else 0.0) - (1.0 if _player_input.up else 0.0)
-			var dir := Vector2i()
-			if lr < 0:
-				dir = Vector2i(-1,0)
-			if lr > 0:
-				dir = Vector2i(1,0)
-			if ud < 0:
-				dir = Vector2i(0,-1)
-			if ud > 0:
-				dir = Vector2i(0,1)
+	var has_input := _player_input.right or _player_input.left or _player_input.down or _player_input.up
+	if has_input and grid_lerp_t >= 1.0:
+		var lr = (1.0 if _player_input.right else 0.0) - (1.0 if _player_input.left else 0.0)
+		var ud = (1.0 if _player_input.down else 0.0) - (1.0 if _player_input.up else 0.0)
+		var dir := Vector2i()
+		if lr < 0:
+			dir = Vector2i(-1,0)
+		if lr > 0:
+			dir = Vector2i(1,0)
+		if ud < 0:
+			dir = Vector2i(0,-1)
+		if ud > 0:
+			dir = Vector2i(0,1)
+		grid_buffered_input = dir
+	
+	if grid_lerp_t < 1.0:
+		var dir := Vector2i()
+		if _player_input_pressed.left:
+			dir = Vector2i(-1,0)
+		if _player_input_pressed.right:
+			dir = Vector2i(1,0)
+		if _player_input_pressed.up:
+			dir = Vector2i(0,-1)
+		if _player_input_pressed.down:
+			dir = Vector2i(0,1)
+		if dir:
 			grid_buffered_input = dir
-		
-		if grid_lerp_t < 1.0:
-			var dir := Vector2i()
-			if _player_input_pressed.left:
-				dir = Vector2i(-1,0)
-			if _player_input_pressed.right:
-				dir = Vector2i(1,0)
-			if _player_input_pressed.up:
-				dir = Vector2i(0,-1)
-			if _player_input_pressed.down:
-				dir = Vector2i(0,1)
-			if dir:
-				grid_buffered_input = dir
+		push_delay = 0.1
+	
+	if grid_lerp_t >= 1.0:
+		var p = grid_facing
+		if grid_buffered_input.x < 0:
+			grid_facing = FACING_LEFT
+		if grid_buffered_input.x > 0:
+			grid_facing = FACING_RIGHT
+		if grid_buffered_input.y < 0:
+			grid_facing = FACING_UP
+		if grid_buffered_input.y > 0:
+			grid_facing = FACING_DOWN
+		if p != grid_facing:
 			push_delay = 0.1
-		
-		if grid_lerp_t >= 1.0:
-			var p = grid_facing
-			if grid_buffered_input.x < 0:
-				grid_facing = FACING_LEFT
-			if grid_buffered_input.x > 0:
-				grid_facing = FACING_RIGHT
-			if grid_buffered_input.y < 0:
-				grid_facing = FACING_UP
-			if grid_buffered_input.y > 0:
-				grid_facing = FACING_DOWN
-			if p != grid_facing:
-				push_delay = 0.1
-		
-		if push_delay > 0.0:
-			push_delay -= delta
-		
+	
+	if push_delay > 0.0:
+		push_delay -= delta
+	
 #
 #		if temp_locked_dir == grid_buffered_input:
 #			return
 #		else:
 #			temp_locked_dir = Vector2i.ZERO
-		
-		if held_object != null:
-			if grid_buffered_input != Vector2i.ZERO:
-				var f = grid_current_position + get_facing_dir()
-				var t = raft.get_tile(f.y, f.x)
-				if t != null and t.tile_object == null:
-					var o = held_object
-					o.reparent(t)
-					t.tile_object = o
-					o.grid_pos = t.grid_pos
-					o.position = Vector2.ZERO
-					o.held_by = null
+	
+	if held_object != null:
+		if grid_buffered_input != Vector2i.ZERO:
+			var f = grid_current_position + get_facing_dir()
+			var t = raft.get_tile(f.y, f.x)
+			if t != null and t.tile_object == null:
+				var o = held_object
+				o.reparent(t)
+				t.tile_object = o
+				o.grid_pos = t.grid_pos
+				o.position = Vector2.ZERO
+				o.held_by = null
 #				temp_locked_dir = grid_buffered_input
-				temp_dir_locked = true
-			grid_buffered_input = Vector2i.ZERO
-		
-		if grid_lerp_t >= 1.0 and grid_buffered_input != Vector2i.ZERO:
-			var next_grid_position = grid_current_position + grid_buffered_input
-			var next_tile = raft.get_tile(next_grid_position.y, next_grid_position.x)
-			if next_tile and next_tile.tile_object:
-				if next_tile.tile_object.is_pushable:
-					if push_delay > 0.0:
-						next_tile = null
-					elif not next_tile.tile_object.push(grid_current_position):
-						next_tile = null
-			if next_tile != null:
-				grid_previous_position = grid_current_position
-				grid_current_position = next_grid_position
-				grid_lerp_t = 0
-			grid_buffered_input = Vector2i.ZERO
-	else:
-		var lr = (1.0 if _player_input.right else 0.0) - (1.0 if _player_input.left else 0.0)
-		var ud = (1.0 if _player_input.down else 0.0) - (1.0 if _player_input.up else 0.0)
-		var move_input = Vector2(lr, ud)
-		if move_input:
-			velocity = move_input.normalized() * current_speed
-		else:
-			velocity = Vector2.ZERO
-		
-		move_and_slide()
+			temp_dir_locked = true
+		grid_buffered_input = Vector2i.ZERO
+	
+	if grid_lerp_t >= 1.0 and grid_buffered_input != Vector2i.ZERO:
+		var next_grid_position = grid_current_position + grid_buffered_input
+		var next_tile = raft.get_tile(next_grid_position.y, next_grid_position.x)
+		if next_tile and next_tile.tile_object:
+			if next_tile.tile_object.is_pushable:
+				if push_delay > 0.0:
+					next_tile = null
+				elif not next_tile.tile_object.push(grid_current_position):
+					next_tile = null
+		if next_tile != null:
+			grid_previous_position = grid_current_position
+			grid_current_position = next_grid_position
+			grid_lerp_t = 0
+		grid_buffered_input = Vector2i.ZERO
+	
 
 func release():
 	_change_state(STATE_IDLE)
@@ -384,8 +381,7 @@ func add_tile(tile: Node):
 
 func remove_tile(tile: Node):
 	nearby_tiles.erase(tile)
-	
-	
+
 func god_mode_process( _player_input_pressed ):
 	#todo  remove god_mode before publishing
 	#return false
