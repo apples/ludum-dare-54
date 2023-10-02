@@ -193,6 +193,7 @@ position = Vector2(478, 288)
 raft = NodePath("../player_raft")
 
 [node name="Score" type="Label" parent="."]
+z_index = 500
 offset_left = 101.0
 offset_top = 35.0
 offset_right = 165.0
@@ -203,6 +204,7 @@ theme_override_font_sizes/font_size = 38
 text = "0"
 
 [node name="Level" type="Label" parent="."]
+z_index = 500
 offset_left = 97.0
 offset_top = 483.0
 offset_right = 138.0
@@ -234,6 +236,8 @@ bus = &"Music"
 [node name="Fade_in" type="AnimatedSprite2D" parent="."]
 position = Vector2(480, 272)
 sprite_frames = SubResource("SpriteFrames_hov4b")
+frame = 10
+frame_progress = 1.0
 
 [node name="Fade_out" type="AnimatedSprite2D" parent="."]
 position = Vector2(480, 272)
