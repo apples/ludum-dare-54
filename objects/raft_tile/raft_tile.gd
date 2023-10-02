@@ -114,3 +114,9 @@ func get_surrounding_tiles() -> Array[RaftTile]:
 
 func get_surrounding_tile_count() -> int:
 	return get_surrounding_tiles().size()
+
+func visual_only():
+	monitoring = false
+	monitorable = false
+	if tile_object:
+		tile_object.process_mode = Node.PROCESS_MODE_DISABLED

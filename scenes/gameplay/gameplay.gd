@@ -168,6 +168,7 @@ func render_raft_module(raft_module_structure, pos: Vector2):
 		var module_ui = module_ui_scene.instantiate()
 		self.module_valid_connection_updated.connect(module_ui.on_module_valid_connection_updated)
 #		module_ui.position = raft_tile.position
+		raft_tile.visual_only()
 		raft_tile.add_child(module_ui)
 	
 	self.add_child(module_container)

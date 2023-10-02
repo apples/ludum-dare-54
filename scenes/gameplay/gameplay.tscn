@@ -73,8 +73,9 @@ text = "Score : 0"
 [node name="Boss" parent="." node_paths=PackedStringArray("raft") instance=ExtResource("8_86bl7")]
 raft = NodePath("../player_raft")
 
-[node name="ItemSpawner" type="Node2D" parent="."]
+[node name="ItemSpawner" type="Node2D" parent="." node_paths=PackedStringArray("raft")]
 script = ExtResource("10_kdn02")
+raft = NodePath("../player_raft")
 
 [node name="Timer" type="Timer" parent="ItemSpawner"]
 wait_time = 5.0

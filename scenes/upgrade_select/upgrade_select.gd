@@ -49,6 +49,7 @@ func render_raft_module(raft_module_structure, pos: Vector2):
 		raft_tile.position = pos
 		raft_tile.position.x += tile_x_offset - module_width/2 + 16 #+ $module_select_widget1.size.x
 		raft_tile.position.y += tile_y_offset - module_height/2 #+ $module_select_widget1.size.y
+		raft_tile.visual_only()
 		self.add_child(raft_tile)
 
 func render_selected_module_widget(old_index: int, new_index: int):

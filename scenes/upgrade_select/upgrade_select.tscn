@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bfmc3bv8rgnl3" path="res://objects/module_select_widget/module_select_widget.tscn" id="3_6oeuw"]
 
 [node name="upgrade_select" type="Control"]
+z_index = 600
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
