@@ -9,6 +9,7 @@ var upgrade_type = "base"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$module_select_widget1.module_selected(true)
 	
 	var tetros = [
 		"o", "i1", "i2", "s1", "s2", "z1", "z2", "t1", "t2", "t3", "t4",
@@ -17,14 +18,14 @@ func _ready():
 	var base_fmt = "res://resources/raft_modules/fixed_tetrominoes/%s_" + upgrade_type + ".gd"
 	
 	options = {
-		0: [$option_1, load(base_fmt % tetros[randi() % tetros.size()]).get_structure()],
-		1: [$option_2, load(base_fmt % tetros[randi() % tetros.size()]).get_structure()],
-		2: [$option_3, load(base_fmt % tetros[randi() % tetros.size()]).get_structure()],
+		0: [$module_select_widget1, load(base_fmt % tetros[randi() % tetros.size()]).get_structure()],
+		1: [$module_select_widget2, load(base_fmt % tetros[randi() % tetros.size()]).get_structure()],
+		2: [$module_select_widget3, load(base_fmt % tetros[randi() % tetros.size()]).get_structure()],
 	}
 	
-	render_raft_module(options[0][1], options[0][0].position)
-	render_raft_module(options[1][1], options[1][0].position)
-	render_raft_module(options[2][1], options[2][0].position)
+	render_raft_module(options[0][1], options[0][0].global_position)
+	render_raft_module(options[1][1], options[1][0].global_position)
+	render_raft_module(options[2][1], options[2][0].global_position)
 
 func render_raft_module(raft_module_structure, pos: Vector2):
 	#var raft_module_structure = module.get_structure()
@@ -38,38 +39,37 @@ func render_raft_module(raft_module_structure, pos: Vector2):
 		min_x = min(k.x, min_x)
 		min_y = min(k.y, min_y)
 	
-	var module_width = (max_x - min_x + 1) * 32
-	var module_height = (max_y - min_y + 1) * 32
+	var module_width = (max(max_x, abs(min_x)) + 1) * 32
+	var module_height = (max(max_y, abs(min_y)) + 1) * 32
 		
 	for k in raft_module_structure:
-		var tile_x_offset = 32 * k.x
-		var tile_y_offset = 32 * k.y
+		var tile_x_offset = 32 * k.x + (32*4 - module_width)/2
+		var tile_y_offset = 32 * k.y + (32*4 - module_height)/2
 		var raft_tile = raft_module_structure[k].instantiate()
 		raft_tile.position = pos
-		raft_tile.position.x += tile_x_offset + $option_1.size.x/2 - module_width/4
-		raft_tile.position.y += tile_y_offset + $option_1.size.y/2 - module_height/4
+		raft_tile.position.x += tile_x_offset - module_width/2 + 16 #+ $module_select_widget1.size.x
+		raft_tile.position.y += tile_y_offset - module_height/2 #+ $module_select_widget1.size.y
 		self.add_child(raft_tile)
+
+func render_selected_module_widget(old_index: int, new_index: int):
+	options[old_index][0].module_selected(false)
+	options[new_index][0].module_selected(true)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	var old_select_index = select_index
 	if Input.is_action_just_pressed("up") and select_index > 0 and not locked_selection:
 		select_index -= 1
+		render_selected_module_widget(old_select_index, select_index)
 		print(select_index)
-		$selected_option.position = options[select_index][0].position
 		print(options[select_index][1])
-		$selected_option.position.y -= 5
-		$selected_option.position.x -= 5
-		print("up yo")
+		
 	
 	if Input.is_action_just_pressed("down") and select_index < 2:
 		select_index += 1
+		render_selected_module_widget(old_select_index, select_index)
 		print(select_index)
-		#print($selected_option.position)
-		$selected_option.position = options[select_index][0].position
 		print(options[select_index][1])
-		$selected_option.position.y -= 5
-		$selected_option.position.x -= 5
-		print("down yo")
 		
 	if Input.is_action_just_pressed("interact"):
 		queue_free()
