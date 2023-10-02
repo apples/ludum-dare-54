@@ -29,10 +29,11 @@ var health := max_health:
 				health = 0
 				death()
 			if health_bar:
-				var percent := float(health) / float(max_health)
-				health_bar.size.y = health_bar_initial_height * percent
-				health_bar.position.y = health_bar_initial_position.y + (health_bar_initial_height - health_bar.size.y) * health_bar.scale.y
+				_set_healthbar(float(health) / float(max_health))
 
+func _set_healthbar(t: float):
+	health_bar.size.y = health_bar_initial_height * t
+	health_bar.position.y = health_bar_initial_position.y + (health_bar_initial_height - health_bar.size.y) * health_bar.scale.y
 
 enum {
 	LOOKING_STRAIGHT,
@@ -69,7 +70,9 @@ var looking_dir := LOOKING_STRAIGHT
 func _ready():
 	animation_tree.active = true
 	is_stunned = true
-	$StunTimer.start(5)
+	_set_healthbar(0)
+	if raft:
+		$StunTimer.start(5)
 
 func _perform_attack():
 	if not raft:
@@ -117,7 +120,5 @@ func _on_stun_timer_timeout():
 	if health <= 0:
 		GLOBAL_VARS.level += 1
 		max_health += 3
-		health = max_health
-		health_bar.size.y = health_bar_initial_height
-		health_bar.position.y = health_bar_initial_position.y + (health_bar_initial_height - health_bar.size.y) * health_bar.scale.y
-	
+	health = max_health
+	_set_healthbar(float(health) / float(max_health))

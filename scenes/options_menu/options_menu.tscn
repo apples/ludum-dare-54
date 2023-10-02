@@ -20,7 +20,7 @@ metadata/_edit_horizontal_guides_ = []
 [node name="Frame" parent="." instance=ExtResource("2_7e7i4")]
 
 [node name="Boss" parent="." instance=ExtResource("6_usc0r")]
-position = Vector2(880, 130)
+position = Vector2(880, 128)
 
 [node name="mute" type="Button" parent="."]
 offset_left = 416.0
