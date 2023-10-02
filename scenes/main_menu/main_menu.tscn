@@ -694,10 +694,10 @@ text = "START GAME"
 
 [node name="options" type="Button" parent="."]
 z_index = 9
-offset_left = 445.0
-offset_top = 268.0
-offset_right = 509.0
-offset_bottom = 292.0
+offset_left = 448.0
+offset_top = 267.0
+offset_right = 512.0
+offset_bottom = 291.0
 theme = ExtResource("10_qnbff")
 text = "Options"
 
@@ -774,9 +774,9 @@ metadata/_edit_use_anchors_ = true
 [node name="movement_label" type="Label" parent="keycaps"]
 z_index = 9
 offset_left = 312.0
-offset_top = 391.0
+offset_top = 388.0
 offset_right = 448.0
-offset_bottom = 424.0
+offset_bottom = 421.0
 theme = ExtResource("10_qnbff")
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
