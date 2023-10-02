@@ -8,6 +8,8 @@ signal boss_defeated
 var bomb_scene = preload("res://objects/raft_objects/bomb.tscn")
 
 var attack_delay := 5.0
+var bomb_count_thrown := 1.0
+var difficulty_acceleration := 50 # lower is faster acceleration
 
 var max_health := 30
 
@@ -48,7 +50,7 @@ func _ready():
 func _perform_attack():
 	if not raft:
 		return
-	for i in range(3):
+	for i in range(floor(bomb_count_thrown)):
 		var t = raft.get_random_empty_tile()
 		if t:
 			var bomb = bomb_scene.instantiate()
@@ -60,14 +62,14 @@ func _perform_attack():
 		await get_tree().create_timer(0.5).timeout
 	
 	$NextAttack.start(attack_delay * randf_range(0.9, 1.1))
-
+	attack_delay -= (attack_delay - 3) / difficulty_acceleration
+	bomb_count_thrown += 6 / difficulty_acceleration
 
 func _on_next_attack_timeout():
 	_perform_attack()
 
 
 func _on_blink_timer_timeout():
-	print("blink")
 	animation_tree["parameters/Blink/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
 	blink_timer.start(randf_range(0.5, 5.0))
 
