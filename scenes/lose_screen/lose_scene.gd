@@ -24,5 +24,11 @@ func _check_and_set_highscore():
 
 func _on_start_game_pressed():
 	GLOBAL_VARS.score=0
+	GLOBAL_VARS.level=0
 	GLOBAL_VARS.match3_paused = false
+	$Fade_out.play()
+
+
+func _on_fade_out_animation_finished():
+	$Fade_out.frame = 0
 	UTILS.change_to_scene("res://scenes/gameplay/gameplay.tscn")

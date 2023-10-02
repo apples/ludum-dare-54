@@ -4,6 +4,8 @@ var options_scene_file = "res://scenes/options_menu/options_menu.tscn"
 var spawn_rate_min = 5.0
 var spawn_rate_max = 7.0
 
+var scene_goto := ""
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	MusicManager.play("MainMenu")
@@ -18,8 +20,18 @@ func _process(delta):
 
 
 func _on_start_game_pressed():
-	UTILS.change_to_scene(gameplay_scene_file)
+	$Fade_out.play()
+	scene_goto = "gameplay"
 
 
 func _on_options_pressed():
-	UTILS.change_to_scene(options_scene_file)
+	$Fade_out.play()
+	scene_goto = "options"
+
+
+func _on_fade_out_animation_finished():
+	$Fade_out.frame = 0
+	if scene_goto == "gameplay":
+		UTILS.change_to_scene(gameplay_scene_file)
+	else:
+		UTILS.change_to_scene(options_scene_file)

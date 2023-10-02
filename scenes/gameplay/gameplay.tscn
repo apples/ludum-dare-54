@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bynqvjcdpggd0"]
+[gd_scene load_steps=34 format=3 uid="uid://bynqvjcdpggd0"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/gameplay.gd" id="1_8n8ih"]
 [ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://objects/frame/frame.tscn" id="2_erp0v"]
@@ -7,8 +7,172 @@
 [ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="8_2ifv0"]
 [ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="8_86bl7"]
 [ext_resource type="AudioStream" uid="uid://bqwvc1mimfnlo" path="res://assets/sfx/river_water_moving.ogg" id="9_ojlhc"]
+[ext_resource type="Texture2D" uid="uid://d0oae8uw8g2l6" path="res://assets/textures/fade_in.png" id="10_h7tb5"]
 [ext_resource type="Script" path="res://objects/raft/item_spawner.gd" id="10_kdn02"]
 [ext_resource type="AudioStream" uid="uid://bflv5fnr5rfe2" path="res://assets/music/down_the_river.ogg" id="11_8jgfc"]
+[ext_resource type="Texture2D" uid="uid://d1hfjgecs6fj" path="res://assets/textures/fade_out.png" id="11_sp25l"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mw2t1"]
+atlas = ExtResource("10_h7tb5")
+region = Rect2(0, 0, 960, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sek2t"]
+atlas = ExtResource("10_h7tb5")
+region = Rect2(960, 0, 960, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bi7yq"]
+atlas = ExtResource("10_h7tb5")
+region = Rect2(1920, 0, 960, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dyhpr"]
+atlas = ExtResource("10_h7tb5")
+region = Rect2(2880, 0, 960, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sm0tu"]
+atlas = ExtResource("10_h7tb5")
+region = Rect2(3840, 0, 960, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ymtd0"]
+atlas = ExtResource("10_h7tb5")
+region = Rect2(4800, 0, 960, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ywpw"]
+atlas = ExtResource("10_h7tb5")
+region = Rect2(5760, 0, 960, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_loo8f"]
+atlas = ExtResource("10_h7tb5")
+region = Rect2(6720, 0, 960, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tqylr"]
+atlas = ExtResource("10_h7tb5")
+region = Rect2(7680, 0, 960, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sbitk"]
+atlas = ExtResource("10_h7tb5")
+region = Rect2(8640, 0, 960, 540)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hov4b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mw2t1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sek2t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bi7yq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dyhpr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sm0tu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ymtd0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ywpw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_loo8f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tqylr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sbitk")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"default",
+"speed": 30.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r3ena"]
+atlas = ExtResource("11_sp25l")
+region = Rect2(0, 0, 960, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nbcol"]
+atlas = ExtResource("11_sp25l")
+region = Rect2(960, 0, 960, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lmu62"]
+atlas = ExtResource("11_sp25l")
+region = Rect2(1920, 0, 960, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b1pxt"]
+atlas = ExtResource("11_sp25l")
+region = Rect2(2880, 0, 960, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8tof8"]
+atlas = ExtResource("11_sp25l")
+region = Rect2(3840, 0, 960, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yki4q"]
+atlas = ExtResource("11_sp25l")
+region = Rect2(4800, 0, 960, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c1bbb"]
+atlas = ExtResource("11_sp25l")
+region = Rect2(5760, 0, 960, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6bqul"]
+atlas = ExtResource("11_sp25l")
+region = Rect2(6720, 0, 960, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j161j"]
+atlas = ExtResource("11_sp25l")
+region = Rect2(7680, 0, 960, 540)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f1626"]
+atlas = ExtResource("11_sp25l")
+region = Rect2(8640, 0, 960, 540)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b2fii"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r3ena")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nbcol")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lmu62")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b1pxt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8tof8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yki4q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c1bbb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6bqul")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j161j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f1626")
+}],
+"loop": false,
+"name": &"default",
+"speed": 30.0
+}]
 
 [node name="gameplay" type="Node2D"]
 script = ExtResource("1_8n8ih")
@@ -66,4 +230,16 @@ stream = ExtResource("11_8jgfc")
 autoplay = true
 bus = &"Music"
 
+[node name="Fade_in" type="AnimatedSprite2D" parent="."]
+position = Vector2(480, 272)
+sprite_frames = SubResource("SpriteFrames_hov4b")
+frame = 10
+frame_progress = 1.0
+
+[node name="Fade_out" type="AnimatedSprite2D" parent="."]
+position = Vector2(480, 272)
+sprite_frames = SubResource("SpriteFrames_b2fii")
+
+[connection signal="tree_entered" from="." to="Fade_in" method="play"]
 [connection signal="timeout" from="ItemSpawner/Timer" to="ItemSpawner" method="_on_timer_timeout"]
+[connection signal="animation_finished" from="Fade_out" to="." method="_on_fade_out_animation_finished"]
