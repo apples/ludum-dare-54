@@ -1,4 +1,4 @@
-[gd_scene load_steps=109 format=3 uid="uid://bimoh7pybv8ag"]
+[gd_scene load_steps=111 format=3 uid="uid://bimoh7pybv8ag"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_n47ym"]
 [ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://objects/frame/frame.tscn" id="2_hu3nl"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://bvmks1y37tkks" path="res://assets/textures/instructions_image.png" id="4_xp3ti"]
 [ext_resource type="Texture2D" uid="uid://c3k0k8bv0ywm" path="res://assets/textures/logo.png" id="7_bfq6d"]
 [ext_resource type="Script" path="res://objects/raft/item_spawner.gd" id="7_sdryq"]
+[ext_resource type="Texture2D" uid="uid://bqlwl5r3a0tt3" path="res://assets/textures/gear_icon.png" id="8_adhxf"]
+[ext_resource type="Texture2D" uid="uid://bf2midmlj8y52" path="res://assets/textures/question_icon.png" id="9_7urw8"]
 [ext_resource type="Texture2D" uid="uid://dh0k72akhx6q2" path="res://assets/textures/legend_frame.png" id="10_2o71m"]
 [ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="10_qnbff"]
 [ext_resource type="Texture2D" uid="uid://k3qht7uajmwr" path="res://assets/textures/water_bucket.png" id="11_uk2qi"]
@@ -694,12 +696,22 @@ text = "START GAME"
 
 [node name="options" type="Button" parent="."]
 z_index = 9
-offset_left = 448.0
-offset_top = 267.0
-offset_right = 512.0
-offset_bottom = 291.0
+offset_left = 444.0
+offset_top = 258.0
+offset_right = 476.0
+offset_bottom = 290.0
 theme = ExtResource("10_qnbff")
-text = "Options"
+icon = ExtResource("8_adhxf")
+
+[node name="help" type="Button" parent="."]
+z_index = 9
+offset_left = 484.0
+offset_top = 258.0
+offset_right = 516.0
+offset_bottom = 290.0
+theme = ExtResource("10_qnbff")
+theme_override_font_sizes/font_size = 38
+icon = ExtResource("9_7urw8")
 
 [node name="keycaps" type="Node" parent="."]
 
@@ -982,8 +994,6 @@ frame_progress = 0.701163
 [node name="Fade_in" type="AnimatedSprite2D" parent="."]
 position = Vector2(480, 272)
 sprite_frames = SubResource("SpriteFrames_c1e23")
-frame = 10
-frame_progress = 1.0
 
 [node name="Fade_out" type="AnimatedSprite2D" parent="."]
 position = Vector2(480, 272)
@@ -993,4 +1003,5 @@ sprite_frames = SubResource("SpriteFrames_jud7r")
 [connection signal="timeout" from="ItemSpawner/Timer" to="ItemSpawner" method="_on_timer_timeout"]
 [connection signal="pressed" from="start_game" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="help" to="." method="_on_help_pressed"]
 [connection signal="animation_finished" from="Fade_out" to="." method="_on_fade_out_animation_finished"]
