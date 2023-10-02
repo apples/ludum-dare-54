@@ -1,11 +1,28 @@
-[gd_resource type="SpriteFrames" load_steps=4 format=3 uid="uid://f3e2p2eukvp5"]
+[gd_resource type="SpriteFrames" load_steps=7 format=3 uid="uid://f3e2p2eukvp5"]
 
-[ext_resource type="Texture2D" uid="uid://dj30q5d2lx38k" path="res://assets/textures/char2_eye1a.png" id="1_c3m0a"]
-[ext_resource type="Texture2D" uid="uid://cbqgp8g76hxnc" path="res://assets/textures/char2_eye1b.png" id="2_jus4u"]
-[ext_resource type="Texture2D" uid="uid://1h3v4foqkb63" path="res://assets/textures/char2_eye1c.png" id="3_oa6hl"]
+[ext_resource type="Texture2D" uid="uid://bdoypffecp8lf" path="res://assets/textures/char2_eye1a.png" id="1_c3m0a"]
+[ext_resource type="Texture2D" uid="uid://dxjjcgc083vcx" path="res://assets/textures/char2_eye2a.png" id="1_taaqm"]
+[ext_resource type="Texture2D" uid="uid://bqbv7eajpfqpo" path="res://assets/textures/char2_eye2b.png" id="2_6vygm"]
+[ext_resource type="Texture2D" uid="uid://b4ko30h7glcfv" path="res://assets/textures/char2_eye1b.png" id="2_jus4u"]
+[ext_resource type="Texture2D" uid="uid://cmu2lh8gxi6xh" path="res://assets/textures/char2_eye2c.png" id="3_mrm3f"]
+[ext_resource type="Texture2D" uid="uid://cnkl62iraowu7" path="res://assets/textures/char2_eye1c.png" id="3_oa6hl"]
 
 [resource]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_taaqm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_6vygm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_mrm3f")
+}],
+"loop": true,
+"name": &"angry_eyes",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("1_c3m0a")

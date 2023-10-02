@@ -20,8 +20,11 @@ var health := max_health:
 		return health
 	set(v):
 		if not is_stunned:
+			if v < health:
+				animation_tree["parameters/wince/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
 			health = v
 			if health <= 0:
+				health = 0
 				death()
 			if health_bar:
 				var percent := float(health) / float(max_health)
@@ -35,8 +38,20 @@ enum {
 	LOOKING_DOWN,
 }
 
+enum {
+	MOUTH_NORMAL,
+	MOUTH_SMUG,
+	MOUTH_POUT,
+}
+
+enum {
+	EYES_NORMAL,
+	EYES_ANGRY,
+}
+
 var is_talking := false
-var is_smug := true
+var mouth_shape := MOUTH_NORMAL
+var eyes_shape := EYES_NORMAL
 var looking_dir := LOOKING_STRAIGHT
 
 @onready var animation_tree = $AnimationTree
@@ -54,6 +69,7 @@ func _ready():
 func _perform_attack():
 	if not raft:
 		return
+	animation_tree["parameters/emote_raise_eyes/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
 	for i in range(floor(bomb_count_thrown)):
 		var t = raft.get_random_empty_tile()
 		if t:

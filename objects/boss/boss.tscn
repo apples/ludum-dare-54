@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://db55dqikpqoof"]
+[gd_scene load_steps=56 format=3 uid="uid://db55dqikpqoof"]
 
 [ext_resource type="Texture2D" uid="uid://d3u5e7iuyk16" path="res://assets/textures/char2_base.png" id="1_4b4qy"]
 [ext_resource type="Script" path="res://objects/boss/boss.gd" id="2_tau8x"]
@@ -13,7 +13,34 @@
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_atugj"]
 animation = &"blink"
 
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_hkcte"]
+
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_uflod"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_drmsj"]
+animation = &"eyes_angry"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_188qo"]
+animation = &"eyes_normal"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qlwk5"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6586e"]
+advance_mode = 2
+advance_expression = "eyes_shape == EYES_ANGRY"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_yrlo1"]
+advance_mode = 2
+advance_expression = "eyes_shape != EYES_ANGRY"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_vu6ol"]
+states/eyes_angry/node = SubResource("AnimationNodeAnimation_drmsj")
+states/eyes_angry/position = Vector2(531, 74)
+states/eyes_normal/node = SubResource("AnimationNodeAnimation_188qo")
+states/eyes_normal/position = Vector2(348, 161)
+transitions = ["Start", "eyes_normal", SubResource("AnimationNodeStateMachineTransition_qlwk5"), "eyes_normal", "eyes_angry", SubResource("AnimationNodeStateMachineTransition_6586e"), "eyes_angry", "eyes_normal", SubResource("AnimationNodeStateMachineTransition_yrlo1")]
+graph_offset = Vector2(26, -64)
 
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_kv8s6"]
 
@@ -67,27 +94,41 @@ states/talking_smug/position = Vector2(675, 100)
 transitions = ["Start", "mouth_closed_smug", SubResource("AnimationNodeStateMachineTransition_wbs2k"), "mouth_closed_smug", "talking_smug", SubResource("AnimationNodeStateMachineTransition_nedu0"), "talking_smug", "mouth_closed_smug", SubResource("AnimationNodeStateMachineTransition_cqnlh")]
 graph_offset = Vector2(46, -33)
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ufcik"]
+animation = &"mouth_pout"
+
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ji2of"]
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mf7a3"]
 advance_mode = 2
-advance_expression = "is_smug
-"
+advance_expression = "mouth_shape == MOUTH_SMUG"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_igvv5"]
 advance_mode = 2
-advance_expression = "not is_smug"
+advance_expression = "mouth_shape != MOUTH_SMUG"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hstrc"]
+advance_mode = 2
+advance_expression = "mouth_shape == MOUTH_POUT"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_84ktc"]
+advance_mode = 2
+advance_expression = "mouth_shape != MOUTH_POUT"
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_gb6ul"]
 states/End/position = Vector2(898, 65)
 states/Normal/node = SubResource("AnimationNodeStateMachine_farfl")
-states/Normal/position = Vector2(448, -35)
+states/Normal/position = Vector2(407, 33)
 states/Smug/node = SubResource("AnimationNodeStateMachine_jionl")
-states/Smug/position = Vector2(448, 129)
+states/Smug/position = Vector2(407, 200)
 states/Start/position = Vector2(157, 71)
-transitions = ["Start", "Normal", SubResource("AnimationNodeStateMachineTransition_ji2of"), "Normal", "Smug", SubResource("AnimationNodeStateMachineTransition_mf7a3"), "Smug", "Normal", SubResource("AnimationNodeStateMachineTransition_igvv5")]
-graph_offset = Vector2(-115, -176)
+states/mouth_pout/node = SubResource("AnimationNodeAnimation_ufcik")
+states/mouth_pout/position = Vector2(545, -57)
+transitions = ["Start", "Normal", SubResource("AnimationNodeStateMachineTransition_ji2of"), "Normal", "Smug", SubResource("AnimationNodeStateMachineTransition_mf7a3"), "Smug", "Normal", SubResource("AnimationNodeStateMachineTransition_igvv5"), "Normal", "mouth_pout", SubResource("AnimationNodeStateMachineTransition_hstrc"), "mouth_pout", "Normal", SubResource("AnimationNodeStateMachineTransition_84ktc")]
+graph_offset = Vector2(-33, -109)
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_i3go5"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_v2rki"]
 animation = &"look_down"
@@ -128,19 +169,49 @@ states/look_straight/position = Vector2(371, 100)
 transitions = ["Start", "look_straight", SubResource("AnimationNodeStateMachineTransition_uly6m"), "look_straight", "look_down", SubResource("AnimationNodeStateMachineTransition_2so3j"), "look_right", "look_straight", SubResource("AnimationNodeStateMachineTransition_e6a6l"), "look_straight", "look_right", SubResource("AnimationNodeStateMachineTransition_3dgsg"), "look_down", "look_straight", SubResource("AnimationNodeStateMachineTransition_6ve3y")]
 graph_offset = Vector2(-235, -121)
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sgd3v"]
+animation = &"emote_raise_eyes"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_owqb6"]
+animation = &"wince"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_vbwoe"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sv7wu"]
+animation = &"wince"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_8sl52"]
+
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_q67ad"]
+graph_offset = Vector2(1430.96, -9.37082)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_atugj")
 nodes/Animation/position = Vector2(0, 180)
+nodes/Blend2/node = SubResource("AnimationNodeBlend2_hkcte")
+nodes/Blend2/position = Vector2(-240, 40)
 nodes/Blink/node = SubResource("AnimationNodeOneShot_uflod")
 nodes/Blink/position = Vector2(200, 60)
+nodes/EyesStateMachine/node = SubResource("AnimationNodeStateMachine_vu6ol")
+nodes/EyesStateMachine/position = Vector2(-745, 38)
 nodes/FinalBlend/node = SubResource("AnimationNodeBlend2_kv8s6")
 nodes/FinalBlend/position = Vector2(620, 60)
 nodes/MouthStateMachine/node = SubResource("AnimationNodeStateMachine_gb6ul")
 nodes/MouthStateMachine/position = Vector2(420, 160)
+nodes/OneShot/node = SubResource("AnimationNodeOneShot_i3go5")
+nodes/OneShot/position = Vector2(980, 40)
 nodes/PupilStateMachine/node = SubResource("AnimationNodeStateMachine_vdp4c")
-nodes/PupilStateMachine/position = Vector2(-280, 60)
-nodes/output/position = Vector2(820, 100)
-node_connections = [&"output", 0, &"FinalBlend", &"Blink", 0, &"PupilStateMachine", &"Blink", 1, &"Animation", &"FinalBlend", 0, &"Blink", &"FinalBlend", 1, &"MouthStateMachine"]
+nodes/PupilStateMachine/position = Vector2(-440, 160)
+"nodes/Raise Eyes/node" = SubResource("AnimationNodeAnimation_sgd3v")
+"nodes/Raise Eyes/position" = Vector2(1680, 140)
+nodes/Wince/node = SubResource("AnimationNodeAnimation_owqb6")
+nodes/Wince/position = Vector2(820, 220)
+nodes/emote_raise_eyes/node = SubResource("AnimationNodeOneShot_vbwoe")
+nodes/emote_raise_eyes/position = Vector2(1900, 20)
+nodes/output/position = Vector2(2140, 20)
+nodes/wince/node = SubResource("AnimationNodeOneShot_8sl52")
+nodes/wince/position = Vector2(1460, 20)
+"nodes/wince anim/node" = SubResource("AnimationNodeAnimation_sv7wu")
+"nodes/wince anim/position" = Vector2(1203.91, 165.71)
+node_connections = [&"output", 0, &"emote_raise_eyes", &"Blink", 0, &"Blend2", &"Blink", 1, &"Animation", &"FinalBlend", 0, &"Blink", &"FinalBlend", 1, &"MouthStateMachine", &"Blend2", 0, &"EyesStateMachine", &"Blend2", 1, &"PupilStateMachine", &"OneShot", 0, &"FinalBlend", &"OneShot", 1, &"Wince", &"emote_raise_eyes", 0, &"wince", &"emote_raise_eyes", 1, &"Raise Eyes", &"wince", 0, &"OneShot", &"wince", 1, &"wince anim"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_6abmh"]
 particles_animation = true
@@ -180,10 +251,20 @@ tree_root = SubResource("AnimationNodeBlendTree_q67ad")
 anim_player = NodePath("../AnimationPlayer")
 advance_expression_base_node = NodePath("..")
 active = true
+parameters/Blend2/blend_amount = 0.5
 parameters/Blink/active = false
 parameters/Blink/internal_active = false
 parameters/Blink/request = 0
 parameters/FinalBlend/blend_amount = 0.5
+parameters/OneShot/active = false
+parameters/OneShot/internal_active = false
+parameters/OneShot/request = 0
+parameters/emote_raise_eyes/active = false
+parameters/emote_raise_eyes/internal_active = false
+parameters/emote_raise_eyes/request = 0
+parameters/wince/active = false
+parameters/wince/internal_active = false
+parameters/wince/request = 0
 
 [node name="BlinkTimer" type="Timer" parent="."]
 one_shot = true
