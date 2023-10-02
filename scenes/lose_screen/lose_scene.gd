@@ -11,6 +11,17 @@ func _ready():
 		level_label.text += (
 			"Too bad it doesn't beat the high score of %s" % DATA_STORE.current.highscore
 		)
+	unlock_hard_mode()
+
+func unlock_hard_mode():
+	if DATA_STORE.current.has('hard_mode_unlocked'):	
+		if not DATA_STORE.current.hard_mode_unlocked:
+			DATA_STORE.current.hard_mode_unlocked = true
+			DATA_STORE.save()
+	else:
+		DATA_STORE.current['hard_mode_unlocked'] = true
+		DATA_STORE.save()
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
