@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://coygvu81ci30f"]
+[gd_scene load_steps=5 format=3 uid="uid://coygvu81ci30f"]
 
 [ext_resource type="Script" path="res://objects/VFX/tile_break/tile_break.gd" id="1_k3qsj"]
 [ext_resource type="Texture2D" uid="uid://cy5n185vl07fv" path="res://assets/textures/raff_damage_particle.png" id="2_oxfn2"]
+[ext_resource type="AudioStream" uid="uid://domuwjegarp6l" path="res://assets/sfx/raft_tile_break.ogg" id="3_xem8v"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5s4gu"]
 particles_animation = true
@@ -30,5 +31,9 @@ anim_offset_max = 1.0
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.75
 autostart = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_xem8v")
+autoplay = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

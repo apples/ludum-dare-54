@@ -12,7 +12,7 @@ func _spawn_a_buoy():
 	if(raft):
 		buoy.global_position = raft.global_position + Vector2(randi_range(1,17) * 32, 0)
 	else:
-		buoy.global_position =  Vector2(randi_range(8,22) * 32, 0)
+		buoy.global_position =  Vector2(randi_range(8,22) * 32, 200)
 	get_parent().add_child(buoy)
 
 func _on_timer_timeout():

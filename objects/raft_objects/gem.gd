@@ -21,8 +21,11 @@ func _process_unconnected(delta):
 	
 	raft.heal_all_tiles()
 	
+	var sparkle_scene_b 
 	for b in ball_nbors:
-		var sparkle_scene_b = sparkle_scene.instantiate()
+		sparkle_scene_b= sparkle_scene.instantiate()
 		sparkle_scene_b.init( Color(1,1,0))
 		b.get_parent().add_child(sparkle_scene_b)
 		b.queue_free()
+		
+	sparkle_scene_b.play_gem()

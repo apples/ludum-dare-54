@@ -1,6 +1,10 @@
 extends Node
+
+var main_menu_scene_file = "res://scenes/main_menu/main_menu.tscn"
+
 var current_scene = null
 var last_master_volume = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var root = get_tree().get_root()
@@ -12,10 +16,7 @@ func _process(delta):
 
 
 func _on_main_menu_button_pressed():
-	current_scene.queue_free()
-	var new_scene = ResourceLoader.load("res://scenes/main_menu/main_menu.tscn")
-	current_scene = new_scene.instantiate()
-	get_tree().get_root().add_child(current_scene)
+	UTILS.change_to_scene(main_menu_scene_file)
 
 
 
