@@ -53,8 +53,9 @@ texture = ExtResource("5_sl3p5")
 position = Vector2(80, 256)
 texture = ExtResource("6_sl4bn")
 
-[node name="player_raft" parent="." instance=ExtResource("2_k13pe")]
+[node name="player_raft" parent="." node_paths=PackedStringArray("player") instance=ExtResource("2_k13pe")]
 position = Vector2(210, 48)
+player = NodePath("../Player")
 
 [node name="Player" parent="." node_paths=PackedStringArray("raft") instance=ExtResource("4_85nev")]
 position = Vector2(478, 288)

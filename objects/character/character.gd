@@ -25,6 +25,10 @@ var current_speed := walk_speed
 
 var is_grid_based := true
 
+var grid_pos: Vector2i:
+	get:
+		return grid_current_position
+
 var grid_previous_position : Vector2i
 var grid_current_position : Vector2i
 var grid_lerp_t := 1.0
@@ -140,12 +144,18 @@ func _process(delta):
 		STATE_FIX: _process_fix(delta)
 
 func _process_idle(delta):
+	if Input.is_key_pressed(KEY_KP_7):
+		Engine.time_scale = 10.0
+	else:
+		Engine.time_scale = 1.0
+	
 	if move_input_disabled:
 		return
 	
 	if not _what_tile():
 		_change_state(STATE_SWIM)
 		return
+	
 	var god_mode_action = god_mode_process(_player_input_pressed)
 	
 	if god_mode_action:
