@@ -1,5 +1,6 @@
 extends Node
 var gameplay_scene_file = "res://scenes/gameplay/gameplay.tscn"
+var difficulty_select_scene = "res://scenes/difficulty_select/difficulty_select.tscn"
 var options_scene_file = "res://scenes/options_menu/options_menu.tscn"
 var spawn_rate_min = 5.0
 var spawn_rate_max = 7.0
@@ -18,7 +19,7 @@ func _process(delta):
 
 
 func _on_start_game_pressed():
-	UTILS.change_to_scene(gameplay_scene_file)
+	UTILS.change_to_scene(difficulty_select_scene)
 
 
 func _on_options_pressed():

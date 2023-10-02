@@ -1,0 +1,81 @@
+[gd_scene load_steps=8 format=3 uid="uid://dn5glcw3twa3a"]
+
+[ext_resource type="Script" path="res://scenes/difficulty_select/difficulty_select.gd" id="1_f6low"]
+[ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="2_a1caq"]
+[ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://objects/frame/frame.tscn" id="2_st5vl"]
+[ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="3_xh4cm"]
+[ext_resource type="Texture2D" uid="uid://c3k0k8bv0ywm" path="res://assets/textures/logo.png" id="4_lclw4"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_n4y43"]
+action = &"interact"
+
+[sub_resource type="Shortcut" id="Shortcut_cfh6x"]
+events = [SubResource("InputEventAction_n4y43")]
+
+[node name="difficulty_select" type="Node2D"]
+script = ExtResource("1_f6low")
+
+[node name="Frame" parent="." instance=ExtResource("2_st5vl")]
+
+[node name="Boss" parent="." instance=ExtResource("3_xh4cm")]
+position = Vector2(880, 128)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = 12
+offset_left = 249.0
+offset_top = 52.0
+offset_right = 700.0
+offset_bottom = 208.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_lclw4")
+stretch_mode = 5
+
+[node name="info_label" type="Label" parent="."]
+z_index = 9
+offset_left = 360.0
+offset_top = 228.0
+offset_right = 616.0
+offset_bottom = 261.0
+theme = ExtResource("2_a1caq")
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 38
+text = "Choose Your Difficulty!"
+
+[node name="easy_start" type="Button" parent="."]
+z_index = 9
+offset_left = 435.0
+offset_top = 328.0
+offset_right = 537.0
+offset_bottom = 362.0
+theme = ExtResource("2_a1caq")
+action_mode = 0
+shortcut = SubResource("Shortcut_cfh6x")
+text = "Easy
+"
+
+[node name="med_start" type="Button" parent="."]
+z_index = 9
+offset_left = 436.0
+offset_top = 375.0
+offset_right = 538.0
+offset_bottom = 409.0
+theme = ExtResource("2_a1caq")
+action_mode = 0
+shortcut = SubResource("Shortcut_cfh6x")
+text = "Normal"
+
+[node name="hard_start" type="Button" parent="."]
+z_index = 9
+offset_left = 423.0
+offset_top = 423.0
+offset_right = 549.0
+offset_bottom = 456.0
+theme = ExtResource("2_a1caq")
+action_mode = 0
+shortcut = SubResource("Shortcut_cfh6x")
+text = "Gimme Raft Blasters"
+
+[connection signal="pressed" from="easy_start" to="." method="_on_easy_start_pressed"]
+[connection signal="pressed" from="med_start" to="." method="_on_med_start_pressed"]
+[connection signal="pressed" from="hard_start" to="." method="_on_hard_start_pressed"]
