@@ -236,6 +236,8 @@ bus = &"Music"
 [node name="Fade_in" type="AnimatedSprite2D" parent="."]
 position = Vector2(480, 272)
 sprite_frames = SubResource("SpriteFrames_hov4b")
+frame = 10
+frame_progress = 1.0
 
 [node name="Fade_out" type="AnimatedSprite2D" parent="."]
 position = Vector2(480, 272)
