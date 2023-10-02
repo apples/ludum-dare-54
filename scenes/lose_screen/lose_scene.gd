@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var level_label = $LevelLabel
+@export var next_scene = "res://scenes/gameplay/gameplay.tscn"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -42,6 +43,17 @@ func _on_start_game_pressed():
 	$Fade_out.play()
 
 
+func _on_main_menu_button_pressed():
+	GLOBAL_VARS.score = 0
+	GLOBAL_VARS.level = 0
+	GLOBAL_VARS.match3_paused = false
+	next_scene = "res://scenes/main_menu/main_menu.tscn"
+	$Fade_out.play()
+	
+
 func _on_fade_out_animation_finished():
 	$Fade_out.frame = 0
-	UTILS.change_to_scene("res://scenes/gameplay/gameplay.tscn")
+	UTILS.change_to_scene(next_scene)
+
+
+
