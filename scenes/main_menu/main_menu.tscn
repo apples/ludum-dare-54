@@ -1,4 +1,4 @@
-[gd_scene load_steps=96 format=3 uid="uid://bimoh7pybv8ag"]
+[gd_scene load_steps=85 format=3 uid="uid://bimoh7pybv8ag"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_n47ym"]
 [ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://objects/frame/frame.tscn" id="2_hu3nl"]
@@ -14,10 +14,12 @@
 [ext_resource type="Texture2D" uid="uid://b7jwxfl5bst8b" path="res://assets/textures/keycap_frames.png" id="13_22h5w"]
 [ext_resource type="Texture2D" uid="uid://gjuu4n56twal" path="res://assets/textures/driftwood.png" id="13_x4xtf"]
 [ext_resource type="Texture2D" uid="uid://ccemrr8cwl7r6" path="res://assets/textures/keycap.png" id="14_1tcap"]
+[ext_resource type="Texture2D" uid="uid://cyyli7fsc8bpn" path="res://assets/textures/splash.png" id="14_r8mdi"]
 [ext_resource type="Texture2D" uid="uid://cqbpyq532ek02" path="res://assets/textures/fire.png" id="14_wknqp"]
 [ext_resource type="Texture2D" uid="uid://bocr5wmnj6tyt" path="res://assets/textures/red_x.png" id="15_lv2o8"]
 [ext_resource type="Texture2D" uid="uid://ba2lrx4jj1x3m" path="res://assets/textures/raff.png" id="16_fxa8l"]
 [ext_resource type="Texture2D" uid="uid://ct8xci1wmvc4g" path="res://assets/textures/green_plus.png" id="17_jueev"]
+[ext_resource type="Texture2D" uid="uid://bi1sc3c0c85nk" path="res://assets/textures/green_plus_anim.png" id="18_afq46"]
 [ext_resource type="Texture2D" uid="uid://jv84skt55ac" path="res://assets/textures/repair.png" id="18_v14jf"]
 [ext_resource type="Texture2D" uid="uid://d1hfjgecs6fj" path="res://assets/textures/fade_out.png" id="20_e5w5u"]
 [ext_resource type="Texture2D" uid="uid://d0oae8uw8g2l6" path="res://assets/textures/fade_in.png" id="20_nx5ek"]
@@ -192,6 +194,35 @@ animations = [{
 "speed": 13.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_gyb20"]
+atlas = ExtResource("16_fxa8l")
+region = Rect2(0, 0, 32, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8doyj"]
+atlas = ExtResource("16_fxa8l")
+region = Rect2(32, 0, 32, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uqlg5"]
+atlas = ExtResource("16_fxa8l")
+region = Rect2(64, 0, 32, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3xwjt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gyb20")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8doyj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uqlg5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_jqhc0"]
 atlas = ExtResource("11_uk2qi")
 region = Rect2(0, 0, 32, 32)
@@ -208,6 +239,90 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_17i7m")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ewv6g"]
+atlas = ExtResource("14_wknqp")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_613aj"]
+atlas = ExtResource("14_wknqp")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4rhwf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ewv6g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_613aj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ewv6g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_613aj")
+}, {
+"duration": 3.0,
+"texture": null
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6kww3"]
+atlas = ExtResource("14_r8mdi")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k1gut"]
+atlas = ExtResource("14_r8mdi")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kace5"]
+atlas = ExtResource("14_r8mdi")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ymn5p"]
+atlas = ExtResource("14_r8mdi")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aqvhl"]
+atlas = ExtResource("14_r8mdi")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dshf1"]
+atlas = ExtResource("14_r8mdi")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7n1lh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6kww3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k1gut")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kace5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ymn5p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aqvhl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dshf1")
+}, {
+"duration": 1.0,
+"texture": null
 }],
 "loop": true,
 "name": &"default",
@@ -258,55 +373,33 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ewv6g"]
-atlas = ExtResource("14_wknqp")
-region = Rect2(0, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_bfulj"]
+atlas = ExtResource("18_afq46")
+region = Rect2(0, 0, 32, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_613aj"]
-atlas = ExtResource("14_wknqp")
-region = Rect2(32, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_u5ywt"]
+atlas = ExtResource("18_afq46")
+region = Rect2(32, 0, 32, 16)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_4rhwf"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_wgd7y"]
+atlas = ExtResource("18_afq46")
+region = Rect2(64, 0, 32, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3rciq"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ewv6g")
+"texture": SubResource("AtlasTexture_bfulj")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_613aj")
+"texture": SubResource("AtlasTexture_u5ywt")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_wgd7y")
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
-}]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_gyb20"]
-atlas = ExtResource("16_fxa8l")
-region = Rect2(0, 0, 32, 45)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8doyj"]
-atlas = ExtResource("16_fxa8l")
-region = Rect2(32, 0, 32, 45)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uqlg5"]
-atlas = ExtResource("16_fxa8l")
-region = Rect2(64, 0, 32, 45)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_3xwjt"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gyb20")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8doyj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_uqlg5")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
+"speed": 3.0
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s8ith"]
@@ -752,9 +845,9 @@ text = "Move /
 
 [node name="spacebar" type="Label" parent="."]
 z_index = 9
-offset_left = 335.0
+offset_left = 263.0
 offset_top = 309.0
-offset_right = 713.0
+offset_right = 721.0
 offset_bottom = 343.0
 theme = ExtResource("10_qnbff")
 theme_override_constants/outline_size = 8
@@ -779,18 +872,36 @@ position = Vector2(645, 425)
 sprite_frames = SubResource("SpriteFrames_cbowt")
 autoplay = "default"
 
+[node name="full_raft_fire" type="AnimatedSprite2D" parent="legend_frame"]
+z_index = 9
+position = Vector2(40, -40)
+sprite_frames = SubResource("SpriteFrames_3xwjt")
+
 [node name="water_bucket" type="AnimatedSprite2D" parent="legend_frame"]
 z_index = 9
 position = Vector2(-43, -42)
 sprite_frames = SubResource("SpriteFrames_vuu3e")
 autoplay = "default"
 
+[node name="fire" type="AnimatedSprite2D" parent="legend_frame"]
+z_index = 9
+position = Vector2(40, -48)
+sprite_frames = SubResource("SpriteFrames_4rhwf")
+autoplay = "default"
+frame_progress = 0.354308
+
+[node name="water_splash" type="AnimatedSprite2D" parent="legend_frame"]
+z_index = 9
+position = Vector2(41, -45)
+sprite_frames = SubResource("SpriteFrames_7n1lh")
+autoplay = "default"
+
 [node name="water_x3" type="Label" parent="legend_frame"]
 z_index = 9
 offset_left = -27.0
-offset_top = -55.0
+offset_top = -57.0
 offset_right = 2.0
-offset_bottom = -21.0
+offset_bottom = -23.0
 theme = ExtResource("10_qnbff")
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
@@ -800,9 +911,9 @@ horizontal_alignment = 1
 [node name="equals" type="Label" parent="legend_frame"]
 z_index = 9
 offset_left = -2.0
-offset_top = -54.0
+offset_top = -55.0
 offset_right = 27.0
-offset_bottom = -20.0
+offset_bottom = -21.0
 theme = ExtResource("10_qnbff")
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
@@ -811,16 +922,16 @@ horizontal_alignment = 1
 
 [node name="hammer" type="AnimatedSprite2D" parent="legend_frame"]
 z_index = 9
-position = Vector2(-44, 0)
+position = Vector2(-44, 1)
 sprite_frames = SubResource("SpriteFrames_vcxrf")
 autoplay = "default"
 
 [node name="hammer_x3" type="Label" parent="legend_frame"]
 z_index = 9
 offset_left = -28.0
-offset_top = -16.0
+offset_top = -17.0
 offset_right = 1.0
-offset_bottom = 18.0
+offset_bottom = 17.0
 theme = ExtResource("10_qnbff")
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
@@ -829,16 +940,16 @@ horizontal_alignment = 1
 
 [node name="driftwood" type="AnimatedSprite2D" parent="legend_frame"]
 z_index = 9
-position = Vector2(-44, 36)
+position = Vector2(-44, 38)
 sprite_frames = SubResource("SpriteFrames_4k7ho")
 autoplay = "default"
 
 [node name="driftwood_x3" type="Label" parent="legend_frame"]
 z_index = 9
 offset_left = -27.0
-offset_top = 21.0
+offset_top = 24.0
 offset_right = 2.0
-offset_bottom = 55.0
+offset_bottom = 58.0
 theme = ExtResource("10_qnbff")
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
@@ -855,24 +966,18 @@ theme = ExtResource("10_qnbff")
 text = "etc.."
 horizontal_alignment = 1
 
-[node name="fire" type="AnimatedSprite2D" parent="legend_frame"]
-z_index = 9
-position = Vector2(41, -41)
-sprite_frames = SubResource("SpriteFrames_4rhwf")
-autoplay = "default"
-frame_progress = 0.509785
-
 [node name="red_x" type="Sprite2D" parent="legend_frame"]
+visible = false
 z_index = 9
-position = Vector2(40, -38)
+position = Vector2(40, -42)
 texture = ExtResource("15_lv2o8")
 
 [node name="equals3" type="Label" parent="legend_frame"]
 z_index = 9
 offset_left = -2.0
-offset_top = 22.0
+offset_top = 26.0
 offset_right = 27.0
-offset_bottom = 56.0
+offset_bottom = 60.0
 theme = ExtResource("10_qnbff")
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
@@ -881,25 +986,33 @@ horizontal_alignment = 1
 
 [node name="full_raft" type="AnimatedSprite2D" parent="legend_frame"]
 z_index = 9
-position = Vector2(40, 40)
+position = Vector2(40, 44)
 sprite_frames = SubResource("SpriteFrames_3xwjt")
 
-[node name="green_plus" type="Sprite2D" parent="legend_frame"]
+[node name="green_plus_anim" type="AnimatedSprite2D" parent="legend_frame"]
 z_index = 9
-position = Vector2(40, 29)
+position = Vector2(47, 32)
+sprite_frames = SubResource("SpriteFrames_3rciq")
+autoplay = "default"
+
+[node name="green_plus" type="Sprite2D" parent="legend_frame"]
+visible = false
+z_index = 9
+position = Vector2(40, 32)
 texture = ExtResource("17_jueev")
 
 [node name="green_plus2" type="Sprite2D" parent="legend_frame"]
+visible = false
 z_index = 9
-position = Vector2(54, 29)
+position = Vector2(54, 32)
 texture = ExtResource("17_jueev")
 
 [node name="equals2" type="Label" parent="legend_frame"]
 z_index = 9
 offset_left = -2.0
-offset_top = -16.0
+offset_top = -14.0
 offset_right = 27.0
-offset_bottom = 18.0
+offset_bottom = 20.0
 theme = ExtResource("10_qnbff")
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
@@ -908,14 +1021,14 @@ horizontal_alignment = 1
 
 [node name="repairing_raft" type="AnimatedSprite2D" parent="legend_frame"]
 z_index = 9
-position = Vector2(40, -2)
+position = Vector2(40, 2)
 sprite_frames = SubResource("SpriteFrames_23543")
 autoplay = "default"
 frame_progress = 0.496086
 
 [node name="repair" type="AnimatedSprite2D" parent="legend_frame"]
 z_index = 9
-position = Vector2(42, -8)
+position = Vector2(42, -4)
 sprite_frames = SubResource("SpriteFrames_n5rub")
 autoplay = "default"
 frame_progress = 0.701163

@@ -175,6 +175,7 @@ animations = [{
 }]
 
 [node name="gameplay" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_8n8ih")
 
 [node name="Frame" parent="." instance=ExtResource("2_erp0v")]
