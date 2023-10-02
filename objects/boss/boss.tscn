@@ -152,7 +152,7 @@ anim_speed_min = 2.0
 anim_speed_max = 5.0
 
 [node name="ExplosionTimer" type="Timer" parent="CPUParticles2D"]
-wait_time = 10.0
+wait_time = 5.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("11_5ud4b")
