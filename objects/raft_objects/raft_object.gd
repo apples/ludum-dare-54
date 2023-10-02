@@ -56,7 +56,7 @@ func _init():
 func _ready():
 	zoop = AudioStreamPlayer.new()
 	zoop.stream = preload("res://assets/sfx/zoop.wav")
-	zoop.bus = "Sound_effect"
+	zoop.bus = "Sound_effects"
 	add_child(zoop)
 
 func _exit_tree():

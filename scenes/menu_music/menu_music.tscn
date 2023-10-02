@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://xx0n3vggleg"]
+
+[ext_resource type="AudioStream" uid="uid://cmif6ike1jjed" path="res://assets/music/battleraft_menu_theme.ogg" id="1_dr18b"]
+
+[node name="menu_music" type="AudioStreamPlayer2D"]
+stream = ExtResource("1_dr18b")
+autoplay = true
+bus = &"Music"
