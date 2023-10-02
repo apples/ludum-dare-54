@@ -1,7 +1,7 @@
 extends "res://objects/raft_objects/raft_object.gd"
 
 var sparkle_scene = preload("res://objects/VFX/sparkle/sparkle.tscn")
-
+var base_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
 func get_kind() -> StringName:
 	return "gem"
 
@@ -12,6 +12,15 @@ func _process_unconnected(delta):
 		return
 	
 	GLOBAL_VARS.score += 25
+
+	for tile in raft.find_all_tiles("fire"):
+		raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
+		
+	for tile in raft.find_all_tiles("bomb"):
+		raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
+	
+	raft.heal_all_tiles()
+	
 	var sparkle_scene_b 
 	for b in ball_nbors:
 		sparkle_scene_b= sparkle_scene.instantiate()

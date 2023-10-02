@@ -6,6 +6,7 @@ var max_fire_value = 300
 var raft_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
 var smoke_scene = preload("res://objects/VFX/smoke/smoke.tscn")
 var fire_scene = load("res://objects/raft_objects/fire.tscn") # load not preload
+var sparkle_scene = load("res://objects/VFX/sparkle/sparkle.tscn")
 
 func get_kind() -> StringName:
 	return "fire"
@@ -25,6 +26,10 @@ func _process_connected(delta):
 		connected_player.release()
 		if "tile_object" in get_parent():
 			get_parent().tile_object = null
+		var sparkle_scene_b = sparkle_scene.instantiate()
+		sparkle_scene_b.init( Color(1,1,1))
+		sparkle_scene_b.play_hammer()
+		get_parent().add_child(sparkle_scene_b)
 		queue_free()
 		print("fire fixed!")
 

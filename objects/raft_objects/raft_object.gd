@@ -172,6 +172,20 @@ func match3():
 	
 	return ball_nbors
 
+
+func replace_object(new_obj_scene):
+	var new_obj = new_obj_scene.instantiate()
+	new_obj.grid_pos = grid_pos
+	new_obj.raft = raft
+	get_parent().tile_object = new_obj
+	get_parent().add_child(new_obj)
+	queue_free()
+
+
+func replace_with_gem():
+	replace_object(preload("res://objects/raft_objects/gem.tscn"))
+
+
 func boss_toss(toss_start: Vector2, reticle_modulate: Color = Color(0.9, 0.1, 0.1, 0.9)):
 	var start = toss_start
 	var end = raft.rc_to_pos(grid_pos)

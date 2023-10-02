@@ -51,8 +51,7 @@ texture = ExtResource("4_xb6ai")
 position = Vector2(80, 256)
 texture = ExtResource("5_ew6o0")
 
-[node name="Boss" parent="." node_paths=PackedStringArray("raft") instance=ExtResource("6_usc0r")]
-raft = NodePath("")
+[node name="Boss" parent="." instance=ExtResource("6_usc0r")]
 
 [node name="main_menu_button" type="Button" parent="."]
 offset_left = 427.0
@@ -65,7 +64,6 @@ text = "Main Menu
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_nv8rn")
-autoplay = true
 bus = &"Music"
 
 [node name="mute" type="Button" parent="."]

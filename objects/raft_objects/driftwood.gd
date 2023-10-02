@@ -18,5 +18,10 @@ func _process_unconnected(delta):
 		sparkle_scene_b = sparkle_scene.instantiate()
 		sparkle_scene_b.init( Color(1,1,0))
 		b.get_parent().add_child(sparkle_scene_b)
-		b.queue_free()
-	sparkle_scene_b.play_hammer()
+		if b == self and ball_nbors.size() >= 4:
+			replace_with_gem()
+		else:
+			b.queue_free()
+		
+		sparkle_scene_b.play_hammer()
+	
