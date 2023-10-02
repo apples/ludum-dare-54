@@ -724,7 +724,7 @@ z_index = 9
 position = Vector2(40, -48)
 sprite_frames = SubResource("SpriteFrames_4rhwf")
 autoplay = "default"
-frame_progress = 0.364229
+frame_progress = 0.354308
 
 [node name="water_splash" type="AnimatedSprite2D" parent="legend_frame"]
 z_index = 9
