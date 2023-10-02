@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=3 uid="uid://bimoh7pybv8ag"]
+[gd_scene load_steps=109 format=3 uid="uid://bimoh7pybv8ag"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_n47ym"]
 [ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://objects/frame/frame.tscn" id="2_hu3nl"]

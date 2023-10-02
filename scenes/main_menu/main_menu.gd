@@ -1,4 +1,4 @@
-aextends Node
+extends Node
 var gameplay_scene_file = "res://scenes/gameplay/gameplay.tscn"
 var difficulty_select_scene = "res://scenes/difficulty_select/difficulty_select.tscn"
 var options_scene_file = "res://scenes/options_menu/options_menu.tscn"
