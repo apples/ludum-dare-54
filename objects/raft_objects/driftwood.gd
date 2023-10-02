@@ -12,7 +12,7 @@ func _process_unconnected(delta):
 		return
 	
 	get_tree().get_root().get_node("gameplay").overlay_upgrade_scene(ball_nbors.size()-3)
-	GLOBAL_VARS.score += 10 * GLOBAL_VARS.level
+	GLOBAL_VARS.score += 10 * GLOBAL_VARS.level * (max(0, ball_nbors.size() - 3) + 1)
 	var sparkle_scene_b 
 	for b in ball_nbors:
 		sparkle_scene_b = sparkle_scene.instantiate()
