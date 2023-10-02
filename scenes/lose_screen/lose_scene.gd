@@ -1,12 +1,14 @@
 extends Node2D
 
+@onready var level_label = $LevelLabel
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$RichTextLabel.text = "You Got a Score of %s!\n\n" % GLOBAL_VARS.score
+	level_label.text = "You Got a Score of %s!\n\n" % GLOBAL_VARS.score
 	if _check_and_set_highscore():
-		$RichTextLabel.text += "You set a new high score!"
+		level_label.text += "You set a new high score!"
 	else:
-		$RichTextLabel.text += (
+		level_label.text += (
 			"Too bad it doesn't beat the high score of %s" % DATA_STORE.current.highscore
 		)
 

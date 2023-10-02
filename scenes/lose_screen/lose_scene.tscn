@@ -1,9 +1,18 @@
-[gd_scene load_steps=27 format=3 uid="uid://dowipxnaqq1y7"]
+[gd_scene load_steps=32 format=3 uid="uid://dowipxnaqq1y7"]
 
 [ext_resource type="Script" path="res://scenes/lose_screen/lose_scene.gd" id="1_kmbcc"]
-[ext_resource type="Texture2D" uid="uid://cftgqf3sltohj" path="res://scenes/lose_screen/temp_lose.png" id="1_x1tsh"]
+[ext_resource type="Texture2D" uid="uid://cy1k3rakxqggd" path="res://assets/textures/lose.png" id="2_ti8qi"]
+[ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://objects/frame/frame.tscn" id="2_vprdf"]
 [ext_resource type="Texture2D" uid="uid://d0oae8uw8g2l6" path="res://assets/textures/fade_in.png" id="3_buegs"]
+[ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="3_w37j5"]
 [ext_resource type="Texture2D" uid="uid://d1hfjgecs6fj" path="res://assets/textures/fade_out.png" id="4_ftai6"]
+[ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="4_r8axq"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_oijh1"]
+action = &"interact"
+
+[sub_resource type="Shortcut" id="Shortcut_ye3it"]
+events = [SubResource("InputEventAction_oijh1")]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mw2t1"]
 atlas = ExtResource("3_buegs")
@@ -170,24 +179,33 @@ animations = [{
 [node name="lose_scene" type="Node2D"]
 script = ExtResource("1_kmbcc")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(480, 270)
-texture = ExtResource("1_x1tsh")
+[node name="Frame" parent="." instance=ExtResource("2_vprdf")]
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-offset_left = 456.0
-offset_top = 48.0
-offset_right = 864.0
-offset_bottom = 325.0
-theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/normal_font_size = 27
+[node name="Boss" parent="." instance=ExtResource("3_w37j5")]
+position = Vector2(880, 128)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(480, 272)
+scale = Vector2(0.667, 0.667)
+texture = ExtResource("2_ti8qi")
+
+[node name="LevelLabel" type="Label" parent="."]
+offset_left = 200.0
+offset_top = 405.0
+offset_right = 499.0
+offset_bottom = 443.0
+theme = ExtResource("4_r8axq")
+theme_override_constants/outline_size = 15
+theme_override_font_sizes/font_size = 38
 text = "You Survived X Levels!"
 
 [node name="Button" type="Button" parent="."]
-offset_left = 432.0
-offset_top = 424.0
-offset_right = 520.0
-offset_bottom = 472.0
+offset_left = 627.0
+offset_top = 398.0
+offset_right = 715.0
+offset_bottom = 446.0
+theme = ExtResource("4_r8axq")
+shortcut = SubResource("Shortcut_ye3it")
 text = "Retry"
 
 [node name="Fade_in" type="AnimatedSprite2D" parent="."]
