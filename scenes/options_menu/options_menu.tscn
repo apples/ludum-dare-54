@@ -131,7 +131,6 @@ offset_bottom = 320.0
 tooltip_text = "Music Volume Slider"
 max_value = 1.0
 step = 0.01
-value = 1.0
 tick_count = 30
 
 [node name="RichTextLabel" type="RichTextLabel" parent="sound_effects_slider"]
@@ -154,6 +153,6 @@ text = "Back To Game"
 
 [connection signal="pressed" from="main_menu_button" to="." method="_on_main_menu_button_pressed"]
 [connection signal="pressed" from="mute" to="." method="_on_mute_pressed"]
-[connection signal="value_changed" from="music_slider" to="." method="_on_music_slider_value_changed"]
-[connection signal="value_changed" from="master_slider" to="." method="_on_master_slider_value_changed"]
-[connection signal="value_changed" from="sound_effects_slider" to="." method="_on_sound_effects_slider_value_changed"]
+[connection signal="drag_ended" from="music_slider" to="." method="_on_music_slider_drag_ended"]
+[connection signal="drag_ended" from="master_slider" to="." method="_on_master_slider_drag_ended"]
+[connection signal="drag_ended" from="sound_effects_slider" to="." method="_on_sound_effects_slider_drag_ended"]
