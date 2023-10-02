@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://4r43a4dergdx"]
 
 [ext_resource type="Script" path="res://objects/item_buoy/item_buoy.gd" id="1_8uymt"]
-[ext_resource type="Texture2D" uid="uid://bq2tujs86rayl" path="res://assets/textures/donut.png" id="2_fe3qk"]
+[ext_resource type="Texture2D" uid="uid://bny0ed2iln4kv" path="res://assets/textures/donut.png" id="2_fe3qk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m8v5i"]
 size = Vector2(28, 23)
