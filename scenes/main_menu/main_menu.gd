@@ -27,7 +27,7 @@ func _on_start_game_pressed():
 
 
 func _on_options_pressed():
-$Fade_out.play()
+	$Fade_out.play()
 	scene_goto = "options"
 
 
@@ -36,7 +36,7 @@ func _on_fade_out_animation_finished():
 	if scene_goto == "gameplay":
 		UTILS.change_to_scene(difficulty_select_scene)
 	else:
-	UTILS.change_to_scene(options_scene_file)
+		UTILS.change_to_scene(options_scene_file)
 
 
 func _on_help_pressed():
