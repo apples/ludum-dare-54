@@ -8,7 +8,10 @@ var spawn_rate_max = 7.0
 
 func _spawn_a_buoy():
 	var buoy = buoy_scene.instantiate()
-	buoy.global_position = raft.global_position + Vector2(randi_range(1,17) * 32, 0)
+	if(raft):
+		buoy.global_position = raft.global_position + Vector2(randi_range(1,17) * 32, 0)
+	else:
+		buoy.global_position =  Vector2(randi_range(8,22) * 32, 0)
 	get_parent().add_child(buoy)
 
 func _on_timer_timeout():
