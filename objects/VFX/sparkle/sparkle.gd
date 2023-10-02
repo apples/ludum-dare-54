@@ -22,3 +22,6 @@ func play_gem():
 
 func play_hammer():
 	$hammer_sound_effect.play()
+	
+func play_cannon():
+	$cannon_sound_effect.play()
