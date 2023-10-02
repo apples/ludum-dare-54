@@ -16,13 +16,18 @@ func _process_unconnected(delta):
 	GLOBAL_VARS.score += 10
 	
 	var splash: Node2D
+	var trigger_sound = false
+	var sparkle_scene_b
 	for b in ball_nbors:
 		for i in self.raft.get_tiles_in_radius(b.grid_pos.y, b.grid_pos.x, 1):
+			if(i.health < 3):
+				trigger_sound = true
 			i._set_health(3)
 			splash = repair_splash_scene.instantiate()
 			get_tree().get_root().add_child(splash)
 			splash.global_position = i.global_position
-		var sparkle_scene_b = sparkle_scene.instantiate()
+		sparkle_scene_b= sparkle_scene.instantiate()
 		sparkle_scene_b.init( Color(1,1,0))
 		b.get_parent().add_child(sparkle_scene_b)
 		b.queue_free()
+	sparkle_scene_b.play_hammer()
