@@ -72,7 +72,6 @@ autostart = true
 position = Vector2(0, 64)
 
 [node name="FaceRig" type="Node2D" parent="."]
-visible = false
 
 [node name="Base" type="Sprite2D" parent="FaceRig"]
 texture = ExtResource("1_4b4qy")
@@ -88,8 +87,8 @@ sprite_frames = ExtResource("5_nfts5")
 animation = &"1"
 
 [node name="FadeAnim" type="AnimatedSprite2D" parent="."]
+visible = false
 sprite_frames = ExtResource("6_nmpi0")
-frame = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
