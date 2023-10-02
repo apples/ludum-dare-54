@@ -163,6 +163,8 @@ func _process_idle(delta):
 		Engine.time_scale = 10.0
 	else:
 		Engine.time_scale = 1.0
+	if Input.is_key_pressed((KEY_8)) or Input.is_key_pressed((KEY_KP_8)):
+		get_tree().get_root().get_node("gameplay").overlay_upgrade_scene(1)
 	
 	if move_input_disabled:
 		return
