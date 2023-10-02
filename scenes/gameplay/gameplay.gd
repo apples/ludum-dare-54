@@ -138,6 +138,7 @@ func raft_destroyed(raft: Raft):
 func on_initiate_module_placement(module):
 	placing_raft_module = true
 #	$player_raft.rc_to_pos(Vector2(5, 5))
+	grid_position = Vector2i(7, 7)
 	render_raft_module(module, $player_raft.rc_to_pos(grid_position))
 	valid_connection = check_valid_connection()
 
