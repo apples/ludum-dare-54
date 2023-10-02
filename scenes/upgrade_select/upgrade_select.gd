@@ -9,6 +9,8 @@ var upgrade_type = "base"
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$module_select_widget1.module_selected(true)
+	$module_select_widget2.module_selected(false)
+	$module_select_widget3.module_selected(false)
 	
 	var tetros = [
 		"o", "i1", "i2", "s1", "s2", "z1", "z2", "t1", "t2", "t3", "t4",
