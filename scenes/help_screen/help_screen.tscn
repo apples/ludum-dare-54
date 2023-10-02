@@ -7,12 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://d0oae8uw8g2l6" path="res://assets/textures/fade_in.png" id="5_d21s4"]
 [ext_resource type="Texture2D" uid="uid://d1hfjgecs6fj" path="res://assets/textures/fade_out.png" id="6_fqhwv"]
 
-[sub_resource type="InputEventAction" id="InputEventAction_n4y43"]
-action = &"interact"
-
-[sub_resource type="Shortcut" id="Shortcut_0v5rw"]
-events = [SubResource("InputEventAction_n4y43")]
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_mw2t1"]
 atlas = ExtResource("5_d21s4")
 region = Rect2(0, 0, 960, 540)
@@ -175,6 +169,12 @@ animations = [{
 "speed": 30.0
 }]
 
+[sub_resource type="InputEventAction" id="InputEventAction_n4y43"]
+action = &"interact"
+
+[sub_resource type="Shortcut" id="Shortcut_0v5rw"]
+events = [SubResource("InputEventAction_n4y43")]
+
 [node name="help_screen" type="Node2D"]
 script = ExtResource("1_my7bu")
 
@@ -182,18 +182,6 @@ script = ExtResource("1_my7bu")
 
 [node name="Boss" parent="." instance=ExtResource("2_8ee24")]
 position = Vector2(880, 128)
-
-[node name="main_menu_button" type="Button" parent="."]
-z_index = 13
-offset_left = 433.0
-offset_top = 337.0
-offset_right = 534.0
-offset_bottom = 371.0
-theme = ExtResource("4_2nsxa")
-action_mode = 0
-shortcut = SubResource("Shortcut_0v5rw")
-text = "Main Menu
-"
 
 [node name="Fade_in" type="AnimatedSprite2D" parent="."]
 position = Vector2(480, 272)
@@ -204,5 +192,40 @@ autoplay = "default"
 position = Vector2(480, 272)
 sprite_frames = SubResource("SpriteFrames_kt7vl")
 
-[connection signal="pressed" from="main_menu_button" to="." method="_on_main_menu_button_pressed"]
+[node name="Label" type="Label" parent="."]
+offset_left = 182.0
+offset_top = 63.0
+offset_right = 780.0
+offset_bottom = 505.0
+theme = ExtResource("4_2nsxa")
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 38
+text = "- Controls -
+Arrow keys / WASD - Move and push
+Spacebar / X - Pick up or drop
+
+- Objective -
+Match 3 objects together to clear them.
+
+When the enemy appears, match cannons to blast em!
+Matching bombs will damage your raft.
+
+Put out fires by tapping and holding spacebar.
+"
+horizontal_alignment = 1
+
+[node name="main_menu_button" type="Button" parent="."]
+z_index = 13
+offset_left = 433.0
+offset_top = 415.0
+offset_right = 534.0
+offset_bottom = 449.0
+theme = ExtResource("4_2nsxa")
+action_mode = 0
+shortcut = SubResource("Shortcut_0v5rw")
+shortcut_in_tooltip = false
+text = "Main Menu
+"
+
 [connection signal="animation_finished" from="Fade_out" to="." method="_on_fade_out_animation_finished"]
+[connection signal="pressed" from="main_menu_button" to="." method="_on_main_menu_button_pressed"]

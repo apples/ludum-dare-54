@@ -273,6 +273,7 @@ offset_left = 42.0
 offset_top = 43.0
 offset_right = 160.0
 offset_bottom = 74.0
+shortcut_in_tooltip = false
 text = "Back To Game"
 
 [node name="sfx_test_sound" type="AudioStreamPlayer" parent="."]
@@ -288,12 +289,15 @@ offset_bottom = 371.0
 theme = ExtResource("7_88vrr")
 action_mode = 0
 shortcut = SubResource("Shortcut_3cxq0")
+shortcut_in_tooltip = false
 text = "Main Menu
 "
 
 [node name="Fade_in" type="AnimatedSprite2D" parent="."]
 position = Vector2(480, 272)
 sprite_frames = SubResource("SpriteFrames_espx4")
+frame = 10
+frame_progress = 1.0
 
 [node name="Fade_out" type="AnimatedSprite2D" parent="."]
 position = Vector2(480, 272)
