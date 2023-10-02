@@ -1,31 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dx3s8nr73iqx"]
+[gd_scene load_steps=3 format=3 uid="uid://dx3s8nr73iqx"]
 
 [ext_resource type="Texture2D" uid="uid://ukxm7akriypo" path="res://assets/textures/cannon.png" id="1_5f6a7"]
 [ext_resource type="Script" path="res://objects/raft_objects/cannon.gd" id="2_w3xid"]
-[ext_resource type="AudioStream" uid="uid://b6yaw76r5re2y" path="res://assets/sfx/cannon_sfx.ogg" id="3_4apbd"]
 
 [node name="Cannon" type="Sprite2D"]
 texture = ExtResource("1_5f6a7")
 script = ExtResource("2_w3xid")
-is_interactable = true
-
-[node name="Trajectory" type="Line2D" parent="."]
-z_index = 5
-position = Vector2(-62, -10)
-width = 5.0
-default_color = Color(0.52549, 0.243137, 1, 1)
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
-
-[node name="CannonHole" type="Node2D" parent="."]
-position = Vector2(16, -12)
-
-[node name="ReloadTimer" type="Timer" parent="."]
-one_shot = true
-
-[node name="cannon_sfx" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_4apbd")
-bus = &"Sound_effects"
-
-[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
+is_pushable = true
