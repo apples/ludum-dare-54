@@ -7,9 +7,9 @@ func _ready():
 
 func module_selected(selected: bool):
 	if selected:
-		$AnimatedSprite2D.frame = 1
+		$AnimatedSprite2D.play("selected")
 	else:
-		$AnimatedSprite2D.frame = 0
+		$AnimatedSprite2D.play("unselected")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
