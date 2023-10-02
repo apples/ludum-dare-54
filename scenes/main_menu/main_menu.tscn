@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bimoh7pybv8ag"]
+[gd_scene load_steps=11 format=3 uid="uid://bimoh7pybv8ag"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_n47ym"]
 [ext_resource type="TileSet" uid="uid://bxqtnvjdndf4n" path="res://assets/map_tiles.tres" id="1_x5nns"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dndc10kxm14um" path="res://assets/textures/char1.png" id="5_20plm"]
 [ext_resource type="AudioStream" uid="uid://cmif6ike1jjed" path="res://assets/music/battleraft_menu_theme.ogg" id="5_oug78"]
 [ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="6_cs5oe"]
+[ext_resource type="Script" path="res://objects/raft/item_spawner.gd" id="7_sdryq"]
 
 [node name="main_menu" type="Node2D"]
 script = ExtResource("1_n47ym")
@@ -56,7 +57,7 @@ texture = ExtResource("5_20plm")
 [node name="Boss" parent="." instance=ExtResource("6_cs5oe")]
 
 [node name="ItemSpawner" type="Node2D" parent="."]
-script = ExtResource("1_n47ym")
+script = ExtResource("7_sdryq")
 
 [node name="Timer" type="Timer" parent="ItemSpawner"]
 wait_time = 5.0
