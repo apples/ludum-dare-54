@@ -45,3 +45,4 @@ func _on_sound_effects_slider_drag_ended(value_changed):
 	DATA_STORE.current.sfx_volume = $sound_effects_slider.value
 	DATA_STORE.save()
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sound_effects"),linear_to_db($sound_effects_slider.value))
+	$sfx_test_sound.play()
