@@ -10,7 +10,7 @@ func _process_unconnected(delta):
 	if ball_nbors.size() == 0:
 		return
 	
-	GLOBAL_VARS.score -= 5
+	GLOBAL_VARS.score -= 5 * (max(0, ball_nbors.size() - 3) + 1)
 	
 	for b in ball_nbors:
 		b.on_match()

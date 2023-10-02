@@ -12,9 +12,11 @@ var attack_delay := 5.0
 var bomb_count_thrown := 1.0
 var difficulty_acceleration := 50 # lower is faster acceleration
 var is_stunned := false
-var stun_length := 10
+var stun_length := 20
 
-var max_health := 2
+var base_health: int = (GLOBAL_VARS.difficulty + 1) * 5
+var health_per_level: int = 3
+var max_health := base_health
 
 var health := max_health:
 	get:
@@ -24,6 +26,8 @@ var health := max_health:
 			if v < health:
 				animation_tree["parameters/Normal/wince/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
 				ouch_sfx.play()
+			if health == 0 and v < 0:
+				return
 			health = v
 			if health <= 0:
 				health = 0
@@ -72,7 +76,7 @@ func _ready():
 	is_stunned = true
 	_set_healthbar(0)
 	if raft:
-		$StunTimer.start(5)
+		$StunTimer.start(stun_length)
 
 func _perform_attack():
 	if not raft:
@@ -119,6 +123,12 @@ func _on_stun_timer_timeout():
 	is_stunned = false
 	if health <= 0:
 		GLOBAL_VARS.level += 1
-		max_health += 3
+		var mult: float
+		match GLOBAL_VARS.difficulty:
+			GLOBAL_VARS.DIFF_EASY: mult = 1
+			GLOBAL_VARS.DIFF_MED: mult = 1.5
+			GLOBAL_VARS.DIFF_HARD: mult = 2
+		max_health += int(float(health_per_level) * mult)
 	health = max_health
 	_set_healthbar(float(health) / float(max_health))
+	print("New boss health: ", max_health)

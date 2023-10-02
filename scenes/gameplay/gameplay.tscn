@@ -244,5 +244,6 @@ position = Vector2(480, 272)
 sprite_frames = SubResource("SpriteFrames_b2fii")
 
 [connection signal="tree_entered" from="." to="Fade_in" method="play"]
+[connection signal="boss_defeated" from="Boss" to="player_raft" method="_on_boss_boss_defeated"]
 [connection signal="timeout" from="ItemSpawner/Timer" to="ItemSpawner" method="_on_timer_timeout"]
 [connection signal="animation_finished" from="Fade_out" to="." method="_on_fade_out_animation_finished"]

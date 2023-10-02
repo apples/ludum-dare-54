@@ -228,3 +228,9 @@ func _on_child_exiting_tree(node):
 
 func play_raft_hit_cannoball():
 	$raft_hit_cannonball.play()
+
+
+func _on_boss_boss_defeated():
+	for k in raft_data_structure:
+		if raft_data_structure[k].tile_object and raft_data_structure[k].tile_object.get_kind() == "bomb":
+			raft_data_structure[k].tile_object.queue_free()

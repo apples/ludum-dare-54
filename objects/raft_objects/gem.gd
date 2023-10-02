@@ -11,7 +11,7 @@ func _process_unconnected(delta):
 	if ball_nbors.size() == 0:
 		return
 	
-	GLOBAL_VARS.score += 25 * GLOBAL_VARS.level
+	GLOBAL_VARS.score += 25 * GLOBAL_VARS.level * (max(0, ball_nbors.size() - 3) + 1)
 	
 	for tile in raft.find_all_tiles("bomb"):
 		raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
