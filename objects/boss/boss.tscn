@@ -212,7 +212,7 @@ nodes/wince/node = SubResource("AnimationNodeOneShot_8sl52")
 nodes/wince/position = Vector2(1460, 20)
 "nodes/wince anim/node" = SubResource("AnimationNodeAnimation_sv7wu")
 "nodes/wince anim/position" = Vector2(1203.91, 165.71)
-node_connections = [&"output", 0, &"emote_raise_eyes", &"Blink", 0, &"Blend2", &"Blink", 1, &"Animation", &"FinalBlend", 0, &"Blink", &"FinalBlend", 1, &"MouthStateMachine", &"Blend2", 0, &"EyesStateMachine", &"Blend2", 1, &"PupilStateMachine", &"OneShot", 0, &"FinalBlend", &"OneShot", 1, &"Wince", &"emote_raise_eyes", 0, &"wince", &"emote_raise_eyes", 1, &"Raise Eyes", &"wince", 0, &"OneShot", &"wince", 1, &"wince anim"]
+node_connections = [&"output", 0, &"emote_raise_eyes", &"Blend2", 0, &"EyesStateMachine", &"Blend2", 1, &"PupilStateMachine", &"Blink", 0, &"Blend2", &"Blink", 1, &"Animation", &"FinalBlend", 0, &"Blink", &"FinalBlend", 1, &"MouthStateMachine", &"OneShot", 0, &"FinalBlend", &"OneShot", 1, &"Wince", &"emote_raise_eyes", 0, &"wince", &"emote_raise_eyes", 1, &"Raise Eyes", &"wince", 0, &"OneShot", &"wince", 1, &"wince anim"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_6abmh"]
 particles_animation = true
