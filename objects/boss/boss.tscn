@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://db55dqikpqoof"]
+[gd_scene load_steps=57 format=3 uid="uid://db55dqikpqoof"]
 
 [ext_resource type="Texture2D" uid="uid://d3u5e7iuyk16" path="res://assets/textures/char2_base.png" id="1_4b4qy"]
 [ext_resource type="Script" path="res://objects/boss/boss.gd" id="2_tau8x"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://b0f4ii8880exo" path="res://assets/textures/healthbar.png" id="7_68mms"]
 [ext_resource type="Texture2D" uid="uid://bmi05uwgklewy" path="res://assets/textures/bomb_explosion.png" id="8_ych7h"]
 [ext_resource type="AudioStream" uid="uid://bwpc0aiomv2kb" path="res://assets/sfx/scream.ogg" id="9_4jvwq"]
+[ext_resource type="AudioStream" uid="uid://svqdr5vwvgld" path="res://assets/sfx/bagguy_hit.ogg" id="10_0hmrm"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_atugj"]
 animation = &"blink"
@@ -211,7 +212,7 @@ nodes/wince/node = SubResource("AnimationNodeOneShot_8sl52")
 nodes/wince/position = Vector2(1460, 20)
 "nodes/wince anim/node" = SubResource("AnimationNodeAnimation_sv7wu")
 "nodes/wince anim/position" = Vector2(1203.91, 165.71)
-node_connections = [&"output", 0, &"emote_raise_eyes", &"Blend2", 0, &"EyesStateMachine", &"Blend2", 1, &"PupilStateMachine", &"Blink", 0, &"Blend2", &"Blink", 1, &"Animation", &"FinalBlend", 0, &"Blink", &"FinalBlend", 1, &"MouthStateMachine", &"OneShot", 0, &"FinalBlend", &"OneShot", 1, &"Wince", &"emote_raise_eyes", 0, &"wince", &"emote_raise_eyes", 1, &"Raise Eyes", &"wince", 0, &"OneShot", &"wince", 1, &"wince anim"]
+node_connections = [&"output", 0, &"emote_raise_eyes", &"Blink", 0, &"Blend2", &"Blink", 1, &"Animation", &"FinalBlend", 0, &"Blink", &"FinalBlend", 1, &"MouthStateMachine", &"Blend2", 0, &"EyesStateMachine", &"Blend2", 1, &"PupilStateMachine", &"OneShot", 0, &"FinalBlend", &"OneShot", 1, &"Wince", &"emote_raise_eyes", 0, &"wince", &"emote_raise_eyes", 1, &"Raise Eyes", &"wince", 0, &"OneShot", &"wince", 1, &"wince anim"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_6abmh"]
 particles_animation = true
@@ -302,6 +303,10 @@ wait_time = 10.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("9_4jvwq")
+
+[node name="OuchSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_0hmrm")
+bus = &"Sound_effects"
 
 [connection signal="timeout" from="NextAttack" to="." method="_on_next_attack_timeout"]
 [connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]

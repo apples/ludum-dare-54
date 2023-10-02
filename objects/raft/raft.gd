@@ -126,20 +126,11 @@ func get_random_empty_tile():
 			raft_data_structure[k].tile_object == null and \
 			player.grid_pos != k:
 			empts.append(raft_data_structure[k])
-	
 	# If anything tries to find an empty tile and can't we transition to the lose state
 	if empts.is_empty():
 		UTILS.change_to_scene("res://scenes/lose_screen/lose_scene.tscn")
-		check_and_set_highscore()
-		
-		DATA_STORE.current['highscore']
 	return empts.pick_random()
 
-func check_and_set_highscore():
-	if DATA_STORE.current.has('highscore'):
-		if DATA_STORE.current.highscore < GLOBAL_VARS.score:
-			DATA_STORE.current.highscore = GLOBAL_VARS.score
-			DATA_STORE.save()
 
 var relative_tile_in_radius_cache = {}
 func get_relative_positions_in_radius(radius: float) -> Array[Vector2i]:
@@ -180,6 +171,7 @@ func get_tiles_in_radius(row: int, column: int, radius: float) -> Array[RaftTile
 func heal_all_tiles(amt: int = 1):
 	for coord in raft_data_structure:
 		raft_data_structure[coord].heal(amt)
+		raft_data_structure[coord].fire_health = 0
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
