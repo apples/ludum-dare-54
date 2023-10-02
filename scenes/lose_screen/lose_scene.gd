@@ -2,12 +2,24 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-#	player_vars = get_node("/root/PlayerVariables")
-	$RichTextLabel.text = "You Got a Score of %s!" % GLOBAL_VARS.score
+	$RichTextLabel.text = "You Got a Score of %s!\n\n" % GLOBAL_VARS.score
+	if _check_and_set_highscore():
+		$RichTextLabel.text += "You set a new high score!"
+	else:
+		$RichTextLabel.text += (
+			"Too bad it doesn't beat the high score of %s" % DATA_STORE.current.highscore
+		)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+func _check_and_set_highscore():
+	if DATA_STORE.current.highscore < GLOBAL_VARS.score:
+		DATA_STORE.current.highscore = GLOBAL_VARS.score
+		DATA_STORE.save()
+		return true
+	return false
 
 
 func _on_start_game_pressed():
