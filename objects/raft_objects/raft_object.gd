@@ -59,7 +59,7 @@ func _ready():
 	zoop = AudioStreamPlayer.new()
 	zoop.stream = preload("res://assets/sfx/bomb_throw.ogg")
 	zoop.bus = "Sound_effects"
-	zoop.volume_db = 5
+	zoop.volume_db = -4
 	add_child(zoop)
 	
 	zeep = AudioStreamPlayer.new()
