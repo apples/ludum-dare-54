@@ -1,4 +1,4 @@
-extends Sprite2D
+extends Node2D
 
 signal boss_defeated
 
@@ -22,7 +22,7 @@ var health := max_health:
 	set(v):
 		if not is_stunned:
 			if v < health:
-				animation_tree["parameters/wince/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
+				animation_tree["parameters/Normal/wince/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
 				ouch_sfx.play()
 			health = v
 			if health <= 0:
@@ -51,6 +51,9 @@ enum {
 	EYES_ANGRY,
 }
 
+var is_alive: bool:
+	get:
+		return not is_stunned
 var is_talking := false
 var mouth_shape := MOUTH_NORMAL
 var eyes_shape := EYES_NORMAL
@@ -71,7 +74,7 @@ func _ready():
 func _perform_attack():
 	if not raft:
 		return
-	animation_tree["parameters/emote_raise_eyes/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
+	animation_tree["parameters/Normal/emote_raise_eyes/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
 	for i in range(floor(bomb_count_thrown)):
 		var t = raft.get_random_empty_tile()
 		if t:
@@ -92,7 +95,7 @@ func _on_next_attack_timeout():
 	$NextAttack.start(attack_delay * randf_range(0.9, 1.1))
 
 func _on_blink_timer_timeout():
-	animation_tree["parameters/Blink/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
+	animation_tree["parameters/Normal/Blink/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
 	blink_timer.start(randf_range(0.5, 5.0))
 
 func death():

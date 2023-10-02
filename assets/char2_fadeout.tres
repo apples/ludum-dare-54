@@ -1,0 +1,46 @@
+[gd_resource type="SpriteFrames" load_steps=7 format=3 uid="uid://pwrnp4gmr0jd"]
+
+[ext_resource type="Texture2D" uid="uid://dsoaqxesa5x5e" path="res://assets/textures/char2_fadeout.png" id="1_skxaq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_06mj7"]
+atlas = ExtResource("1_skxaq")
+region = Rect2(0, 0, 160, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fhrep"]
+atlas = ExtResource("1_skxaq")
+region = Rect2(160, 0, 160, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t0yxt"]
+atlas = ExtResource("1_skxaq")
+region = Rect2(320, 0, 160, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_in6y6"]
+atlas = ExtResource("1_skxaq")
+region = Rect2(480, 0, 160, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_stja8"]
+atlas = ExtResource("1_skxaq")
+region = Rect2(640, 0, 160, 128)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_06mj7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fhrep")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t0yxt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_in6y6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_stja8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

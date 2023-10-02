@@ -421,6 +421,7 @@ offset_bottom = 426.0
 texture = ExtResource("4_xp3ti")
 
 [node name="start_game" type="Button" parent="."]
+z_index = 9
 offset_left = 428.0
 offset_top = 395.0
 offset_right = 529.0
@@ -431,6 +432,7 @@ shortcut = SubResource("Shortcut_gkbda")
 text = "START GAME"
 
 [node name="options" type="Button" parent="."]
+z_index = 9
 offset_left = 445.0
 offset_top = 445.0
 offset_right = 509.0
@@ -441,14 +443,17 @@ text = "Options"
 [node name="keycaps" type="Node" parent="."]
 
 [node name="spacebar" type="AnimatedSprite2D" parent="keycaps"]
+z_index = 9
 position = Vector2(478, 364)
 sprite_frames = SubResource("SpriteFrames_4jipb")
 
 [node name="w_key" type="AnimatedSprite2D" parent="keycaps"]
+z_index = 9
 position = Vector2(360, 245)
 sprite_frames = SubResource("SpriteFrames_gkoan")
 
 [node name="key_label" type="Label" parent="keycaps/w_key"]
+z_index = 10
 offset_left = -2.0
 offset_top = -9.0
 offset_right = 8.0
@@ -458,10 +463,12 @@ text = "W"
 metadata/_edit_use_anchors_ = true
 
 [node name="s_key" type="AnimatedSprite2D" parent="keycaps"]
+z_index = 9
 position = Vector2(369, 283)
 sprite_frames = SubResource("SpriteFrames_gkoan")
 
 [node name="key_label" type="Label" parent="keycaps/s_key"]
+z_index = 10
 offset_left = -2.0
 offset_top = -9.0
 offset_right = 8.0
@@ -471,10 +478,12 @@ text = "S"
 metadata/_edit_use_anchors_ = true
 
 [node name="a_key" type="Sprite2D" parent="keycaps"]
+z_index = 9
 position = Vector2(331, 283)
 texture = ExtResource("14_1tcap")
 
 [node name="key_label" type="Label" parent="keycaps/a_key"]
+z_index = 10
 offset_left = -2.0
 offset_top = -9.0
 offset_right = 10.0
@@ -484,10 +493,12 @@ text = "A"
 metadata/_edit_use_anchors_ = true
 
 [node name="d_key" type="Sprite2D" parent="keycaps"]
+z_index = 9
 position = Vector2(407, 283)
 texture = ExtResource("14_1tcap")
 
 [node name="key_label" type="Label" parent="keycaps/d_key"]
+z_index = 10
 offset_left = -2.0
 offset_top = -9.0
 offset_right = 8.0
@@ -497,10 +508,12 @@ text = "D"
 metadata/_edit_use_anchors_ = true
 
 [node name="up_key" type="AnimatedSprite2D" parent="keycaps"]
+z_index = 9
 position = Vector2(579, 242)
 sprite_frames = SubResource("SpriteFrames_gkoan")
 
 [node name="key_label" type="Label" parent="keycaps/up_key"]
+z_index = 10
 offset_left = -7.0
 offset_top = 4.0
 offset_right = 5.0
@@ -511,10 +524,12 @@ text = "→"
 metadata/_edit_use_anchors_ = true
 
 [node name="down_key" type="AnimatedSprite2D" parent="keycaps"]
+z_index = 9
 position = Vector2(579, 280)
 sprite_frames = SubResource("SpriteFrames_gkoan")
 
 [node name="key_label" type="Label" parent="keycaps/down_key"]
+z_index = 10
 offset_left = 8.0
 offset_top = -7.0
 offset_right = 20.0
@@ -525,10 +540,12 @@ text = "→"
 metadata/_edit_use_anchors_ = true
 
 [node name="right_key" type="Sprite2D" parent="keycaps"]
+z_index = 9
 position = Vector2(617, 280)
 texture = ExtResource("14_1tcap")
 
 [node name="key_label" type="Label" parent="keycaps/right_key"]
+z_index = 10
 offset_left = -5.0
 offset_top = -9.0
 offset_right = 7.0
@@ -538,10 +555,12 @@ text = "→"
 metadata/_edit_use_anchors_ = true
 
 [node name="left_key" type="Sprite2D" parent="keycaps"]
+z_index = 9
 position = Vector2(541, 280)
 texture = ExtResource("14_1tcap")
 
 [node name="key_label" type="Label" parent="keycaps/left_key"]
+z_index = 10
 offset_left = 6.0
 offset_top = 7.0
 offset_right = 18.0
@@ -552,6 +571,7 @@ text = "→"
 metadata/_edit_use_anchors_ = true
 
 [node name="movement_label" type="Label" parent="keycaps"]
+z_index = 9
 offset_left = 437.0
 offset_top = 213.0
 offset_right = 515.0
@@ -563,7 +583,12 @@ text = "Move /
  Place"
 
 [node name="spacebar" type="Label" parent="."]
+<<<<<<< HEAD
 offset_left = 255.0
+=======
+z_index = 9
+offset_left = 335.0
+>>>>>>> a2b23ec074c1f43c6afeb6eaad94ef65d786a87a
 offset_top = 309.0
 offset_right = 713.0
 offset_bottom = 343.0
@@ -574,6 +599,7 @@ text = "Pick up / Place / Extinguish / x2 to Swap"
 horizontal_alignment = 1
 
 [node name="highscore" type="Label" parent="."]
+z_index = 9
 offset_left = 404.0
 offset_top = 475.0
 offset_right = 548.0

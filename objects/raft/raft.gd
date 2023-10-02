@@ -27,11 +27,6 @@ func _ready():
 	set_tile(raft_tile_driftwood_scene, 6, 7)
 	set_tile(raft_tile_driftwood_scene, 6, 8)
 	set_tile(raft_tile_driftwood_scene, 6, 10)
-	#set_tile(raft_tile_driftwood_scene, 7, 9)
-	set_tile(raft_tile_cannon_scene, 7, 7)
-	set_tile(raft_tile_cannon_scene, 7, 8)
-	set_tile(raft_tile_cannon_scene, 7, 10)
-	set_tile(raft_tile_cannon_scene, 8, 9)
 
 
 func find_all_tiles(tile_type):
