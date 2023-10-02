@@ -11,7 +11,7 @@ var _default_values := {
 	max_level_reached = 0,
 	master_volume = 0.5,
 	sfx_volume = 1,
-	music_volume = 1
+	music_volume = 1,
 }
 
 func _ready():
