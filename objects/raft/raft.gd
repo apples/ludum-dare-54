@@ -1,5 +1,6 @@
 class_name Raft extends Node2D
 
+@export var player: Node
 @export var raft_tile_length: int = 5
 @export var raft_tile_height: int = 4
 var raft_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
@@ -108,7 +109,9 @@ func get_relative_tile_rc(direction: Vector2i, row: int, column: int) -> RaftTil
 func get_random_empty_tile():
 	var empts = []
 	for k in raft_data_structure:
-		if raft_data_structure[k] != null and raft_data_structure[k].tile_object == null:
+		if raft_data_structure[k] != null and \
+			raft_data_structure[k].tile_object == null and \
+			player.grid_pos != k:
 			empts.append(raft_data_structure[k])
 	
 	# If anything tries to find an empty tile and can't we transition to the lose state
