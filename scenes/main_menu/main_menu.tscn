@@ -606,16 +606,19 @@ theme_override_font_sizes/font_size = 38
 text = "Highscore : 0"
 
 [node name="legend_frame" type="AnimatedSprite2D" parent="."]
+z_index = 9
 position = Vector2(645, 425)
 sprite_frames = SubResource("SpriteFrames_cbowt")
 autoplay = "default"
 
 [node name="water_bucket" type="AnimatedSprite2D" parent="legend_frame"]
+z_index = 9
 position = Vector2(-43, -42)
 sprite_frames = SubResource("SpriteFrames_vuu3e")
 autoplay = "default"
 
 [node name="water_x3" type="Label" parent="legend_frame"]
+z_index = 9
 offset_left = -27.0
 offset_top = -55.0
 offset_right = 2.0
@@ -627,6 +630,7 @@ text = "x3"
 horizontal_alignment = 1
 
 [node name="equals" type="Label" parent="legend_frame"]
+z_index = 9
 offset_left = -2.0
 offset_top = -54.0
 offset_right = 27.0
@@ -638,11 +642,13 @@ text = "="
 horizontal_alignment = 1
 
 [node name="hammer" type="AnimatedSprite2D" parent="legend_frame"]
+z_index = 9
 position = Vector2(-44, 0)
 sprite_frames = SubResource("SpriteFrames_vcxrf")
 autoplay = "default"
 
 [node name="hammer_x3" type="Label" parent="legend_frame"]
+z_index = 9
 offset_left = -28.0
 offset_top = -16.0
 offset_right = 1.0
@@ -654,11 +660,13 @@ text = "x3"
 horizontal_alignment = 1
 
 [node name="driftwood" type="AnimatedSprite2D" parent="legend_frame"]
+z_index = 9
 position = Vector2(-44, 36)
 sprite_frames = SubResource("SpriteFrames_4k7ho")
 autoplay = "default"
 
 [node name="driftwood_x3" type="Label" parent="legend_frame"]
+z_index = 9
 offset_left = -27.0
 offset_top = 21.0
 offset_right = 2.0
@@ -670,6 +678,7 @@ text = "x3"
 horizontal_alignment = 1
 
 [node name="driftwood_x4" type="Label" parent="legend_frame"]
+z_index = 9
 offset_left = -10.0
 offset_top = 58.0
 offset_right = 19.0
@@ -679,16 +688,19 @@ text = "etc.."
 horizontal_alignment = 1
 
 [node name="fire" type="AnimatedSprite2D" parent="legend_frame"]
+z_index = 9
 position = Vector2(41, -41)
 sprite_frames = SubResource("SpriteFrames_4rhwf")
 autoplay = "default"
 frame_progress = 0.509785
 
 [node name="red_x" type="Sprite2D" parent="legend_frame"]
+z_index = 9
 position = Vector2(40, -38)
 texture = ExtResource("15_lv2o8")
 
 [node name="equals3" type="Label" parent="legend_frame"]
+z_index = 9
 offset_left = -2.0
 offset_top = 22.0
 offset_right = 27.0
@@ -700,18 +712,26 @@ text = "="
 horizontal_alignment = 1
 
 [node name="full_raft" type="AnimatedSprite2D" parent="legend_frame"]
+z_index = 9
 position = Vector2(40, 40)
 sprite_frames = SubResource("SpriteFrames_3xwjt")
 
 [node name="green_plus" type="Sprite2D" parent="legend_frame"]
-position = Vector2(32, 30)
+z_index = 9
+position = Vector2(40, 29)
+texture = ExtResource("17_jueev")
+
+[node name="green_plus2" type="Sprite2D" parent="legend_frame"]
+z_index = 9
+position = Vector2(54, 29)
 texture = ExtResource("17_jueev")
 
 [node name="equals2" type="Label" parent="legend_frame"]
-offset_left = -3.0
-offset_top = -17.0
-offset_right = 26.0
-offset_bottom = 17.0
+z_index = 9
+offset_left = -2.0
+offset_top = -16.0
+offset_right = 27.0
+offset_bottom = 18.0
 theme = ExtResource("10_qnbff")
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
@@ -719,12 +739,14 @@ text = "="
 horizontal_alignment = 1
 
 [node name="repairing_raft" type="AnimatedSprite2D" parent="legend_frame"]
+z_index = 9
 position = Vector2(40, -2)
 sprite_frames = SubResource("SpriteFrames_23543")
 autoplay = "default"
 frame_progress = 0.496086
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="legend_frame"]
+[node name="repair" type="AnimatedSprite2D" parent="legend_frame"]
+z_index = 9
 position = Vector2(42, -8)
 sprite_frames = SubResource("SpriteFrames_n5rub")
 autoplay = "default"
