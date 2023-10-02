@@ -7,7 +7,7 @@ signal boss_defeated
 
 var bomb_scene = preload("res://objects/raft_objects/bomb.tscn")
 
-var attack_delay := 500.0
+var attack_delay := 5.0
 
 var max_health := 30
 
@@ -59,7 +59,7 @@ func _perform_attack():
 			bomb.boss_toss(toss_source.global_position)
 		await get_tree().create_timer(0.5).timeout
 	
-	$NextAttack.start(attack_delay)
+	$NextAttack.start(attack_delay * randf_range(0.9, 1.1))
 
 
 func _on_next_attack_timeout():
