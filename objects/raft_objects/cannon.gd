@@ -17,4 +17,7 @@ func _process_unconnected(delta):
 		var shoot = shoot_scene.instantiate()
 		shoot.position = Vector2.ZERO
 		b.get_parent().add_child(shoot)
-		b.queue_free()
+		if b == self and ball_nbors.size() >= 4:
+			replace_with_gem()
+		else:
+			b.queue_free()

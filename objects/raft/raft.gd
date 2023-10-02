@@ -10,6 +10,7 @@ var raft_tile_cannonball_scene = preload("res://objects/raft_tile/raft_tile_cann
 var raft_tile_water_bucket_scene = preload("res://objects/raft_tile/raft_tile_water_bucket.tscn")
 var raft_tile_driftwood_scene = preload("res://objects/raft_tile/raft_tile_driftwood.tscn")
 var raft_tile_bomb_scene = preload("res://objects/raft_tile/raft_tile_bomb.tscn")
+var raft_tile_gem_scene = preload("res://objects/raft_tile/raft_tile_gem.tscn")
 
 var raft_data_structure = {}
 
@@ -26,10 +27,21 @@ func _ready():
 	set_tile(raft_tile_driftwood_scene, 6, 7)
 	set_tile(raft_tile_driftwood_scene, 6, 8)
 	set_tile(raft_tile_driftwood_scene, 6, 10)
+	#set_tile(raft_tile_driftwood_scene, 7, 9)
 	set_tile(raft_tile_cannon_scene, 7, 7)
 	set_tile(raft_tile_cannon_scene, 7, 8)
 	set_tile(raft_tile_cannon_scene, 7, 10)
-	
+
+
+func find_all_tiles(tile_type):
+	var rval = []
+	for coord in raft_data_structure:
+		var tile_ref = raft_data_structure[coord]
+		if tile_ref.tile_object and tile_ref.tile_object.get_kind() == tile_type:
+				rval.append(tile_ref)
+	return rval
+
+
 func set_tile(tile_scene: PackedScene, row: int, column: int):
 	var new_tile: Node = tile_scene.instantiate()
 	new_tile.name = "Tile_%s_%s" % [row, column]
@@ -152,8 +164,13 @@ func get_tiles_in_radius(row: int, column: int, radius: float) -> Array[RaftTile
 		var tile: RaftTile = get_relative_tile_rc(position, row, column)
 		if tile != null:
 			tiles.append(tile)
-
 	return tiles
+
+
+func heal_all_tiles(amt: int = 1):
+	for coord in raft_data_structure:
+		raft_data_structure[coord].heal(amt)
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
