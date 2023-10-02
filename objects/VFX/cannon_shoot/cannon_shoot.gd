@@ -12,9 +12,14 @@ var ball_speed := 1.0
 
 var damage = 1
 
+var extra_shot := false
+
 func _ready():
 	ball.visible = false
 	ball_speed *= randf_range(0.9,1.1)
+	
+#	if extra_shot:
+		#self_modulate = Color.TRANSPARENT
 	
 	target = get_node('/root/gameplay/Boss').global_position
 	target += Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * 32.0

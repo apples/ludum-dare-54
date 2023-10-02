@@ -1,32 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://dx3s8nr73iqx"]
+[gd_scene load_steps=3 format=3 uid="uid://dx3s8nr73iqx"]
 
-[ext_resource type="Texture2D" uid="uid://ukxm7akriypo" path="res://assets/textures/cannon.png" id="1_5f6a7"]
+[ext_resource type="SpriteFrames" uid="uid://dn5w6ck5u7ltw" path="res://assets/cannon_sprite_frames.tres" id="1_qplhl"]
 [ext_resource type="Script" path="res://objects/raft_objects/cannon.gd" id="2_w3xid"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_n142l"]
-atlas = ExtResource("1_5f6a7")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2beat"]
-atlas = ExtResource("1_5f6a7")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_agn0m"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_n142l")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2beat")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
 [node name="Cannon" type="AnimatedSprite2D"]
-sprite_frames = SubResource("SpriteFrames_agn0m")
+sprite_frames = ExtResource("1_qplhl")
 autoplay = "default"
 script = ExtResource("2_w3xid")
 is_pushable = true

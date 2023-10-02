@@ -163,6 +163,8 @@ func match3():
 	while i < ball_nbors.size():
 		min_id = min(min_id, ball_nbors[i].id)
 		for o in ball_nbors[i].find_neighboring_objects(kind):
+			if o.is_queued_for_deletion():
+				continue
 			if not o in ball_nbors:
 				ball_nbors.append(o)
 		i += 1

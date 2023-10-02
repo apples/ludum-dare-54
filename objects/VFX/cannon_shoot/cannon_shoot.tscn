@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://cjcvj2iq3844v"]
 
 [ext_resource type="Script" path="res://objects/VFX/cannon_shoot/cannon_shoot.gd" id="1_p8e8x"]
-[ext_resource type="Texture2D" uid="uid://ukxm7akriypo" path="res://assets/textures/cannon.png" id="2_s80np"]
+[ext_resource type="SpriteFrames" uid="uid://dn5w6ck5u7ltw" path="res://assets/cannon_sprite_frames.tres" id="2_slnps"]
 [ext_resource type="Texture2D" uid="uid://cvx8tblwa0wnh" path="res://assets/textures/cannonball_16x16.png" id="3_6r4tx"]
 [ext_resource type="Texture2D" uid="uid://bmi05uwgklewy" path="res://assets/textures/bomb_explosion.png" id="3_uho1d"]
 
@@ -122,8 +122,8 @@ libraries = {
 "": SubResource("AnimationLibrary_1o17l")
 }
 
-[node name="Cannon" type="Sprite2D" parent="."]
-texture = ExtResource("2_s80np")
+[node name="Cannon" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_slnps")
 
 [node name="Ball" type="Sprite2D" parent="."]
 z_index = 10
