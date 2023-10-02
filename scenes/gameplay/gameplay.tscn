@@ -16,7 +16,7 @@ script = ExtResource("1_8n8ih")
 [node name="Frame" parent="." instance=ExtResource("2_erp0v")]
 
 [node name="Boss" parent="." node_paths=PackedStringArray("raft") instance=ExtResource("8_86bl7")]
-position = Vector2(880, 130)
+position = Vector2(880, 128)
 raft = NodePath("../player_raft")
 
 [node name="player_raft" parent="." node_paths=PackedStringArray("player") instance=ExtResource("2_k13pe")]

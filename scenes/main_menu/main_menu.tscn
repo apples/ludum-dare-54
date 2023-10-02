@@ -1,7 +1,8 @@
-[gd_scene load_steps=71 format=3 uid="uid://bimoh7pybv8ag"]
+[gd_scene load_steps=72 format=3 uid="uid://bimoh7pybv8ag"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_n47ym"]
 [ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://objects/frame/frame.tscn" id="2_hu3nl"]
+[ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="3_kvxel"]
 [ext_resource type="Texture2D" uid="uid://bvmks1y37tkks" path="res://assets/textures/instructions_image.png" id="4_xp3ti"]
 [ext_resource type="Texture2D" uid="uid://c3k0k8bv0ywm" path="res://assets/textures/logo.png" id="7_bfq6d"]
 [ext_resource type="Script" path="res://objects/raft/item_spawner.gd" id="7_sdryq"]
@@ -391,6 +392,9 @@ metadata/_edit_vertical_guides_ = []
 metadata/_edit_horizontal_guides_ = []
 
 [node name="Frame" parent="." instance=ExtResource("2_hu3nl")]
+
+[node name="Boss" parent="." instance=ExtResource("3_kvxel")]
+position = Vector2(880, 128)
 
 [node name="ItemSpawner" type="Node2D" parent="."]
 script = ExtResource("7_sdryq")
