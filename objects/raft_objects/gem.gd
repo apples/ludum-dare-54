@@ -12,10 +12,7 @@ func _process_unconnected(delta):
 		return
 	
 	GLOBAL_VARS.score += 25 * GLOBAL_VARS.level
-
-	for tile in raft.find_all_tiles("fire"):
-		raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
-		
+	
 	for tile in raft.find_all_tiles("bomb"):
 		raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
 	
