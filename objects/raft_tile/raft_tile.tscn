@@ -1,7 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://berm3cck4qq7l"]
+[gd_scene load_steps=13 format=3 uid="uid://berm3cck4qq7l"]
 
 [ext_resource type="Script" path="res://objects/raft_tile/raft_tile.gd" id="1_swvh2"]
 [ext_resource type="Texture2D" uid="uid://ba2lrx4jj1x3m" path="res://assets/textures/raff.png" id="2_t1sf4"]
+[ext_resource type="SpriteFrames" uid="uid://pdghq6ydiisd" path="res://assets/fire_sprite_frames.tres" id="3_xibdu"]
+[ext_resource type="AudioStream" uid="uid://cy00b2n8c0qqk" path="res://assets/sfx/fire_burning.wav" id="4_31wf6"]
+[ext_resource type="Texture2D" uid="uid://b05by44t0qh7e" path="res://assets/textures/smoke_8x8.png" id="4_stnok"]
+[ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="4_wyl8w"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5tnp2"]
 atlas = ExtResource("2_t1sf4")
@@ -35,6 +39,10 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1bv7b"]
 size = Vector2(32, 32)
 
+[sub_resource type="Gradient" id="Gradient_2064d"]
+offsets = PackedFloat32Array(0, 0.363095, 0.428571, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
 [node name="raft_tile" type="Area2D" groups=["tile"]]
 collision_layer = 2
 script = ExtResource("1_swvh2")
@@ -45,7 +53,41 @@ sprite_frames = SubResource("SpriteFrames_y7oa1")
 offset = Vector2(16, -9.5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("RectangleShape2D_1bv7b")
+
+[node name="FireSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("3_xibdu")
+autoplay = "default"
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="FireSprite"]
+lifetime = 0.3
+randomness = 0.1
+texture = ExtResource("4_stnok")
+emission_shape = 1
+emission_sphere_radius = 16.0
+gravity = Vector2(0, -500)
+color_ramp = SubResource("Gradient_2064d")
+
+[node name="FireFixMeter" type="ProgressBar" parent="FireSprite"]
+z_index = 100
+offset_left = -16.0
+offset_top = 17.0
+offset_right = 16.0
+offset_bottom = 22.0
+theme = ExtResource("4_wyl8w")
+max_value = 1.0
+value = 1.0
+show_percentage = false
+
+[node name="FireDamageTimer" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="FireBurning" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_31wf6")
+volume_db = -10.0
+bus = &"Sound_effects"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="timeout" from="FireDamageTimer" to="." method="_on_fire_damage_timer_timeout"]

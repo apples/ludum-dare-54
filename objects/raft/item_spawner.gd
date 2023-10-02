@@ -14,7 +14,6 @@ var spawnables_bag := []
 
 var spawnables = [
 	{ weight = 10, scene = preload("res://objects/raft_objects/water_bucket.tscn") },
-	#{ weight = 10.0, scene = preload("res://objects/raft_objects/fire.tscn") },
 	{ weight = 30, scene = preload("res://objects/raft_objects/driftwood.tscn") },
 	#{ weight = 15.0, scene = preload("res://objects/raft_objects/bomb.tscn") },
 	{ weight = 5, scene = preload("res://objects/raft_objects/gem.tscn") },

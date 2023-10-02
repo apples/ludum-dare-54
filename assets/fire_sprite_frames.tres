@@ -1,0 +1,25 @@
+[gd_resource type="SpriteFrames" load_steps=4 format=3 uid="uid://pdghq6ydiisd"]
+
+[ext_resource type="Texture2D" uid="uid://cqbpyq532ek02" path="res://assets/textures/fire.png" id="1_ksd2e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pyftr"]
+atlas = ExtResource("1_ksd2e")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_80vdf"]
+atlas = ExtResource("1_ksd2e")
+region = Rect2(32, 0, 32, 32)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pyftr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_80vdf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
