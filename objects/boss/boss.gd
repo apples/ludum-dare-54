@@ -4,6 +4,7 @@ signal boss_defeated
 
 @export var raft: Node
 @onready var toss_source = $TossSource
+@onready var ouch_sfx = $OuchSFX
 
 var bomb_scene = preload("res://objects/raft_objects/bomb.tscn")
 
@@ -22,6 +23,7 @@ var health := max_health:
 		if not is_stunned:
 			if v < health:
 				animation_tree["parameters/wince/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
+				ouch_sfx.play()
 			health = v
 			if health <= 0:
 				health = 0
