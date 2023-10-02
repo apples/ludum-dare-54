@@ -4,6 +4,7 @@ extends CharacterBody2D
 
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 @onready var hold_root = $HoldRoot
+@onready var grab_area = $GrabArea
 
 enum {
 	STATE_IDLE,
@@ -58,6 +59,7 @@ var grid_facing: int = FACING_DOWN
 
 var push_delay: float = 0.0
 
+var swap_possible := false
 var held_object:
 	get:
 		if hold_root.get_child_count() > 0:
@@ -187,9 +189,24 @@ func _process_idle(delta):
 					facing_obj.detach_raft()
 					held_object = facing_obj
 					facing_obj.position = Vector2.ZERO
+					swap_possible = true
+				elif facing_obj == null:
+					print("attempt catch")
+					grab_area.global_position = self.global_position + ((get_facing_dir() * 32) as Vector2)
+					if grab_area.has_overlapping_areas():
+						print("catch")
+						held_object = grab_area.get_overlapping_areas()[0].item
+						held_object.raft = raft
+						grab_area.get_overlapping_areas()[0].queue_free()
+						held_object.position = Vector2.ZERO
+					
 			else:
 				var f = grid_current_position + get_facing_dir()
 				var t = raft.get_tile(f.y, f.x)
+				if swap_possible:
+					t = raft.get_tile(grid_current_position.y, grid_current_position.x)
+					swap_possible = false
+					grid_buffered_input = get_facing_dir()
 				if t != null and t.tile_object == null:
 					var o = held_object
 					o.reparent(t)
