@@ -22,11 +22,13 @@ const TILE_SPACING := Vector2(32, 32)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print(DATA_STORE.current.highscore)
-	generate_raft()
-	set_tile(raft_tile_driftwood_scene, 6, 7)
-	set_tile(raft_tile_driftwood_scene, 6, 8)
-	set_tile(raft_tile_driftwood_scene, 6, 10)
+	match GLOBAL_VARS.difficulty:
+		GLOBAL_VARS.DIFF_EASY:
+			generate_easy_raft()
+		GLOBAL_VARS.DIFF_MED:
+			generate_medium_raft()
+		GLOBAL_VARS.DIFF_HARD:
+			generate_hard_raft()
 
 
 func find_all_tiles(tile_type):
@@ -58,27 +60,53 @@ func set_tile(tile_scene: PackedScene, row: int, column: int):
 	
 	self.add_child(new_tile)
 
+
 func delete_tile(row: int, column: int):
 	raft_data_structure.erase(Vector2i(row, column))
 	if raft_data_structure.is_empty():
 		queue_free()
 		get_parent().raft_destroyed(self)
 
-func generate_raft():
-	for r in range(6, 9):
-		for c in range(7, 12):
+
+func generate_easy_raft():
+	for r in range(8, 12):
+		for c in range(5,12):
 			set_tile(raft_tile_scene, r, c)
+
+	set_tile(raft_tile_driftwood_scene, 9, 6)
+	set_tile(raft_tile_driftwood_scene, 9, 7)
+	set_tile(raft_tile_driftwood_scene, 9, 9)
+
+
+func generate_medium_raft():
+	for r in range(8,12):
+		for c in range(6,11):
+			set_tile(raft_tile_scene, r, c)
+			
+	set_tile(raft_tile_driftwood_scene, 9, 6)
+	set_tile(raft_tile_driftwood_scene, 9, 7)
+	set_tile(raft_tile_driftwood_scene, 9, 9)
+
+
+func generate_hard_raft():
+	for r in range(8, 11):
+		for c in range(6,11):
+			set_tile(raft_tile_scene, r, c)
+
 
 func rc_to_pos(rc: Vector2i) -> Vector2:
 	return position + Vector2(rc.x, rc.y) * TILE_SPACING
+
 
 func get_tile_at(pos: Vector2) -> RaftTile:
 	var rc := Vector2i((pos + TILE_SPACING/2.0) / TILE_SPACING)
 	return raft_data_structure.get(rc)
 
+
 func get_tile(row: int, column: int) -> RaftTile:
 	return raft_data_structure.get(Vector2i(column, row))
-	
+
+
 func get_tile_row(row: int) -> Array:
 	var tiles = []
 	var tile
@@ -88,6 +116,7 @@ func get_tile_row(row: int) -> Array:
 			tiles.push_back(tile)
 	return tiles
 
+
 func get_tile_column(column: int) -> Array:
 	var tiles = []
 	var tile
@@ -96,6 +125,7 @@ func get_tile_column(column: int) -> Array:
 		if tile != null:
 			tiles.push_back(tile)
 	return tiles
+
 
 func get_closest_empty_tile(pos: Vector2):
 	var gp := Vector2i((pos + TILE_SPACING/2.0) / TILE_SPACING)
@@ -108,11 +138,14 @@ func get_closest_empty_tile(pos: Vector2):
 			closest_gp = k
 	return raft_data_structure[closest_gp]
 
+
 func get_relative_tile(direction: Vector2i, tile: RaftTile) -> RaftTile:
 	return get_tile(tile.grid_pos.y + direction.y, tile.grid_pos.x + direction.x)
 
+
 func get_relative_tile_rc(direction: Vector2i, row: int, column: int) -> RaftTile:
 	return get_tile(row + direction.y, column + direction.x)
+
 
 func get_random_empty_tile():
 	var empts = []
@@ -124,7 +157,7 @@ func get_random_empty_tile():
 	# If anything tries to find an empty tile and can't we transition to the lose state
 	if empts.is_empty():
 		UTILS.change_to_scene("res://scenes/lose_screen/lose_scene.tscn")
-	
+
 	# filter out tiles near player if possible
 	var not_near_player = []
 	for e in empts:
@@ -164,6 +197,7 @@ func get_relative_positions_in_radius(radius: float) -> Array[Vector2i]:
 	
 	return positions
 
+
 func get_tiles_in_radius(row: int, column: int, radius: float) -> Array[RaftTile]:
 	var positions: Array[Vector2i] = get_relative_positions_in_radius(radius)
 	var tiles: Array[RaftTile] = []
@@ -190,6 +224,7 @@ func _on_child_exiting_tree(node):
 	if node is RaftTile:
 		if raft_data_structure.get(node.grid_pos) == node:
 			raft_data_structure.erase(node.grid_pos)
+
 
 func play_raft_hit_cannoball():
 	$raft_hit_cannonball.play()
