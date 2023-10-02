@@ -22,6 +22,7 @@ var score
 # Called when the node enters the scene tree for the first time.
 func _ready():
 #	raft_destroyed($enemy_raft)
+	MusicManager.play("DownTheRiver")
 	score = $Score
 
 

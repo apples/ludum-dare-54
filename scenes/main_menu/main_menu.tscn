@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bimoh7pybv8ag"]
+[gd_scene load_steps=20 format=3 uid="uid://bimoh7pybv8ag"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_n47ym"]
 [ext_resource type="TileSet" uid="uid://bxqtnvjdndf4n" path="res://assets/map_tiles.tres" id="1_x5nns"]
@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://cn0qmsqk0rxr4" path="res://assets/textures/border.png" id="4_61pwo"]
 [ext_resource type="Texture2D" uid="uid://bvmks1y37tkks" path="res://assets/textures/instructions_image.png" id="4_xp3ti"]
 [ext_resource type="Texture2D" uid="uid://dndc10kxm14um" path="res://assets/textures/char1.png" id="5_20plm"]
-[ext_resource type="AudioStream" uid="uid://cmif6ike1jjed" path="res://assets/music/battleraft_menu_theme.ogg" id="5_oug78"]
 [ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="6_cs5oe"]
 [ext_resource type="Script" path="res://objects/raft/item_spawner.gd" id="7_sdryq"]
 [ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="10_qnbff"]
@@ -139,11 +138,6 @@ offset_bottom = 429.0
 theme = ExtResource("10_qnbff")
 action_mode = 0
 text = "START GAME"
-
-[node name="menu_theme" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("5_oug78")
-autoplay = true
-bus = &"Music"
 
 [node name="options" type="Button" parent="."]
 offset_left = 445.0
