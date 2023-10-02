@@ -45,9 +45,9 @@ text = "Choose Your Difficulty!"
 [node name="easy_start" type="Button" parent="."]
 z_index = 9
 offset_left = 435.0
-offset_top = 328.0
+offset_top = 272.0
 offset_right = 537.0
-offset_bottom = 362.0
+offset_bottom = 306.0
 theme = ExtResource("2_a1caq")
 action_mode = 0
 shortcut = SubResource("Shortcut_cfh6x")
@@ -57,9 +57,9 @@ text = "Easy
 [node name="med_start" type="Button" parent="."]
 z_index = 9
 offset_left = 436.0
-offset_top = 375.0
+offset_top = 319.0
 offset_right = 538.0
-offset_bottom = 409.0
+offset_bottom = 353.0
 theme = ExtResource("2_a1caq")
 action_mode = 0
 shortcut = SubResource("Shortcut_cfh6x")
@@ -67,14 +67,14 @@ text = "Normal"
 
 [node name="hard_start" type="Button" parent="."]
 z_index = 9
-offset_left = 423.0
-offset_top = 423.0
-offset_right = 549.0
-offset_bottom = 456.0
+offset_left = 435.0
+offset_top = 367.0
+offset_right = 537.0
+offset_bottom = 401.0
 theme = ExtResource("2_a1caq")
 action_mode = 0
 shortcut = SubResource("Shortcut_cfh6x")
-text = "Gimme Raft Blasters"
+text = "Hard"
 
 [connection signal="pressed" from="easy_start" to="." method="_on_easy_start_pressed"]
 [connection signal="pressed" from="med_start" to="." method="_on_med_start_pressed"]
