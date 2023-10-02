@@ -193,5 +193,10 @@ expand_mode = 1
 stretch_mode = 1
 flip_v = true
 
+[node name="StunTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
 [connection signal="timeout" from="NextAttack" to="." method="_on_next_attack_timeout"]
 [connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]
+[connection signal="timeout" from="StunTimer" to="." method="_on_stun_timer_timeout"]
