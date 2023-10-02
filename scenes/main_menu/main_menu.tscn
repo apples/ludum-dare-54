@@ -583,12 +583,8 @@ text = "Move /
  Place"
 
 [node name="spacebar" type="Label" parent="."]
-<<<<<<< HEAD
-offset_left = 255.0
-=======
 z_index = 9
 offset_left = 335.0
->>>>>>> a2b23ec074c1f43c6afeb6eaad94ef65d786a87a
 offset_top = 309.0
 offset_right = 713.0
 offset_bottom = 343.0
