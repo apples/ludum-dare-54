@@ -173,5 +173,6 @@ one_shot = true
 [node name="sfx" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_26nth")
 autoplay = true
+bus = &"Sound_effects"
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
