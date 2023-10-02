@@ -61,6 +61,7 @@ particles_anim_v_frames = 1
 particles_anim_loop = false
 
 [node name="Boss" type="Node2D"]
+z_index = 250
 position = Vector2(864, 128)
 script = ExtResource("2_tau8x")
 
@@ -115,6 +116,9 @@ parameters/Normal/emote_raise_eyes/request = 0
 parameters/Normal/wince/active = false
 parameters/Normal/wince/internal_active = false
 parameters/Normal/wince/request = 0
+
+[node name="CannonTarget" type="Node2D" parent="."]
+position = Vector2(-13, 0)
 
 [node name="BlinkTimer" type="Timer" parent="."]
 one_shot = true

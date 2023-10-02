@@ -442,7 +442,7 @@ func god_mode_process( _player_input_pressed ):
 		return true
 	
 	elif _player_input_pressed.five:
-		var raft_object_instance =  preload("res://objects/raft_objects/hammer.tscn").instantiate()
+		var raft_object_instance =  preload("res://objects/raft_objects/cannon.tscn").instantiate()
 		var tile = raft.get_tile(grid_current_position.y, grid_current_position.x)
 		raft_object_instance.grid_pos = tile.grid_pos
 		raft_object_instance.raft = raft

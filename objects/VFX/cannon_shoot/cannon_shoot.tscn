@@ -112,6 +112,7 @@ particles_anim_v_frames = 1
 particles_anim_loop = false
 
 [node name="CannonShoot" type="Node2D"]
+z_index = 255
 position = Vector2(79, 68)
 script = ExtResource("1_p8e8x")
 
