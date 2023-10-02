@@ -35,6 +35,8 @@ var grid_lerp_t := 1.0
 var grid_lerp_speed := 12.0
 var grid_buffered_input: Vector2i = Vector2i.ZERO
 
+var base_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
+
 var temp_dir_locked = false
 
 enum {
@@ -429,4 +431,24 @@ func god_mode_process( _player_input_pressed ):
 		raft_object_instance.raft = raft
 		tile.add_child(raft_object_instance)
 		held_object = raft_object_instance
+		return true
+	elif _player_input_pressed.six:
+		for tile in raft.find_all_tiles("water_bucket"):
+			raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
+		for tile in raft.find_all_tiles("fire"):
+			raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
+		for tile in raft.find_all_tiles("hammer"):
+			raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
+		for tile in raft.find_all_tiles("cannon"):
+			raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
+		for tile in raft.find_all_tiles("gem"):
+			raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
+		for tile in raft.find_all_tiles("driftwood"):
+			raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
+		for tile in raft.find_all_tiles("cannon_ball"):
+			raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
+		for tile in raft.find_all_tiles("bomb"):
+			raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
+	
+			
 		return true
