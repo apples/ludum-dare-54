@@ -1,31 +1,31 @@
 [gd_scene load_steps=4 format=3 uid="uid://coygvu81ci30f"]
 
 [ext_resource type="Script" path="res://objects/VFX/tile_break/tile_break.gd" id="1_k3qsj"]
-[ext_resource type="Texture2D" uid="uid://tpcken0otjyo" path="res://assets/textures/raff_damage2.png" id="2_4p2uu"]
+[ext_resource type="Texture2D" uid="uid://cy5n185vl07fv" path="res://assets/textures/raff_damage_particle.png" id="2_oxfn2"]
 
-[sub_resource type="Curve" id="Curve_qc5vi"]
-_data = [Vector2(0.0769231, 0.147368), 0.0, 0.0, 0, 0, Vector2(0.994506, 1), 0.0, 0.0, 0, 0]
-point_count = 2
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5s4gu"]
+particles_animation = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 5
+particles_anim_loop = false
 
 [node name="tile_break" type="Node2D"]
 script = ExtResource("1_k3qsj")
 
 [node name="tile_break_2D" type="CPUParticles2D" parent="."]
 show_behind_parent = true
-amount = 30
-speed_scale = 1.65
-texture = ExtResource("2_4p2uu")
-emission_shape = 1
-emission_sphere_radius = 12.64
+material = SubResource("CanvasItemMaterial_5s4gu")
+amount = 40
+lifetime = 0.75
+speed_scale = 2.0
+explosiveness = 0.2
+randomness = 1.0
+texture = ExtResource("2_oxfn2")
 spread = 180.0
-gravity = Vector2(0, 0)
-initial_velocity_max = 50.51
-orbit_velocity_min = 0.25
-orbit_velocity_max = 0.25
-linear_accel_max = 10.1
-scale_amount_min = 0.2
-scale_amount_max = 0.3
-scale_amount_curve = SubResource("Curve_qc5vi")
+gravity = Vector2(0, 100)
+initial_velocity_min = 25.31
+initial_velocity_max = 71.22
+anim_offset_max = 1.0
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.75
