@@ -10,6 +10,7 @@ func _ready():
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sound_effects"), linear_to_db(DATA_STORE.current.sfx_volume))
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(DATA_STORE.current.music_volume))
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(DATA_STORE.current.master_volume))
+	$highscore.text = "Highscore: %s" % DATA_STORE.current.highscore
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

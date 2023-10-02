@@ -18,19 +18,21 @@ var at_direction_edge = {
 }
 #var current_level = 0
 var score
+var level
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 #	raft_destroyed($enemy_raft)
 	MusicManager.play("DownTheRiver")
 	score = $Score
-
+	level = $Level
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if placing_raft_module and module_container:
 		process_module_placement()
 	score.text = "Score: %s" % GLOBAL_VARS.score
+	level.text = "Level: %s" % GLOBAL_VARS.level
 
 func process_module_placement():
 	var check_connection_check_bounds = func():

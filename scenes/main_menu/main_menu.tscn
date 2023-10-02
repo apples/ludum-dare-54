@@ -280,6 +280,17 @@ theme = ExtResource("10_qnbff")
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
 text = "Pick up / Place / Extinguish"
+horizontal_alignment = 1
+
+[node name="highscore" type="Label" parent="."]
+offset_left = 404.0
+offset_top = 475.0
+offset_right = 548.0
+offset_bottom = 507.0
+theme = ExtResource("10_qnbff")
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 38
+text = "Highscore : 0"
 
 [connection signal="timeout" from="ItemSpawner/Timer" to="ItemSpawner" method="_on_timer_timeout"]
 [connection signal="pressed" from="start_game" to="." method="_on_start_game_pressed"]
