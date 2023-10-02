@@ -80,6 +80,9 @@ func _on_blink_timer_timeout():
 func death():
 	is_stunned = true
 	$StunTimer.start(stun_length)
+	$CPUParticles2D.emitting = true
+	$CPUParticles2D/ExplosionTimer.start()
+	$AudioStreamPlayer.play()
 	
 	attack_delay -= (attack_delay - 3) * 5 / difficulty_acceleration
 	bomb_count_thrown += 6 * 5 / difficulty_acceleration
