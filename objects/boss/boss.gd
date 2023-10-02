@@ -24,6 +24,8 @@ var health := max_health:
 			if v < health:
 				animation_tree["parameters/Normal/wince/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
 				ouch_sfx.play()
+			if health == 0 and v < 0:
+				return
 			health = v
 			if health <= 0:
 				health = 0

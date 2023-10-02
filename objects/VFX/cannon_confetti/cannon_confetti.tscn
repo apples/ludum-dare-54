@@ -1,0 +1,150 @@
+[gd_scene load_steps=7 format=3 uid="uid://b5kjc4dtf8rfy"]
+
+[ext_resource type="Script" path="res://objects/VFX/cannon_confetti/cannon_confetti.gd" id="1_amjhl"]
+[ext_resource type="SpriteFrames" uid="uid://dn5w6ck5u7ltw" path="res://assets/cannon_sprite_frames.tres" id="2_4yojv"]
+
+[sub_resource type="Animation" id="Animation_3bvqf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_4l6qg"]
+resource_name = "shoot"
+length = 0.500002
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.166667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -0.297201, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.166667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.45826, 1.45826), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.166667, 0.216667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("..")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.133333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"blast"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1o17l"]
+_data = {
+"RESET": SubResource("Animation_3bvqf"),
+"shoot": SubResource("Animation_4l6qg")
+}
+
+[sub_resource type="Gradient" id="Gradient_bkp8w"]
+offsets = PackedFloat32Array(0, 0.213178, 0.403101, 0.593023, 0.77907, 1)
+colors = PackedColorArray(1, 0, 0, 1, 1, 0.85, 0, 1, 0.0500001, 1, 0, 1, 0, 0.95, 1, 1, 0.0666666, 0, 1, 1, 1, 0, 0.933333, 1)
+
+[node name="CannonConfetti" type="Node2D"]
+z_index = 255
+position = Vector2(79, 68)
+script = ExtResource("1_amjhl")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Cannon")
+autoplay = "shoot"
+libraries = {
+"": SubResource("AnimationLibrary_1o17l")
+}
+
+[node name="Cannon" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_4yojv")
+
+[node name="BlastFX" type="CPUParticles2D" parent="."]
+z_index = -1
+position = Vector2(10, -10)
+emitting = false
+lifetime = 0.15
+one_shot = true
+explosiveness = 0.2
+emission_shape = 1
+emission_sphere_radius = 3.0
+direction = Vector2(1, -1)
+spread = 40.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 174.65
+initial_velocity_max = 275.77
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color_ramp = SubResource("Gradient_bkp8w")
+hue_variation_min = -1.0
+hue_variation_max = 1.0
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
