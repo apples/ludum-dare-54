@@ -189,6 +189,7 @@ position = Vector2(210, 48)
 player = NodePath("../Player")
 
 [node name="Player" parent="." node_paths=PackedStringArray("raft") instance=ExtResource("4_85nev")]
+z_index = 1
 position = Vector2(478, 288)
 raft = NodePath("../player_raft")
 
