@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://s7yhx5qtxyfo"]
+
+[ext_resource type="AudioStream" uid="uid://cmif6ike1jjed" path="res://assets/music/battleraft_menu_theme.ogg" id="1_3hx1j"]
+[ext_resource type="Script" path="res://autoload/music_manager.gd" id="1_ue6de"]
+[ext_resource type="AudioStream" uid="uid://bflv5fnr5rfe2" path="res://assets/music/down_the_river.ogg" id="2_0osqb"]
+
+[node name="MusicManager" type="Node"]
+script = ExtResource("1_ue6de")
+
+[node name="MainMenu" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_3hx1j")
+
+[node name="DownTheRiver" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_0osqb")

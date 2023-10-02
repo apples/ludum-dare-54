@@ -6,6 +6,7 @@ var spawn_rate_max = 7.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	MusicManager.play("MainMenu")
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sound_effects"), linear_to_db(DATA_STORE.current.sfx_volume))
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(DATA_STORE.current.music_volume))
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(DATA_STORE.current.master_volume))
