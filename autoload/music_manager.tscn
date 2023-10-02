@@ -9,6 +9,7 @@ script = ExtResource("1_ue6de")
 
 [node name="MainMenu" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("1_3hx1j")
+volume_db = -10.0
 bus = &"Music"
 
 [node name="DownTheRiver" type="AudioStreamPlayer" parent="."]
