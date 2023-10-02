@@ -9,9 +9,9 @@ var current: Dictionary
 var _default_values := {
 	highscore = 0,
 	max_level_reached = 0,
-	master_volume = 25,
-	sfx_volume = 25,
-	music_volume = 25
+	master_volume = 1,
+	sfx_volume = 1,
+	music_volume = 1
 }
 
 func _ready():

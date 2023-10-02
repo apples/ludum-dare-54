@@ -12,7 +12,8 @@ func _process_unconnected(delta):
 	if ball_nbors.size() == 0:
 		return
 	
-	GLOBAL_VARS.score += 10
+	GLOBAL_VARS.score += 10 * GLOBAL_VARS.level
+	
 	var sparkle_scene_b
 	for b in ball_nbors:
 		var shoot = shoot_scene.instantiate()

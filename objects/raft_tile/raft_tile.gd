@@ -27,7 +27,7 @@ var grid_pos: Vector2i
 
 var player_obj: Node
 
-var fire_max_health := 1.0
+var fire_max_health := 1.5
 var fire_health := 0.0
 
 var is_on_fire: bool:

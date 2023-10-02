@@ -13,7 +13,7 @@ func _process_unconnected(delta):
 	if ball_nbors.size() == 0:
 		return
 	
-	GLOBAL_VARS.score += 10
+	GLOBAL_VARS.score += 10 * GLOBAL_VARS.level
 	
 	var splash: Node2D
 	var trigger_sound = false

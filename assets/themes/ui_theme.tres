@@ -108,8 +108,8 @@ shadow_size = 7
 
 [resource]
 Button/colors/font_outline_color = Color(0.352941, 0.352941, 0.352941, 1)
-Button/constants/outline_size = 25
-Button/font_sizes/font_size = 190
+Button/constants/outline_size = 5
+Button/font_sizes/font_size = 19
 Button/fonts/font = ExtResource("1_qqmai")
 Button/styles/focus = SubResource("StyleBoxFlat_3ndf0")
 Button/styles/hover = SubResource("StyleBoxFlat_e38c6")

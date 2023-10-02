@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bynqvjcdpggd0"]
+[gd_scene load_steps=13 format=3 uid="uid://bynqvjcdpggd0"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/gameplay.gd" id="1_8n8ih"]
 [ext_resource type="TileSet" uid="uid://ddakmqeqs0fmb" path="res://assets/map_tiles2.tres" id="2_gt3fp"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://o12ndw11l4ek" path="res://objects/player/player.tscn" id="4_85nev"]
 [ext_resource type="Texture2D" uid="uid://cn0qmsqk0rxr4" path="res://assets/textures/border.png" id="5_sl3p5"]
 [ext_resource type="Texture2D" uid="uid://dndc10kxm14um" path="res://assets/textures/char1.png" id="6_sl4bn"]
+[ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="8_2ifv0"]
 [ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="8_86bl7"]
 [ext_resource type="AudioStream" uid="uid://bqwvc1mimfnlo" path="res://assets/sfx/river_water_moving.ogg" id="9_ojlhc"]
 [ext_resource type="Script" path="res://objects/raft/item_spawner.gd" id="10_kdn02"]
@@ -61,12 +62,21 @@ player = NodePath("../Player")
 position = Vector2(478, 288)
 raft = NodePath("../player_raft")
 
-[node name="Score" type="RichTextLabel" parent="."]
-offset_left = 432.0
+[node name="Score" type="Label" parent="."]
+offset_left = 320.0
+offset_right = 448.0
+offset_bottom = 32.0
+theme = ExtResource("8_2ifv0")
+theme_override_font_sizes/font_size = 40
+text = "Score : 0"
+
+[node name="Level" type="Label" parent="."]
+offset_left = 512.0
 offset_right = 640.0
 offset_bottom = 32.0
-theme_override_font_sizes/normal_font_size = 20
-text = "Score : 0"
+theme = ExtResource("8_2ifv0")
+theme_override_font_sizes/font_size = 40
+text = "Level : 1"
 
 [node name="Boss" parent="." node_paths=PackedStringArray("raft") instance=ExtResource("8_86bl7")]
 raft = NodePath("../player_raft")
