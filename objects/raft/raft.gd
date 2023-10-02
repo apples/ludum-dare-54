@@ -82,6 +82,10 @@ func generate_medium_raft():
 	for r in range(8,12):
 		for c in range(6,11):
 			set_tile(raft_tile_scene, r, c)
+			
+	set_tile(raft_tile_driftwood_scene, 9, 6)
+	set_tile(raft_tile_driftwood_scene, 9, 7)
+	set_tile(raft_tile_driftwood_scene, 9, 9)
 
 
 func generate_hard_raft():
