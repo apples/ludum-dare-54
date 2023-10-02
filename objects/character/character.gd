@@ -191,10 +191,8 @@ func _process_idle(delta):
 					facing_obj.position = Vector2.ZERO
 					swap_possible = true
 				elif facing_obj == null:
-					print("attempt catch")
 					grab_area.global_position = self.global_position + ((get_facing_dir() * 32) as Vector2)
 					if grab_area.has_overlapping_areas():
-						print("catch")
 						held_object = grab_area.get_overlapping_areas()[0].item
 						held_object.raft = raft
 						grab_area.get_overlapping_areas()[0].queue_free()
@@ -203,11 +201,11 @@ func _process_idle(delta):
 			else:
 				var f = grid_current_position + get_facing_dir()
 				var t = raft.get_tile(f.y, f.x)
-				if swap_possible:
-					t = raft.get_tile(grid_current_position.y, grid_current_position.x)
-					swap_possible = false
-					grid_buffered_input = get_facing_dir()
 				if t != null and t.tile_object == null:
+					if swap_possible:
+						t = raft.get_tile(grid_current_position.y, grid_current_position.x)
+						swap_possible = false
+						grid_buffered_input = get_facing_dir()
 					var o = held_object
 					o.reparent(t)
 					t.tile_object = o
