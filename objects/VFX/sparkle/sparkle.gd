@@ -17,7 +17,6 @@ func init( colour):
 	$sparkle_sprite.modulate = colour 
 
 func play_gem():
-	print("sadfasdf")
 	$gem_sound_effect.play()
 
 func play_hammer():
