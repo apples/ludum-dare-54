@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bynqvjcdpggd0"]
+[gd_scene load_steps=11 format=3 uid="uid://bynqvjcdpggd0"]
 
 [ext_resource type="Script" path="res://scenes/gameplay/gameplay.gd" id="1_8n8ih"]
 [ext_resource type="TileSet" uid="uid://ddakmqeqs0fmb" path="res://assets/map_tiles2.tres" id="2_gt3fp"]
@@ -6,9 +6,10 @@
 [ext_resource type="TileSet" uid="uid://bxqtnvjdndf4n" path="res://assets/map_tiles.tres" id="3_1yaes"]
 [ext_resource type="PackedScene" uid="uid://o12ndw11l4ek" path="res://objects/player/player.tscn" id="4_85nev"]
 [ext_resource type="Texture2D" uid="uid://dndc10kxm14um" path="res://assets/textures/char1.png" id="6_sl4bn"]
-[ext_resource type="Texture2D" uid="uid://bgpvapyotr84g" path="res://assets/textures/char2.png" id="7_x3mow"]
+[ext_resource type="Texture2D" uid="uid://hch2updbkh5g" path="res://assets/textures/char2.png" id="7_x3mow"]
 [ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="8_86bl7"]
 [ext_resource type="AudioStream" uid="uid://bqwvc1mimfnlo" path="res://assets/sfx/river_water_moving.ogg" id="9_ojlhc"]
+[ext_resource type="Script" path="res://objects/raft/item_spawner.gd" id="10_kdn02"]
 
 [node name="gameplay" type="Node2D"]
 script = ExtResource("1_8n8ih")
@@ -71,3 +72,14 @@ text = "Score : 0"
 
 [node name="Boss" parent="." node_paths=PackedStringArray("raft") instance=ExtResource("8_86bl7")]
 raft = NodePath("../player_raft")
+
+[node name="ItemSpawner" type="Node2D" parent="." node_paths=PackedStringArray("raft")]
+script = ExtResource("10_kdn02")
+raft = NodePath("../player_raft")
+
+[node name="Timer" type="Timer" parent="ItemSpawner"]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="ItemSpawner/Timer" to="ItemSpawner" method="_on_timer_timeout"]

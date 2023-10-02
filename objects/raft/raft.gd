@@ -110,6 +110,10 @@ func get_random_empty_tile():
 	for k in raft_data_structure:
 		if raft_data_structure[k] != null and raft_data_structure[k].tile_object == null:
 			empts.append(raft_data_structure[k])
+	
+	# If anything tries to find an empty tile and can't we transition to the lose state
+	if empts.is_empty():
+		UTILS.change_to_scene("res://scenes/lose_screen/lose_scene.tscn")
 	return empts.pick_random()
 
 var relative_tile_in_radius_cache = {}
