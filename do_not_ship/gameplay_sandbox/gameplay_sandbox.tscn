@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://b1u3ss5rxg2di"]
+
+[ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://objects/frame/frame.tscn" id="1_0tdyu"]
+[ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="2_l3g51"]
+[ext_resource type="PackedScene" uid="uid://xb7mdny33p7e" path="res://objects/raft/raft.tscn" id="3_m7edq"]
+[ext_resource type="PackedScene" uid="uid://o12ndw11l4ek" path="res://objects/player/player.tscn" id="4_qg327"]
+
+[node name="GameplaySandbox" type="Node2D"]
+
+[node name="Frame" parent="." instance=ExtResource("1_0tdyu")]
+
+[node name="Boss" parent="." instance=ExtResource("2_l3g51")]
+position = Vector2(880, 128)
+
+[node name="player_raft" parent="." node_paths=PackedStringArray("player") instance=ExtResource("3_m7edq")]
+position = Vector2(210, 48)
+player = NodePath("../Player")
+
+[node name="Player" parent="." node_paths=PackedStringArray("raft") instance=ExtResource("4_qg327")]
+z_index = 1
+position = Vector2(478, 288)
+raft = NodePath("../player_raft")
