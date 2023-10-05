@@ -35,13 +35,13 @@ func get_kind() -> StringName:
 	assert(false, "get_kind() not implemented")
 	return ""
 
-func _process_unconnected(delta):
+func _process_unconnected(_delta):
 	pass
 
-func _process_connected(delta):
+func _process_connected(_delta):
 	pass
 
-func _physics_process_connected(delta):
+func _physics_process_connected(_delta):
 	pass
 
 func _on_player_connected():

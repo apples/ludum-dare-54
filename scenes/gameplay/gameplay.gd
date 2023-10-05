@@ -67,12 +67,11 @@ func confirm_module_connection():
 	
 	grid_position = Vector2i(7, 7)
 	delete_children(module_container)
-	module_container
 	valid_connection = false
 
 # Returns [valid_connection_condition, Dict<at_direction_edge>]
 func check_valid_connection() -> Array:
-	var at_direction_edge = {
+	var result_at_direction_edge = {
 		'UP': false,
 		'DOWN': false,
 		'LEFT': false,
@@ -88,16 +87,16 @@ func check_valid_connection() -> Array:
 		var tile_new_grid_pos_col = tile.grid_pos.x + grid_position.x
 		
 		if tile_new_grid_pos_row > bounds_grid_coords.y:
-			at_direction_edge['DOWN'] = true
+			result_at_direction_edge['DOWN'] = true
 			in_bounds = false
 		if tile_new_grid_pos_row < 0:
-			at_direction_edge['UP'] = true
+			result_at_direction_edge['UP'] = true
 			in_bounds = false
 		if tile_new_grid_pos_col > bounds_grid_coords.x:
-			at_direction_edge['RIGHT'] = true
+			result_at_direction_edge['RIGHT'] = true
 			in_bounds = false
 		if tile_new_grid_pos_col < 0:
-			at_direction_edge['LEFT'] = true
+			result_at_direction_edge['LEFT'] = true
 			in_bounds = false
 		
 		if $player_raft.get_tile(tile_new_grid_pos_row, tile_new_grid_pos_col):
@@ -108,7 +107,7 @@ func check_valid_connection() -> Array:
 	var valid_connection_condition = touching_neighbor and not overlap and in_bounds
 	module_valid_connection_updated.emit(valid_connection_condition)
 	
-	return [valid_connection_condition, at_direction_edge]
+	return [valid_connection_condition, result_at_direction_edge]
 
 
 func overlay_upgrade_scene(upgrade_strength: int = 0):
@@ -156,9 +155,9 @@ func render_raft_module(raft_module_structure, pos: Vector2):
 		min_x = min(k.x, min_x)
 		min_y = min(k.y, min_y)
 	
-	var module_width = (max_x - min_x + 1) * 32
-	var module_height = (max_y - min_y + 1) * 32
-		
+	#var module_width = (max_x - min_x + 1) * 32
+	#var module_height = (max_y - min_y + 1) * 32
+	
 	for k in raft_module_structure:
 		var tile_x_offset = 32 * k.x
 		var tile_y_offset = 32 * k.y

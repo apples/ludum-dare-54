@@ -4,7 +4,7 @@ var bomb_explosion_scene = preload("res://objects/VFX/bomb_explosion/bomb_explos
 func get_kind() -> StringName:
 	return "bomb"
 
-func _process_unconnected(delta):
+func _process_unconnected(_delta):
 	var ball_nbors = match3()
 	
 	if ball_nbors.size() == 0:

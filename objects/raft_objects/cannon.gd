@@ -7,7 +7,7 @@ var shoot_confetti_scene = preload("res://objects/VFX/cannon_confetti/cannon_con
 func get_kind() -> StringName:
 	return "cannon"
 
-func _process_unconnected(delta):
+func _process_unconnected(_delta):
 	var ball_nbors = match3()
 	
 	if ball_nbors.size() == 0:

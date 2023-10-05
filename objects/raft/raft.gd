@@ -202,8 +202,8 @@ func get_tiles_in_radius(row: int, column: int, radius: float) -> Array[RaftTile
 	var positions: Array[Vector2i] = get_relative_positions_in_radius(radius)
 	var tiles: Array[RaftTile] = []
 
-	for position in positions:
-		var tile: RaftTile = get_relative_tile_rc(position, row, column)
+	for pos in positions:
+		var tile: RaftTile = get_relative_tile_rc(pos, row, column)
 		if tile != null:
 			tiles.append(tile)
 	return tiles
@@ -213,11 +213,6 @@ func heal_all_tiles(amt: int = 1):
 	for coord in raft_data_structure:
 		raft_data_structure[coord].heal(amt)
 		raft_data_structure[coord].fire_health = 0
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 
 
 func _on_child_exiting_tree(node):

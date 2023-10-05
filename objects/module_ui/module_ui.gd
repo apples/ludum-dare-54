@@ -9,7 +9,3 @@ func on_module_valid_connection_updated(valid: bool):
 		$AnimatedSprite2D.frame = 0
 	else:
 		$AnimatedSprite2D.frame = 1
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass

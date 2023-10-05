@@ -5,7 +5,7 @@ var base_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
 func get_kind() -> StringName:
 	return "gem"
 
-func _process_unconnected(delta):
+func _process_unconnected(_delta):
 	var ball_nbors = match3()
 	
 	if ball_nbors.size() == 0:

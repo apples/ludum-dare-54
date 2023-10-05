@@ -7,7 +7,7 @@ var sparkle_scene = preload("res://objects/VFX/sparkle/sparkle.tscn")
 func get_kind() -> StringName:
 	return "hammer"
 
-func _process_unconnected(delta):
+func _process_unconnected(_delta):
 	var ball_nbors = match3()
 	
 	if ball_nbors.size() == 0:
@@ -16,12 +16,12 @@ func _process_unconnected(delta):
 	GLOBAL_VARS.score += 10 * GLOBAL_VARS.level * (max(0, ball_nbors.size() - 3) + 1)
 	
 	var splash: Node2D
-	var trigger_sound = false
+	#var trigger_sound = false
 	var sparkle_scene_b
 	for b in ball_nbors:
 		for i in self.raft.get_tiles_in_radius(b.grid_pos.y, b.grid_pos.x, 1):
-			if(i.health < 3):
-				trigger_sound = true
+#			if(i.health < 3):
+#				trigger_sound = true
 			i._set_health(3)
 			splash = repair_splash_scene.instantiate()
 			get_tree().get_root().add_child(splash)

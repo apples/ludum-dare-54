@@ -15,10 +15,6 @@ func _ready():
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 
 func _on_easy_start_pressed():
 	GLOBAL_VARS.difficulty = GLOBAL_VARS.DIFF_EASY

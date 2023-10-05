@@ -105,17 +105,17 @@ func eat_inputs():
 		_player_input_pressed[k] = false
 		_player_input_released[k] = false
 
-func is_action_pressed(name: String) -> bool:
-	return _player_input[name]
+func is_action_pressed(action_name: String) -> bool:
+	return _player_input[action_name]
 
-func is_action_released(name: String) -> bool:
-	return not _player_input[name]
+func is_action_released(action_name: String) -> bool:
+	return not _player_input[action_name]
 
-func is_action_just_pressed(name: String) -> bool:
-	return _player_input_pressed[name]
+func is_action_just_pressed(action_name: String) -> bool:
+	return _player_input_pressed[action_name]
 
-func is_action_just_released(name: String) -> bool:
-	return _player_input_released[name]
+func is_action_just_released(action_name: String) -> bool:
+	return _player_input_released[action_name]
 
 func get_axis(neg: String, pos: String) -> float:
 	return (1.0 if _player_input[pos] else 0.0) - (1.0 if _player_input[neg] else 0.0)
@@ -158,7 +158,7 @@ func _process(delta):
 		STATE_SIT: _process_sit(delta)
 		STATE_FIX: _process_fix(delta)
 
-func _process_idle(delta):
+func _process_idle(_delta):
 	if Input.is_key_pressed(KEY_KP_7):
 		Engine.time_scale = 10.0
 	else:
@@ -177,7 +177,7 @@ func _process_idle(delta):
 		_change_state(STATE_IDLE)
 		return
 	
-	var god_mode_action = god_mode_process(_player_input_pressed)
+	var god_mode_action = god_mode_process()
 	
 	if god_mode_action:
 		print("I have the power")
@@ -228,13 +228,13 @@ func _process_idle(delta):
 		FACING_DOWN:
 			anim.play("down")
 
-func _process_sit(delta):
+func _process_sit(_delta):
 	pass
 
-func _process_fix(delta):
+func _process_fix(_delta):
 	pass
 
-func _process_swim(delta):
+func _process_swim(_delta):
 	if _what_tile() != null:
 		_change_state(STATE_IDLE)
 
@@ -403,7 +403,7 @@ func add_tile(tile: Node):
 func remove_tile(tile: Node):
 	nearby_tiles.erase(tile)
 
-func god_mode_process( _player_input_pressed ):
+func god_mode_process():
 	#todo  remove god_mode before publishing
 	#return false
 	if  _player_input_pressed.one:

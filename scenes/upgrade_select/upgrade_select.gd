@@ -58,7 +58,7 @@ func render_selected_module_widget(old_index: int, new_index: int):
 	options[new_index][0].module_selected(true)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	var old_select_index = select_index
 	if Input.is_action_just_pressed("up"):
 		if select_index == 0:
