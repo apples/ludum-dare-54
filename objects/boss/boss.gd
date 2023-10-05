@@ -11,7 +11,7 @@ var bomb_scene = preload("res://objects/raft_objects/bomb.tscn")
 
 var attack_delay := 5.0
 var bomb_count_thrown := 1.0
-var difficulty_acceleration := 50 # lower is faster acceleration
+var difficulty_acceleration := 50.0 # lower is faster acceleration
 var is_stunned := false
 var stun_length := 20
 
