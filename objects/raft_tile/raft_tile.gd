@@ -68,6 +68,7 @@ func _process(delta):
 		fire_fix_meter.visible = fire_health < fire_max_health
 	else:
 		fire_burning.stop()
+		fire_damage_timer.stop()
 	
 	fire_sprite.visible = is_on_fire
 
@@ -163,6 +164,8 @@ func visual_only():
 
 
 func _on_fire_damage_timer_timeout():
+	if not is_on_fire:
+		return
 	damage(1)
 	spread_fire_to_adjacent_tiles()
 

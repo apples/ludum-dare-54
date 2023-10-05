@@ -19,9 +19,9 @@ config/icon="res://icon.svg"
 [autoload]
 
 GLOBAL_VARS="*res://autoload/global_vars.gd"
-UTILS="*res://autoload/utils.gd"
 DATA_STORE="*res://autoload/data_store.gd"
 MusicManager="*res://autoload/music_manager.tscn"
+UTILS="*res://autoload/utils.tscn"
 
 [display]
 

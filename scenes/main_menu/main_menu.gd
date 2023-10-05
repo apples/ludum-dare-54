@@ -22,21 +22,11 @@ func _process(delta):
 
 
 func _on_start_game_pressed():
-	$Fade_out.play()
-	scene_goto = "gameplay"
+	UTILS.change_to_scene(difficulty_select_scene)
 
 
 func _on_options_pressed():
-	$Fade_out.play()
-	scene_goto = "options"
-
-
-func _on_fade_out_animation_finished():
-	$Fade_out.frame = 0
-	if scene_goto == "gameplay":
-		UTILS.change_to_scene(difficulty_select_scene)
-	else:
-		UTILS.change_to_scene(options_scene_file)
+	UTILS.change_to_scene(options_scene_file)
 
 
 func _on_help_pressed():

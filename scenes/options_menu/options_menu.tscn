@@ -1,180 +1,16 @@
-[gd_scene load_steps=32 format=3 uid="uid://dlslfoveebcid"]
+[gd_scene load_steps=8 format=3 uid="uid://dlslfoveebcid"]
 
 [ext_resource type="Script" path="res://scenes/options_menu/options_menu.gd" id="1_edtaa"]
 [ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://objects/frame/frame.tscn" id="2_7e7i4"]
-[ext_resource type="Texture2D" uid="uid://d0oae8uw8g2l6" path="res://assets/textures/fade_in.png" id="6_tnatv"]
 [ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="6_usc0r"]
 [ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="7_88vrr"]
 [ext_resource type="AudioStream" uid="uid://d222ejqx1c61w" path="res://assets/sfx/zoop.wav" id="7_d1nr4"]
-[ext_resource type="Texture2D" uid="uid://d1hfjgecs6fj" path="res://assets/textures/fade_out.png" id="7_ymcrh"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_n4y43"]
 action = &"interact"
 
 [sub_resource type="Shortcut" id="Shortcut_3cxq0"]
 events = [SubResource("InputEventAction_n4y43")]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mw2t1"]
-atlas = ExtResource("6_tnatv")
-region = Rect2(0, 0, 960, 540)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sek2t"]
-atlas = ExtResource("6_tnatv")
-region = Rect2(960, 0, 960, 540)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bi7yq"]
-atlas = ExtResource("6_tnatv")
-region = Rect2(1920, 0, 960, 540)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dyhpr"]
-atlas = ExtResource("6_tnatv")
-region = Rect2(2880, 0, 960, 540)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sm0tu"]
-atlas = ExtResource("6_tnatv")
-region = Rect2(3840, 0, 960, 540)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ymtd0"]
-atlas = ExtResource("6_tnatv")
-region = Rect2(4800, 0, 960, 540)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0ywpw"]
-atlas = ExtResource("6_tnatv")
-region = Rect2(5760, 0, 960, 540)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_loo8f"]
-atlas = ExtResource("6_tnatv")
-region = Rect2(6720, 0, 960, 540)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tqylr"]
-atlas = ExtResource("6_tnatv")
-region = Rect2(7680, 0, 960, 540)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sbitk"]
-atlas = ExtResource("6_tnatv")
-region = Rect2(8640, 0, 960, 540)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_espx4"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mw2t1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sek2t")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bi7yq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dyhpr")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sm0tu")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ymtd0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0ywpw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_loo8f")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tqylr")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sbitk")
-}, {
-"duration": 1.0,
-"texture": null
-}],
-"loop": false,
-"name": &"default",
-"speed": 30.0
-}]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_r3ena"]
-atlas = ExtResource("7_ymcrh")
-region = Rect2(0, 0, 960, 540)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_nbcol"]
-atlas = ExtResource("7_ymcrh")
-region = Rect2(960, 0, 960, 540)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lmu62"]
-atlas = ExtResource("7_ymcrh")
-region = Rect2(1920, 0, 960, 540)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_b1pxt"]
-atlas = ExtResource("7_ymcrh")
-region = Rect2(2880, 0, 960, 540)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8tof8"]
-atlas = ExtResource("7_ymcrh")
-region = Rect2(3840, 0, 960, 540)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_yki4q"]
-atlas = ExtResource("7_ymcrh")
-region = Rect2(4800, 0, 960, 540)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_c1bbb"]
-atlas = ExtResource("7_ymcrh")
-region = Rect2(5760, 0, 960, 540)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6bqul"]
-atlas = ExtResource("7_ymcrh")
-region = Rect2(6720, 0, 960, 540)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_j161j"]
-atlas = ExtResource("7_ymcrh")
-region = Rect2(7680, 0, 960, 540)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_f1626"]
-atlas = ExtResource("7_ymcrh")
-region = Rect2(8640, 0, 960, 540)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_ceahu"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": null
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_r3ena")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_nbcol")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_lmu62")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_b1pxt")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8tof8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_yki4q")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_c1bbb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6bqul")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_j161j")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_f1626")
-}],
-"loop": false,
-"name": &"default",
-"speed": 30.0
-}]
 
 [node name="options_menu" type="Node2D"]
 script = ExtResource("1_edtaa")
@@ -293,20 +129,8 @@ shortcut_in_tooltip = false
 text = "Main Menu
 "
 
-[node name="Fade_in" type="AnimatedSprite2D" parent="."]
-position = Vector2(480, 272)
-sprite_frames = SubResource("SpriteFrames_espx4")
-frame = 10
-frame_progress = 1.0
-
-[node name="Fade_out" type="AnimatedSprite2D" parent="."]
-position = Vector2(480, 272)
-sprite_frames = SubResource("SpriteFrames_ceahu")
-
-[connection signal="tree_entered" from="." to="Fade_in" method="play"]
 [connection signal="pressed" from="mute" to="." method="_on_mute_pressed"]
 [connection signal="drag_ended" from="music_slider" to="." method="_on_music_slider_drag_ended"]
 [connection signal="drag_ended" from="master_slider" to="." method="_on_master_slider_drag_ended"]
 [connection signal="drag_ended" from="sound_effects_slider" to="." method="_on_sound_effects_slider_drag_ended"]
 [connection signal="pressed" from="main_menu_button" to="." method="_on_main_menu_button_pressed"]
-[connection signal="animation_finished" from="Fade_out" to="." method="_on_fade_out_animation_finished"]
