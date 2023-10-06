@@ -72,13 +72,6 @@ func _exit_tree():
 	if connected_player:
 		connected_player.call_deferred("release")
 		_on_player_disconnected()
-	detach_raft()
-
-func detach_raft():
-	if raft:
-		var t = raft.get_tile(grid_pos.y, grid_pos.x)
-		if t and t.tile_object == self:
-			t.tile_object = null
 
 func _process(delta):
 	match state:
@@ -101,7 +94,7 @@ func _process(delta):
 				global_position = x
 				reticle.global_position = raft.rc_to_pos(grid_pos)
 		IDLE:
-			if not connected_player:
+			if raft and not connected_player and not held_by:
 				_process_unconnected(delta)
 			else:
 				_process_connected(delta)
@@ -124,16 +117,11 @@ func interact(player):
 func push(player_grid_pos: Vector2i):
 	if state != IDLE:
 		return false
-	var cur_tile = raft.get_tile(grid_pos.y, grid_pos.x)	
 	var d := grid_pos - player_grid_pos
 	var next_pos := grid_pos + d
 	var next_tile = raft.get_tile(next_pos.y, next_pos.x)
 	if next_tile and next_tile.tile_object == null:
-		reparent(next_tile)
-		grid_pos = next_tile.grid_pos
-		next_tile.tile_object = self
-		cur_tile.tile_object = null
-		state = PUSHED
+		raft.move_object(next_tile.grid_pos, self)
 		return true
 
 func release_player():
@@ -157,45 +145,28 @@ func find_neighboring_objects(of_kind: StringName):
 	
 	return nbors
 
-func match3():
+func match3() -> Array[Node]:
 	if GLOBAL_VARS.match3_paused:
 		return []
-		
+	
 	if not raft:
 		return []
-		
-	var kind := get_kind()
-	var ball_nbors = [self]
-	var min_id = id
 	
-	var i = 0;
-	while i < ball_nbors.size():
-		min_id = min(min_id, ball_nbors[i].id)
-		for o in ball_nbors[i].find_neighboring_objects(kind):
-			if o.is_queued_for_deletion():
-				continue
-			if not o in ball_nbors:
-				ball_nbors.append(o)
-		i += 1
+	var region: RaftRegion = raft.get_region(grid_pos)
 	
-	if ball_nbors.size() < 3 or min_id != id:
+	if region.tile_list.size() < 3:
 		return []
 	
-	return ball_nbors
-
-
-func replace_object(new_obj_scene):
-	var new_obj = new_obj_scene.instantiate()
-	new_obj.grid_pos = grid_pos
-	new_obj.raft = raft
-	get_parent().tile_object = new_obj
-	get_parent().add_child(new_obj)
-	queue_free()
-
+	if region.tile_list[0].tile_object.id != id:
+		return []
+	
+	return region.tile_list
 
 func replace_with_gem():
-	replace_object(preload("res://objects/raft_objects/gem.tscn"))
+	raft.replace_object(grid_pos, preload("res://objects/raft_objects/gem.tscn").instantiate())
 
+func moved():
+	state = PUSHED
 
 func boss_toss(toss_start: Vector2, reticle_animation: String = "bad_thing", buoy: bool = false):
 	var start = toss_start

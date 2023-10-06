@@ -9,5 +9,5 @@ func _process_unconnected(_delta):
 	if ball_nbors.size() == 0:
 		return
 	
-	for b in ball_nbors:
-		b.queue_free()
+	for tile in ball_nbors:
+		tile.tile_object.queue_free()

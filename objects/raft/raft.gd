@@ -13,6 +13,9 @@ var raft_tile_gem_scene = preload("res://objects/raft_tile/raft_tile_gem.tscn")
 
 var raft_data_structure = {}
 
+## Maps all tiles to their group regions. Access via get_region().
+var _raft_regions: Dictionary = {}
+
 const NORTH := Vector2i(0, -1)
 const SOUTH := Vector2i(0, 1)
 const WEST := Vector2i(-1, 0)
@@ -30,6 +33,119 @@ func _ready():
 		GLOBAL_VARS.DIFF_HARD:
 			generate_hard_raft()
 
+func initialize_object(tile: Node) -> void:
+	assert(tile.grid_pos in raft_data_structure)
+	var obj_node = tile.tile_object
+	assert(obj_node != null)
+	obj_node.grid_pos = tile.grid_pos
+	obj_node.raft = self
+	_raft_regions.clear()
+
+func place_object(grid_pos: Vector2i, node: Node) -> void:
+	assert(grid_pos in raft_data_structure)
+	var tile = raft_data_structure[grid_pos]
+	assert(tile.tile_object == null)
+	if node.get_parent():
+		node.reparent(tile)
+	else:
+		tile.add_child(node)
+	tile.tile_object = node
+	initialize_object(tile)
+
+func pickup_object(grid_pos: Vector2i) -> Node:
+	assert(grid_pos in raft_data_structure)
+	var tile = raft_data_structure[grid_pos]
+	assert(tile.tile_object != null)
+	var node = tile.tile_object
+	tile.tile_object = null
+	tile.remove_child(node)
+	_raft_regions.clear()
+	return node
+
+func destroy_object(grid_pos: Vector2i):
+	pickup_object(grid_pos).queue_free()
+
+func move_object(new_grid_pos: Vector2i, node: Node):
+	assert(new_grid_pos in raft_data_structure)
+	assert(node.grid_pos in raft_data_structure)
+	var new_tile = raft_data_structure[new_grid_pos]
+	assert(new_tile.tile_object == null)
+	var old_tile = raft_data_structure[node.grid_pos]
+	assert(old_tile.tile_object == node)
+	
+	old_tile.tile_object = null
+	node.reparent(new_tile)
+	new_tile.tile_object = node
+	node.grid_pos = new_grid_pos
+	_raft_regions.clear()
+	node.moved()
+
+func replace_object(grid_pos: Vector2i, node: Node):
+	destroy_object(grid_pos)
+	place_object(grid_pos, node)
+
+func get_region(grid_pos: Vector2i):
+	if _raft_regions.is_empty():
+		_calculate_regions()
+	return _raft_regions.get(grid_pos)
+
+func _calculate_regions():
+	assert(_raft_regions.is_empty())
+	
+	# Disjoint Set / Union Find
+	# https://www.youtube.com/watch?v=ayW5B2W9hfo
+	# a cell is considered a root node if its parent is itself
+	# if a cell is not keyed in this dictionary, its parent is assumed to be itself
+	var cell_parent_map := {}
+	
+	# find the root/representative of the given cell's group
+	var get_root := func get_root(grid_pos: Vector2i) -> Vector2i:
+		var current := grid_pos
+		var parent: Vector2i = cell_parent_map.get(current, current)
+		while parent != current:
+			current = parent
+			parent = cell_parent_map.get(current, current)
+		cell_parent_map[grid_pos] = current
+		return current
+	
+	# join two groups together
+	var join := func join(grid_pos_a: Vector2i, grid_pos_b: Vector2i):
+		var root_a: Vector2i = get_root.call(grid_pos_a)
+		var root_b: Vector2i = get_root.call(grid_pos_b)
+		cell_parent_map[root_a] = root_b
+	
+	# checks if a pair of cells needs to be in the same group and joins them
+	var check_pair := func check_pair(a: Node, a_kind: StringName, b: Node):
+		if a == null or b == null:
+			return
+		var b_kind = "" if b.tile_object == null else b.tile_object.get_kind()
+		if a_kind == b_kind:
+			join.call(a.grid_pos, b.grid_pos)
+	
+	# visit each cell and check its north and west neighbors
+	# this will fully construct all of the disjoint sets
+	for pos in raft_data_structure:
+		var this = raft_data_structure[pos]
+		assert(this != null)
+		var kind: StringName = ""
+		if this.tile_object != null:
+			kind = this.tile_object.get_kind()
+		check_pair.call(this, kind, raft_data_structure.get(pos + NORTH))
+		check_pair.call(this, kind, raft_data_structure.get(pos + WEST))
+	
+	# now that we have the sets, flatten them into a simpler list of regions
+	for pos in raft_data_structure:
+		var tile = raft_data_structure[pos]
+		var root: Vector2i = get_root.call(pos)
+		var region: RaftRegion = _raft_regions.get(root)
+		if not region:
+			region = RaftRegion.new()
+			region.kind = "" if tile.tile_object == null else tile.tile_object.get_kind()
+			_raft_regions[root] = region
+		region.tile_list.append(tile)
+		_raft_regions[pos] = region
+	
+	return
 
 func find_all_tiles(tile_type):
 	var rval = []
@@ -40,58 +156,61 @@ func find_all_tiles(tile_type):
 	return rval
 
 
-func set_tile(tile_scene: PackedScene, row: int, column: int):
+func create_tile(grid_pos: Vector2i, tile_scene: PackedScene):
+	assert(raft_data_structure.get(grid_pos) == null)
+	
 	var new_tile: Node = tile_scene.instantiate()
-	new_tile.name = "Tile_%s_%s" % [row, column]
+	new_tile.name = "Tile_%s" % [grid_pos]
 	new_tile.raft_ref = self
-	new_tile.grid_pos = Vector2i(column, row)
-	new_tile.position = TILE_SPACING * Vector2(new_tile.grid_pos)
+	new_tile.grid_pos = grid_pos
+	new_tile.position = TILE_SPACING * Vector2(grid_pos)
 	new_tile.tree_exiting.connect(func ():
-		if raft_data_structure[new_tile.grid_pos] == new_tile:
-			raft_data_structure.erase(new_tile.grid_pos)
+		if raft_data_structure.get(new_tile.grid_pos) == new_tile:
+			remove_tile(new_tile.grid_pos)
 	)
-	
-	var prev = raft_data_structure.get(Vector2i(column, row))
-	
-	if prev != null:
-		prev.queue_free()
+	new_tile.tile_object_changed.connect(func ():
+		_raft_regions.clear())
 	
 	raft_data_structure[new_tile.grid_pos] = new_tile
 	
-	self.add_child(new_tile)
+	add_child(new_tile)
 
 
-func delete_tile(row: int, column: int):
-	raft_data_structure.erase(Vector2i(row, column))
-	if raft_data_structure.is_empty():
-		queue_free()
-		get_parent().raft_destroyed(self)
+func remove_tile(grid_pos: Vector2i):
+	assert(grid_pos in raft_data_structure)
+	raft_data_structure.erase(grid_pos)
+	_raft_regions.clear()
+
+
+func replace_tile(grid_pos: Vector2i, tile_scene: PackedScene):
+	remove_tile(grid_pos)
+	create_tile(grid_pos, tile_scene)
 
 
 func generate_easy_raft():
 	for r in range(8, 12):
 		for c in range(5,12):
-			set_tile(raft_tile_scene, r, c)
-
-	set_tile(raft_tile_driftwood_scene, 9, 6)
-	set_tile(raft_tile_driftwood_scene, 9, 7)
-	set_tile(raft_tile_driftwood_scene, 9, 9)
+			create_tile(Vector2i(c, r), raft_tile_scene)
+	
+	replace_tile(Vector2i(6, 9), raft_tile_driftwood_scene)
+	replace_tile(Vector2i(7, 9), raft_tile_driftwood_scene)
+	replace_tile(Vector2i(9, 9), raft_tile_driftwood_scene)
 
 
 func generate_medium_raft():
 	for r in range(8,12):
 		for c in range(6,11):
-			set_tile(raft_tile_scene, r, c)
+			create_tile(Vector2i(c, r), raft_tile_scene)
 			
-	set_tile(raft_tile_driftwood_scene, 9, 6)
-	set_tile(raft_tile_driftwood_scene, 9, 7)
-	set_tile(raft_tile_driftwood_scene, 9, 9)
+	replace_tile(Vector2i(6, 9), raft_tile_driftwood_scene)
+	replace_tile(Vector2i(7, 9), raft_tile_driftwood_scene)
+	replace_tile(Vector2i(9, 9), raft_tile_driftwood_scene)
 
 
 func generate_hard_raft():
-	for r in range(8, 11):
-		for c in range(6,11):
-			set_tile(raft_tile_scene, r, c)
+	for r in range(8, 10):
+		for c in range(6,8):
+			create_tile(Vector2i(c, r), raft_tile_scene)
 
 
 func rc_to_pos(rc: Vector2i) -> Vector2:
@@ -157,6 +276,7 @@ func get_random_empty_tile():
 	# If anything tries to find an empty tile and can't we transition to the lose state
 	if empts.is_empty():
 		UTILS.change_to_scene("res://scenes/lose_screen/lose_scene.tscn")
+		return null
 
 	# filter out tiles near player if possible
 	var not_near_player = []

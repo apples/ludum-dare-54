@@ -14,14 +14,14 @@ func _process_unconnected(_delta):
 	get_tree().get_root().get_node("gameplay").overlay_upgrade_scene(ball_nbors.size()-3)
 	GLOBAL_VARS.score += 10 * GLOBAL_VARS.level * (max(0, ball_nbors.size() - 3) + 1)
 	var sparkle_scene_b 
-	for b in ball_nbors:
+	for tile in ball_nbors:
 		sparkle_scene_b = sparkle_scene.instantiate()
 		sparkle_scene_b.init( Color(1,1,0))
-		b.get_parent().add_child(sparkle_scene_b)
-		if b == self and ball_nbors.size() >= 4:
+		tile.add_child(sparkle_scene_b)
+		if tile.tile_object == self and ball_nbors.size() >= 4:
 			replace_with_gem()
 		else:
-			b.queue_free()
+			tile.tile_object.queue_free()
 		
 		sparkle_scene_b.play_hammer()
 	

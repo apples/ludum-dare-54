@@ -69,10 +69,15 @@ var held_object:
 			return null
 	set(v):
 		if hold_root.get_child_count() > 0:
-			if v != hold_root.get_child(0):
-				hold_root.remove_child(hold_root.get_child(0))
+			var prev_held = hold_root.get_child(0)
+			if v != prev_held:
+				hold_root.remove_child(prev_held)
+				prev_held.held_by = null
 		if v != null:
-			v.reparent(hold_root)
+			if v.get_parent():
+				v.reparent(hold_root)
+			else:
+				hold_root.add_child(v)
 			v.held_by = self
 
 
@@ -171,10 +176,11 @@ func _process_idle(_delta):
 	
 	if not _what_tile():
 		var t = raft.get_random_empty_tile()
-		grid_current_position = t.grid_pos
-		grid_previous_position = t.grid_pos
-		global_position = t.global_position
-		_change_state(STATE_IDLE)
+		if t:
+			grid_current_position = t.grid_pos
+			grid_previous_position = t.grid_pos
+			global_position = t.global_position
+			_change_state(STATE_IDLE)
 		return
 	
 	var god_mode_action = god_mode_process()
@@ -186,10 +192,10 @@ func _process_idle(_delta):
 		if tile != null and tile.tile_object != null:
 			tile.tile_object.interact(self)
 		else:
-			if not held_object:
+			if not held_object: # try to pickup an object
 				var facing_obj = get_facing_object()
 				if facing_obj != null and facing_obj.is_holdable:
-					facing_obj.detach_raft()
+					raft.pickup_object(facing_obj.grid_pos)
 					held_object = facing_obj
 					facing_obj.position = Vector2.ZERO
 					swap_possible = true
@@ -197,12 +203,12 @@ func _process_idle(_delta):
 				elif facing_obj == null:
 					grab_area.global_position = self.global_position + ((get_facing_dir() * 32) as Vector2)
 					if grab_area.has_overlapping_areas():
-						held_object = grab_area.get_overlapping_areas()[0].item
-						held_object.raft = raft
-						grab_area.get_overlapping_areas()[0].queue_free()
+						var buoy = grab_area.get_overlapping_areas()[0]
+						held_object = buoy.item
+						buoy.queue_free()
 						held_object.position = Vector2.ZERO
 					
-			else:
+			else: # swap-drop held object
 				var f = grid_current_position + get_facing_dir()
 				var t = raft.get_tile(f.y, f.x)
 				if t != null and t.tile_object == null:
@@ -211,11 +217,9 @@ func _process_idle(_delta):
 						swap_possible = false
 						grid_buffered_input = get_facing_dir()
 					var o = held_object
-					o.reparent(t)
-					t.tile_object = o
-					o.grid_pos = t.grid_pos
+					held_object = null
+					raft.place_object(t.grid_pos, o)
 					o.position = Vector2.ZERO
-					o.held_by = null
 				just_picked_up = false
 	
 	match grid_facing:
@@ -358,16 +362,14 @@ func _physics_process(delta):
 #			temp_locked_dir = Vector2i.ZERO
 	
 	if held_object != null:
+		# try place object where facing
 		if grid_buffered_input != Vector2i.ZERO && !just_picked_up:
 			var f = grid_current_position + get_facing_dir()
 			var t = raft.get_tile(f.y, f.x)
 			if t != null and t.tile_object == null:
 				var o = held_object
-				o.reparent(t)
-				t.tile_object = o
-				o.grid_pos = t.grid_pos
+				raft.place_object(t.grid_pos, o)
 				o.position = Vector2.ZERO
-				o.held_by = null
 #				temp_locked_dir = grid_buffered_input
 			temp_dir_locked = true
 		grid_buffered_input = Vector2i.ZERO
@@ -408,64 +410,39 @@ func god_mode_process():
 	#return false
 	if  _player_input_pressed.one:
 		var raft_object_instance =  preload("res://objects/raft_objects/water_bucket.tscn").instantiate()
-		var tile = raft.get_tile(grid_current_position.y, grid_current_position.x)
-		raft_object_instance.grid_pos = tile.grid_pos
-		raft_object_instance.raft = raft
-		tile.add_child(raft_object_instance)
 		held_object = raft_object_instance
 		return true
 	elif _player_input_pressed.two:
 		var raft_object_instance =  preload("res://objects/raft_objects/driftwood.tscn").instantiate()
-		var tile = raft.get_tile(grid_current_position.y, grid_current_position.x)
-		raft_object_instance.grid_pos = tile.grid_pos
-		raft_object_instance.raft = raft
-		tile.add_child(raft_object_instance)
 		held_object = raft_object_instance
 		return true
 	
 	elif  _player_input_pressed.three:
 		var raft_object_instance =  preload("res://objects/raft_objects/bomb.tscn").instantiate()
-		var tile = raft.get_tile(grid_current_position.y, grid_current_position.x)
-		raft_object_instance.grid_pos = tile.grid_pos
-		raft_object_instance.raft = raft
-		tile.add_child(raft_object_instance)
 		held_object = raft_object_instance
 		return true
 	
 	elif _player_input_pressed.four:
 		var raft_object_instance =  preload("res://objects/raft_objects/gem.tscn").instantiate()
-		var tile = raft.get_tile(grid_current_position.y, grid_current_position.x)
-		raft_object_instance.grid_pos = tile.grid_pos
-		raft_object_instance.raft = raft
-		tile.add_child(raft_object_instance)
 		held_object = raft_object_instance
 		return true
 	
 	elif _player_input_pressed.five:
 		var raft_object_instance =  preload("res://objects/raft_objects/cannon.tscn").instantiate()
-		var tile = raft.get_tile(grid_current_position.y, grid_current_position.x)
-		raft_object_instance.grid_pos = tile.grid_pos
-		raft_object_instance.raft = raft
-		tile.add_child(raft_object_instance)
 		held_object = raft_object_instance
 		return true
 	elif _player_input_pressed.six:
-		for tile in raft.find_all_tiles("water_bucket"):
-			raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
-		for tile in raft.find_all_tiles("fire"):
-			raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
-		for tile in raft.find_all_tiles("hammer"):
-			raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
-		for tile in raft.find_all_tiles("cannon"):
-			raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
-		for tile in raft.find_all_tiles("gem"):
-			raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
-		for tile in raft.find_all_tiles("driftwood"):
-			raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
-		for tile in raft.find_all_tiles("cannon_ball"):
-			raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
-		for tile in raft.find_all_tiles("bomb"):
-			raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
-	
-			
+		for kind in [
+			&"water_bucket",
+			&"fire",
+			&"hammer",
+			&"cannon",
+			&"gem",
+			&"driftwood",
+			&"cannon_ball",
+			&"bomb",
+		]:
+			for tile in raft.find_all_tiles(kind):
+				raft.destroy_object(tile.grid_pos)
+		
 		return true

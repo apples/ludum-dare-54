@@ -14,15 +14,15 @@ func _process_unconnected(_delta):
 	GLOBAL_VARS.score += 25 * GLOBAL_VARS.level * (max(0, ball_nbors.size() - 3) + 1)
 	
 	for tile in raft.find_all_tiles("bomb"):
-		raft.set_tile(base_tile_scene, tile.grid_pos.y, tile.grid_pos.x)
+		raft.destroy_object(tile.grid_pos)
 	
 	raft.heal_all_tiles()
 	
 	var sparkle_scene_b 
-	for b in ball_nbors:
-		sparkle_scene_b= sparkle_scene.instantiate()
+	for tile in ball_nbors:
+		sparkle_scene_b = sparkle_scene.instantiate()
 		sparkle_scene_b.init( Color(1,1,0))
-		b.get_parent().add_child(sparkle_scene_b)
-		b.queue_free()
-		
+		tile.add_child(sparkle_scene_b)
+		raft.destroy_object(tile.grid_pos)
+	
 	sparkle_scene_b.play_gem()

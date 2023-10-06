@@ -1,5 +1,7 @@
 class_name RaftTile extends Area2D
 
+signal tile_object_changed
+
 var damage_number_scene = preload("res://objects/damage_numbers/damage_numbers.tscn")
 var tile_break_scene = preload("res://objects/VFX/tile_break/tile_break.tscn")
 @onready var fire_burning = $FireBurning
@@ -19,11 +21,14 @@ var grid_pos: Vector2i
 	get:
 		return tile_object
 	set(v):
-		if tile_object:
-			tile_object.tree_exited.disconnect(_on_tile_object_tree_exited)
+		if tile_object == v:
+			return
+		if tile_object != null:
+			tile_object.tree_exiting.disconnect(_on_tile_object_tree_exiting)
 		tile_object = v
-		if tile_object:
-			tile_object.tree_exited.connect(_on_tile_object_tree_exited)
+		if tile_object != null:
+			tile_object.tree_exiting.connect(_on_tile_object_tree_exiting)
+		tile_object_changed.emit()
 
 var player_obj: Node
 
@@ -34,20 +39,18 @@ var is_on_fire: bool:
 	get:
 		return fire_health > 0.0
 
+func _on_tile_object_tree_exiting():
+	tile_object = null
+
 func ignite():
 	if not is_on_fire:
 		fire_health = fire_max_health
 	
 
-func _on_tile_object_tree_exited():
-	tile_object = null
-	
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if tile_object:
-		tile_object.raft = raft_ref
-		tile_object.grid_pos = grid_pos
+		raft_ref.initialize_object(self)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

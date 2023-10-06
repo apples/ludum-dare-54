@@ -18,8 +18,8 @@ func _process_unconnected(_delta):
 	var splash: Node2D
 	#var trigger_sound = false
 	var sparkle_scene_b
-	for b in ball_nbors:
-		for i in self.raft.get_tiles_in_radius(b.grid_pos.y, b.grid_pos.x, 1):
+	for tile in ball_nbors:
+		for i in self.raft.get_tiles_in_radius(tile.grid_pos.y, tile.grid_pos.x, 1):
 #			if(i.health < 3):
 #				trigger_sound = true
 			i._set_health(3)
@@ -28,10 +28,10 @@ func _process_unconnected(_delta):
 			splash.global_position = i.global_position
 		sparkle_scene_b= sparkle_scene.instantiate()
 		sparkle_scene_b.init( Color(1,1,0))
-		b.get_parent().add_child(sparkle_scene_b)
-		if b == self and ball_nbors.size() >= 4:
+		tile.add_child(sparkle_scene_b)
+		if tile.tile_object == self and ball_nbors.size() >= 4:
 			replace_with_gem()
 		else:
-			b.queue_free()
-			
+			raft.destroy_object(tile.grid_pos)
+	
 	sparkle_scene_b.play_hammer()

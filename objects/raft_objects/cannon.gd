@@ -24,17 +24,17 @@ func _process_unconnected(_delta):
 		shot_scene = shoot_confetti_scene
 	
 	var sparkle_scene_b
-	for b in ball_nbors:
+	for tile in ball_nbors:
 		var shoot = shot_scene.instantiate()
 		shoot.position = Vector2.ZERO
 		sparkle_scene_b = sparkle_scene.instantiate()
 		sparkle_scene_b.init(Color(1,1,1))
-		b.get_parent().add_child(sparkle_scene_b)
-		b.get_parent().add_child(shoot)
-		if b == self and ball_nbors.size() >= 4:
+		tile.add_child(sparkle_scene_b)
+		tile.add_child(shoot)
+		if tile.tile_object == self and ball_nbors.size() >= 4:
 			replace_with_gem()
 		else:
-			b.queue_free()
+			tile.tile_object.queue_free()
 			
 		sparkle_scene_b.play_cannon()
 		
@@ -43,4 +43,4 @@ func _process_unconnected(_delta):
 			shoot2.extra_shot = true
 			extra_shots -= 1
 			shoot2.position = Vector2.ZERO
-			b.get_parent().add_child(shoot2)
+			tile.add_child(shoot2)

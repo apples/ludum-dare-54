@@ -59,9 +59,8 @@ func process_module_placement():
 
 func confirm_module_connection():
 	for tile in module_container.get_children():
-		var tile_new_grid_pos_row = tile.grid_pos.y + grid_position.y
-		var tile_new_grid_pos_col = tile.grid_pos.x + grid_position.x
-		$player_raft.set_tile(load(tile.scene_file_path), tile_new_grid_pos_row, tile_new_grid_pos_col)
+		var tile_new_grid_pos = tile.grid_pos + grid_position
+		$player_raft.create_tile(tile_new_grid_pos, load(tile.scene_file_path))
 		$Player.release()
 		GLOBAL_VARS.match3_paused = false
 	

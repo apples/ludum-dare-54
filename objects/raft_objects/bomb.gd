@@ -12,12 +12,9 @@ func _process_unconnected(_delta):
 	
 	GLOBAL_VARS.score -= 5 * (max(0, ball_nbors.size() - 3) + 1)
 	
-	for b in ball_nbors:
-		b.on_match()
-		b.queue_free()
-
-func on_match():
-	explode_fire_dmg()
+	for tile in ball_nbors:
+		tile.tile_object.explode_fire_dmg()
+		tile.tile_object.queue_free()
 
 func explode_fire_dmg():
 	var obj_on_tile = self.raft.get_tile(grid_pos.y, grid_pos.x)

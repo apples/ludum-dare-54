@@ -17,15 +17,15 @@ func _process_unconnected(_delta):
 	
 	var splash: Node2D
 	var trigger_sound = false
-	for b in ball_nbors:
-		for i in self.raft.get_tile_row(b.grid_pos.y):
+	for tile in ball_nbors:
+		for i in self.raft.get_tile_row(tile.grid_pos.y):
 			if(i != null && i.is_on_fire):
 				i.fire_health = 0
 				trigger_sound = true
 			splash = water_splash_scene.instantiate()
 			get_tree().get_root().add_child(splash)
 			splash.global_position = i.global_position
-		for i in self.raft.get_tile_column(b.grid_pos.x):
+		for i in self.raft.get_tile_column(tile.grid_pos.x):
 			if(i != null && i.is_on_fire):
 				i.fire_health = 0
 				trigger_sound = true
@@ -34,11 +34,11 @@ func _process_unconnected(_delta):
 			splash.global_position = i.global_position
 		var sparkle_scene_b = sparkle_scene.instantiate()
 		sparkle_scene_b.init( Color(1,1,0))
-		b.get_parent().add_child(sparkle_scene_b)
-		if b == self and ball_nbors.size() >= 4:
+		tile.add_child(sparkle_scene_b)
+		if tile.tile_object == self and ball_nbors.size() >= 4:
 			replace_with_gem()
 		else:
-			b.queue_free()
+			raft.destroy_object(tile.grid_pos)
 	
 	if(trigger_sound):
 		splash.get_node("SFX").play()

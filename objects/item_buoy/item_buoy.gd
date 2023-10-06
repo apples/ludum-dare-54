@@ -16,11 +16,8 @@ func _process(delta):
 
 func _on_area_entered(area):
 	var raft = area.raft_ref
-	item.raft = raft
 	var tile = raft.get_random_empty_tile()
 	if tile:
-		item.grid_pos = tile.grid_pos
-		item.reparent(tile)
-		tile.tile_object = item
-		item.boss_toss(item.global_position, "good_thing", true)
+		raft.place_object(tile.grid_pos, item)
+		item.boss_toss(global_position, "good_thing", true)
 	queue_free()

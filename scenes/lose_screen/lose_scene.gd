@@ -22,11 +22,6 @@ func unlock_hard_mode():
 		DATA_STORE.current['hard_mode_unlocked'] = true
 		DATA_STORE.save()
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func _check_and_set_highscore():
 	if DATA_STORE.current.highscore < GLOBAL_VARS.score:
 		DATA_STORE.current.highscore = GLOBAL_VARS.score
