@@ -33,6 +33,8 @@ func _ready():
 		GLOBAL_VARS.DIFF_HARD:
 			generate_hard_raft()
 
+# initializes an object that's already attached to a raft tile
+# this is meant mainly for spawning new raft pieces which have prefab objects
 func initialize_object(tile: Node) -> void:
 	assert(tile.grid_pos in raft_data_structure)
 	var obj_node = tile.tile_object
@@ -41,6 +43,8 @@ func initialize_object(tile: Node) -> void:
 	obj_node.raft = self
 	_raft_regions.clear()
 
+# places an object onto the raft
+# the object must not currently be on the raft
 func place_object(grid_pos: Vector2i, node: Node) -> void:
 	assert(grid_pos in raft_data_structure)
 	var tile = raft_data_structure[grid_pos]
@@ -52,6 +56,7 @@ func place_object(grid_pos: Vector2i, node: Node) -> void:
 	tile.tile_object = node
 	initialize_object(tile)
 
+# removes the object from the raft, but does not free it
 func pickup_object(grid_pos: Vector2i) -> Node:
 	assert(grid_pos in raft_data_structure)
 	var tile = raft_data_structure[grid_pos]
@@ -62,9 +67,11 @@ func pickup_object(grid_pos: Vector2i) -> Node:
 	_raft_regions.clear()
 	return node
 
+# removes the object from the raft and frees it
 func destroy_object(grid_pos: Vector2i):
 	pickup_object(grid_pos).queue_free()
 
+# moves an object from one place to another on the raft
 func move_object(new_grid_pos: Vector2i, node: Node):
 	assert(new_grid_pos in raft_data_structure)
 	assert(node.grid_pos in raft_data_structure)
@@ -80,6 +87,7 @@ func move_object(new_grid_pos: Vector2i, node: Node):
 	_raft_regions.clear()
 	node.moved()
 
+# destroys an existing object and places a new one
 func replace_object(grid_pos: Vector2i, node: Node):
 	destroy_object(grid_pos)
 	place_object(grid_pos, node)
