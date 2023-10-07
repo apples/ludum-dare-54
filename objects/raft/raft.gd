@@ -217,12 +217,12 @@ func generate_medium_raft():
 
 func generate_hard_raft():
 	for r in range(8, 10):
-		for c in range(6,8):
+		for c in range(6,10):
 			create_tile(Vector2i(c, r), raft_tile_scene)
 
 
-func rc_to_pos(rc: Vector2i) -> Vector2:
-	return position + Vector2(rc.x, rc.y) * TILE_SPACING
+func grid_pos_to_global_position(rc: Vector2i) -> Vector2:
+	return global_position + Vector2(rc.x, rc.y) * TILE_SPACING
 
 
 func get_tile_at(pos: Vector2) -> RaftTile:

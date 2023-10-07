@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://0lcwj1e7w7cs"]
+
+[ext_resource type="PackedScene" uid="uid://cbabtsw1lkkct" path="res://objects/raft_objects/raft_object.tscn" id="1_6ysy3"]
+
+[node name="RaftObject" instance=ExtResource("1_6ysy3")]

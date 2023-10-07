@@ -1,7 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://gyhxh16efgsf"]
+[gd_scene load_steps=11 format=3 uid="uid://gyhxh16efgsf"]
 
 [ext_resource type="Script" path="res://objects/character/character.gd" id="1_eald6"]
+[ext_resource type="Script" path="res://state_machine/state_machine.gd" id="3_r6tfj"]
+[ext_resource type="Script" path="res://objects/character/state_idle.gd" id="4_da5o3"]
+[ext_resource type="Script" path="res://objects/character/state_walking.gd" id="5_ukidj"]
 [ext_resource type="SpriteFrames" uid="uid://gyet4lfrp57h" path="res://assets/player_sprite_frames.tres" id="6_nl5pa"]
+[ext_resource type="Script" path="res://objects/character/state_extinguish.gd" id="6_ur5xh"]
+[ext_resource type="Script" path="res://objects/character/state_disabled.gd" id="7_bynp1"]
+[ext_resource type="Script" path="res://objects/character/state_holding.gd" id="8_pch0l"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nrjej"]
 radius = 20.6155
@@ -30,3 +36,23 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GrabArea"]
 shape = SubResource("CircleShape2D_82k2k")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("this", "default_state")]
+script = ExtResource("3_r6tfj")
+this = NodePath("..")
+default_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("4_da5o3")
+
+[node name="Walking" type="Node" parent="StateMachine"]
+script = ExtResource("5_ukidj")
+
+[node name="Extinguish" type="Node" parent="StateMachine"]
+script = ExtResource("6_ur5xh")
+
+[node name="Disabled" type="Node" parent="StateMachine"]
+script = ExtResource("7_bynp1")
+
+[node name="Holding" type="Node" parent="StateMachine"]
+script = ExtResource("8_pch0l")

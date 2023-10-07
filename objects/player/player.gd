@@ -10,24 +10,30 @@ func _get_player_input():
 	input.cancel = Input.is_action_pressed("cancel")
 	return input
 
-func _player_special_process(delta):
+func _player_special_process(_delta):
 	if Input.is_action_just_pressed("debug_1"):
 		held_object = preload("res://objects/raft_objects/water_bucket.tscn").instantiate()
+		state_machine.goto("Holding")
 	
 	if Input.is_action_just_pressed("debug_2"):
 		held_object = preload("res://objects/raft_objects/driftwood.tscn").instantiate()
+		state_machine.goto("Holding")
 	
 	if Input.is_action_just_pressed("debug_3"):
 		held_object = preload("res://objects/raft_objects/bomb.tscn").instantiate()
+		state_machine.goto("Holding")
 	
 	if Input.is_action_just_pressed("debug_4"):
 		held_object = preload("res://objects/raft_objects/gem.tscn").instantiate()
+		state_machine.goto("Holding")
 	
 	if Input.is_action_just_pressed("debug_5"):
 		held_object = preload("res://objects/raft_objects/cannon.tscn").instantiate()
+		state_machine.goto("Holding")
 	
 	if Input.is_action_just_pressed("debug_6"):
 		held_object = preload("res://objects/raft_objects/hammer.tscn").instantiate()
+		state_machine.goto("Holding")
 	
 	if Input.is_action_just_pressed("debug_7"):
 		get_tree().current_scene.get_node("Boss").death()

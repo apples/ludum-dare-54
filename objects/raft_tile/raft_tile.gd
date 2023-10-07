@@ -49,7 +49,7 @@ func ignite():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if tile_object:
+	if tile_object and raft_ref:
 		raft_ref.initialize_object(self)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -59,12 +59,13 @@ func _process(delta):
 			fire_burning.play()
 		if fire_damage_timer.is_stopped():
 			fire_damage_timer.start()
-		if player_obj != null and player_obj.is_standing():
+		if player_obj != null:
 			fire_damage_timer.paused = true
-			if Input.is_action_pressed("interact"):
-				if Input.is_action_just_pressed("interact"):
-					fire_health -= 0.1
-				fire_health -= delta
+			if player_obj.is_standing():
+				if Input.is_action_pressed("interact"):
+					if Input.is_action_just_pressed("interact"):
+						fire_health -= 0.1
+					fire_health -= delta
 		else:
 			fire_damage_timer.paused = false
 		fire_fix_meter.value = fire_health / fire_max_health

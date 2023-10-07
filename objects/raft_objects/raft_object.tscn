@@ -1,0 +1,39 @@
+[gd_scene load_steps=8 format=3 uid="uid://cbabtsw1lkkct"]
+
+[ext_resource type="Script" path="res://objects/raft_objects/raft_object.gd" id="1_xax52"]
+[ext_resource type="Script" path="res://state_machine/state_machine.gd" id="2_hkg5p"]
+[ext_resource type="Script" path="res://objects/raft_objects/state_idle.gd" id="3_8aeba"]
+[ext_resource type="Script" path="res://objects/raft_objects/state_pushed.gd" id="4_8ejh0"]
+[ext_resource type="Script" path="res://objects/raft_objects/state_tossed.gd" id="5_07pc1"]
+[ext_resource type="AudioStream" uid="uid://87k37a2eduoa" path="res://assets/sfx/bomb_throw.ogg" id="6_5syvb"]
+[ext_resource type="AudioStream" uid="uid://dpcq7d32jx2gp" path="res://assets/sfx/new_item_pickup.ogg" id="7_jt1rj"]
+
+[node name="RaftObject" type="Node2D"]
+z_index = 5
+script = ExtResource("1_xax52")
+is_pushable = true
+is_holdable = true
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("this", "default_state")]
+script = ExtResource("2_hkg5p")
+this = NodePath("..")
+default_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("3_8aeba")
+
+[node name="Pushed" type="Node" parent="StateMachine"]
+script = ExtResource("4_8ejh0")
+
+[node name="Tossed" type="Node" parent="StateMachine"]
+script = ExtResource("5_07pc1")
+
+[node name="SFXZoop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_5syvb")
+volume_db = -4.0
+bus = &"Sound_effects"
+
+[node name="SFXZeep" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_jt1rj")
+volume_db = 5.0
+bus = &"Sound_effects"

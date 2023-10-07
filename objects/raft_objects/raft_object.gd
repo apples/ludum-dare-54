@@ -12,24 +12,10 @@ var grid_pos: Vector2i
 
 var held_by: Node = null
 
-var zoop: AudioStreamPlayer
-var zeep: AudioStreamPlayer
-var reticle_scene = preload("res://objects/alert/alert.tscn")
-var reticle: AnimatedSprite2D
+@onready var sfx_zoop = $SFXZoop
+@onready var sfx_zeep = $SFXZeep
 
-enum {
-	IDLE,
-	PUSHED,
-	TOSSED,
-}
-
-var state := IDLE
-
-var push_speed := 32.0 * 12.0
-var toss_speed := 1.0
-var toss_t := 0.0
-
-var toss_path: PackedVector2Array
+@onready var state_machine: StateMachine = $StateMachine
 
 func get_kind() -> StringName:
 	assert(false, "get_kind() not implemented")
@@ -41,9 +27,6 @@ func _process_unconnected(_delta):
 func _process_connected(_delta):
 	pass
 
-func _physics_process_connected(_delta):
-	pass
-
 func _on_player_connected():
 	pass
 
@@ -53,57 +36,14 @@ func _on_player_disconnected():
 func _init():
 	id = next_id
 	next_id += 1
-	z_index = 5
-
-func _ready():
-	zoop = AudioStreamPlayer.new()
-	zoop.stream = preload("res://assets/sfx/bomb_throw.ogg")
-	zoop.bus = "Sound_effects"
-	zoop.volume_db = -4
-	add_child(zoop)
-	
-	zeep = AudioStreamPlayer.new()
-	zeep.stream = preload("res://assets/sfx/new_item_pickup.ogg")
-	zeep.bus = "Sound_effects"
-	zeep.volume_db = 5
-	add_child(zeep)
 
 func _exit_tree():
 	if connected_player:
 		connected_player.call_deferred("release")
 		_on_player_disconnected()
 
-func _process(delta):
-	match state:
-		PUSHED:
-			position = position.move_toward(Vector2.ZERO, push_speed * delta)
-			if position == Vector2.ZERO:
-				state = IDLE
-		TOSSED:
-			toss_t += delta * toss_speed
-			
-			if toss_t >= 1.0:
-				state = IDLE
-				position = Vector2.ZERO
-				reticle.queue_free()
-			else:
-				var i = toss_t * float(toss_path.size()-1)
-				var a = toss_path[int(i)]
-				var b = toss_path[int(i)+1]
-				var x = lerp(a, b, i-int(i))
-				global_position = x
-				reticle.global_position = raft.rc_to_pos(grid_pos)
-		IDLE:
-			if raft and not connected_player and not held_by:
-				_process_unconnected(delta)
-			else:
-				_process_connected(delta)
-
-func _physics_process(delta):
-	if not connected_player:
-		return
-	
-	_physics_process_connected(delta)
+func is_idle():
+	return state_machine.current_state.name == "Idle"
 
 func interact(player):
 	if not is_interactable:
@@ -115,7 +55,7 @@ func interact(player):
 	_on_player_connected()
 
 func push(player_grid_pos: Vector2i):
-	if state != IDLE:
+	if not is_idle():
 		return false
 	var d := grid_pos - player_grid_pos
 	var next_pos := grid_pos + d
@@ -123,11 +63,6 @@ func push(player_grid_pos: Vector2i):
 	if next_tile and next_tile.tile_object == null:
 		raft.move_object(next_tile.grid_pos, self)
 		return true
-
-func release_player():
-	connected_player.call_deferred("release")
-	connected_player = null
-	_on_player_disconnected()
 
 func find_neighboring_objects(of_kind: StringName):
 	var nbors = []
@@ -138,7 +73,7 @@ func find_neighboring_objects(of_kind: StringName):
 			continue
 		if not nbor.tile_object:
 			continue
-		if nbor.tile_object.state != IDLE:
+		if not nbor.tile_object.is_idle():
 			continue
 		if nbor.tile_object.get_kind() == of_kind:
 			nbors.append(nbor.tile_object)
@@ -160,44 +95,25 @@ func match3() -> Array[Node]:
 	if region.tile_list[0].tile_object.id != id:
 		return []
 	
+	for tile in region.tile_list:
+		if not tile.tile_object.can_be_matched():
+			return []
+	
 	return region.tile_list
+
+func can_be_matched():
+	return is_idle()
 
 func replace_with_gem():
 	raft.replace_object(grid_pos, preload("res://objects/raft_objects/gem.tscn").instantiate())
 
 func moved():
-	state = PUSHED
+	state_machine.goto("Pushed")
 
-func boss_toss(toss_start: Vector2, reticle_animation: String = "bad_thing", buoy: bool = false):
-	var start = toss_start
-	var end = raft.rc_to_pos(grid_pos)
-	var initial_y_vel: float = -2.0
-	var offset_y: float = 0.0
-	
-	var points = PackedVector2Array()
-	
-	var n = 100
-	for i in range(0,n+1):
-		var tx = float(i) / float(n+1)
-		var ty = float(i) / float(n)
-		var x = lerp(start.x, end.x, tx)
-		var y = lerp(start.y, end.y, ty)
-		var y_vel = lerp(initial_y_vel, -initial_y_vel, ty)
-		points.append(Vector2(x, y+offset_y))
-		offset_y += y_vel
-	
-	points.append(end)
-	
-	state = TOSSED
-	global_position = points[0]
-	toss_path = points
-	toss_t = 0.0
+func boss_toss(toss_start: Vector2, reticle_animation: StringName = "bad_thing", buoy: bool = false):
 	if buoy:
-		zeep.play()
+		sfx_zeep.play()
 	else:
-		zoop.play()
+		sfx_zoop.play()
 	
-	reticle = reticle_scene.instantiate()
-	reticle.global_position = raft.rc_to_pos(grid_pos)
-	reticle.play(reticle_animation)
-	add_child(reticle)
+	state_machine.goto("Tossed", { toss_start = toss_start, reticle_animation = reticle_animation })

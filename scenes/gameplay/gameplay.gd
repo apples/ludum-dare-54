@@ -55,7 +55,7 @@ func process_module_placement():
 	if Input.is_action_just_pressed("interact") and valid_connection:
 		confirm_module_connection()
 		
-	module_container.global_position = $player_raft.rc_to_pos(grid_position)
+	module_container.global_position = $player_raft.grid_pos_to_global_position(grid_position)
 
 func confirm_module_connection():
 	for tile in module_container.get_children():
@@ -110,7 +110,7 @@ func check_valid_connection() -> Array:
 
 
 func overlay_upgrade_scene(upgrade_strength: int = 0):
-	$Player.sit()
+	$Player.disable()
 	GLOBAL_VARS.match3_paused = true
 	var upgrade_select = upgrade_select_scene.instantiate()
 	if upgrade_strength > 1:
@@ -125,7 +125,7 @@ func raft_destroyed(raft: Raft):
 	if raft == $enemy_raft:
 #		$Level.text = "Level: %s" % GLOBAL_VARS
 		GLOBAL_VARS.current_level += 1
-		$Player.sit()
+		$Player.disable()
 		var upgrade_select = upgrade_select_scene.instantiate()
 		upgrade_select.initiate_module_placement.connect(self.on_initiate_module_placement)
 		self.add_child(upgrade_select)
@@ -135,9 +135,9 @@ func raft_destroyed(raft: Raft):
 
 func on_initiate_module_placement(module):
 	placing_raft_module = true
-#	$player_raft.rc_to_pos(Vector2(5, 5))
+#	$player_raft.grid_pos_to_global_position(Vector2(5, 5))
 	grid_position = Vector2i(7, 7)
-	render_raft_module(module, $player_raft.rc_to_pos(grid_position))
+	render_raft_module(module, $player_raft.grid_pos_to_global_position(grid_position))
 	valid_connection = check_valid_connection()
 
 func render_raft_module(raft_module_structure, pos: Vector2):
