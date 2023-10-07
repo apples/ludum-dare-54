@@ -88,15 +88,9 @@ class InputState:
 	var right: bool
 	var interact: bool
 	var cancel: bool
-	var one: bool
-	var two: bool
-	var three: bool
-	var four: bool
-	var five: bool
-	var six: bool
 	
 	func _to_string():
-		return "%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s" % [up, down, left, right, interact, cancel,one,two,three,four,five,six]
+		return "%s, %s, %s, %s, %s, %s" % [up, down, left, right, interact, cancel]
 
 var _player_input: InputState = InputState.new()
 var _player_input_pressed: InputState = InputState.new()
@@ -106,7 +100,7 @@ func is_standing() -> bool:
 	return state == STATE_IDLE and grid_lerp_t >= 1.0
 
 func eat_inputs():
-	for k in ["up", "down", "left", "right", "interact", "cancel","one","two","three","four","five","six"]:
+	for k in ["up", "down", "left", "right", "interact", "cancel"]:
 		_player_input_pressed[k] = false
 		_player_input_released[k] = false
 
@@ -129,6 +123,9 @@ func _get_player_input() -> InputState:
 	push_error("Not implemented")
 	return InputState.new()
 
+func _player_special_process(delta) -> void:
+	pass
+
 func _ready():
 	if not raft:
 		push_error("Character has no raft :(")
@@ -144,8 +141,10 @@ func _ready():
 	position = raft.rc_to_pos(grid_current_position)
 
 func _process(delta):
+	_player_special_process(delta)
+	
 	var input = _get_player_input()
-	for k in ["up", "down", "left", "right", "interact", "cancel","one","two","three","four","five","six"]:
+	for k in ["up", "down", "left", "right", "interact", "cancel"]:
 		_player_input_pressed[k] = input[k] and not _player_input[k]
 		_player_input_released[k] = not input[k] and _player_input[k]
 		_player_input[k] = input[k]
@@ -164,13 +163,6 @@ func _process(delta):
 		STATE_FIX: _process_fix(delta)
 
 func _process_idle(_delta):
-	if Input.is_key_pressed(KEY_KP_7):
-		Engine.time_scale = 10.0
-	else:
-		Engine.time_scale = 1.0
-	if Input.is_key_pressed((KEY_8)) or Input.is_key_pressed((KEY_KP_8)):
-		get_tree().get_root().get_node("gameplay").overlay_upgrade_scene(1)
-	
 	if move_input_disabled:
 		return
 	
@@ -183,11 +175,7 @@ func _process_idle(_delta):
 			_change_state(STATE_IDLE)
 		return
 	
-	var god_mode_action = god_mode_process()
-	
-	if god_mode_action:
-		print("I have the power")
-	elif _player_input_pressed.interact:
+	if _player_input_pressed.interact:
 		var tile = raft.get_tile(grid_current_position.y, grid_current_position.x)
 		if tile != null and tile.tile_object != null:
 			tile.tile_object.interact(self)
@@ -404,45 +392,3 @@ func add_tile(tile: Node):
 
 func remove_tile(tile: Node):
 	nearby_tiles.erase(tile)
-
-func god_mode_process():
-	#todo  remove god_mode before publishing
-	#return false
-	if  _player_input_pressed.one:
-		var raft_object_instance =  preload("res://objects/raft_objects/water_bucket.tscn").instantiate()
-		held_object = raft_object_instance
-		return true
-	elif _player_input_pressed.two:
-		var raft_object_instance =  preload("res://objects/raft_objects/driftwood.tscn").instantiate()
-		held_object = raft_object_instance
-		return true
-	
-	elif  _player_input_pressed.three:
-		var raft_object_instance =  preload("res://objects/raft_objects/bomb.tscn").instantiate()
-		held_object = raft_object_instance
-		return true
-	
-	elif _player_input_pressed.four:
-		var raft_object_instance =  preload("res://objects/raft_objects/gem.tscn").instantiate()
-		held_object = raft_object_instance
-		return true
-	
-	elif _player_input_pressed.five:
-		var raft_object_instance =  preload("res://objects/raft_objects/cannon.tscn").instantiate()
-		held_object = raft_object_instance
-		return true
-	elif _player_input_pressed.six:
-		for kind in [
-			&"water_bucket",
-			&"fire",
-			&"hammer",
-			&"cannon",
-			&"gem",
-			&"driftwood",
-			&"cannon_ball",
-			&"bomb",
-		]:
-			for tile in raft.find_all_tiles(kind):
-				raft.destroy_object(tile.grid_pos)
-		
-		return true
