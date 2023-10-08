@@ -22,6 +22,7 @@ GLOBAL_VARS="*res://autoload/global_vars.gd"
 DATA_STORE="*res://autoload/data_store.gd"
 MusicManager="*res://autoload/music_manager.tscn"
 UTILS="*res://autoload/utils.tscn"
+MobileOverlay="*res://autoload/mobile_overlay.tscn"
 
 [display]
 

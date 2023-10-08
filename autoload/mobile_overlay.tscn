@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://bl07k6ig3a2bq"]
+
+[ext_resource type="Texture2D" uid="uid://j6pjtqukhlks" path="res://assets/textures/dpad.png" id="1_7jc6y"]
+[ext_resource type="Script" path="res://autoload/mobile_overlay.gd" id="1_xuhlo"]
+[ext_resource type="Texture2D" uid="uid://74e8ygq3m4ek" path="res://assets/textures/button.png" id="3_c8t2w"]
+
+[node name="MobileOverlay" type="Control"]
+modulate = Color(1, 1, 1, 0.521569)
+z_index = 4096
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xuhlo")
+
+[node name="DPad" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 386.0
+offset_right = 152.0
+offset_bottom = 514.0
+texture = ExtResource("1_7jc6y")
+
+[node name="Button" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 864.0
+offset_top = 440.0
+offset_right = 928.0
+offset_bottom = 504.0
+texture = ExtResource("3_c8t2w")
+
+[connection signal="gui_input" from="DPad" to="." method="_on_d_pad_gui_input"]
+[connection signal="gui_input" from="Button" to="." method="_on_button_gui_input"]
