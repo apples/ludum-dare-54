@@ -56,5 +56,7 @@ func _process(delta):
 func _exit_state():
 	this.position = Vector2.ZERO
 	toss_path.clear()
-	reticle.queue_free()
+	
+	if reticle:
+		reticle.queue_free()
 
