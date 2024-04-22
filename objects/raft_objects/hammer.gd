@@ -29,9 +29,11 @@ func _process_unconnected(_delta):
 		sparkle_scene_b= sparkle_scene.instantiate()
 		sparkle_scene_b.init( Color(1,1,0))
 		tile.add_child(sparkle_scene_b)
+	sparkle_scene_b.play_hammer()
+	
+	for tile in ball_nbors:
 		if tile.tile_object == self and ball_nbors.size() >= 4:
 			replace_with_gem()
 		else:
 			raft.destroy_object(tile.grid_pos)
 	
-	sparkle_scene_b.play_hammer()
