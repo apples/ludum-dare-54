@@ -17,6 +17,7 @@ func _process(delta):
 	
 	var facing_pos = this.grid_pos + this.get_facing_dir()
 	var facing_tile = this.raft.get_tile(facing_pos.y, facing_pos.x)
+	var standing_tile = this.raft.get_tile(this.grid_pos.y, this.grid_pos.x)
 	var facing_obj = facing_tile.tile_object if facing_tile else null
 	
 	match this.grid_facing:
@@ -28,7 +29,7 @@ func _process(delta):
 			this.anim.play("up")
 		this.FACING_DOWN:
 			this.anim.play("down")
-	this.anim.pause()
+	#this.anim.pause()
 	
 	# try to walk or push
 	if this._player_input.direction == Vector2i.ZERO:
@@ -44,6 +45,9 @@ func _process(delta):
 		elif facing_tile: # simply walk
 			goto("Walking", this._player_input.direction)
 			return
+	
+	if standing_tile.is_on_fire:
+		interact_disabled = true
 	
 	# try to pickup an object
 	if not interact_disabled and not this.held_object and this.is_action_pressed("interact"): 
