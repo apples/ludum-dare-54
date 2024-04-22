@@ -35,10 +35,13 @@ func _process_unconnected(_delta):
 		var sparkle_scene_b = sparkle_scene.instantiate()
 		sparkle_scene_b.init( Color(1,1,0))
 		tile.add_child(sparkle_scene_b)
+	
+	if(trigger_sound):
+		splash.get_node("SFX").play()
+	
+	for tile in ball_nbors:
 		if tile.tile_object == self and ball_nbors.size() >= 4:
 			replace_with_gem()
 		else:
 			raft.destroy_object(tile.grid_pos)
 	
-	if(trigger_sound):
-		splash.get_node("SFX").play()
