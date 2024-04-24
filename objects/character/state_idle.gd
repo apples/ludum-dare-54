@@ -1,7 +1,7 @@
 extends StateMachineState
 
 var last_input_dir: Vector2i
-var move_delay_time := 0.1
+var move_delay_time := 0.09 # really this should be configurable in the options
 var push_delay_remaining := 0.0
 var interact_disabled := false
 
@@ -50,7 +50,7 @@ func _process(delta):
 		interact_disabled = true
 	
 	# try to pickup an object
-	if not interact_disabled and not this.held_object and this.is_action_pressed("interact"): 
+	if not interact_disabled and not this.held_object and this.is_action_just_pressed("interact"):
 		if facing_obj and facing_obj.is_holdable: # pick up item from raft
 			this.raft.pickup_object(facing_obj.grid_pos)
 			this.held_object = facing_obj
