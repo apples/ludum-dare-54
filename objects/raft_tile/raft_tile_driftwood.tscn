@@ -7,4 +7,3 @@
 tile_object = NodePath("driftwood")
 
 [node name="driftwood" parent="." index="2" instance=ExtResource("2_8gh7a")]
-is_pushable = true

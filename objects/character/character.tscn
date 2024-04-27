@@ -23,8 +23,8 @@ shape = SubResource("CircleShape2D_nrjej")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("6_nl5pa")
-animation = &"left"
-frame_progress = 0.655764
+animation = &"down"
+frame_progress = 0.17917
 
 [node name="HoldRoot" type="Node2D" parent="."]
 position = Vector2(0, -16)

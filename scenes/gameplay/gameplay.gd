@@ -7,6 +7,7 @@ var lose_screen_scene_file = "res://scenes/lose_screen/lose_scene.tscn"
 
 const bounds_grid_coords = Vector2i(17, 13)
 var placing_raft_module = false
+var upgrading = false
 var module_container: Node2D
 var grid_position = Vector2i(7, 7)
 var valid_connection = false
@@ -17,21 +18,26 @@ var at_direction_edge = {
 	'RIGHT': false,
 }
 #var current_level = 0
-var score
-var level
+@onready var score = $Score
+@onready var level = $Level
+@onready var charges = $Charges
+
+@onready var player = $Player
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	MusicManager.play("DownTheRiver")
-	score = $Score
-	level = $Level
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if placing_raft_module and module_container:
+	if Input.is_action_just_pressed("execute") && GLOBAL_VARS.upgradeCharges > 0 && !placing_raft_module && !upgrading:
+		GLOBAL_VARS.upgradeCharges -= 1
+		overlay_upgrade_scene()
+	elif placing_raft_module and module_container:
 		process_module_placement()
 	score.text = "%s" % GLOBAL_VARS.score
 	level.text = "%s" % GLOBAL_VARS.level
+	charges.text = "%s" % GLOBAL_VARS.upgradeCharges
 
 func process_module_placement():
 	var check_connection_check_bounds = func():
@@ -61,8 +67,10 @@ func confirm_module_connection():
 	for tile in module_container.get_children():
 		var tile_new_grid_pos = tile.grid_pos + grid_position
 		$player_raft.create_tile(tile_new_grid_pos, load(tile.scene_file_path))
-		$Player.release()
-		GLOBAL_VARS.match3_paused = false
+		player.release()
+		upgrading = false
+		placing_raft_module = false
+		#GLOBAL_VARS.match3_paused = false
 	
 	grid_position = Vector2i(7, 7)
 	delete_children(module_container)
@@ -110,8 +118,9 @@ func check_valid_connection() -> Array:
 
 
 func overlay_upgrade_scene(upgrade_strength: int = 0):
-	$Player.disable()
-	GLOBAL_VARS.match3_paused = true
+	player.disable()
+	upgrading = true
+	#GLOBAL_VARS.match3_paused = true
 	var upgrade_select = upgrade_select_scene.instantiate()
 	if upgrade_strength > 1:
 		upgrade_select.upgrade_type = "2up"
@@ -125,7 +134,7 @@ func raft_destroyed(raft: Raft):
 	if raft == $enemy_raft:
 #		$Level.text = "Level: %s" % GLOBAL_VARS
 		GLOBAL_VARS.current_level += 1
-		$Player.disable()
+		player.disable()
 		var upgrade_select = upgrade_select_scene.instantiate()
 		upgrade_select.initiate_module_placement.connect(self.on_initiate_module_placement)
 		self.add_child(upgrade_select)
