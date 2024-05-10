@@ -8,6 +8,7 @@ func _get_player_input():
 	input.down = Input.is_action_pressed("down")
 	input.interact = Input.is_action_pressed("interact")
 	input.cancel = Input.is_action_pressed("cancel")
+	input.mouse = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 	return input
 
 func _player_special_process(_delta):

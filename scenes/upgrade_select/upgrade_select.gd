@@ -5,6 +5,7 @@ signal initiate_module_placement(module)
 var options = []
 var select_index = 0
 var upgrade_type = "base"
+var last_mouse_pressed_state = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -47,7 +48,7 @@ func render_raft_module(raft_module_structure, pos: Vector2):
 		var tile_x_offset = 32 * k.x + (32*4 - module_width)/2
 		var tile_y_offset = 32 * k.y + (32*4 - module_height)/2
 		var raft_tile = raft_module_structure[k].instantiate()
-		raft_tile.position = pos
+		raft_tile.position = pos + Vector2(64, 64)
 		raft_tile.position.x += tile_x_offset - module_width/2 + 16 #+ $module_select_widget1.size.x
 		raft_tile.position.y += tile_y_offset - module_height/2 #+ $module_select_widget1.size.y
 		raft_tile.visual_only()
@@ -66,8 +67,8 @@ func _process(_delta):
 		else:
 			select_index -= 1
 		render_selected_module_widget(old_select_index, select_index)
-		print(select_index)
-		print(options[select_index][1])
+		#print(select_index)
+		#print(options[select_index][1])
 		
 	
 	if Input.is_action_just_pressed("down"):
@@ -77,10 +78,37 @@ func _process(_delta):
 			select_index += 1
 			
 		render_selected_module_widget(old_select_index, select_index)
-		print(select_index)
-		print(options[select_index][1])
+		#print(select_index)
+		#print(options[select_index][1])
 		
-	if Input.is_action_just_pressed("interact"):
+	if Input.is_action_just_pressed("interact") || (Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) && !last_mouse_pressed_state):
 		queue_free()
 		initiate_module_placement.emit(options[select_index][1])
 #		get_parent().start_placing_module(options[select_index][1])
+	
+	last_mouse_pressed_state = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+
+
+func _on_module_select_widget_1_mouse_entered() -> void:
+	var old_select_index = select_index
+	select_index = 0
+	$module_select_widget1.module_selected(true)
+	$module_select_widget2.module_selected(false)
+	$module_select_widget3.module_selected(false)
+	render_selected_module_widget(old_select_index, select_index)
+
+func _on_module_select_widget_2_mouse_entered() -> void:
+	var old_select_index = select_index
+	select_index = 1
+	$module_select_widget1.module_selected(false)
+	$module_select_widget2.module_selected(true)
+	$module_select_widget3.module_selected(false)
+	render_selected_module_widget(old_select_index, select_index)
+
+func _on_module_select_widget_3_mouse_entered() -> void:
+	var old_select_index = select_index
+	select_index = 2
+	$module_select_widget1.module_selected(false)
+	$module_select_widget2.module_selected(false)
+	$module_select_widget3.module_selected(true)
+	render_selected_module_widget(old_select_index, select_index)

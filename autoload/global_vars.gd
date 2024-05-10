@@ -13,3 +13,5 @@ var match3_paused = false # no longer pause on raft upgrade
 var difficulty = DIFF_HARD
 
 var frame_params = [0, 0]
+
+var mouse_held = false # does this belong here? No. Is it here anyway? Yes

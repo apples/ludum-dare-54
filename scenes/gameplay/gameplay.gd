@@ -17,6 +17,7 @@ var at_direction_edge = {
 	'LEFT': false,
 	'RIGHT': false,
 }
+var was_mouse_down = true
 #var current_level = 0
 @onready var score = $Score
 @onready var level = $Level
@@ -30,7 +31,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if Input.is_action_just_pressed("execute") && GLOBAL_VARS.upgradeCharges > 0 && !placing_raft_module && !upgrading:
+	if (Input.is_action_just_pressed("execute") || GLOBAL_VARS.mouse_held) && GLOBAL_VARS.upgradeCharges > 0 && !placing_raft_module && !upgrading:
 		GLOBAL_VARS.upgradeCharges -= 1
 		overlay_upgrade_scene()
 	elif placing_raft_module and module_container:
@@ -44,19 +45,29 @@ func process_module_placement():
 		var connection_response = check_valid_connection()
 		valid_connection = connection_response[0]
 		at_direction_edge = connection_response[1]
-		
-	if Input.is_action_just_pressed("up") and not at_direction_edge['UP']:
-		grid_position.y -= 1
+	
+	var mouse_down = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+	if mouse_down || was_mouse_down:
+		var mouse_pos = get_viewport().get_mouse_position()
+		grid_position.x = floori((mouse_pos.x - 210) / 32)
+		grid_position.y = floori((mouse_pos.y - 48) / 32)
 		check_connection_check_bounds.call()
-	if Input.is_action_just_pressed("down") and not at_direction_edge['DOWN']:
-		grid_position.y += 1
-		check_connection_check_bounds.call()
-	if Input.is_action_just_pressed("left") and not at_direction_edge['LEFT']:
-		grid_position.x -= 1
-		check_connection_check_bounds.call()
-	if Input.is_action_just_pressed("right") and not at_direction_edge['RIGHT']:
-		grid_position.x += 1
-		check_connection_check_bounds.call()
+		if was_mouse_down && !mouse_down && valid_connection:
+			confirm_module_connection()
+		was_mouse_down = mouse_down
+	else:
+		if Input.is_action_just_pressed("up") and not at_direction_edge['UP']:
+			grid_position.y -= 1
+			check_connection_check_bounds.call()
+		if Input.is_action_just_pressed("down") and not at_direction_edge['DOWN']:
+			grid_position.y += 1
+			check_connection_check_bounds.call()
+		if Input.is_action_just_pressed("left") and not at_direction_edge['LEFT']:
+			grid_position.x -= 1
+			check_connection_check_bounds.call()
+		if Input.is_action_just_pressed("right") and not at_direction_edge['RIGHT']:
+			grid_position.x += 1
+			check_connection_check_bounds.call()
 		
 	if Input.is_action_just_pressed("interact") and valid_connection:
 		confirm_module_connection()
@@ -144,6 +155,7 @@ func raft_destroyed(raft: Raft):
 
 func on_initiate_module_placement(module):
 	placing_raft_module = true
+	was_mouse_down = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 #	$player_raft.grid_pos_to_global_position(Vector2(5, 5))
 	grid_position = Vector2i(7, 7)
 	render_raft_module(module, $player_raft.grid_pos_to_global_position(grid_position))

@@ -63,27 +63,30 @@ script = ExtResource("1_n80f4")
 
 [node name="module_select_widget1" parent="." instance=ExtResource("3_6oeuw")]
 modulate = Color(1, 1, 1, 0.501961)
+top_level = true
 layout_mode = 1
-offset_left = 290.0
-offset_top = 132.0
-offset_right = 290.0
-offset_bottom = 132.0
+offset_left = 226.0
+offset_top = 68.0
+offset_right = -606.0
+offset_bottom = -344.0
 
 [node name="module_select_widget2" parent="." instance=ExtResource("3_6oeuw")]
 modulate = Color(1, 1, 1, 0.501961)
+top_level = true
 layout_mode = 1
-offset_left = 290.0
-offset_top = 282.0
-offset_right = 290.0
-offset_bottom = 282.0
+offset_left = 226.0
+offset_top = 218.0
+offset_right = -606.0
+offset_bottom = -194.0
 
 [node name="module_select_widget3" parent="." instance=ExtResource("3_6oeuw")]
 modulate = Color(1, 1, 1, 0.501961)
+top_level = true
 layout_mode = 1
-offset_left = 290.0
-offset_top = 431.0
-offset_right = 290.0
-offset_bottom = 431.0
+offset_left = 226.0
+offset_top = 367.0
+offset_right = -606.0
+offset_bottom = -45.0
 
 [node name="spacebar" type="AnimatedSprite2D" parent="."]
 position = Vector2(556, 164)
@@ -219,3 +222,7 @@ theme = ExtResource("1_q26wp")
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
 text = "Or"
+
+[connection signal="mouse_entered" from="module_select_widget1" to="." method="_on_module_select_widget_1_mouse_entered"]
+[connection signal="mouse_entered" from="module_select_widget2" to="." method="_on_module_select_widget_2_mouse_entered"]
+[connection signal="mouse_entered" from="module_select_widget3" to="." method="_on_module_select_widget_3_mouse_entered"]

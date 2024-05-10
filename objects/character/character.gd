@@ -68,6 +68,7 @@ class InputState:
 	var right: bool
 	var interact: bool
 	var cancel: bool
+	var mouse: bool
 	
 	var direction: Vector2i
 	var direction_just_changed: bool
@@ -78,6 +79,12 @@ class InputState:
 var _player_input: InputState = InputState.new()
 var _player_input_pressed: InputState = InputState.new()
 var _player_input_released: InputState = InputState.new()
+
+var mouse_start_pos: Vector2
+var mouse_dist: Vector2 = Vector2(0, 0)
+var mouse_down_timer: float = 0
+var mouse_down_activation_time: float = 1 # pop in settings?
+var mouse_move_activation_dist: float = 100 # pop in settings?
 
 func is_standing() -> bool:
 	return state_machine.current_state.name == "Idle"
@@ -127,7 +134,38 @@ func _ready():
 func _process(delta):
 	# handle input before anything else
 	var input = _get_player_input()
-	for k in ["up", "down", "left", "right", "interact", "cancel"]:
+	
+	# mouse/touch overrides
+	if input.mouse:
+		mouse_down_timer += delta
+		
+		if not _player_input.mouse:
+			mouse_start_pos = get_viewport().get_mouse_position()
+		else:
+			mouse_dist = get_viewport().get_mouse_position() - mouse_start_pos
+			if mouse_dist.length() > mouse_move_activation_dist:
+				if abs(mouse_dist.x) > abs(mouse_dist.y):
+					if mouse_dist.x > 0:
+						input["right"] = true
+					if mouse_dist.x < 0:
+						input["left"] = true
+				else:
+					if mouse_dist.y < 0:
+						input["up"] = true
+					if mouse_dist.y > 0:
+						input["down"] = true
+			else:
+				GLOBAL_VARS.mouse_held = mouse_down_timer > mouse_down_activation_time
+	else:
+		mouse_down_timer = 0
+		GLOBAL_VARS.mouse_held = false
+		if is_action_just_released("mouse"):
+			if mouse_dist.length() < mouse_move_activation_dist:
+				input["interact"] = true
+			else:
+				mouse_dist = Vector2(0, 0)
+	
+	for k in ["up", "down", "left", "right", "interact", "cancel", "mouse"]:
 		_player_input_pressed[k] = input[k] and not _player_input[k]
 		_player_input_released[k] = not input[k] and _player_input[k]
 		_player_input[k] = input[k]
@@ -143,6 +181,7 @@ func _process(delta):
 	if dir.x != 0 and dir.y != 0:
 		dir.y = 0
 	assert(dir.x == 0 or dir.y == 0)
+	
 	_player_input.direction_just_changed = dir != _player_input.direction
 	_player_input.direction = dir
 	
