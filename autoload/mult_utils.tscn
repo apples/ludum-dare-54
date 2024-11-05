@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpd3tn1lnex28"]
+
+[ext_resource type="Script" path="res://autoload/mult_utils.gd" id="1_g6xef"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hyo8f"]
+properties/0/path = NodePath(".:current_rand")
+properties/0/spawn = false
+properties/0/replication_mode = 0
+
+[node name="MultUtils" type="Node"]
+script = ExtResource("1_g6xef")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_hyo8f")

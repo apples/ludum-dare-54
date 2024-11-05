@@ -1,6 +1,7 @@
 class_name Raft extends Node2D
 
-@export var player: Node
+@export var players: Array[Node]
+@export var buoy_parent: Node
 @export var raft_tile_length: int = 5
 @export var raft_tile_height: int = 4
 var raft_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
@@ -45,6 +46,7 @@ func initialize_object(tile: Node) -> void:
 
 # places an object onto the raft
 # the object must not currently be on the raft
+@rpc("authority", "call_local", "reliable")
 func place_object(grid_pos: Vector2i, node: Node) -> void:
 	assert(grid_pos in raft_data_structure)
 	var tile = raft_data_structure[grid_pos]
@@ -275,11 +277,12 @@ func get_relative_tile_rc(direction: Vector2i, row: int, column: int) -> RaftTil
 
 
 func get_random_empty_tile():
+	print(players.size())
 	var empts = []
 	for k in raft_data_structure:
 		if raft_data_structure[k] != null and \
 			raft_data_structure[k].tile_object == null and \
-			player.grid_pos != k:
+			players.all(func(x): return x.grid_pos != k):
 			empts.append(raft_data_structure[k])
 	# If anything tries to find an empty tile and can't we transition to the lose state
 	if empts.is_empty():
@@ -287,12 +290,20 @@ func get_random_empty_tile():
 		return null
 
 	# filter out tiles near player if possible
-	var not_near_player = []
+	var not_near_player = empts
 	for e in empts:
-		var d = e.grid_pos - player.grid_pos
-		var grid_dist = abs(d.x) + abs(d.y)
-		if grid_dist > 1:
-			not_near_player.append(e)
+		for p in players:
+			var d = e.grid_pos - p.grid_pos
+			var grid_dist = abs(d.x) + abs(d.y)
+			if grid_dist <= 1:
+				not_near_player.erase(e)
+	
+	#var not_near_player = []
+	#for e in empts:
+		#var d = e.grid_pos - players[0].grid_pos
+		#var grid_dist = abs(d.x) + abs(d.y)
+		#if grid_dist > 1:
+			#not_near_player.append(e)
 	
 	if not_near_player.is_empty():
 		return empts.pick_random()
@@ -357,3 +368,4 @@ func _on_boss_boss_defeated():
 	for k in raft_data_structure:
 		if raft_data_structure[k].tile_object and raft_data_structure[k].tile_object.get_kind() == "bomb":
 			raft_data_structure[k].tile_object.queue_free()
+

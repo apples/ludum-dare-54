@@ -20,9 +20,9 @@ script = ExtResource("1_8n8ih")
 position = Vector2(880, 128)
 raft = NodePath("../player_raft")
 
-[node name="player_raft" parent="." node_paths=PackedStringArray("player") instance=ExtResource("2_k13pe")]
+[node name="player_raft" parent="." node_paths=PackedStringArray("players") instance=ExtResource("2_k13pe")]
 position = Vector2(210, 48)
-player = NodePath("../Player")
+players = [NodePath("../Player")]
 
 [node name="Player" parent="." node_paths=PackedStringArray("raft") instance=ExtResource("4_85nev")]
 z_index = 1

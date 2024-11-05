@@ -522,21 +522,33 @@ texture = ExtResource("4_xp3ti")
 [node name="start_game" type="Button" parent="."]
 z_index = 9
 offset_left = 428.0
-offset_top = 218.0
+offset_top = 216.0
 offset_right = 529.0
-offset_bottom = 252.0
+offset_bottom = 250.0
 theme = ExtResource("10_qnbff")
 action_mode = 0
 shortcut = SubResource("Shortcut_gkbda")
 shortcut_in_tooltip = false
-text = "START GAME"
+text = "SINGLEPLAYER"
+
+[node name="start_mult" type="Button" parent="."]
+z_index = 9
+offset_left = 428.0
+offset_top = 256.0
+offset_right = 529.0
+offset_bottom = 290.0
+theme = ExtResource("10_qnbff")
+action_mode = 0
+shortcut = SubResource("Shortcut_gkbda")
+shortcut_in_tooltip = false
+text = "MULTIPLAYER"
 
 [node name="options" type="Button" parent="."]
 z_index = 9
 offset_left = 444.0
-offset_top = 258.0
+offset_top = 296.0
 offset_right = 476.0
-offset_bottom = 290.0
+offset_bottom = 328.0
 theme = ExtResource("10_qnbff")
 shortcut_in_tooltip = false
 icon = ExtResource("8_adhxf")
@@ -544,9 +556,9 @@ icon = ExtResource("8_adhxf")
 [node name="help" type="Button" parent="."]
 z_index = 9
 offset_left = 484.0
-offset_top = 258.0
+offset_top = 296.0
 offset_right = 516.0
-offset_bottom = 290.0
+offset_bottom = 328.0
 theme = ExtResource("10_qnbff")
 theme_override_font_sizes/font_size = 38
 shortcut_in_tooltip = false
@@ -832,5 +844,6 @@ frame_progress = 0.701163
 
 [connection signal="timeout" from="ItemSpawner/Timer" to="ItemSpawner" method="_on_timer_timeout"]
 [connection signal="pressed" from="start_game" to="." method="_on_start_game_pressed"]
+[connection signal="pressed" from="start_mult" to="." method="_on_start_mult_pressed"]
 [connection signal="pressed" from="options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="help" to="." method="_on_help_pressed"]

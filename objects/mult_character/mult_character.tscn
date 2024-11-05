@@ -1,0 +1,58 @@
+[gd_scene load_steps=11 format=3 uid="uid://cickh01e38nx4"]
+
+[ext_resource type="Script" path="res://objects/mult_character/mult_character.gd" id="1_xdc26"]
+[ext_resource type="SpriteFrames" uid="uid://gyet4lfrp57h" path="res://assets/player_sprite_frames.tres" id="2_asw6w"]
+[ext_resource type="Script" path="res://state_machine/state_machine.gd" id="3_ba5hi"]
+[ext_resource type="Script" path="res://objects/mult_character/mult_state_idle.gd" id="4_e8n6t"]
+[ext_resource type="Script" path="res://objects/mult_character/mult_state_walking.gd" id="5_mrhdg"]
+[ext_resource type="Script" path="res://objects/mult_character/mult_state_extinguish.gd" id="6_seuf7"]
+[ext_resource type="Script" path="res://objects/mult_character/mult_state_disabled.gd" id="7_n8isu"]
+[ext_resource type="Script" path="res://objects/mult_character/mult_state_holding.gd" id="8_wl3yf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nrjej"]
+radius = 20.6155
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_82k2k"]
+
+[node name="MultCharacter" type="CharacterBody2D" groups=["network_sync", "player"]]
+motion_mode = 1
+script = ExtResource("1_xdc26")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_nrjej")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_asw6w")
+animation = &"down"
+frame_progress = 0.17917
+
+[node name="HoldRoot" type="Node2D" parent="."]
+position = Vector2(0, -16)
+
+[node name="GrabArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 64
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GrabArea"]
+shape = SubResource("CircleShape2D_82k2k")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("this", "default_state")]
+script = ExtResource("3_ba5hi")
+this = NodePath("..")
+default_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("4_e8n6t")
+
+[node name="Walking" type="Node" parent="StateMachine"]
+script = ExtResource("5_mrhdg")
+
+[node name="Extinguish" type="Node" parent="StateMachine"]
+script = ExtResource("6_seuf7")
+
+[node name="Disabled" type="Node" parent="StateMachine"]
+script = ExtResource("7_n8isu")
+
+[node name="Holding" type="Node" parent="StateMachine"]
+script = ExtResource("8_wl3yf")

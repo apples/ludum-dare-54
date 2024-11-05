@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://gyhxh16efgsf"]
+[gd_scene load_steps=12 format=3 uid="uid://gyhxh16efgsf"]
 
 [ext_resource type="Script" path="res://objects/character/character.gd" id="1_eald6"]
 [ext_resource type="Script" path="res://state_machine/state_machine.gd" id="3_r6tfj"]
@@ -13,6 +13,17 @@
 radius = 20.6155
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_82k2k"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hsy6g"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:grid_facing")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
 [node name="Character" type="CharacterBody2D" groups=["player"]]
 motion_mode = 1
@@ -56,3 +67,6 @@ script = ExtResource("7_bynp1")
 
 [node name="Holding" type="Node" parent="StateMachine"]
 script = ExtResource("8_pch0l")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_hsy6g")

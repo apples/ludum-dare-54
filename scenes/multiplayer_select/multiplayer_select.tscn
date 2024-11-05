@@ -1,0 +1,125 @@
+[gd_scene load_steps=7 format=3 uid="uid://dvupy3wsqft26"]
+
+[ext_resource type="Script" path="res://scenes/multiplayer_select/multiplayer_select.gd" id="1_nwto7"]
+[ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://objects/frame/frame.tscn" id="2_ds8br"]
+[ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="3_5qp2a"]
+[ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="4_snxt5"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_n4y43"]
+action = &"interact"
+
+[sub_resource type="Shortcut" id="Shortcut_vv86p"]
+events = [SubResource("InputEventAction_n4y43")]
+
+[node name="mult_select" type="Node2D"]
+script = ExtResource("1_nwto7")
+metadata/_edit_vertical_guides_ = []
+metadata/_edit_horizontal_guides_ = []
+
+[node name="Frame" parent="." instance=ExtResource("2_ds8br")]
+
+[node name="Boss" parent="." instance=ExtResource("3_5qp2a")]
+position = Vector2(880, 128)
+
+[node name="coop_host" type="Button" parent="."]
+z_index = 9
+offset_left = 368.0
+offset_top = 176.0
+offset_right = 469.0
+offset_bottom = 210.0
+theme = ExtResource("4_snxt5")
+action_mode = 0
+shortcut = SubResource("Shortcut_vv86p")
+shortcut_in_tooltip = false
+text = "HOST"
+
+[node name="coop_join" type="Button" parent="."]
+z_index = 9
+offset_left = 488.0
+offset_top = 176.0
+offset_right = 589.0
+offset_bottom = 210.0
+theme = ExtResource("4_snxt5")
+action_mode = 0
+shortcut = SubResource("Shortcut_vv86p")
+shortcut_in_tooltip = false
+text = "JOIN"
+
+[node name="versus_host" type="Button" parent="."]
+z_index = 9
+offset_left = 368.0
+offset_top = 304.0
+offset_right = 469.0
+offset_bottom = 338.0
+theme = ExtResource("4_snxt5")
+action_mode = 0
+shortcut = SubResource("Shortcut_vv86p")
+shortcut_in_tooltip = false
+text = "HOST"
+
+[node name="versus_join" type="Button" parent="."]
+z_index = 9
+offset_left = 488.0
+offset_top = 304.0
+offset_right = 589.0
+offset_bottom = 338.0
+theme = ExtResource("4_snxt5")
+action_mode = 0
+shortcut = SubResource("Shortcut_vv86p")
+shortcut_in_tooltip = false
+text = "JOIN"
+
+[node name="coop_label" type="Label" parent="."]
+offset_left = 448.0
+offset_top = 128.0
+offset_right = 488.0
+offset_bottom = 151.0
+theme = ExtResource("4_snxt5")
+theme_override_font_sizes/font_size = 38
+text = "CO-OP"
+
+[node name="versus_label" type="Label" parent="."]
+offset_left = 440.0
+offset_top = 256.0
+offset_right = 512.0
+offset_bottom = 280.0
+theme = ExtResource("4_snxt5")
+theme_override_font_sizes/font_size = 38
+text = "VERSUS"
+
+[node name="NameEdit" type="LineEdit" parent="."]
+offset_left = 296.0
+offset_top = 456.0
+offset_right = 424.0
+offset_bottom = 491.0
+theme = ExtResource("4_snxt5")
+placeholder_text = "Billy"
+
+[node name="name_label" type="Label" parent="."]
+offset_left = 336.0
+offset_top = 424.0
+offset_right = 392.0
+offset_bottom = 448.0
+theme = ExtResource("4_snxt5")
+theme_override_font_sizes/font_size = 38
+text = "Name:"
+
+[node name="IPEdit" type="LineEdit" parent="."]
+offset_left = 536.0
+offset_top = 456.0
+offset_right = 664.0
+offset_bottom = 491.0
+theme = ExtResource("4_snxt5")
+text = "127.0.0.1"
+
+[node name="IPLabel" type="Label" parent="."]
+offset_left = 576.0
+offset_top = 424.0
+offset_right = 632.0
+offset_bottom = 448.0
+theme = ExtResource("4_snxt5")
+theme_override_font_sizes/font_size = 38
+text = "IP:"
+
+[connection signal="pressed" from="coop_host" to="." method="_on_coop_host_pressed"]
+[connection signal="pressed" from="coop_join" to="." method="_on_coop_join_pressed"]

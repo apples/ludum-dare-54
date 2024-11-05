@@ -1,5 +1,7 @@
 extends "res://objects/character/character.gd"
 
+var player_id = 1
+
 func _get_player_input():
 	var input := InputState.new()
 	input.left = Input.is_action_pressed("left")
@@ -63,3 +65,5 @@ func _player_special_process(_delta):
 		
 		return true
 
+func _enter_tree() -> void:
+	set_multiplayer_authority(player_id)

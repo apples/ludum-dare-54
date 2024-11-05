@@ -1,0 +1,87 @@
+[gd_scene load_steps=10 format=3 uid="uid://d4flcf0f4i3iu"]
+
+[ext_resource type="Script" path="res://scenes/multiplayer_test/multiplayer_test.gd" id="1_32g0k"]
+[ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://objects/frame/frame.tscn" id="4_1yayg"]
+[ext_resource type="Script" path="res://scenes/multiplayer_test/Lobby.gd" id="4_a2cif"]
+[ext_resource type="Script" path="res://scenes/multiplayer_test/PlayerSpawner.gd" id="4_p5o4q"]
+[ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="5_x6n70"]
+[ext_resource type="PackedScene" uid="uid://xb7mdny33p7e" path="res://objects/raft/raft.tscn" id="6_gjtl7"]
+[ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="7_d51nj"]
+[ext_resource type="AudioStream" uid="uid://bqwvc1mimfnlo" path="res://assets/sfx/river_water_moving.ogg" id="9_xqufb"]
+[ext_resource type="AudioStream" uid="uid://bflv5fnr5rfe2" path="res://assets/music/down_the_river.ogg" id="10_gv6o5"]
+
+[node name="MultiplayerTest" type="Node2D"]
+script = ExtResource("1_32g0k")
+
+[node name="Lobby" type="Node2D" parent="." node_paths=PackedStringArray("player_spawner")]
+script = ExtResource("4_a2cif")
+player_spawner = NodePath("../PlayerSpawner")
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://objects/mult_character/mult_character.tscn")
+spawn_path = NodePath("..")
+script = ExtResource("4_p5o4q")
+
+[node name="Frame" parent="." instance=ExtResource("4_1yayg")]
+
+[node name="Boss" parent="." instance=ExtResource("5_x6n70")]
+position = Vector2(880, 128)
+
+[node name="player_raft" parent="." node_paths=PackedStringArray("buoy_parent") instance=ExtResource("6_gjtl7")]
+position = Vector2(210, 48)
+buoy_parent = NodePath("../BuoyParent")
+
+[node name="PlayerParent" type="Node2D" parent="."]
+z_index = 10
+
+[node name="Score" type="Label" parent="."]
+z_index = 500
+offset_left = 101.0
+offset_top = 35.0
+offset_right = 165.0
+offset_bottom = 67.0
+theme = ExtResource("7_d51nj")
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 38
+text = "0"
+
+[node name="Level" type="Label" parent="."]
+z_index = 500
+offset_left = 97.0
+offset_top = 483.0
+offset_right = 138.0
+offset_bottom = 515.0
+theme = ExtResource("7_d51nj")
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 38
+text = "1"
+
+[node name="Charges" type="Label" parent="."]
+z_index = 500
+offset_left = 296.0
+offset_right = 337.0
+offset_bottom = 32.0
+theme = ExtResource("7_d51nj")
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 38
+text = "0"
+
+[node name="BG_sound_effect" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_xqufb")
+autoplay = true
+bus = &"Sound_effects"
+
+[node name="BGM" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_gv6o5")
+autoplay = true
+bus = &"Music"
+
+[node name="BuoyParent" type="Node" parent="."]
+
+[node name="SyncLabel" type="Label" parent="."]
+visible = false
+offset_left = 632.0
+offset_top = 32.0
+offset_right = 760.0
+offset_bottom = 55.0
+text = "Regaining sync..."

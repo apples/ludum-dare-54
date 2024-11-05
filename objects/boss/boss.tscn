@@ -99,9 +99,8 @@ libraries = {
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_784dr")
-anim_player = NodePath("../AnimationPlayer")
 advance_expression_base_node = NodePath("..")
-active = true
+anim_player = NodePath("../AnimationPlayer")
 parameters/Normal/Blend2/blend_amount = 0
 "parameters/Normal/Blend2 2/blend_amount" = 0
 parameters/Normal/Blink/active = false

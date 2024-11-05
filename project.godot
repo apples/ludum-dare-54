@@ -23,6 +23,8 @@ DATA_STORE="*res://autoload/data_store.gd"
 MusicManager="*res://autoload/music_manager.tscn"
 UTILS="*res://autoload/utils.tscn"
 MobileOverlay="*res://autoload/mobile_overlay.tscn"
+MULT_UTILS="*res://autoload/mult_utils.tscn"
+SyncManager="*res://addons/godot-rollback-netcode/SyncManager.gd"
 
 [display]
 
@@ -31,6 +33,10 @@ window/size/viewport_height=540
 window/size/window_width_override=1440
 window/size/window_height_override=810
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot-rollback-netcode/plugin.cfg")
 
 [input]
 
@@ -133,6 +139,11 @@ debug_9={
 debug_0={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":true,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":48,"key_label":0,"unicode":0,"echo":false,"script":null)
+]
+}
+sync_debug={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194342,"physical_keycode":0,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
 

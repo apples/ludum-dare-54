@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var raft: Node
-var lose_screen_scene_file = "res://scenes/lose_screen/lose_scene.tscn"
+#var lose_screen_scene_file = "res://scenes/lose_screen/lose_scene.tscn"
 var buoy_scene = preload("res://objects/item_buoy/item_buoy.tscn")
 var spawn_rate_min = 2.0
 var spawn_rate_max = 3.5

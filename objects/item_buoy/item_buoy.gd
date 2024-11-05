@@ -2,6 +2,7 @@ extends Area2D
 
 var item
 var buoy_speed = 20
+var raft
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -15,9 +16,16 @@ func _process(delta):
 
 
 func _on_area_entered(area):
-	var raft = area.raft_ref
-	var tile = raft.get_random_empty_tile()
-	if tile:
-		raft.place_object(tile.grid_pos, item)
+	raft = area.raft_ref
+	if is_multiplayer_authority():
+		var tile = raft.get_random_empty_tile()
+		collision.rpc(tile.grid_pos)
+		queue_free()
+
+@rpc("authority", "call_local", "reliable")
+func collision(grid_pos):
+	if grid_pos:
+		if !raft:
+			raft = $"../../player_raft"
+		raft.place_object(grid_pos, item)
 		item.boss_toss(global_position, "good_thing", true)
-	queue_free()
