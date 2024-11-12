@@ -16,7 +16,7 @@ func _process(delta):
 	if !this.raft:
 		return
 	
-	this.update_facing()
+	#this.update_facing()
 	
 	var facing_pos = this.grid_pos + this.get_facing_dir()
 	var facing_tile = this.raft.get_tile(facing_pos.y, facing_pos.x)
@@ -34,20 +34,21 @@ func _process(delta):
 			this.anim.play("down")
 	#this.anim.pause()
 	
+	## moved to multCharacter, readd if we have seperate idle and walking anims
 	# try to walk or push
-	if this._player_input.direction == Vector2i.ZERO: # gotta check what _player_input is again
-		push_delay_remaining = move_delay_time
-	else:
-		if facing_obj: # start pushing
-			push_delay_remaining -= delta
-			if push_delay_remaining <= 0:
-				push_delay_remaining = 0.0
-				if facing_obj.push(this.grid_pos):
-					goto("Walking", this._player_input.direction)
-					return
-		elif facing_tile: # simply walk
-			goto("Walking", this._player_input.direction)
-			return
+	#if this._player_input.direction == Vector2i.ZERO: # gotta check what _player_input is again
+		#push_delay_remaining = move_delay_time
+	#else:
+		#if facing_obj: # start pushing
+			#push_delay_remaining -= delta
+			#if push_delay_remaining <= 0:
+				#push_delay_remaining = 0.0
+				#if facing_obj.push(this.grid_pos):
+					#goto("Walking", this._player_input.direction)
+					#return
+		#elif facing_tile: # simply walk
+			#goto("Walking", this._player_input.direction)
+			#return
 	
 	if standing_tile.is_on_fire:
 		interact_disabled = true

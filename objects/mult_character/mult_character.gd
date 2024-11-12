@@ -81,6 +81,7 @@ class InputState:
 var _player_input: InputState = InputState.new()
 var _player_input_pressed: InputState = InputState.new()
 var _player_input_released: InputState = InputState.new()
+var _last_player_input: InputState = InputState.new()
 
 var mouse_start_pos: Vector2
 var mouse_dist: Vector2 = Vector2(0, 0)
@@ -89,6 +90,10 @@ var mouse_down_activation_time: float = 1 # pop in settings?
 var mouse_move_activation_dist: float = 100 # pop in settings?
 
 var player_id = 1
+
+var target_pos: Vector2 = grid_pos
+var move_delay_time_ticks := 6 # really this should be configurable in the options, 6 = 0.1 ms
+var push_delay_ticks_remaining := 0
 
 func is_standing() -> bool:
 	return state_machine.current_state.name == "Idle"
@@ -218,6 +223,8 @@ func _network_process(input: Dictionary):
 	_player_input.direction_just_changed = dir != _player_input.direction
 	_player_input.direction = dir
 	
+	update_facing()
+	
 	# special process (usually for debug)
 	_player_special_process(.017)
 	
@@ -230,6 +237,45 @@ func _network_process(input: Dictionary):
 			global_position = t.global_position
 			state_machine.goto("Idle")
 		return
+	
+	#################################
+	#START OF MOVED STATEMACHINE LOGIC
+	#################################
+	
+	var facing_pos = grid_pos + get_facing_dir()
+	var facing_tile = raft.get_tile(facing_pos.y, facing_pos.x)
+	var facing_obj = facing_tile.tile_object if facing_tile else null
+	
+	#if this._player_input.direction == Vector2i.ZERO: # gotta check what _player_input is again
+		#push_delay_remaining = move_delay_time
+	#else:
+		#if facing_obj: # start pushing
+			#push_delay_remaining -= delta
+			#if push_delay_remaining <= 0:
+				#push_delay_remaining = 0.0
+				#if facing_obj.push(this.grid_pos):
+					#goto("Walking", this._player_input.direction)
+					#return
+		#elif facing_tile: # simply walk
+			#goto("Walking", this._player_input.direction)
+			#return
+	if _player_input.direction == Vector2i.ZERO:
+		push_delay_ticks_remaining = move_delay_time_ticks
+	else:
+		if facing_obj: # start pushing
+			push_delay_ticks_remaining -= 1
+			if push_delay_ticks_remaining <= 0:
+				facing_obj.push(grid_pos)
+				if global_position == target_pos:
+					grid_pos += _player_input.direction
+					target_pos = raft.grid_pos_to_global_position(grid_pos)
+		elif facing_tile: # simply walk
+			if global_position == target_pos:
+				grid_pos += _player_input.direction
+				target_pos = raft.grid_pos_to_global_position(grid_pos)
+	
+	
+	global_position = global_position.move_toward(target_pos, 300 * (1.0/60.0))
 
 func _save_state() -> Dictionary:
 	return {
@@ -313,3 +359,4 @@ func _network_spawn(data: Dictionary) -> void:
 		grid_pos = raft.get_closest_empty_tile(position).grid_pos
 	
 	position = raft.grid_pos_to_global_position(grid_pos)
+	target_pos = position

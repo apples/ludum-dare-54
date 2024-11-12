@@ -15,7 +15,7 @@ var players = {}
 @export var gameplay: Node2D
 
 @onready var sync_lost_label = $"../SyncLabel"
-@onready var player_parent = $"../player_raft"
+@onready var player_parent = $"../PlayerParent"
 #var players_loaded = 0
 const multPlayerScene = preload("res://objects/mult_character/mult_character.tscn")
 
