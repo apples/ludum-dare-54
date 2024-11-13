@@ -92,9 +92,12 @@ var mouse_move_activation_dist: float = 100 # pop in settings?
 var player_id = 1
 
 var target_pos: Vector2 = grid_pos
-var move_delay_time_ticks := 6 # really this should be configurable in the options, 6 = 0.1 ms
+var last_grid_pos: Vector2i = grid_pos
+var move_delay_time_ticks := 6 # really this should be configurable in the options, 6 = 0.1 seconds
 var push_delay_ticks_remaining := 0
 var transition_delay_ticks_remaining := 0
+var move_speed_ticks := 0
+var move_speed_ticks_target := 32
 
 func is_standing() -> bool:
 	return state_machine.current_state.name == "Idle"
@@ -167,6 +170,8 @@ func _player_special_process(_delta) -> void:
 	#position = raft.grid_pos_to_global_position(grid_pos)
 
 func _network_process(input: Dictionary):
+	if not input:
+		return
 	#if !is_multiplayer_authority():
 		#return
 	
@@ -257,13 +262,17 @@ func _network_process(input: Dictionary):
 			push_delay_ticks_remaining -= 1
 			if push_delay_ticks_remaining <= 0:
 				if facing_obj.push(grid_pos):
-					if global_position == target_pos:
+					if move_speed_ticks >= move_speed_ticks_target:
+						last_grid_pos = grid_pos
 						grid_pos += _player_input.direction
-						target_pos = raft.grid_pos_to_global_position(grid_pos)
+						#target_pos = raft.grid_pos_to_global_position(grid_pos)
+						move_speed_ticks = 0
 		elif facing_tile: # simply walk
-			if global_position == target_pos:
+			if move_speed_ticks >= move_speed_ticks_target:
+				last_grid_pos = grid_pos
 				grid_pos += _player_input.direction
-				target_pos = raft.grid_pos_to_global_position(grid_pos)
+				#target_pos = raft.grid_pos_to_global_position(grid_pos)
+				move_speed_ticks = 0
 	
 	if standing_tile.is_on_fire:
 		interact_disabled = true
@@ -294,9 +303,10 @@ func _network_process(input: Dictionary):
 				held_object = null
 				raft.place_object(current_tile.grid_pos, obj)
 				obj.position = Vector2.ZERO
-				#goto("Walking", get_facing_dir())
+				last_grid_pos = grid_pos
 				grid_pos += get_facing_dir()
-				target_pos = raft.grid_pos_to_global_position(grid_pos)
+				#target_pos = raft.grid_pos_to_global_position(grid_pos)
+				move_speed_ticks = 0
 				state_machine.goto("Idle")
 		if _player_input.direction_just_changed and _player_input.direction != Vector2i.ZERO: # forward-drop held object
 			if facing_tile and not facing_obj:
@@ -306,20 +316,29 @@ func _network_process(input: Dictionary):
 				obj.position = Vector2.ZERO
 				state_machine.goto("Idle")
 	
-	global_position = global_position.move_toward(target_pos, 300 * (1.0/60.0))
+	#global_position = global_position.move_toward(target_pos, 300 * (1.0/60.0))
+	move_speed_ticks += 4
+	global_position = lerp(
+		raft.grid_pos_to_global_position(last_grid_pos),
+		 raft.grid_pos_to_global_position(grid_pos),
+		 clampf(float(move_speed_ticks) / float(move_speed_ticks_target), 0.0, 1.0))
 
 func _save_state() -> Dictionary:
 	return {
 		grid_pos = grid_pos,
+		last_grid_pos = last_grid_pos,
+		move_speed_ticks = move_speed_ticks,
 		#position = position,
-		#grid_facing = grid_facing
+		grid_facing = grid_facing,
 		last = _player_input
 	}
 
 func _load_state(state: Dictionary) -> void:
 	#position = state['position']
 	grid_pos = state['grid_pos']
-	#grid_facing = state['grid_facing']
+	last_grid_pos = state['last_grid_pos']
+	move_speed_ticks = state['move_speed_ticks']
+	grid_facing = state['grid_facing']
 	_player_input = state['last']
 
 func get_facing_dir() -> Vector2i:
@@ -390,4 +409,5 @@ func _network_spawn(data: Dictionary) -> void:
 		grid_pos = raft.get_closest_empty_tile(position).grid_pos
 	
 	position = raft.grid_pos_to_global_position(grid_pos)
-	target_pos = position
+	last_grid_pos = grid_pos
+	#target_pos = position
