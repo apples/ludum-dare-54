@@ -94,6 +94,7 @@ var player_id = 1
 var target_pos: Vector2 = grid_pos
 var move_delay_time_ticks := 6 # really this should be configurable in the options, 6 = 0.1 ms
 var push_delay_ticks_remaining := 0
+var transition_delay_ticks_remaining := 0
 
 func is_standing() -> bool:
 	return state_machine.current_state.name == "Idle"
@@ -244,21 +245,11 @@ func _network_process(input: Dictionary):
 	
 	var facing_pos = grid_pos + get_facing_dir()
 	var facing_tile = raft.get_tile(facing_pos.y, facing_pos.x)
+	var standing_tile = raft.get_tile(grid_pos.y, grid_pos.x)
 	var facing_obj = facing_tile.tile_object if facing_tile else null
 	
-	#if this._player_input.direction == Vector2i.ZERO: # gotta check what _player_input is again
-		#push_delay_remaining = move_delay_time
-	#else:
-		#if facing_obj: # start pushing
-			#push_delay_remaining -= delta
-			#if push_delay_remaining <= 0:
-				#push_delay_remaining = 0.0
-				#if facing_obj.push(this.grid_pos):
-					#goto("Walking", this._player_input.direction)
-					#return
-		#elif facing_tile: # simply walk
-			#goto("Walking", this._player_input.direction)
-			#return
+	var interact_disabled = false
+	
 	if _player_input.direction == Vector2i.ZERO:
 		push_delay_ticks_remaining = move_delay_time_ticks
 	else:
@@ -274,6 +265,46 @@ func _network_process(input: Dictionary):
 				grid_pos += _player_input.direction
 				target_pos = raft.grid_pos_to_global_position(grid_pos)
 	
+	if standing_tile.is_on_fire:
+		interact_disabled = true
+	
+	
+	if not held_object: # try to pickup an object
+		if not interact_disabled and _player_input_pressed.interact:
+			if facing_obj and facing_obj.is_holdable: # pick up item from raft
+				raft.pickup_object(facing_obj.grid_pos)
+				held_object = facing_obj
+				facing_obj.position = Vector2.ZERO
+				interact_disabled = true
+				state_machine.goto("Holding")
+			elif not facing_obj: # pick up item from buoy
+				grab_area.global_position = raft.grid_pos_to_global_position(facing_pos)
+				if grab_area.has_overlapping_areas():
+					var buoy = grab_area.get_overlapping_areas()[0]
+					held_object = buoy.item
+					buoy.queue_free()
+					held_object.position = Vector2.ZERO
+					interact_disabled = true
+					state_machine.goto("Holding")
+	else: # try to place an object
+		if _player_input_pressed.interact: # swap-drop held object
+			if facing_tile and not facing_obj:
+				var current_tile = _what_tile()
+				var obj = held_object
+				held_object = null
+				raft.place_object(current_tile.grid_pos, obj)
+				obj.position = Vector2.ZERO
+				#goto("Walking", get_facing_dir())
+				grid_pos += get_facing_dir()
+				target_pos = raft.grid_pos_to_global_position(grid_pos)
+				state_machine.goto("Idle")
+		if _player_input.direction_just_changed and _player_input.direction != Vector2i.ZERO: # forward-drop held object
+			if facing_tile and not facing_obj:
+				var obj = held_object
+				held_object = null
+				raft.place_object(facing_tile.grid_pos, obj)
+				obj.position = Vector2.ZERO
+				state_machine.goto("Idle")
 	
 	global_position = global_position.move_toward(target_pos, 300 * (1.0/60.0))
 
