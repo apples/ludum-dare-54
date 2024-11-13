@@ -256,10 +256,10 @@ func _network_process(input: Dictionary):
 		if facing_obj: # start pushing
 			push_delay_ticks_remaining -= 1
 			if push_delay_ticks_remaining <= 0:
-				facing_obj.push(grid_pos)
-				if global_position == target_pos:
-					grid_pos += _player_input.direction
-					target_pos = raft.grid_pos_to_global_position(grid_pos)
+				if facing_obj.push(grid_pos):
+					if global_position == target_pos:
+						grid_pos += _player_input.direction
+						target_pos = raft.grid_pos_to_global_position(grid_pos)
 		elif facing_tile: # simply walk
 			if global_position == target_pos:
 				grid_pos += _player_input.direction
