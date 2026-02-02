@@ -1,11 +1,12 @@
 extends Control
-signal initiate_module_placement(module)
+signal initiate_module_placement(module, player)
 #var player_ref: PlayerCharacter # may not need
 
 var options = []
 var select_index = 0
 var upgrade_type = "base"
 var last_mouse_pressed_state = true
+var player: CharacterBody2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -67,23 +68,17 @@ func _process(_delta):
 		else:
 			select_index -= 1
 		render_selected_module_widget(old_select_index, select_index)
-		#print(select_index)
-		#print(options[select_index][1])
-		
 	
 	if Input.is_action_just_pressed("down"):
 		if select_index == 2:
 			select_index = 0
 		else:
 			select_index += 1
-			
 		render_selected_module_widget(old_select_index, select_index)
-		#print(select_index)
-		#print(options[select_index][1])
 		
 	if Input.is_action_just_pressed("interact") || (Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) && !last_mouse_pressed_state):
 		queue_free()
-		initiate_module_placement.emit(options[select_index][1])
+		initiate_module_placement.emit(options[select_index][1], player)
 #		get_parent().start_placing_module(options[select_index][1])
 	
 	last_mouse_pressed_state = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)

@@ -60,6 +60,7 @@ func place_object(grid_pos: Vector2i, node: Node) -> void:
 
 # removes the object from the raft, but does not free it
 func pickup_object(grid_pos: Vector2i) -> Node:
+	print("grid pos after %s" % str(grid_pos))
 	assert(grid_pos in raft_data_structure)
 	var tile = raft_data_structure[grid_pos]
 	assert(tile.tile_object != null)
@@ -169,9 +170,13 @@ func find_all_tiles(tile_type):
 func create_tile(grid_pos: Vector2i, tile_scene: PackedScene):
 	assert(raft_data_structure.get(grid_pos) == null)
 	
-	var new_tile: Node = tile_scene.instantiate()
-	new_tile.name = "Tile_%s" % [grid_pos]
-	new_tile.raft_ref = self
+	var new_tile
+	if MULT_UTILS.is_multiplayer:
+		new_tile = SyncManager.spawn("Tile_%s" % [grid_pos], self, tile_scene, {})
+	else:
+		new_tile = tile_scene.instantiate()
+		new_tile.name = "Tile_%s" % [grid_pos]
+	new_tile.raft_ref = self ###################move this to _network_spawn
 	new_tile.grid_pos = grid_pos
 	new_tile.position = TILE_SPACING * Vector2(grid_pos)
 	new_tile.tree_exiting.connect(func ():
@@ -183,8 +188,11 @@ func create_tile(grid_pos: Vector2i, tile_scene: PackedScene):
 	
 	raft_data_structure[new_tile.grid_pos] = new_tile
 	
-	add_child(new_tile)
+	if not MULT_UTILS.is_multiplayer:
+		add_child(new_tile)
 
+func _on_tile_spawned():
+	pass
 
 func remove_tile(grid_pos: Vector2i):
 	assert(grid_pos in raft_data_structure)
@@ -368,4 +376,3 @@ func _on_boss_boss_defeated():
 	for k in raft_data_structure:
 		if raft_data_structure[k].tile_object and raft_data_structure[k].tile_object.get_kind() == "bomb":
 			raft_data_structure[k].tile_object.queue_free()
-

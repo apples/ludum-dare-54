@@ -1,4 +1,4 @@
-[gd_resource type="AnimationNodeBlendTree" load_steps=47 format=3 uid="uid://b1jxfet7myqqm"]
+[gd_resource type="AnimationNodeBlendTree" format=3 uid="uid://b1jxfet7myqqm"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6rlpf"]
 animation = &"idle"
@@ -179,6 +179,7 @@ animation = &"wince"
 
 [resource]
 graph_offset = Vector2(-122.812, -146.563)
+nodes/output/position = Vector2(2580, 20)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_atugj")
 nodes/Animation/position = Vector2(20, 160)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_6rlpf")
@@ -205,9 +206,8 @@ nodes/Wince/node = SubResource("AnimationNodeAnimation_owqb6")
 nodes/Wince/position = Vector2(860, 140)
 nodes/emote_raise_eyes/node = SubResource("AnimationNodeOneShot_vbwoe")
 nodes/emote_raise_eyes/position = Vector2(1900, 20)
-nodes/output/position = Vector2(2580, 20)
 nodes/wince/node = SubResource("AnimationNodeOneShot_8sl52")
 nodes/wince/position = Vector2(1460, 20)
 "nodes/wince anim/node" = SubResource("AnimationNodeAnimation_sv7wu")
 "nodes/wince anim/position" = Vector2(1240, 120)
-node_connections = [&"Blend2", 0, &"Blend2 2", &"Blend2", 1, &"PupilStateMachine", &"Blend2 2", 0, &"Animation 2", &"Blend2 2", 1, &"EyesStateMachine", &"Blink", 0, &"Blend2", &"Blink", 1, &"Animation", &"FinalBlend", 0, &"Blink", &"FinalBlend", 1, &"MouthStateMachine", &"OneShot", 0, &"FinalBlend", &"OneShot", 1, &"Wince", &"emote_raise_eyes", 0, &"wince", &"emote_raise_eyes", 1, &"Raise Eyes", &"output", 0, &"emote_raise_eyes", &"wince", 0, &"OneShot", &"wince", 1, &"wince anim"]
+node_connections = [&"output", 0, &"emote_raise_eyes", &"Blend2", 0, &"Blend2 2", &"Blend2", 1, &"PupilStateMachine", &"Blend2 2", 0, &"Animation 2", &"Blend2 2", 1, &"EyesStateMachine", &"Blink", 0, &"Blend2", &"Blink", 1, &"Animation", &"FinalBlend", 0, &"Blink", &"FinalBlend", 1, &"MouthStateMachine", &"OneShot", 0, &"FinalBlend", &"OneShot", 1, &"Wince", &"emote_raise_eyes", 0, &"wince", &"emote_raise_eyes", 1, &"Raise Eyes", &"wince", 0, &"OneShot", &"wince", 1, &"wince anim"]

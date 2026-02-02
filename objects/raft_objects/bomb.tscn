@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bnnskls5d5og6"]
 
 [ext_resource type="Texture2D" uid="uid://db2miqtwbyiwy" path="res://assets/textures/bomb.png" id="1_0x6u7"]
-[ext_resource type="Script" path="res://objects/raft_objects/bomb.gd" id="1_n0rwi"]
+[ext_resource type="Script" uid="uid://du4fvm27tbcrp" path="res://objects/raft_objects/bomb.gd" id="1_n0rwi"]
 [ext_resource type="PackedScene" uid="uid://cbabtsw1lkkct" path="res://objects/raft_objects/raft_object.tscn" id="3_m5lts"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j82av"]

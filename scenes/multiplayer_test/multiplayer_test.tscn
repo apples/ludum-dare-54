@@ -1,40 +1,33 @@
-[gd_scene load_steps=10 format=3 uid="uid://d4flcf0f4i3iu"]
+[gd_scene format=3 uid="uid://d4flcf0f4i3iu"]
 
-[ext_resource type="Script" path="res://scenes/multiplayer_test/multiplayer_test.gd" id="1_32g0k"]
+[ext_resource type="Script" uid="uid://ed023cb3yioc" path="res://scenes/multiplayer_test/multiplayer_test.gd" id="1_32g0k"]
 [ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://objects/frame/frame.tscn" id="4_1yayg"]
-[ext_resource type="Script" path="res://scenes/multiplayer_test/Lobby.gd" id="4_a2cif"]
-[ext_resource type="Script" path="res://scenes/multiplayer_test/PlayerSpawner.gd" id="4_p5o4q"]
+[ext_resource type="Script" uid="uid://dio60cfo7in3p" path="res://scenes/multiplayer_test/Lobby.gd" id="4_a2cif"]
 [ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="5_x6n70"]
 [ext_resource type="PackedScene" uid="uid://xb7mdny33p7e" path="res://objects/raft/raft.tscn" id="6_gjtl7"]
 [ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="7_d51nj"]
+[ext_resource type="Script" uid="uid://102ie0rnxebk" path="res://addons/delta_rollback/NetworkTimer.gd" id="9_5lgh2"]
 [ext_resource type="AudioStream" uid="uid://bqwvc1mimfnlo" path="res://assets/sfx/river_water_moving.ogg" id="9_xqufb"]
 [ext_resource type="AudioStream" uid="uid://bflv5fnr5rfe2" path="res://assets/music/down_the_river.ogg" id="10_gv6o5"]
 
-[node name="MultiplayerTest" type="Node2D"]
+[node name="MultiplayerTest" type="Node2D" unique_id=455948566]
 script = ExtResource("1_32g0k")
 
-[node name="Lobby" type="Node2D" parent="." node_paths=PackedStringArray("player_spawner")]
+[node name="Lobby" type="Node2D" parent="." unique_id=53757459]
 script = ExtResource("4_a2cif")
-player_spawner = NodePath("../PlayerSpawner")
 
-[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://objects/mult_character/mult_character.tscn")
-spawn_path = NodePath("..")
-script = ExtResource("4_p5o4q")
+[node name="Frame" parent="." unique_id=1663708484 instance=ExtResource("4_1yayg")]
 
-[node name="Frame" parent="." instance=ExtResource("4_1yayg")]
-
-[node name="Boss" parent="." instance=ExtResource("5_x6n70")]
+[node name="Boss" parent="." unique_id=888170605 instance=ExtResource("5_x6n70")]
 position = Vector2(880, 128)
 
-[node name="player_raft" parent="." node_paths=PackedStringArray("buoy_parent") instance=ExtResource("6_gjtl7")]
+[node name="player_raft" parent="." unique_id=1967880753 instance=ExtResource("6_gjtl7")]
 position = Vector2(210, 48)
-buoy_parent = NodePath("../BuoyParent")
 
-[node name="PlayerParent" type="Node2D" parent="."]
+[node name="PlayerParent" type="Node2D" parent="." unique_id=167584844]
 z_index = 10
 
-[node name="Score" type="Label" parent="."]
+[node name="Score" type="Label" parent="." unique_id=1148421355]
 z_index = 500
 offset_left = 101.0
 offset_top = 35.0
@@ -45,7 +38,7 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
 text = "0"
 
-[node name="Level" type="Label" parent="."]
+[node name="Level" type="Label" parent="." unique_id=1486164336]
 z_index = 500
 offset_left = 97.0
 offset_top = 483.0
@@ -56,7 +49,7 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
 text = "1"
 
-[node name="Charges" type="Label" parent="."]
+[node name="Charges" type="Label" parent="." unique_id=1628142566]
 z_index = 500
 offset_left = 296.0
 offset_right = 337.0
@@ -66,22 +59,29 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
 text = "0"
 
-[node name="BG_sound_effect" type="AudioStreamPlayer" parent="."]
+[node name="BG_sound_effect" type="AudioStreamPlayer" parent="." unique_id=1492627506]
 stream = ExtResource("9_xqufb")
 autoplay = true
 bus = &"Sound_effects"
 
-[node name="BGM" type="AudioStreamPlayer2D" parent="."]
+[node name="BGM" type="AudioStreamPlayer2D" parent="." unique_id=1512026550]
 stream = ExtResource("10_gv6o5")
 autoplay = true
 bus = &"Music"
 
-[node name="BuoyParent" type="Node" parent="."]
-
-[node name="SyncLabel" type="Label" parent="."]
+[node name="SyncLabel" type="Label" parent="." unique_id=662918360]
 visible = false
 offset_left = 632.0
 offset_top = 32.0
 offset_right = 760.0
 offset_bottom = 55.0
 text = "Regaining sync..."
+
+[node name="NetworkTimer" type="Node" parent="." unique_id=761118955]
+script = ExtResource("9_5lgh2")
+wait_ticks = 200
+metadata/_custom_type_script = "uid://102ie0rnxebk"
+
+[node name="BuoyParent" type="Node2D" parent="." unique_id=741954056]
+
+[connection signal="timeout" from="NetworkTimer" to="." method="_on_network_timer_timeout"]

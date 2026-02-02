@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://coygvu81ci30f"]
 
-[ext_resource type="Script" path="res://objects/VFX/tile_break/tile_break.gd" id="1_k3qsj"]
+[ext_resource type="Script" uid="uid://bf6a1rpwakvrg" path="res://objects/VFX/tile_break/tile_break.gd" id="1_k3qsj"]
 [ext_resource type="Texture2D" uid="uid://cy5n185vl07fv" path="res://assets/textures/raff_damage_particle.png" id="2_oxfn2"]
 [ext_resource type="AudioStream" uid="uid://domuwjegarp6l" path="res://assets/sfx/raft_tile_break.ogg" id="3_xem8v"]
 

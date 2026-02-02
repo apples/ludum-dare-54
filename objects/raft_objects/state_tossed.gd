@@ -59,4 +59,3 @@ func _exit_state():
 	
 	if reticle:
 		reticle.queue_free()
-

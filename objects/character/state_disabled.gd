@@ -11,4 +11,3 @@ func _physics_process(_delta):
 
 func _exit_state():
 	pass
-

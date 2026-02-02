@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://b5kjc4dtf8rfy"]
 
-[ext_resource type="Script" path="res://objects/VFX/cannon_confetti/cannon_confetti.gd" id="1_amjhl"]
+[ext_resource type="Script" uid="uid://j3bflyoaxe4x" path="res://objects/VFX/cannon_confetti/cannon_confetti.gd" id="1_amjhl"]
 [ext_resource type="SpriteFrames" uid="uid://dn5w6ck5u7ltw" path="res://assets/cannon_sprite_frames.tres" id="2_4yojv"]
 
 [sub_resource type="Animation" id="Animation_3bvqf"]
@@ -99,8 +99,8 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1o17l"]
 _data = {
-"RESET": SubResource("Animation_3bvqf"),
-"shoot": SubResource("Animation_4l6qg")
+&"RESET": SubResource("Animation_3bvqf"),
+&"shoot": SubResource("Animation_4l6qg")
 }
 
 [sub_resource type="Gradient" id="Gradient_bkp8w"]

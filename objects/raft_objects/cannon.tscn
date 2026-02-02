@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dx3s8nr73iqx"]
 
 [ext_resource type="SpriteFrames" uid="uid://dn5w6ck5u7ltw" path="res://assets/cannon_sprite_frames.tres" id="1_qplhl"]
-[ext_resource type="Script" path="res://objects/raft_objects/cannon.gd" id="2_w3xid"]
+[ext_resource type="Script" uid="uid://cnc2jnhv7js2m" path="res://objects/raft_objects/cannon.gd" id="2_w3xid"]
 [ext_resource type="PackedScene" uid="uid://cbabtsw1lkkct" path="res://objects/raft_objects/raft_object.tscn" id="3_vstby"]
 
 [node name="Cannon" instance=ExtResource("3_vstby")]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://ctylu0clgg7ay"]
 
-[ext_resource type="Script" path="res://objects/raft_objects/water_bucket.gd" id="1_or1c1"]
+[ext_resource type="Script" uid="uid://ddusetjsuaa0m" path="res://objects/raft_objects/water_bucket.gd" id="1_or1c1"]
 [ext_resource type="Texture2D" uid="uid://k3qht7uajmwr" path="res://assets/textures/water_bucket.png" id="1_wbukr"]
 [ext_resource type="PackedScene" uid="uid://cbabtsw1lkkct" path="res://objects/raft_objects/raft_object.tscn" id="3_0r53x"]
 

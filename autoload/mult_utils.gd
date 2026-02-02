@@ -1,6 +1,8 @@
 extends Node
 
-var current_rand = 10: # will be off if sync does not occur before first call
+var is_multiplayer = false
+
+var current_rand = 10: # will be sybced as long all players call this the same total number of times
 	get:
 		var r = current_rand
 		current_rand = rand_from_seed(current_rand)[0]

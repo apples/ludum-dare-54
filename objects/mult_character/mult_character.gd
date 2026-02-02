@@ -7,14 +7,10 @@ extends CharacterBody2D
 @onready var grab_area = $GrabArea
 @onready var state_machine: StateMachine = $StateMachine
 
-var nearby_tiles = []
+@onready var gameplay_scene = $"../../"
 
-var walk_speed := 300
-var swim_speed := 100
+var upgrade_select_scene = preload("res://scenes/upgrade_select/upgrade_select.tscn")
 
-var current_speed := walk_speed
-
-var grid_previous_position : Vector2i
 var grid_pos : Vector2i:
 	set(v):
 		var t = _what_tile()
@@ -25,9 +21,7 @@ var grid_pos : Vector2i:
 		if t:
 			t.player_obj = self
 
-var base_tile_scene = preload("res://objects/raft_tile/raft_tile.tscn")
-
-var temp_dir_locked := false
+var last_direction := Vector2i()
 
 enum {
 	FACING_UP,
@@ -40,7 +34,6 @@ var grid_facing: int = FACING_DOWN
 
 var push_delay: float = 0.0
 
-var swap_possible := false
 var held_object:
 	get:
 		if hold_root.get_child_count() > 0:
@@ -60,29 +53,7 @@ var held_object:
 				hold_root.add_child(v)
 			v.held_by = self
 
-
-class InputState:
-	var up: bool
-	var down: bool
-	var left: bool
-	var right: bool
-	var interact: bool
-	var cancel: bool
-	var mouse: bool
-	
-	var direction: Vector2i
-	var direction_just_changed: bool
-	
-	func _to_string():
-		return "%s, %s, %s, %s, %s, %s + (%s, %s)" % [up, down, left, right, interact, cancel, direction, direction_just_changed]
-
-#var input : InputState
-
-var _player_input: InputState = InputState.new()
-var _player_input_pressed: InputState = InputState.new()
-var _player_input_released: InputState = InputState.new()
-var _last_player_input: InputState = InputState.new()
-
+#keep mouse tracking here, send actual mouse ACTIONS in mult input
 var mouse_start_pos: Vector2
 var mouse_dist: Vector2 = Vector2(0, 0)
 var mouse_down_timer: float = 0
@@ -95,44 +66,13 @@ var target_pos: Vector2 = grid_pos
 var last_grid_pos: Vector2i = grid_pos
 var move_delay_time_ticks := 6 # really this should be configurable in the options, 6 = 0.1 seconds
 var push_delay_ticks_remaining := 0
-var transition_delay_ticks_remaining := 0
 var move_speed_ticks := 0
 var move_speed_ticks_target := 32
 
+var upgrading = false
+
 func is_standing() -> bool:
 	return state_machine.current_state.name == "Idle"
-
-func eat_inputs():
-	for k in ["up", "down", "left", "right", "interact", "cancel"]:
-		_player_input_pressed[k] = false
-		_player_input_released[k] = false
-	_player_input.direction_just_changed = false
-
-func is_action_pressed(action_name: String) -> bool:
-	return _player_input[action_name]
-
-func is_action_released(action_name: String) -> bool:
-	return not _player_input[action_name]
-
-func is_action_just_pressed(action_name: String) -> bool:
-	return _player_input_pressed[action_name]
-
-func is_action_just_released(action_name: String) -> bool:
-	return _player_input_released[action_name]
-
-func get_axis(neg: String, pos: String) -> float:
-	return (1.0 if _player_input[pos] else 0.0) - (1.0 if _player_input[neg] else 0.0)
-
-#func _get_player_input() -> InputState:
-	#var input := InputState.new()
-	#input.left = Input.is_action_pressed("left")
-	#input.right = Input.is_action_pressed("right")
-	#input.up = Input.is_action_pressed("up")
-	#input.down = Input.is_action_pressed("down")
-	#input.interact = Input.is_action_pressed("interact")
-	#input.cancel = Input.is_action_pressed("cancel")
-	#input.mouse = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
-	#return input
 
 func _get_local_input() -> Dictionary:
 	var input := {}
@@ -140,96 +80,52 @@ func _get_local_input() -> Dictionary:
 	input["right"] = Input.is_action_pressed("right")
 	input["up"] = Input.is_action_pressed("up")
 	input["down"] = Input.is_action_pressed("down")
-	input["interact"] = Input.is_action_pressed("interact")
-	input["cancel"] = Input.is_action_pressed("cancel")
-	#input["mouse"] = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+	input["interactPressed"] = Input.is_action_just_pressed("interact")
+	input["cancelPressed"] = Input.is_action_just_pressed("cancel")
+	input["executePressed"] = Input.is_action_just_pressed("execute")
 	return input
 
+#seems like this would be necessary, but also seems to work fine without
 #func _predict_remote_input(previous_input: Dictionary, ticks_since_real_input: int) -> Dictionary:
 	#var input = previous_input.duplicate()
-	#input.erase("interact")
-	##if ticks_since_real_input > 2:
-		##input.erase("input_vector")
+	#input.erase("interactPressed")
+	#input.erase("cancelPressed")
+	#input.erase("executePressed")
 	#return input
+
+func _process(_delta):
+	if Input.is_action_just_pressed("execute") and GLOBAL_VARS.upgradeCharges > 0 and is_multiplayer_authority(): #seems like a possible race condition
+		var upgrade_select = upgrade_select_scene.instantiate()
+		upgrade_select.upgrade_type = "base"
+		upgrade_select.player = self
+		upgrade_select.initiate_module_placement.connect(gameplay_scene.on_initiate_module_placement)
+		gameplay_scene.add_child(upgrade_select)
 
 func _player_special_process(_delta) -> void:
 	pass
 
-#func _ready():
-	#if not raft:
-		#push_error("Character has no raft :(")
-		#queue_free()
-		#return
-#
-	#var t = raft.get_tile_at(position)
-	#if t != null:
-		#grid_pos = t.grid_pos
-	#else:
-		#grid_pos = raft.get_closest_empty_tile(position).grid_pos
-	#
-	#position = raft.grid_pos_to_global_position(grid_pos)
-
 func _network_process(input: Dictionary):
 	if not input:
 		return
-	#if !is_multiplayer_authority():
-		#return
 	
-	# handle input before anything else
-	#var input = _get_player_input()
+	if input["executePressed"] and GLOBAL_VARS.upgradeCharges > 0 and !upgrading:
+		upgrading = true
+		GLOBAL_VARS.upgradeCharges -= 1
 	
-	# mouse/touch overrides
-	# need to move this to input method
-	#if input["mouse"]:
-		#mouse_down_timer += .017#delta
-		#
-		#if not _player_input.mouse:
-			#mouse_start_pos = get_viewport().get_mouse_position()
-		#else:
-			#mouse_dist = get_viewport().get_mouse_position() - mouse_start_pos
-			#if mouse_dist.length() > mouse_move_activation_dist:
-				#if abs(mouse_dist.x) > abs(mouse_dist.y):
-					#if mouse_dist.x > 0:
-						#input["right"] = true
-					#if mouse_dist.x < 0:
-						#input["left"] = true
-				#else:
-					#if mouse_dist.y < 0:
-						#input["up"] = true
-					#if mouse_dist.y > 0:
-						#input["down"] = true
-			#else:
-				#GLOBAL_VARS.mouse_held = mouse_down_timer > mouse_down_activation_time
-	#else:
-		#mouse_down_timer = 0
-		#GLOBAL_VARS.mouse_held = false
-		#if is_action_just_released("mouse"):
-			#if mouse_dist.length() < mouse_move_activation_dist:
-				#input["interact"] = true
-			#else:
-				#mouse_dist = Vector2(0, 0)
-	
-	for k in ["up", "down", "left", "right", "interact", "cancel"]:
-		_player_input_pressed[k] = input[k] and not _player_input[k]
-		_player_input_released[k] = not input[k] and _player_input[k]
-		_player_input[k] = input[k]
+	if upgrading:
+		return # this might stop player mid tile transition
 	
 	# directional input - cardinal directions only
-	var lr: int = (1 if _player_input.right else 0) - (1 if _player_input.left else 0)
-	var ud: int = (1 if _player_input.down else 0) - (1 if _player_input.up else 0)
-	var dir := Vector2i(lr, ud)
-	if _player_input.direction.x != 0 and dir.x == _player_input.direction.x:
-		dir = _player_input.direction
-	if _player_input.direction.y != 0 and dir.y == _player_input.direction.y:
-		dir = _player_input.direction
-	if dir.x != 0 and dir.y != 0:
-		dir.y = 0
-	assert(dir.x == 0 or dir.y == 0)
+	var lr: int = (1 if input["right"] else 0) - (1 if input["left"] else 0)
+	var ud: int = (1 if input["down"] else 0) - (1 if input["up"] else 0)
+	var direction := Vector2i(lr, ud)
 	
-	_player_input.direction_just_changed = dir != _player_input.direction
-	_player_input.direction = dir
+	if direction.x != 0 and direction.y != 0:
+		direction.y = 0
+	assert(direction.x == 0 or direction.y == 0)
 	
-	update_facing()
+	
+	update_facing(direction)
 	
 	# special process (usually for debug)
 	_player_special_process(.017)
@@ -239,15 +135,12 @@ func _network_process(input: Dictionary):
 		var t = raft.get_random_empty_tile()
 		if t:
 			grid_pos = t.grid_pos
-			grid_previous_position = t.grid_pos
 			global_position = t.global_position
 			state_machine.goto("Idle")
 		return
 	
-	#################################
-	#START OF MOVED STATEMACHINE LOGIC
-	#################################
 	
+	# movement + placement
 	var facing_pos = grid_pos + get_facing_dir()
 	var facing_tile = raft.get_tile(facing_pos.y, facing_pos.x)
 	var standing_tile = raft.get_tile(grid_pos.y, grid_pos.x)
@@ -255,7 +148,7 @@ func _network_process(input: Dictionary):
 	
 	var interact_disabled = false
 	
-	if _player_input.direction == Vector2i.ZERO:
+	if direction == Vector2i.ZERO:
 		push_delay_ticks_remaining = move_delay_time_ticks
 	else:
 		if facing_obj: # start pushing
@@ -264,13 +157,13 @@ func _network_process(input: Dictionary):
 				if facing_obj.push(grid_pos):
 					if move_speed_ticks >= move_speed_ticks_target:
 						last_grid_pos = grid_pos
-						grid_pos += _player_input.direction
+						grid_pos += direction
 						#target_pos = raft.grid_pos_to_global_position(grid_pos)
 						move_speed_ticks = 0
-		elif facing_tile: # simply walk
+		elif facing_tile and not held_object: # simply walk
 			if move_speed_ticks >= move_speed_ticks_target:
 				last_grid_pos = grid_pos
-				grid_pos += _player_input.direction
+				grid_pos += direction
 				#target_pos = raft.grid_pos_to_global_position(grid_pos)
 				move_speed_ticks = 0
 	
@@ -279,8 +172,9 @@ func _network_process(input: Dictionary):
 	
 	
 	if not held_object: # try to pickup an object
-		if not interact_disabled and _player_input_pressed.interact:
+		if not interact_disabled and input["interactPressed"]:
 			if facing_obj and facing_obj.is_holdable: # pick up item from raft
+				print("grid pos %s" % facing_obj.grid_pos)
 				raft.pickup_object(facing_obj.grid_pos)
 				held_object = facing_obj
 				facing_obj.position = Vector2.ZERO
@@ -296,7 +190,7 @@ func _network_process(input: Dictionary):
 					interact_disabled = true
 					state_machine.goto("Holding")
 	else: # try to place an object
-		if _player_input_pressed.interact: # swap-drop held object
+		if input["interactPressed"]: # swap-drop held object
 			if facing_tile and not facing_obj:
 				var current_tile = _what_tile()
 				var obj = held_object
@@ -308,7 +202,7 @@ func _network_process(input: Dictionary):
 				#target_pos = raft.grid_pos_to_global_position(grid_pos)
 				move_speed_ticks = 0
 				state_machine.goto("Idle")
-		if _player_input.direction_just_changed and _player_input.direction != Vector2i.ZERO: # forward-drop held object
+		if last_direction != direction and direction != Vector2i.ZERO: # forward-drop held object
 			if facing_tile and not facing_obj:
 				var obj = held_object
 				held_object = null
@@ -322,24 +216,26 @@ func _network_process(input: Dictionary):
 		raft.grid_pos_to_global_position(last_grid_pos),
 		 raft.grid_pos_to_global_position(grid_pos),
 		 clampf(float(move_speed_ticks) / float(move_speed_ticks_target), 0.0, 1.0))
+	
+	last_direction = direction
 
 func _save_state() -> Dictionary:
 	return {
 		grid_pos = grid_pos,
 		last_grid_pos = last_grid_pos,
 		move_speed_ticks = move_speed_ticks,
-		#position = position,
 		grid_facing = grid_facing,
-		last = _player_input
+		last_direction = last_direction,
+		upgrading = upgrading, #does this need to be in state? who knows
 	}
 
 func _load_state(state: Dictionary) -> void:
-	#position = state['position']
 	grid_pos = state['grid_pos']
 	last_grid_pos = state['last_grid_pos']
 	move_speed_ticks = state['move_speed_ticks']
 	grid_facing = state['grid_facing']
-	_player_input = state['last']
+	last_direction = state['last_direction']
+	upgrading = state['upgrading']
 
 func get_facing_dir() -> Vector2i:
 	match grid_facing:
@@ -355,14 +251,14 @@ func get_facing_dir() -> Vector2i:
 			assert(false)
 			return Vector2i()
 
-func update_facing():
-	if _player_input.direction.x < 0:
+func update_facing(dir):
+	if dir.x < 0:
 		grid_facing = FACING_LEFT
-	if _player_input.direction.x > 0:
+	if dir.x > 0:
 		grid_facing = FACING_RIGHT
-	if _player_input.direction.y < 0:
+	if dir.y < 0:
 		grid_facing = FACING_UP
-	if _player_input.direction.y > 0:
+	if dir.y > 0:
 		grid_facing = FACING_DOWN
 
 func get_facing_object():
@@ -383,11 +279,9 @@ func disable():
 func release():
 	state_machine.goto("Idle")
 
-func add_tile(tile: Node):
-	nearby_tiles.append(tile)
-
-func remove_tile(tile: Node):
-	nearby_tiles.erase(tile)
+@rpc("any_peer", "call_local", "reliable")
+func reset():
+	upgrading = false
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(player_id)
@@ -395,7 +289,8 @@ func _enter_tree() -> void:
 func _network_spawn(data: Dictionary) -> void:
 	player_id = data["id"]
 	raft = $"../../player_raft"
-	position = Vector2(0, 0)
+	position = Vector2(478, 288)
+	raft.players.append(self)
 	
 	if not raft:
 		push_error("Character has no raft :(")

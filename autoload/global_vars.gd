@@ -8,7 +8,7 @@ enum {
 
 var score = 0
 var level = 1
-var upgradeCharges = 0
+var upgradeCharges = 1
 var match3_paused = false # no longer pause on raft upgrade
 var difficulty = DIFF_MED
 

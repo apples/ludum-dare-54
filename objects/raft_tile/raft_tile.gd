@@ -15,7 +15,7 @@ var grid_pos: Vector2i
 
 @export var health: int = 3 :
 	set = _set_health
-@export var max_health: int =3
+@export var max_health: int = 3
 
 @export var tile_object: Node:
 	get:
@@ -76,17 +76,41 @@ func _process(delta):
 	
 	fire_sprite.visible = is_on_fire
 
+#does actually need to be network process in order to grab player input
+#i THINK fire needs to be synced for rollback reasons
+#func _network_process(input: Dictionary):
+	#if is_on_fire:
+		#if not fire_burning.playing:
+			#fire_burning.play()
+		#if fire_damage_timer.is_stopped():
+			#fire_damage_timer.start()
+		#if player_obj != null:
+			#fire_damage_timer.paused = true
+			#if player_obj.is_standing():
+				#if input['interact']:
+					#if Input.is_action_just_pressed("interact"):
+						#fire_health -= 0.1
+					#fire_health -= 1.0 / 60.0
+		#else:
+			#fire_damage_timer.paused = false
+		#fire_fix_meter.value = fire_health / fire_max_health
+		#fire_fix_meter.visible = fire_health < fire_max_health
+	#else:
+		#fire_burning.stop()
+		#fire_damage_timer.stop()
+	#
+	#fire_sprite.visible = is_on_fire
 
-func _on_body_entered(body):
-	if body is Node:
-		if body.is_in_group("player"):
-			body.add_tile(self)
-
-
-func _on_body_exited(body):
-	if body is Node:
-		if body.is_in_group("player"):
-			body.remove_tile(self)
+#used to set player "local tiles"
+#func _on_body_entered(body):
+	#if body is Node:
+		#if body.is_in_group("player"):
+			#body.add_tile(self)
+#
+#func _on_body_exited(body):
+	#if body is Node:
+		#if body.is_in_group("player"):
+			#body.remove_tile(self)
 
 func _set_health(value: int):
 	health = value
@@ -181,3 +205,20 @@ func spread_fire_to_adjacent_tiles():
 		
 		if fire_spread_chance == 1:
 			tile.ignite()
+
+#func _save_state() -> Dictionary: #temporarily disabled sync, reenable group when ready
+	#return {
+		##grid_pos = grid_pos,
+		#health = health,
+		#is_on_fire = is_on_fire,
+		#tile_object = tile_object,
+	#}
+#
+#func _load_state(state: Dictionary) -> void:
+	##grid_pos = state['grid_pos']
+	#health = state['health']
+	#is_on_fire = state['is_on_fire']
+	#tile_object = state['tile_object']
+#
+#func _network_spawn(data: Dictionary) -> void:
+	#pass

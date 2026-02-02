@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dk27weyrqhb7n"]
 
-[ext_resource type="Script" path="res://objects/raft_objects/cannon_ball.gd" id="1_jrbcx"]
+[ext_resource type="Script" uid="uid://bn3lx3g07veve" path="res://objects/raft_objects/cannon_ball.gd" id="1_jrbcx"]
 [ext_resource type="Texture2D" uid="uid://c4pcetsk4y7oy" path="res://assets/textures/cannonball.png" id="2_qykon"]
 [ext_resource type="PackedScene" uid="uid://cbabtsw1lkkct" path="res://objects/raft_objects/raft_object.tscn" id="3_mvc7t"]
 

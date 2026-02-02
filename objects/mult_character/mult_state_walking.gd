@@ -7,8 +7,8 @@ func _enter_state(param):
 	assert(param != Vector2i.ZERO)
 	#this.grid_pos += param
 
-func _process(delta):
-	var current_position: Vector2 = this.global_position
+func _process(_delta):
+	#var current_position: Vector2 = this.global_position
 	var target_position: Vector2 = this.raft.grid_pos_to_global_position(this.grid_pos)
 	
 	match this.grid_facing:

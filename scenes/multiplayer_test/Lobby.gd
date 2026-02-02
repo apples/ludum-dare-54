@@ -1,7 +1,7 @@
 extends Node2D
 
 # These signals can be connected to by a UI lobby scene or the game scene.
-signal player_connected(peer_id, player_info)
+#signal player_connected(peer_id, player_info)
 signal player_disconnected(peer_id)
 signal server_disconnected
 
@@ -11,11 +11,10 @@ const MAX_CONNECTIONS = 20
 
 var players = {}
 
-@export var player_spawner: MultiplayerSpawner
-@export var gameplay: Node2D
-
+@onready var gameplay: Node2D = $".."
 @onready var sync_lost_label = $"../SyncLabel"
 @onready var player_parent = $"../PlayerParent"
+
 #var players_loaded = 0
 const multPlayerScene = preload("res://objects/mult_character/mult_character.tscn")
 
@@ -52,14 +51,6 @@ func create_game():
 	if error:
 		return error
 	multiplayer.multiplayer_peer = peer
-	#var player = player_spawner.spawn({ id = multiplayer.get_unique_id() }) THIS ONE IS REAL
-	
-	# z index?
-	#player.game_world = get_parent()
-	#$"../player_raft".players.append(player)
-	#players[multiplayer.get_unique_id()] = player
-
-
 
 func _on_player_connected(id):
 	print("Connected!")
@@ -68,15 +59,9 @@ func _on_player_connected(id):
 	sync_lost_label.visible = true
 	SyncManager.add_peer(id)
 	if id != 1:
-		#var player = player_spawner.spawn({ id = id }) THIS ONE IS REAL
-		
 		# Give a little time to get ping data.
 		await get_tree().create_timer(2.0).timeout
 		SyncManager.start()
-	#var player = player_spawner.spawn({ id = id })
-	#players[id] = player
-	#player_spawned.emit(player)
-
 
 func _on_player_disconnected(id):
 	players[id].queue_free()
@@ -89,8 +74,6 @@ func _on_server_disconnected():
 	server_disconnected.emit()
 
 func _on_SyncManager_sync_started():
-	
-	
 	sync_lost_label.visible = false
 	var player1 = SyncManager.spawn("Player1", player_parent, multPlayerScene, {id = 1})
 	player1.set_multiplayer_authority(1)
@@ -99,11 +82,12 @@ func _on_SyncManager_sync_started():
 	
 	if multiplayer.get_unique_id() == 1: #TODO: UPDATE FOR 3+ PLAYERS
 		SyncManager.start_logging("user://detailed_logs/Horse1.log")
-		var tempId = SyncManager.get_player_peer_ids()[0]
+		var tempId = SyncManager.peers.keys()[0]
 		var player2 = SyncManager.spawn("Player" + str(tempId), player_parent, multPlayerScene, {id = tempId})
 		player2.set_multiplayer_authority(tempId)
 		$"../player_raft".players.append(player2)
 		players[tempId] = player2
+		MULT_UTILS.current_rand = tempId
 	else:
 		SyncManager.start_logging("user://detailed_logs/Horse2.log")
 		var tempId = multiplayer.get_unique_id()
@@ -111,8 +95,9 @@ func _on_SyncManager_sync_started():
 		player2.set_multiplayer_authority(tempId)
 		$"../player_raft".players.append(player2)
 		players[tempId] = player2
+		MULT_UTILS.current_rand = tempId
 	
-	#gameplay.start_game()
+	gameplay.start_game()
 
 func _on_SyncManager_sync_lost() -> void:
 	sync_lost_label.text = "Regaining sync..."

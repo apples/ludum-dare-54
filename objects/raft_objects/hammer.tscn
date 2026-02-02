@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cos7h51ypuf8c"]
 
-[ext_resource type="Script" path="res://objects/raft_objects/hammer.gd" id="1_meoay"]
+[ext_resource type="Script" uid="uid://b1o026tndvnhe" path="res://objects/raft_objects/hammer.gd" id="1_meoay"]
 [ext_resource type="Texture2D" uid="uid://dgy0mjpe81x65" path="res://assets/textures/hammer.png" id="2_cqb5h"]
 [ext_resource type="PackedScene" uid="uid://cbabtsw1lkkct" path="res://objects/raft_objects/raft_object.tscn" id="3_5413b"]
 

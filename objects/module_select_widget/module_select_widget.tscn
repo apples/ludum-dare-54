@@ -1,6 +1,6 @@
 [gd_scene load_steps=21 format=3 uid="uid://bfmc3bv8rgnl3"]
 
-[ext_resource type="Script" path="res://objects/module_select_widget/module_select_widget.gd" id="1_n6cor"]
+[ext_resource type="Script" uid="uid://dvqskd8ijynun" path="res://objects/module_select_widget/module_select_widget.gd" id="1_n6cor"]
 [ext_resource type="Texture2D" uid="uid://b00pu6gymxidh" path="res://assets/textures/upgrade_selected_anim.png" id="2_ip01w"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k1ysd"]

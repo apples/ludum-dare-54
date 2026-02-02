@@ -1,6 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://cp30wt1ago535"]
+[gd_scene format=3 uid="uid://cp30wt1ago535"]
 
-[ext_resource type="Script" path="res://scenes/upgrade_select/upgrade_select.gd" id="1_n80f4"]
+[ext_resource type="Script" uid="uid://bk2mns0i0a3xo" path="res://scenes/upgrade_select/upgrade_select.gd" id="1_n80f4"]
 [ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="1_q26wp"]
 [ext_resource type="Texture2D" uid="uid://bxw6lmushninn" path="res://assets/textures/spacebar_frames.png" id="3_2le3d"]
 [ext_resource type="PackedScene" uid="uid://bfmc3bv8rgnl3" path="res://objects/module_select_widget/module_select_widget.tscn" id="3_6oeuw"]
@@ -51,7 +51,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="upgrade_select" type="Control"]
+[node name="upgrade_select" type="Control" unique_id=1937624527]
 z_index = 500
 layout_mode = 3
 anchors_preset = 15
@@ -61,7 +61,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_n80f4")
 
-[node name="module_select_widget1" parent="." instance=ExtResource("3_6oeuw")]
+[node name="module_select_widget1" parent="." unique_id=313749549 instance=ExtResource("3_6oeuw")]
 modulate = Color(1, 1, 1, 0.501961)
 top_level = true
 layout_mode = 1
@@ -70,7 +70,7 @@ offset_top = 68.0
 offset_right = -606.0
 offset_bottom = -344.0
 
-[node name="module_select_widget2" parent="." instance=ExtResource("3_6oeuw")]
+[node name="module_select_widget2" parent="." unique_id=847691369 instance=ExtResource("3_6oeuw")]
 modulate = Color(1, 1, 1, 0.501961)
 top_level = true
 layout_mode = 1
@@ -79,7 +79,7 @@ offset_top = 218.0
 offset_right = -606.0
 offset_bottom = -194.0
 
-[node name="module_select_widget3" parent="." instance=ExtResource("3_6oeuw")]
+[node name="module_select_widget3" parent="." unique_id=1474531418 instance=ExtResource("3_6oeuw")]
 modulate = Color(1, 1, 1, 0.501961)
 top_level = true
 layout_mode = 1
@@ -88,19 +88,19 @@ offset_top = 367.0
 offset_right = -606.0
 offset_bottom = -45.0
 
-[node name="spacebar" type="AnimatedSprite2D" parent="."]
+[node name="spacebar" type="AnimatedSprite2D" parent="." unique_id=621160844]
 position = Vector2(556, 164)
 sprite_frames = SubResource("SpriteFrames_xt382")
 autoplay = "default"
 
-[node name="wasd" type="Node2D" parent="."]
+[node name="wasd" type="Node2D" parent="." unique_id=1765180553]
 
-[node name="w_key" type="AnimatedSprite2D" parent="wasd"]
+[node name="w_key" type="AnimatedSprite2D" parent="wasd" unique_id=19422174]
 position = Vector2(442, 82)
 sprite_frames = SubResource("SpriteFrames_3wg46")
 autoplay = "default"
 
-[node name="key_label" type="Label" parent="wasd/w_key"]
+[node name="key_label" type="Label" parent="wasd/w_key" unique_id=968868884]
 offset_left = -2.0
 offset_top = -9.0
 offset_right = 8.0
@@ -109,12 +109,12 @@ theme = ExtResource("1_q26wp")
 text = "W"
 metadata/_edit_use_anchors_ = true
 
-[node name="s_key" type="AnimatedSprite2D" parent="wasd"]
+[node name="s_key" type="AnimatedSprite2D" parent="wasd" unique_id=451500645]
 position = Vector2(451, 120)
 sprite_frames = SubResource("SpriteFrames_3wg46")
 autoplay = "default"
 
-[node name="key_label" type="Label" parent="wasd/s_key"]
+[node name="key_label" type="Label" parent="wasd/s_key" unique_id=1736655407]
 offset_left = -2.0
 offset_top = -9.0
 offset_right = 8.0
@@ -123,12 +123,12 @@ theme = ExtResource("1_q26wp")
 text = "S"
 metadata/_edit_use_anchors_ = true
 
-[node name="a_key" type="Sprite2D" parent="wasd"]
+[node name="a_key" type="Sprite2D" parent="wasd" unique_id=1604522226]
 modulate = Color(1, 1, 1, 0.482353)
 position = Vector2(413, 120)
 texture = ExtResource("5_s4up3")
 
-[node name="key_label" type="Label" parent="wasd/a_key"]
+[node name="key_label" type="Label" parent="wasd/a_key" unique_id=166453495]
 offset_left = -2.0
 offset_top = -9.0
 offset_right = 10.0
@@ -137,12 +137,12 @@ theme = ExtResource("1_q26wp")
 text = "A"
 metadata/_edit_use_anchors_ = true
 
-[node name="d_key" type="Sprite2D" parent="wasd"]
+[node name="d_key" type="Sprite2D" parent="wasd" unique_id=525100943]
 modulate = Color(1, 1, 1, 0.482353)
 position = Vector2(489, 120)
 texture = ExtResource("5_s4up3")
 
-[node name="key_label" type="Label" parent="wasd/d_key"]
+[node name="key_label" type="Label" parent="wasd/d_key" unique_id=911854582]
 offset_left = -2.0
 offset_top = -9.0
 offset_right = 8.0
@@ -151,14 +151,14 @@ theme = ExtResource("1_q26wp")
 text = "D"
 metadata/_edit_use_anchors_ = true
 
-[node name="arrow_keys" type="Node2D" parent="."]
+[node name="arrow_keys" type="Node2D" parent="." unique_id=1747948095]
 
-[node name="up_key" type="AnimatedSprite2D" parent="arrow_keys"]
+[node name="up_key" type="AnimatedSprite2D" parent="arrow_keys" unique_id=256583947]
 position = Vector2(661, 79)
 sprite_frames = SubResource("SpriteFrames_3wg46")
 autoplay = "default"
 
-[node name="key_label" type="Label" parent="arrow_keys/up_key"]
+[node name="key_label" type="Label" parent="arrow_keys/up_key" unique_id=1179637250]
 offset_left = -7.0
 offset_top = 4.0
 offset_right = 5.0
@@ -168,12 +168,12 @@ theme = ExtResource("1_q26wp")
 text = "→"
 metadata/_edit_use_anchors_ = true
 
-[node name="down_key" type="AnimatedSprite2D" parent="arrow_keys"]
+[node name="down_key" type="AnimatedSprite2D" parent="arrow_keys" unique_id=751787239]
 position = Vector2(661, 117)
 sprite_frames = SubResource("SpriteFrames_3wg46")
 autoplay = "default"
 
-[node name="key_label" type="Label" parent="arrow_keys/down_key"]
+[node name="key_label" type="Label" parent="arrow_keys/down_key" unique_id=982063267]
 offset_left = 8.0
 offset_top = -7.0
 offset_right = 20.0
@@ -183,12 +183,12 @@ theme = ExtResource("1_q26wp")
 text = "→"
 metadata/_edit_use_anchors_ = true
 
-[node name="right_key" type="Sprite2D" parent="arrow_keys"]
+[node name="right_key" type="Sprite2D" parent="arrow_keys" unique_id=1683390956]
 modulate = Color(1, 1, 1, 0.482353)
 position = Vector2(699, 117)
 texture = ExtResource("5_s4up3")
 
-[node name="key_label" type="Label" parent="arrow_keys/right_key"]
+[node name="key_label" type="Label" parent="arrow_keys/right_key" unique_id=1370810580]
 offset_left = -5.0
 offset_top = -9.0
 offset_right = 7.0
@@ -197,12 +197,12 @@ theme = ExtResource("1_q26wp")
 text = "→"
 metadata/_edit_use_anchors_ = true
 
-[node name="left_key" type="Sprite2D" parent="arrow_keys"]
+[node name="left_key" type="Sprite2D" parent="arrow_keys" unique_id=308563536]
 modulate = Color(1, 1, 1, 0.482353)
 position = Vector2(623, 117)
 texture = ExtResource("5_s4up3")
 
-[node name="key_label" type="Label" parent="arrow_keys/left_key"]
+[node name="key_label" type="Label" parent="arrow_keys/left_key" unique_id=1721491494]
 offset_left = 6.0
 offset_top = 7.0
 offset_right = 18.0
@@ -212,7 +212,7 @@ theme = ExtResource("1_q26wp")
 text = "→"
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=324714569]
 layout_mode = 0
 offset_left = 546.0
 offset_top = 69.0

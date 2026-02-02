@@ -1,7 +1,7 @@
 [gd_scene load_steps=24 format=3 uid="uid://db55dqikpqoof"]
 
 [ext_resource type="Texture2D" uid="uid://d3u5e7iuyk16" path="res://assets/textures/char2_base.png" id="1_4b4qy"]
-[ext_resource type="Script" path="res://objects/boss/boss.gd" id="2_tau8x"]
+[ext_resource type="Script" uid="uid://c2ed3bt18ileq" path="res://objects/boss/boss.gd" id="2_tau8x"]
 [ext_resource type="SpriteFrames" uid="uid://c6tnqwadci4ua" path="res://objects/boss/pupil_frames.tres" id="3_fgpyr"]
 [ext_resource type="SpriteFrames" uid="uid://f3e2p2eukvp5" path="res://objects/boss/eye_frames.tres" id="4_uvnq0"]
 [ext_resource type="SpriteFrames" uid="uid://c524gr8xkbw0w" path="res://objects/boss/mouth_frames.tres" id="5_nfts5"]
@@ -94,7 +94,7 @@ sprite_frames = ExtResource("6_nmpi0")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": ExtResource("6_y80qs")
+&"": ExtResource("6_y80qs")
 }
 
 [node name="AnimationTree" type="AnimationTree" parent="."]

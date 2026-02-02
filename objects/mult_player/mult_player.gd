@@ -2,16 +2,16 @@ extends "res://objects/mult_character/mult_character.gd"
 
 #var player_id = 1
 
-func _get_player_input():
-	var input := InputState.new()
-	input.left = Input.is_action_pressed("left")
-	input.right = Input.is_action_pressed("right")
-	input.up = Input.is_action_pressed("up")
-	input.down = Input.is_action_pressed("down")
-	input.interact = Input.is_action_pressed("interact")
-	input.cancel = Input.is_action_pressed("cancel")
-	#input.mouse = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
-	return input
+#func _get_player_input():
+	#var input := InputState.new()
+	#input.left = Input.is_action_pressed("left")
+	#input.right = Input.is_action_pressed("right")
+	#input.up = Input.is_action_pressed("up")
+	#input.down = Input.is_action_pressed("down")
+	#input.interact = Input.is_action_pressed("interact")
+	#input.cancel = Input.is_action_pressed("cancel")
+	##input.mouse = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+	#return input
 
 func _player_special_process(_delta):
 	if Input.is_action_just_pressed("debug_1"):

@@ -1,13 +1,13 @@
 [gd_scene load_steps=10 format=3 uid="uid://bynqvjcdpggd0"]
 
-[ext_resource type="Script" path="res://scenes/gameplay/gameplay.gd" id="1_8n8ih"]
+[ext_resource type="Script" uid="uid://crwp85desifim" path="res://scenes/gameplay/gameplay.gd" id="1_8n8ih"]
 [ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://objects/frame/frame.tscn" id="2_erp0v"]
 [ext_resource type="PackedScene" uid="uid://xb7mdny33p7e" path="res://objects/raft/raft.tscn" id="2_k13pe"]
 [ext_resource type="PackedScene" uid="uid://o12ndw11l4ek" path="res://objects/player/player.tscn" id="4_85nev"]
 [ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="8_2ifv0"]
 [ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="8_86bl7"]
 [ext_resource type="AudioStream" uid="uid://bqwvc1mimfnlo" path="res://assets/sfx/river_water_moving.ogg" id="9_ojlhc"]
-[ext_resource type="Script" path="res://objects/raft/item_spawner.gd" id="10_kdn02"]
+[ext_resource type="Script" uid="uid://cb5yhtvwqt1yn" path="res://objects/raft/item_spawner.gd" id="10_kdn02"]
 [ext_resource type="AudioStream" uid="uid://bflv5fnr5rfe2" path="res://assets/music/down_the_river.ogg" id="11_8jgfc"]
 
 [node name="gameplay" type="Node2D"]

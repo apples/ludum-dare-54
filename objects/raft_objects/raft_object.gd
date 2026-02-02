@@ -50,7 +50,7 @@ func interact(player):
 		return
 	
 	connected_player = player
-	connected_player.eat_inputs()
+	#connected_player.eat_inputs()
 	
 	_on_player_connected()
 

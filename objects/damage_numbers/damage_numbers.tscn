@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c60t8yh2mqjjw"]
 
-[ext_resource type="Script" path="res://objects/damage_numbers/damage_numbers.gd" id="1_2ps2t"]
+[ext_resource type="Script" uid="uid://bti7p1v4mq553" path="res://objects/damage_numbers/damage_numbers.gd" id="1_2ps2t"]
 [ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="2_pv6v8"]
 
 [node name="damage_numbers" type="Node2D"]
