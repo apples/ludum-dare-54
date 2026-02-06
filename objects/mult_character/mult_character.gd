@@ -145,7 +145,6 @@ func _network_process(input: Dictionary):
 	var facing_tile = raft.get_tile(facing_pos.y, facing_pos.x)
 	var standing_tile = raft.get_tile(grid_pos.y, grid_pos.x)
 	var facing_obj = facing_tile.tile_object if facing_tile else null
-	
 	var interact_disabled = false
 	
 	if direction == Vector2i.ZERO:

@@ -176,7 +176,7 @@ func create_tile(grid_pos: Vector2i, tile_scene: PackedScene):
 	else:
 		new_tile = tile_scene.instantiate()
 		new_tile.name = "Tile_%s" % [grid_pos]
-	new_tile.raft_ref = self ###################move this to _network_spawn
+	new_tile.raft_ref = self ###################################move this to _network_spawn
 	new_tile.grid_pos = grid_pos
 	new_tile.position = TILE_SPACING * Vector2(grid_pos)
 	new_tile.tree_exiting.connect(func ():
@@ -187,6 +187,9 @@ func create_tile(grid_pos: Vector2i, tile_scene: PackedScene):
 		_raft_regions.clear())
 	
 	raft_data_structure[new_tile.grid_pos] = new_tile
+	
+	if new_tile.tile_object:
+		new_tile.tile_object.grid_pos = grid_pos
 	
 	if not MULT_UTILS.is_multiplayer:
 		add_child(new_tile)
