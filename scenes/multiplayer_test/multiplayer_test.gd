@@ -62,7 +62,7 @@ func start_game() -> void:
 ## BUOY SPAWNING
 func _pick_spawnable():
 	if spawnables_bag.is_empty():
-		seed(MULT_UTILS.current_rand)
+		seed(MULT_UTILS.mult_rng.randi())
 		for s in spawnables:
 			for i in range(s.weight):
 				spawnables_bag.append(s.scene)
@@ -72,7 +72,7 @@ func _pick_spawnable():
 
 func _pick_column() -> int:
 	if col_bag.is_empty():
-		seed(MULT_UTILS.current_rand)
+		seed(MULT_UTILS.mult_rng.randi())
 		for r in col_ranges:
 			for i in range(r[0], r[1]):
 				col_bag.append(i)

@@ -51,6 +51,7 @@ func ignite():
 func _ready():
 	if tile_object and raft_ref:
 		raft_ref.initialize_object(self)
+		tile_object.raft = raft_ref
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -206,19 +207,20 @@ func spread_fire_to_adjacent_tiles():
 		if fire_spread_chance == 1:
 			tile.ignite()
 
-#func _save_state() -> Dictionary: #temporarily disabled sync, reenable group when ready
-	#return {
-		##grid_pos = grid_pos,
-		#health = health,
-		#is_on_fire = is_on_fire,
-		#tile_object = tile_object,
-	#}
+func _save_state() -> Dictionary: #temporarily disabled sync, reenable group when ready
+	return {
+		health = health,
+		is_on_fire = is_on_fire,
+		tile_object = tile_object,
+	}
+
+func _load_state(state: Dictionary) -> void:
+	health = state['health']
+	is_on_fire = state['is_on_fire']
+	tile_object = state['tile_object']
 #
-#func _load_state(state: Dictionary) -> void:
-	##grid_pos = state['grid_pos']
-	#health = state['health']
-	#is_on_fire = state['is_on_fire']
-	#tile_object = state['tile_object']
-#
-#func _network_spawn(data: Dictionary) -> void:
-	#pass
+func _network_spawn(data: Dictionary) -> void:
+	raft_ref = get_parent()
+	#raft_ref.initialize_object(self)
+	if tile_object:
+		tile_object.raft = raft_ref

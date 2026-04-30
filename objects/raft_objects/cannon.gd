@@ -4,6 +4,13 @@ var shoot_scene = preload("res://objects/VFX/cannon_shoot/cannon_shoot.tscn")
 var sparkle_scene = preload("res://objects/VFX/sparkle/sparkle.tscn")
 var shoot_confetti_scene = preload("res://objects/VFX/cannon_confetti/cannon_confetti.tscn")
 
+var boss : Node2D
+
+func _ready():
+	boss = get_node_or_null("/root/gameplay/Boss")
+	if boss == null:
+		boss = get_node_or_null("/root/MultiplayerTest/MultBoss")
+
 func get_kind() -> StringName:
 	return "cannon"
 
@@ -19,7 +26,7 @@ func _process_unconnected(_delta):
 	
 	var shot_scene = shoot_scene
 	
-	if not get_node("/root/gameplay/Boss").is_alive:
+	if not boss.is_alive:
 		extra_shots = 0
 		shot_scene = shoot_confetti_scene
 	

@@ -60,7 +60,6 @@ func place_object(grid_pos: Vector2i, node: Node) -> void:
 
 # removes the object from the raft, but does not free it
 func pickup_object(grid_pos: Vector2i) -> Node:
-	print("grid pos after %s" % str(grid_pos))
 	assert(grid_pos in raft_data_structure)
 	var tile = raft_data_structure[grid_pos]
 	assert(tile.tile_object != null)
@@ -288,7 +287,6 @@ func get_relative_tile_rc(direction: Vector2i, row: int, column: int) -> RaftTil
 
 
 func get_random_empty_tile():
-	print(players.size())
 	var empts = []
 	for k in raft_data_structure:
 		if raft_data_structure[k] != null and \
@@ -315,6 +313,9 @@ func get_random_empty_tile():
 		#var grid_dist = abs(d.x) + abs(d.y)
 		#if grid_dist > 1:
 			#not_near_player.append(e)
+	
+	if GLOBAL_VARS.multiplayer:
+		seed(MULT_UTILS.mult_rng.randi())
 	
 	if not_near_player.is_empty():
 		return empts.pick_random()

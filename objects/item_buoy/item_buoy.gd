@@ -37,7 +37,7 @@ func _process(delta):
 
 func _on_area_entered(area):
 	raft = area.raft_ref
-	seed(MULT_UTILS.current_rand)
+	#seed(MULT_UTILS.mult_rng.randi())
 	var tile = raft.get_random_empty_tile()
 	if tile:
 		raft.place_object(tile.grid_pos, item)

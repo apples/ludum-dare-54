@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cpd3tn1lnex28"]
 
 [ext_resource type="Script" uid="uid://dkctoluyu68l7" path="res://autoload/mult_utils.gd" id="1_g6xef"]
+[ext_resource type="Script" uid="uid://kdu6lvrwghaj" path="res://addons/delta_rollback/NetworkRandomNumberGenerator.gd" id="2_n68bh"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hyo8f"]
 properties/0/path = NodePath(".:current_rand")
@@ -12,3 +13,7 @@ script = ExtResource("1_g6xef")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=717400657]
 replication_config = SubResource("SceneReplicationConfig_hyo8f")
+
+[node name="NetworkRandomNumberGenerator" type="Node" parent="." unique_id=124634112]
+script = ExtResource("2_n68bh")
+metadata/_custom_type_script = "uid://kdu6lvrwghaj"

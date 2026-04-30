@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://ed023cb3yioc" path="res://scenes/multiplayer_test/multiplayer_test.gd" id="1_32g0k"]
 [ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://objects/frame/frame.tscn" id="4_1yayg"]
+[ext_resource type="PackedScene" uid="uid://j2km5o4kenk6" path="res://objects/mult_boss/mult_boss.tscn" id="4_5lgh2"]
 [ext_resource type="Script" uid="uid://dio60cfo7in3p" path="res://scenes/multiplayer_test/Lobby.gd" id="4_a2cif"]
-[ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="5_x6n70"]
 [ext_resource type="PackedScene" uid="uid://xb7mdny33p7e" path="res://objects/raft/raft.tscn" id="6_gjtl7"]
 [ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="7_d51nj"]
 [ext_resource type="Script" uid="uid://102ie0rnxebk" path="res://addons/delta_rollback/NetworkTimer.gd" id="9_5lgh2"]
@@ -18,8 +18,7 @@ script = ExtResource("4_a2cif")
 
 [node name="Frame" parent="." unique_id=1663708484 instance=ExtResource("4_1yayg")]
 
-[node name="Boss" parent="." unique_id=888170605 instance=ExtResource("5_x6n70")]
-position = Vector2(880, 128)
+[node name="MultBoss" parent="." unique_id=954285450 instance=ExtResource("4_5lgh2")]
 
 [node name="player_raft" parent="." unique_id=1967880753 instance=ExtResource("6_gjtl7")]
 position = Vector2(210, 48)
@@ -79,7 +78,7 @@ text = "Regaining sync..."
 
 [node name="NetworkTimer" type="Node" parent="." unique_id=761118955]
 script = ExtResource("9_5lgh2")
-wait_ticks = 200
+wait_ticks = 120
 metadata/_custom_type_script = "uid://102ie0rnxebk"
 
 [node name="BuoyParent" type="Node2D" parent="." unique_id=741954056]

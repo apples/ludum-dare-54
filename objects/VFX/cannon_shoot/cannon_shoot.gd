@@ -7,6 +7,8 @@ var ball_t := 0.0
 @onready var explode_fx = $ExplodeFX
 @onready var blast_fx = $BlastFX
 
+var boss = null
+
 var ball_flying := false
 var ball_speed := 1.0
 
@@ -21,7 +23,11 @@ func _ready():
 	if extra_shot:
 		self_modulate = Color.TRANSPARENT
 	
-	target = get_node('/root/gameplay/Boss/CannonTarget').global_position
+	boss = get_node_or_null('/root/gameplay/Boss')
+	if !boss:
+		boss = get_node_or_null('/root/MultiplayerTest/MultBoss')
+	target = boss.get_node("CannonTarget").global_position
+	
 	target += Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * 32.0
 	var start = global_position
 	var end = target
@@ -57,7 +63,7 @@ func _process(delta):
 		explode_fx.global_position = target
 		explode_fx.emitting = true
 		$Timer.start(1.0)
-		get_node('/root/gameplay/Boss').health -= damage
+		boss.health -= damage
 	else:
 		var i = ball_t * float(ball_path.size()-1)
 		var a = ball_path[int(i)]

@@ -1,12 +1,14 @@
 extends Node
 
+@onready var mult_rng = $NetworkRandomNumberGenerator
+
 var is_multiplayer = false
 
-var current_rand = 10: # will be sybced as long all players call this the same total number of times
-	get:
-		var r = current_rand
-		current_rand = rand_from_seed(current_rand)[0]
-		return r
+#var current_rand = 10: # will be sybced as long all players call this the same total number of times
+	#get:
+		#var r = current_rand
+		#current_rand = rand_from_seed(current_rand)[0]
+		#return r
 
 var is_hosting := false
 

@@ -67,8 +67,8 @@ func _spawn_function(chosenSpawn) -> Node:
 	buoy.item.position = Vector2(0, -8)
 	buoy.add_child(buoy.item)
 	
-	buoy.name = "buoy" + str(MULT_UTILS.current_rand)
-	buoy.item.name = "item" + str(MULT_UTILS.current_rand)
+	buoy.name = "buoy" + str(MULT_UTILS.mult_rng.randi())
+	buoy.item.name = "item" + str(MULT_UTILS.mult_rng.randi())
 	
 	return buoy
 

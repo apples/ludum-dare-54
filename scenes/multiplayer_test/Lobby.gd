@@ -87,7 +87,7 @@ func _on_SyncManager_sync_started():
 		player2.set_multiplayer_authority(tempId)
 		$"../player_raft".players.append(player2)
 		players[tempId] = player2
-		MULT_UTILS.current_rand = tempId
+		MULT_UTILS.mult_rng.set_seed(tempId)
 	else:
 		SyncManager.start_logging("user://detailed_logs/Horse2.log")
 		var tempId = multiplayer.get_unique_id()
@@ -95,7 +95,7 @@ func _on_SyncManager_sync_started():
 		player2.set_multiplayer_authority(tempId)
 		$"../player_raft".players.append(player2)
 		players[tempId] = player2
-		MULT_UTILS.current_rand = tempId
+		MULT_UTILS.mult_rng.set_seed(tempId)
 	
 	gameplay.start_game()
 

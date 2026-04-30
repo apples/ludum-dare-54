@@ -173,7 +173,6 @@ func _network_process(input: Dictionary):
 	if not held_object: # try to pickup an object
 		if not interact_disabled and input["interactPressed"]:
 			if facing_obj and facing_obj.is_holdable: # pick up item from raft
-				print("grid pos %s" % facing_obj.grid_pos)
 				raft.pickup_object(facing_obj.grid_pos)
 				held_object = facing_obj
 				facing_obj.position = Vector2.ZERO

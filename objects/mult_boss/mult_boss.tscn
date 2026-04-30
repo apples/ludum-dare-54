@@ -1,18 +1,19 @@
-[gd_scene format=3 uid="uid://db55dqikpqoof"]
+[gd_scene format=3 uid="uid://j2km5o4kenk6"]
 
-[ext_resource type="Texture2D" uid="uid://d3u5e7iuyk16" path="res://assets/textures/char2_base.png" id="1_4b4qy"]
-[ext_resource type="Script" uid="uid://c2ed3bt18ileq" path="res://objects/boss/boss.gd" id="2_tau8x"]
-[ext_resource type="SpriteFrames" uid="uid://c6tnqwadci4ua" path="res://objects/boss/pupil_frames.tres" id="3_fgpyr"]
-[ext_resource type="SpriteFrames" uid="uid://f3e2p2eukvp5" path="res://objects/boss/eye_frames.tres" id="4_uvnq0"]
-[ext_resource type="SpriteFrames" uid="uid://c524gr8xkbw0w" path="res://objects/boss/mouth_frames.tres" id="5_nfts5"]
-[ext_resource type="SpriteFrames" uid="uid://pwrnp4gmr0jd" path="res://assets/char2_fadeout.tres" id="6_nmpi0"]
-[ext_resource type="AnimationLibrary" uid="uid://b0u81dbshlaik" path="res://objects/boss/animation_library.res" id="6_y80qs"]
-[ext_resource type="Texture2D" uid="uid://b0f4ii8880exo" path="res://assets/textures/healthbar.png" id="7_68mms"]
-[ext_resource type="AnimationNodeBlendTree" uid="uid://b1jxfet7myqqm" path="res://objects/boss/blend_tree.tres" id="8_c2cxv"]
-[ext_resource type="Texture2D" uid="uid://bmi05uwgklewy" path="res://assets/textures/bomb_explosion.png" id="8_ych7h"]
-[ext_resource type="AudioStream" uid="uid://svqdr5vwvgld" path="res://assets/sfx/bagguy_hit.ogg" id="10_0hmrm"]
-[ext_resource type="AudioStream" uid="uid://b8qaisy0585n7" path="res://assets/sfx/bagguy_ouch.ogg" id="11_5ud4b"]
-[ext_resource type="AudioStream" uid="uid://kn2wii8sp7pq" path="res://assets/music/bgm_badguy_drums.ogg" id="13_hmbe7"]
+[ext_resource type="Script" uid="uid://c6fu0loxt7hlg" path="res://objects/mult_boss/mult_boss.gd" id="1_gjqef"]
+[ext_resource type="Texture2D" uid="uid://d3u5e7iuyk16" path="res://assets/textures/char2_base.png" id="2_gu457"]
+[ext_resource type="SpriteFrames" uid="uid://c6tnqwadci4ua" path="res://objects/boss/pupil_frames.tres" id="3_qeae6"]
+[ext_resource type="SpriteFrames" uid="uid://f3e2p2eukvp5" path="res://objects/boss/eye_frames.tres" id="4_tdmkk"]
+[ext_resource type="SpriteFrames" uid="uid://c524gr8xkbw0w" path="res://objects/boss/mouth_frames.tres" id="5_7c8fu"]
+[ext_resource type="SpriteFrames" uid="uid://pwrnp4gmr0jd" path="res://assets/char2_fadeout.tres" id="6_xi1th"]
+[ext_resource type="AnimationLibrary" uid="uid://b0u81dbshlaik" path="res://objects/boss/animation_library.res" id="7_31mbo"]
+[ext_resource type="AnimationNodeBlendTree" uid="uid://b1jxfet7myqqm" path="res://objects/boss/blend_tree.tres" id="8_mndmy"]
+[ext_resource type="Texture2D" uid="uid://b0f4ii8880exo" path="res://assets/textures/healthbar.png" id="9_mfjc4"]
+[ext_resource type="Texture2D" uid="uid://bmi05uwgklewy" path="res://assets/textures/bomb_explosion.png" id="10_sn3xr"]
+[ext_resource type="AudioStream" uid="uid://b8qaisy0585n7" path="res://assets/sfx/bagguy_ouch.ogg" id="11_ye74f"]
+[ext_resource type="AudioStream" uid="uid://svqdr5vwvgld" path="res://assets/sfx/bagguy_hit.ogg" id="12_hhmow"]
+[ext_resource type="AudioStream" uid="uid://kn2wii8sp7pq" path="res://assets/music/bgm_badguy_drums.ogg" id="13_84d4f"]
+[ext_resource type="Script" uid="uid://102ie0rnxebk" path="res://addons/delta_rollback/NetworkTimer.gd" id="14_4loie"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3ht5n"]
 animation = &"fade_in"
@@ -43,7 +44,7 @@ advance_mode = 2
 advance_expression = "is_alive"
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_784dr"]
-states/Normal/node = ExtResource("8_c2cxv")
+states/Normal/node = ExtResource("8_mndmy")
 states/Normal/position = Vector2(479, 54)
 states/Start/position = Vector2(43, 100)
 states/fade_in/node = SubResource("AnimationNodeAnimation_3ht5n")
@@ -61,14 +62,10 @@ particles_anim_h_frames = 16
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[node name="Boss" type="Node2D" unique_id=954285450]
+[node name="MultBoss" type="Node2D" unique_id=954285450 groups=["network_sync"]]
 z_index = 250
 position = Vector2(864, 128)
-script = ExtResource("2_tau8x")
-
-[node name="NextAttack" type="Timer" parent="." unique_id=619006830]
-one_shot = true
-autostart = true
+script = ExtResource("1_gjqef")
 
 [node name="TossSource" type="Node2D" parent="." unique_id=1246310190]
 position = Vector2(0, 64)
@@ -76,24 +73,24 @@ position = Vector2(0, 64)
 [node name="FaceRig" type="Node2D" parent="." unique_id=1373678885]
 
 [node name="Base" type="Sprite2D" parent="FaceRig" unique_id=1294932322]
-texture = ExtResource("1_4b4qy")
+texture = ExtResource("2_gu457")
 
 [node name="Pupils" type="AnimatedSprite2D" parent="FaceRig" unique_id=946777997]
-sprite_frames = ExtResource("3_fgpyr")
+sprite_frames = ExtResource("3_qeae6")
 
 [node name="Eyes" type="AnimatedSprite2D" parent="FaceRig" unique_id=1973707196]
-sprite_frames = ExtResource("4_uvnq0")
+sprite_frames = ExtResource("4_tdmkk")
 
 [node name="Mouth" type="AnimatedSprite2D" parent="FaceRig" unique_id=600757651]
-sprite_frames = ExtResource("5_nfts5")
+sprite_frames = ExtResource("5_7c8fu")
 animation = &"1"
 
 [node name="FadeAnim" type="AnimatedSprite2D" parent="." unique_id=1499344852]
 visible = false
-sprite_frames = ExtResource("6_nmpi0")
+sprite_frames = ExtResource("6_xi1th")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1672797734]
-libraries/ = ExtResource("6_y80qs")
+libraries/ = ExtResource("7_31mbo")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=2130694153]
 tree_root = SubResource("AnimationNodeStateMachine_784dr")
@@ -127,20 +124,16 @@ offset_left = -27.0
 offset_top = 91.0
 offset_right = 6.0
 offset_bottom = 378.0
-texture = ExtResource("7_68mms")
+texture = ExtResource("9_mfjc4")
 expand_mode = 1
 stretch_mode = 1
 flip_v = true
-
-[node name="StunTimer" type="Timer" parent="." unique_id=851908737]
-wait_time = 10.0
-one_shot = true
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="." unique_id=1041944105]
 material = SubResource("CanvasItemMaterial_6abmh")
 emitting = false
 amount = 16
-texture = ExtResource("8_ych7h")
+texture = ExtResource("10_sn3xr")
 emission_shape = 3
 emission_rect_extents = Vector2(60, 60)
 gravity = Vector2(0, 0)
@@ -153,19 +146,33 @@ anim_speed_max = 5.0
 wait_time = 5.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=655104821]
-stream = ExtResource("11_5ud4b")
+stream = ExtResource("11_ye74f")
 bus = &"Sound_effects"
 
 [node name="OuchSFX" type="AudioStreamPlayer" parent="." unique_id=1404369686]
-stream = ExtResource("10_0hmrm")
+stream = ExtResource("12_hhmow")
 bus = &"Sound_effects"
 
 [node name="BossMusic" type="AudioStreamPlayer2D" parent="." unique_id=908765248]
-stream = ExtResource("13_hmbe7")
+stream = ExtResource("13_84d4f")
 autoplay = true
 bus = &"BossMusic"
 
-[connection signal="timeout" from="NextAttack" to="." method="_on_next_attack_timeout"]
+[node name="NextAttack" type="Node" parent="." unique_id=1856519188]
+script = ExtResource("14_4loie")
+autostart = true
+one_shot = true
+wait_ticks = 60
+metadata/_custom_type_script = "uid://102ie0rnxebk"
+
+[node name="StunTimer" type="Node" parent="." unique_id=42420568]
+script = ExtResource("14_4loie")
+autostart = true
+one_shot = true
+wait_ticks = 360
+metadata/_custom_type_script = "uid://102ie0rnxebk"
+
 [connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]
-[connection signal="timeout" from="StunTimer" to="." method="_on_stun_timer_timeout"]
 [connection signal="timeout" from="CPUParticles2D/ExplosionTimer" to="CPUParticles2D" method="set_emitting" binds= [false]]
+[connection signal="timeout" from="NextAttack" to="." method="_on_next_attack_timeout"]
+[connection signal="timeout" from="StunTimer" to="." method="_on_stun_timer_timeout"]
