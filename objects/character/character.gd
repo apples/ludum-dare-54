@@ -132,9 +132,6 @@ func _ready():
 	position = raft.grid_pos_to_global_position(grid_pos)
 
 func _process(delta):
-	if !is_multiplayer_authority():
-		return
-	
 	# handle input before anything else
 	var input = _get_player_input()
 	

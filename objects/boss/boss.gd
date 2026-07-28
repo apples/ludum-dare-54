@@ -83,8 +83,6 @@ func _ready():
 	animation_tree.active = true
 	is_stunned = true
 	_set_healthbar(0)
-	if !raft:
-		get_node_or_null("../player_raft")
 	if raft:
 		$StunTimer.start(stun_length)
 
