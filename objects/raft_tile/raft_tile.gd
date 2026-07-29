@@ -12,6 +12,7 @@ var grid_pos: Vector2i
 
 @onready var fire_sprite = $FireSprite
 @onready var fire_damage_timer = $FireDamageTimer
+@onready var fire_damage_timer_mult = $FireDamageMultTimer
 
 @export var health: int = 3 :
 	set = _set_health
@@ -55,6 +56,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if MULT_UTILS.is_multiplayer:
+		return
+	
 	if is_on_fire:
 		if not fire_burning.playing:
 			fire_burning.play()
@@ -78,29 +82,26 @@ func _process(delta):
 	fire_sprite.visible = is_on_fire
 
 #does actually need to be network process in order to grab player input
-#i THINK fire needs to be synced for rollback reasons
-#func _network_process(input: Dictionary):
-	#if is_on_fire:
-		#if not fire_burning.playing:
-			#fire_burning.play()
-		#if fire_damage_timer.is_stopped():
-			#fire_damage_timer.start()
-		#if player_obj != null:
-			#fire_damage_timer.paused = true
-			#if player_obj.is_standing():
-				#if input['interact']:
-					#if Input.is_action_just_pressed("interact"):
-						#fire_health -= 0.1
-					#fire_health -= 1.0 / 60.0
-		#else:
-			#fire_damage_timer.paused = false
-		#fire_fix_meter.value = fire_health / fire_max_health
-		#fire_fix_meter.visible = fire_health < fire_max_health
-	#else:
-		#fire_burning.stop()
-		#fire_damage_timer.stop()
-	#
-	#fire_sprite.visible = is_on_fire
+func _network_process(input: Dictionary):
+	if is_on_fire:
+		if not fire_burning.playing:
+			fire_burning.play()
+		if fire_damage_timer_mult.is_stopped():
+			fire_damage_timer_mult.start()
+		if player_obj != null:
+			fire_damage_timer_mult.pause()
+			if player_obj.is_standing():
+				if input['interact']:
+					fire_health -= 1.0 / 60.0
+		else:
+			fire_damage_timer_mult.unpause()
+		fire_fix_meter.value = fire_health / fire_max_health
+		fire_fix_meter.visible = fire_health < fire_max_health
+	else:
+		fire_burning.stop()
+		fire_damage_timer_mult.stop()
+	
+	fire_sprite.visible = is_on_fire
 
 #used to set player "local tiles"
 #func _on_body_entered(body):
@@ -198,26 +199,36 @@ func _on_fire_damage_timer_timeout():
 	damage(1)
 	spread_fire_to_adjacent_tiles()
 
+func _on_fire_damage_mult_timer_timeout() -> void:
+	if not is_on_fire:
+		return
+	damage(1)
+	spread_fire_to_adjacent_tiles()
+
 func spread_fire_to_adjacent_tiles():
 	var adjacent_tiles = get_surrounding_tiles()
 	
 	for tile in adjacent_tiles:
-		var fire_spread_chance = randi_range(0, 5)
+		var fire_spread_chance
+		if MULT_UTILS.is_multiplayer:
+			fire_spread_chance = MULT_UTILS.mult_rng.randi_range(0, 5)
+		else:
+			fire_spread_chance = randi_range(0, 5)
 		
 		if fire_spread_chance == 1:
 			tile.ignite()
 
-func _save_state() -> Dictionary: #temporarily disabled sync, reenable group when ready
+func _save_state() -> Dictionary:
 	return {
 		health = health,
-		is_on_fire = is_on_fire,
-		tile_object = tile_object,
+		fire_health = fire_health,
+		tile_object_name = tile_object.name if tile_object else null,
 	}
 
 func _load_state(state: Dictionary) -> void:
 	health = state['health']
-	is_on_fire = state['is_on_fire']
-	tile_object = state['tile_object']
+	fire_health = state['fire_health']
+	tile_object = get_parent().find_child(state['tile_object_name']) if state['tile_object_name'] != null else null
 #
 func _network_spawn(data: Dictionary) -> void:
 	raft_ref = get_parent()

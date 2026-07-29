@@ -6,14 +6,14 @@ var raft
 
 var dead = false
 
-var spawnables = {
-	"water" : preload("res://objects/raft_objects/water_bucket.tscn"),
-	"wood" : preload("res://objects/raft_objects/driftwood.tscn"),
-	"bomb" : preload("res://objects/raft_objects/bomb.tscn"),
-	"gem" : preload("res://objects/raft_objects/gem.tscn"),
-	"hammer" : preload("res://objects/raft_objects/hammer.tscn"),
-	"cannon" : preload("res://objects/raft_objects/cannon.tscn"),
-}
+#var spawnables = {
+	#"water" : preload("res://objects/raft_objects/water_bucket.tscn"),
+	#"wood" : preload("res://objects/raft_objects/driftwood.tscn"),
+	#"bomb" : preload("res://objects/raft_objects/bomb.tscn"),
+	#"gem" : preload("res://objects/raft_objects/gem.tscn"),
+	#"hammer" : preload("res://objects/raft_objects/hammer.tscn"),
+	#"cannon" : preload("res://objects/raft_objects/cannon.tscn"),
+#}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -22,7 +22,7 @@ func _ready():
 
 
 func _network_spawn(data):
-	item = SyncManager.spawn("item", self, spawnables[data.item], {})
+	item = SyncManager.spawn("item", self, GLOBAL_VARS.spawnables[data.item], {})
 	position = data.pos
 	item.position = Vector2(0, -8)
 

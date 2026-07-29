@@ -171,7 +171,8 @@ func create_tile(grid_pos: Vector2i, tile_scene: PackedScene):
 	
 	var new_tile
 	if MULT_UTILS.is_multiplayer:
-		new_tile = SyncManager.spawn("Tile_%s" % [grid_pos], self, tile_scene, {})
+		var tile_name = "Tile_%s_%s" % [grid_pos.x, grid_pos.y]
+		new_tile = SyncManager.spawn(tile_name, self, tile_scene, {})
 	else:
 		new_tile = tile_scene.instantiate()
 		new_tile.name = "Tile_%s" % [grid_pos]
@@ -222,9 +223,22 @@ func generate_medium_raft():
 		for c in range(6,11):
 			create_tile(Vector2i(c, r), raft_tile_scene)
 			
-	replace_tile(Vector2i(6, 9), raft_tile_driftwood_scene)
-	replace_tile(Vector2i(7, 9), raft_tile_driftwood_scene)
-	replace_tile(Vector2i(9, 9), raft_tile_driftwood_scene)
+	if GLOBAL_VARS.multiplayer:
+		pass
+		#moved to gameplay for sync reasons
+		#var item = SyncManager.spawn("item1", self, GLOBAL_VARS.spawnables["wood"], {})
+		#place_object(Vector2(6, 9), item)
+		#item.position = Vector2(0, 0)
+		#item = SyncManager.spawn("item2", self, GLOBAL_VARS.spawnables["wood"], {})
+		#place_object(Vector2(7, 9), item)
+		#item.position = Vector2(0, 0)
+		#item = SyncManager.spawn("item3", self, GLOBAL_VARS.spawnables["wood"], {})
+		#place_object(Vector2(9, 9), item)
+		#item.position = Vector2(0, 0)
+	else:
+		replace_tile(Vector2i(6, 9), raft_tile_driftwood_scene)
+		replace_tile(Vector2i(7, 9), raft_tile_driftwood_scene)
+		replace_tile(Vector2i(9, 9), raft_tile_driftwood_scene)
 
 
 func generate_hard_raft():

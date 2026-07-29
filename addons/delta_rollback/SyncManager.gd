@@ -1431,6 +1431,8 @@ func sort_dictionary_keys(input: Dictionary) -> Dictionary:
 func spawn(name: String, parent: Node, scene: PackedScene, data = {}, rename: bool = true) -> Node:
 	if not started:
 		var res = scene.instantiate()
+		res.name = name # I really don't know why this doesn't happen by default, should probably be careful about duplicate names here
+		res.set_meta("spawn_name", name) # might cause some problems with _init methods
 		parent.add_child(res)
 		_spawn_manager._init_node(res, data)
 		return res

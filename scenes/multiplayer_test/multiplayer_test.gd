@@ -58,6 +58,16 @@ func _process(_delta: float) -> void:
 
 func start_game() -> void:
 	$NetworkTimer.start()
+	
+	var item = SyncManager.spawn("item1", self, GLOBAL_VARS.spawnables["wood"], {})
+	raft.place_object(Vector2(6, 9), item)
+	item.position = Vector2(0, 0)
+	item = SyncManager.spawn("item2", self, GLOBAL_VARS.spawnables["wood"], {})
+	raft.place_object(Vector2(7, 9), item)
+	item.position = Vector2(0, 0)
+	item = SyncManager.spawn("item3", self, GLOBAL_VARS.spawnables["wood"], {})
+	raft.place_object(Vector2(9, 9), item)
+	item.position = Vector2(0, 0)
 
 ## BUOY SPAWNING
 func _pick_spawnable():

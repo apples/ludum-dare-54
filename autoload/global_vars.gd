@@ -6,6 +6,15 @@ enum {
 	DIFF_HARD,
 }
 
+var spawnables = {
+	"water" : preload("res://objects/raft_objects/water_bucket.tscn"),
+	"wood" : preload("res://objects/raft_objects/driftwood.tscn"),
+	"bomb" : preload("res://objects/raft_objects/bomb.tscn"),
+	"gem" : preload("res://objects/raft_objects/gem.tscn"),
+	"hammer" : preload("res://objects/raft_objects/hammer.tscn"),
+	"cannon" : preload("res://objects/raft_objects/cannon.tscn"),
+}
+
 var score = 0
 var level = 1
 var upgradeCharges = 1

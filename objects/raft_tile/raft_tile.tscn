@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://cy00b2n8c0qqk" path="res://assets/sfx/fire_burning.wav" id="4_31wf6"]
 [ext_resource type="Texture2D" uid="uid://b05by44t0qh7e" path="res://assets/textures/smoke_8x8.png" id="4_stnok"]
 [ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="4_wyl8w"]
+[ext_resource type="Script" uid="uid://102ie0rnxebk" path="res://addons/delta_rollback/NetworkTimer.gd" id="7_lnj4u"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5tnp2"]
 atlas = ExtResource("2_t1sf4")
@@ -43,7 +44,7 @@ size = Vector2(32, 32)
 offsets = PackedFloat32Array(0, 0.363095, 0.428571, 1)
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
 
-[node name="raft_tile" type="Area2D" unique_id=940781841 groups=["tile"]]
+[node name="raft_tile" type="Area2D" unique_id=940781841 groups=["network_sync", "tile"]]
 collision_layer = 2
 script = ExtResource("1_swvh2")
 
@@ -89,6 +90,12 @@ stream = ExtResource("4_31wf6")
 volume_db = -10.0
 bus = &"Sound_effects"
 
+[node name="FireDamageMultTimer" type="Node" parent="." unique_id=1899673844]
+script = ExtResource("7_lnj4u")
+wait_ticks = 300
+metadata/_custom_type_script = "uid://102ie0rnxebk"
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
 [connection signal="timeout" from="FireDamageTimer" to="." method="_on_fire_damage_timer_timeout"]
+[connection signal="timeout" from="FireDamageMultTimer" to="." method="_on_fire_damage_mult_timer_timeout"]

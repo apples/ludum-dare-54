@@ -1,6 +1,6 @@
 extends Node
 
-@onready var mult_rng = $NetworkRandomNumberGenerator
+@onready var mult_rng : NetworkRandomNumberGenerator = $NetworkRandomNumberGenerator
 
 var is_multiplayer = false
 

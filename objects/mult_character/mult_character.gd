@@ -80,6 +80,7 @@ func _get_local_input() -> Dictionary:
 	input["right"] = Input.is_action_pressed("right")
 	input["up"] = Input.is_action_pressed("up")
 	input["down"] = Input.is_action_pressed("down")
+	input["interact"] = Input.is_action_pressed("interact")
 	input["interactPressed"] = Input.is_action_just_pressed("interact")
 	input["cancelPressed"] = Input.is_action_just_pressed("cancel")
 	input["executePressed"] = Input.is_action_just_pressed("execute")
