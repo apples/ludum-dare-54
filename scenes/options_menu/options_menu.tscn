@@ -1,8 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dlslfoveebcid"]
+[gd_scene format=3 uid="uid://dlslfoveebcid"]
 
-[ext_resource type="Script" path="res://scenes/options_menu/options_menu.gd" id="1_edtaa"]
-[ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://objects/frame/frame.tscn" id="2_7e7i4"]
-[ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="6_usc0r"]
+[ext_resource type="Script" uid="uid://3d3d3qvr8qnr" path="res://scenes/options_menu/options_menu.gd" id="1_edtaa"]
+[ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://singleplayer_objects/frame/frame.tscn" id="2_7e7i4"]
+[ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://singleplayer_objects/boss/boss.tscn" id="6_usc0r"]
 [ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="7_88vrr"]
 [ext_resource type="AudioStream" uid="uid://d222ejqx1c61w" path="res://assets/sfx/zoop.wav" id="7_d1nr4"]
 

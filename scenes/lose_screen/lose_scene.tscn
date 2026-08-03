@@ -1,9 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://dowipxnaqq1y7"]
+[gd_scene format=3 uid="uid://dowipxnaqq1y7"]
 
-[ext_resource type="Script" path="res://scenes/lose_screen/lose_scene.gd" id="1_kmbcc"]
+[ext_resource type="Script" uid="uid://dpkjjrrhig76q" path="res://scenes/lose_screen/lose_scene.gd" id="1_kmbcc"]
 [ext_resource type="Texture2D" uid="uid://cy1k3rakxqggd" path="res://assets/textures/lose.png" id="2_ti8qi"]
-[ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://objects/frame/frame.tscn" id="2_vprdf"]
-[ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="3_w37j5"]
+[ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://singleplayer_objects/frame/frame.tscn" id="2_vprdf"]
+[ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://singleplayer_objects/boss/boss.tscn" id="3_w37j5"]
 [ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="4_r8axq"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_oijh1"]

@@ -1,7 +1,7 @@
 @tool
 extends EditorScript
 
-var base: PackedScene = load("res://objects/raft_objects/raft_object.tscn")
+var base: PackedScene = load("res://singleplayer_objects/raft_objects/raft_object.tscn")
 
 func _run():
 	get_editor_interface().save_scene()

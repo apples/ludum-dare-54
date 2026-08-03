@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://bnnskls5d5og6"]
+
+[ext_resource type="Texture2D" uid="uid://db2miqtwbyiwy" path="res://assets/textures/bomb.png" id="1_0x6u7"]
+[ext_resource type="Script" uid="uid://b3ixqnms1h5i8" path="res://singleplayer_objects/raft_objects/bomb.gd" id="1_n0rwi"]
+[ext_resource type="PackedScene" uid="uid://cbabtsw1lkkct" path="res://singleplayer_objects/raft_objects/raft_object.tscn" id="3_m5lts"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j82av"]
+atlas = ExtResource("1_0x6u7")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8smia"]
+atlas = ExtResource("1_0x6u7")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ekjkn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j82av")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8smia")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="bomb" instance=ExtResource("3_m5lts")]
+script = ExtResource("1_n0rwi")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_ekjkn")
+autoplay = "default"

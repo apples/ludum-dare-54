@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=7 format=3 uid="uid://pwrnp4gmr0jd"]
+[gd_resource type="SpriteFrames" format=3 uid="uid://pwrnp4gmr0jd"]
 
 [ext_resource type="Texture2D" uid="uid://dsoaqxesa5x5e" path="res://assets/textures/char2_fadeout.png" id="1_skxaq"]
 
@@ -40,7 +40,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_stja8")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]

@@ -1,9 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://cp30wt1ago535"]
+[gd_scene format=3 uid="uid://cp30wt1ago535"]
 
-[ext_resource type="Script" path="res://scenes/upgrade_select/upgrade_select.gd" id="1_n80f4"]
+[ext_resource type="Script" uid="uid://dfqvcmlkhx8hs" path="res://scenes/upgrade_select/upgrade_select.gd" id="1_n80f4"]
 [ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="1_q26wp"]
 [ext_resource type="Texture2D" uid="uid://bxw6lmushninn" path="res://assets/textures/spacebar_frames.png" id="3_2le3d"]
-[ext_resource type="PackedScene" uid="uid://bfmc3bv8rgnl3" path="res://objects/module_select_widget/module_select_widget.tscn" id="3_6oeuw"]
+[ext_resource type="PackedScene" uid="uid://bfmc3bv8rgnl3" path="res://singleplayer_objects/module_select_widget/module_select_widget.tscn" id="3_6oeuw"]
 [ext_resource type="Texture2D" uid="uid://b7jwxfl5bst8b" path="res://assets/textures/keycap_frames.png" id="4_u3xe4"]
 [ext_resource type="Texture2D" uid="uid://ccemrr8cwl7r6" path="res://assets/textures/keycap.png" id="5_s4up3"]
 

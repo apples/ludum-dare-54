@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://ctylu0clgg7ay"]
+
+[ext_resource type="Script" uid="uid://dbwv8a02akr53" path="res://singleplayer_objects/raft_objects/water_bucket.gd" id="1_or1c1"]
+[ext_resource type="Texture2D" uid="uid://k3qht7uajmwr" path="res://assets/textures/water_bucket.png" id="1_wbukr"]
+[ext_resource type="PackedScene" uid="uid://cbabtsw1lkkct" path="res://singleplayer_objects/raft_objects/raft_object.tscn" id="3_0r53x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8qcws"]
+atlas = ExtResource("1_wbukr")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4q8o8"]
+atlas = ExtResource("1_wbukr")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s3l70"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8qcws")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4q8o8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="water_bucket" instance=ExtResource("3_0r53x")]
+script = ExtResource("1_or1c1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_s3l70")
+autoplay = "default"

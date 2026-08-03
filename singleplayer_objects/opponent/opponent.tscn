@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://46w0tf7nycar"]
+
+[ext_resource type="PackedScene" uid="uid://gyhxh16efgsf" path="res://singleplayer_objects/character/character.tscn" id="1_5kvim"]
+[ext_resource type="Script" uid="uid://c1av0s0bysvhm" path="res://singleplayer_objects/opponent/opponent.gd" id="1_j5owr"]
+
+[node name="Opponent" instance=ExtResource("1_5kvim")]
+script = ExtResource("1_j5owr")

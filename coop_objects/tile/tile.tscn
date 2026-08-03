@@ -1,0 +1,105 @@
+[gd_scene format=3 uid="uid://ccbmhcegodpul"]
+
+[ext_resource type="Script" uid="uid://cjancw84trpo0" path="res://coop_objects/tile/tile.gd" id="1_t3ak0"]
+[ext_resource type="Texture2D" uid="uid://ba2lrx4jj1x3m" path="res://assets/textures/raff.png" id="2_f8yy2"]
+[ext_resource type="Texture2D" uid="uid://cqbpyq532ek02" path="res://assets/textures/fire.png" id="3_54oyg"]
+[ext_resource type="Texture2D" uid="uid://b05by44t0qh7e" path="res://assets/textures/smoke_8x8.png" id="4_g2lgu"]
+[ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="5_vc3qp"]
+[ext_resource type="AudioStream" uid="uid://cy00b2n8c0qqk" path="res://assets/sfx/fire_burning.wav" id="6_pcs78"]
+[ext_resource type="Script" uid="uid://102ie0rnxebk" path="res://addons/delta_rollback/NetworkTimer.gd" id="7_pvyr2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_54oyg"]
+atlas = ExtResource("2_f8yy2")
+region = Rect2(0, 0, 32, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g2lgu"]
+atlas = ExtResource("2_f8yy2")
+region = Rect2(32, 0, 32, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vc3qp"]
+atlas = ExtResource("2_f8yy2")
+region = Rect2(64, 0, 32, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fvkgo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_54oyg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g2lgu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vc3qp")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pcs78"]
+atlas = ExtResource("3_54oyg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pvyr2"]
+atlas = ExtResource("3_54oyg")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l3aa2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pcs78")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pvyr2")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_fvkgo"]
+offsets = PackedFloat32Array(0, 0.363, 0.429, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="Tile" type="Node2D" unique_id=1071285121 groups=["network_sync"]]
+script = ExtResource("1_t3ak0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=343529710]
+position = Vector2(0, 10.5)
+sprite_frames = SubResource("SpriteFrames_fvkgo")
+
+[node name="Fire" type="AnimatedSprite2D" parent="." unique_id=171869222]
+sprite_frames = SubResource("SpriteFrames_l3aa2")
+autoplay = "default"
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Fire" unique_id=393907192]
+texture = ExtResource("4_g2lgu")
+lifetime = 0.3
+randomness = 0.1
+emission_shape = 1
+emission_sphere_radius = 16.0
+gravity = Vector2(0, -500)
+color_ramp = SubResource("Gradient_fvkgo")
+
+[node name="ProgressBar" type="ProgressBar" parent="Fire" unique_id=1125466859]
+offset_left = -16.0
+offset_top = 17.0
+offset_right = 16.0
+offset_bottom = 22.0
+theme = ExtResource("5_vc3qp")
+max_value = 1.0
+value = 1.0
+show_percentage = false
+
+[node name="Burning" type="AudioStreamPlayer" parent="." unique_id=860521160]
+stream = ExtResource("6_pcs78")
+bus = &"Sound_effects"
+
+[node name="FireNetworkTimer" type="Node" parent="." unique_id=1670047148]
+script = ExtResource("7_pvyr2")
+wait_ticks = 300
+metadata/_custom_type_script = "uid://102ie0rnxebk"
+
+[connection signal="timeout" from="FireNetworkTimer" to="." method="_on_fire_network_timer_timeout"]

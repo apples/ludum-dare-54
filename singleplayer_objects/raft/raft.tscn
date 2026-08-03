@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://xb7mdny33p7e"]
+
+[ext_resource type="Script" uid="uid://5b7e6uqiudj1" path="res://singleplayer_objects/raft/raft.gd" id="1_bh8yu"]
+[ext_resource type="AudioStream" uid="uid://bbtiuerh6ttx4" path="res://assets/sfx/raft_hit_cannonball.ogg" id="2_yhgk4"]
+
+[node name="raft" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_bh8yu")
+
+[node name="raft_hit_cannonball" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_yhgk4")

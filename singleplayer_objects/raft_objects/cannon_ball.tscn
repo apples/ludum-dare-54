@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dk27weyrqhb7n"]
+
+[ext_resource type="Script" uid="uid://bmikgxosf8ri8" path="res://singleplayer_objects/raft_objects/cannon_ball.gd" id="1_jrbcx"]
+[ext_resource type="Texture2D" uid="uid://c4pcetsk4y7oy" path="res://assets/textures/cannonball.png" id="2_qykon"]
+[ext_resource type="PackedScene" uid="uid://cbabtsw1lkkct" path="res://singleplayer_objects/raft_objects/raft_object.tscn" id="3_mvc7t"]
+
+[node name="CannonBall" instance=ExtResource("3_mvc7t")]
+script = ExtResource("1_jrbcx")
+
+[node name="Sprite2D" type="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_qykon")

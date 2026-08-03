@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://o12ndw11l4ek"]
+
+[ext_resource type="Script" uid="uid://dm565k546b4mc" path="res://singleplayer_objects/player/player.gd" id="1_5evaa"]
+[ext_resource type="PackedScene" uid="uid://gyhxh16efgsf" path="res://singleplayer_objects/character/character.tscn" id="1_rhq3x"]
+
+[node name="Player" unique_id=1606679833 instance=ExtResource("1_rhq3x")]
+script = ExtResource("1_5evaa")
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+frame_progress = 0.875096

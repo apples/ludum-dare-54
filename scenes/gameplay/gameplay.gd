@@ -1,7 +1,7 @@
 extends Node2D
 signal module_valid_connection_updated(valid)
 
-var module_ui_scene = preload("res://objects/module_ui/module_ui.tscn")
+var module_ui_scene = preload("res://singleplayer_objects/module_ui/module_ui.tscn")
 var upgrade_select_scene = preload("res://scenes/upgrade_select/upgrade_select.tscn")
 var lose_screen_scene_file = "res://scenes/lose_screen/lose_scene.tscn"
 
@@ -199,4 +199,3 @@ func delete_children(node):
 	for n in node.get_children():
 		node.remove_child(n)
 		n.queue_free()
-

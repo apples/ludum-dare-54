@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://c2sftjwrp202o"]
+
+[ext_resource type="PackedScene" uid="uid://bntus5i5oiycw" path="res://coop_objects/frame/frame.tscn" id="1_ao7wb"]
+[ext_resource type="Script" uid="uid://blfmwswarpr4w" path="res://scenes/mult_coop/coop_gameplay.gd" id="1_hvyaj"]
+[ext_resource type="PackedScene" uid="uid://c2r5waegywblf" path="res://coop_objects/boss/boss.tscn" id="3_r3pep"]
+[ext_resource type="Script" uid="uid://102ie0rnxebk" path="res://addons/delta_rollback/NetworkTimer.gd" id="4_yaq1m"]
+
+[node name="CoopGameplay" type="Node2D" unique_id=1664179620]
+script = ExtResource("1_hvyaj")
+
+[node name="Frame" parent="." unique_id=1448582416 instance=ExtResource("1_ao7wb")]
+
+[node name="Boss" parent="." unique_id=976065110 instance=ExtResource("3_r3pep")]
+position = Vector2(880, 128)
+
+[node name="Score" type="Label" parent="." unique_id=175553259]
+offset_left = 101.0
+offset_top = 38.0
+offset_right = 141.0
+offset_bottom = 61.0
+text = "0"
+
+[node name="Level" type="Label" parent="." unique_id=875626928]
+offset_left = 92.0
+offset_top = 486.0
+offset_right = 132.0
+offset_bottom = 509.0
+text = "0"
+
+[node name="Charges" type="Label" parent="." unique_id=2057221966]
+offset_left = 279.0
+offset_top = 10.0
+offset_right = 319.0
+offset_bottom = 33.0
+text = "0"
+
+[node name="NetworkTimer" type="Node" parent="." unique_id=1546440446]
+script = ExtResource("4_yaq1m")
+metadata/_custom_type_script = "uid://102ie0rnxebk"

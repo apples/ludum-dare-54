@@ -1,35 +1,35 @@
-[gd_scene load_steps=10 format=3 uid="uid://bynqvjcdpggd0"]
+[gd_scene format=3 uid="uid://bynqvjcdpggd0"]
 
-[ext_resource type="Script" path="res://scenes/gameplay/gameplay.gd" id="1_8n8ih"]
-[ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://objects/frame/frame.tscn" id="2_erp0v"]
-[ext_resource type="PackedScene" uid="uid://xb7mdny33p7e" path="res://objects/raft/raft.tscn" id="2_k13pe"]
-[ext_resource type="PackedScene" uid="uid://o12ndw11l4ek" path="res://objects/player/player.tscn" id="4_85nev"]
+[ext_resource type="Script" uid="uid://dopx6u8xnkyaw" path="res://scenes/gameplay/gameplay.gd" id="1_8n8ih"]
+[ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://singleplayer_objects/frame/frame.tscn" id="2_erp0v"]
+[ext_resource type="PackedScene" uid="uid://xb7mdny33p7e" path="res://singleplayer_objects/raft/raft.tscn" id="2_k13pe"]
+[ext_resource type="PackedScene" uid="uid://o12ndw11l4ek" path="res://singleplayer_objects/player/player.tscn" id="4_85nev"]
 [ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="8_2ifv0"]
-[ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="8_86bl7"]
+[ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://singleplayer_objects/boss/boss.tscn" id="8_86bl7"]
 [ext_resource type="AudioStream" uid="uid://bqwvc1mimfnlo" path="res://assets/sfx/river_water_moving.ogg" id="9_ojlhc"]
-[ext_resource type="Script" path="res://objects/raft/item_spawner.gd" id="10_kdn02"]
+[ext_resource type="Script" uid="uid://jjg8y8exshsv" path="res://singleplayer_objects/raft/item_spawner.gd" id="10_kdn02"]
 [ext_resource type="AudioStream" uid="uid://bflv5fnr5rfe2" path="res://assets/music/down_the_river.ogg" id="11_8jgfc"]
 
-[node name="gameplay" type="Node2D"]
+[node name="gameplay" type="Node2D" unique_id=1443684810]
 y_sort_enabled = true
 script = ExtResource("1_8n8ih")
 
-[node name="Frame" parent="." instance=ExtResource("2_erp0v")]
+[node name="Frame" parent="." unique_id=1493157849 instance=ExtResource("2_erp0v")]
 
-[node name="Boss" parent="." node_paths=PackedStringArray("raft") instance=ExtResource("8_86bl7")]
+[node name="Boss" parent="." unique_id=438761802 node_paths=PackedStringArray("raft") instance=ExtResource("8_86bl7")]
 position = Vector2(880, 128)
 raft = NodePath("../player_raft")
 
-[node name="player_raft" parent="." node_paths=PackedStringArray("player") instance=ExtResource("2_k13pe")]
+[node name="player_raft" parent="." unique_id=503519935 node_paths=PackedStringArray("player") instance=ExtResource("2_k13pe")]
 position = Vector2(210, 48)
 player = NodePath("../Player")
 
-[node name="Player" parent="." node_paths=PackedStringArray("raft") instance=ExtResource("4_85nev")]
+[node name="Player" parent="." unique_id=1724429509 node_paths=PackedStringArray("raft") instance=ExtResource("4_85nev")]
 z_index = 1
 position = Vector2(478, 288)
 raft = NodePath("../player_raft")
 
-[node name="Score" type="Label" parent="."]
+[node name="Score" type="Label" parent="." unique_id=815606940]
 z_index = 500
 offset_left = 101.0
 offset_top = 35.0
@@ -40,7 +40,7 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
 text = "0"
 
-[node name="Level" type="Label" parent="."]
+[node name="Level" type="Label" parent="." unique_id=1149520329]
 z_index = 500
 offset_left = 97.0
 offset_top = 483.0
@@ -51,7 +51,7 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
 text = "1"
 
-[node name="Charges" type="Label" parent="."]
+[node name="Charges" type="Label" parent="." unique_id=1330255261]
 z_index = 500
 offset_left = 296.0
 offset_right = 337.0
@@ -61,21 +61,21 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 38
 text = "0"
 
-[node name="ItemSpawner" type="Node2D" parent="." node_paths=PackedStringArray("raft")]
+[node name="ItemSpawner" type="Node2D" parent="." unique_id=346712417 node_paths=PackedStringArray("raft")]
 script = ExtResource("10_kdn02")
 raft = NodePath("../player_raft")
 
-[node name="Timer" type="Timer" parent="ItemSpawner"]
+[node name="Timer" type="Timer" parent="ItemSpawner" unique_id=1949818237]
 wait_time = 5.0
 one_shot = true
 autostart = true
 
-[node name="BG_sound_effect" type="AudioStreamPlayer" parent="."]
+[node name="BG_sound_effect" type="AudioStreamPlayer" parent="." unique_id=1323910435]
 stream = ExtResource("9_ojlhc")
 autoplay = true
 bus = &"Sound_effects"
 
-[node name="BGM" type="AudioStreamPlayer2D" parent="."]
+[node name="BGM" type="AudioStreamPlayer2D" parent="." unique_id=1829835799]
 stream = ExtResource("11_8jgfc")
 autoplay = true
 bus = &"Music"

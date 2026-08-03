@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=31 format=3 uid="uid://gyet4lfrp57h"]
+[gd_resource type="SpriteFrames" format=3 uid="uid://gyet4lfrp57h"]
 
 [ext_resource type="Texture2D" uid="uid://be8cty1rfnqn" path="res://assets/textures/char1_sprite.png" id="1_mtpdg"]
 [ext_resource type="Texture2D" uid="uid://b6qklapa0tcp8" path="res://assets/textures/char1_hold_sprite.png" id="2_4drha"]
@@ -130,7 +130,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_a5223")
 }],
-"loop": true,
+"loop": 1,
 "name": &"down",
 "speed": 5.0
 }, {
@@ -147,7 +147,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_o4prp")
 }],
-"loop": true,
+"loop": 1,
 "name": &"fix",
 "speed": 5.0
 }, {
@@ -164,7 +164,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_mcjui")
 }],
-"loop": true,
+"loop": 1,
 "name": &"hold_down",
 "speed": 5.0
 }, {
@@ -181,7 +181,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_vipvd")
 }],
-"loop": true,
+"loop": 1,
 "name": &"hold_left",
 "speed": 5.0
 }, {
@@ -198,7 +198,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_iohwf")
 }],
-"loop": true,
+"loop": 1,
 "name": &"hold_right",
 "speed": 5.0
 }, {
@@ -215,7 +215,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_em8t0")
 }],
-"loop": true,
+"loop": 1,
 "name": &"hold_up",
 "speed": 5.0
 }, {
@@ -232,7 +232,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ndouf")
 }],
-"loop": true,
+"loop": 1,
 "name": &"left",
 "speed": 5.0
 }, {
@@ -249,7 +249,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_pbwgh")
 }],
-"loop": true,
+"loop": 1,
 "name": &"right",
 "speed": 5.0
 }, {
@@ -257,7 +257,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ct4pf")
 }],
-"loop": true,
+"loop": 1,
 "name": &"sit",
 "speed": 5.0
 }, {
@@ -274,7 +274,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cg8mo")
 }],
-"loop": true,
+"loop": 1,
 "name": &"up",
 "speed": 5.0
 }]

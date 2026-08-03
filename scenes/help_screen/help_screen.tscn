@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://btqfyyto4bbqj"]
+[gd_scene format=3 uid="uid://btqfyyto4bbqj"]
 
-[ext_resource type="Script" path="res://scenes/help_screen/help_screen.gd" id="1_my7bu"]
-[ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://objects/frame/frame.tscn" id="1_vkil2"]
-[ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://objects/boss/boss.tscn" id="2_8ee24"]
+[ext_resource type="Script" uid="uid://cutj77h1desa8" path="res://scenes/help_screen/help_screen.gd" id="1_my7bu"]
+[ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://singleplayer_objects/frame/frame.tscn" id="1_vkil2"]
+[ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://singleplayer_objects/boss/boss.tscn" id="2_8ee24"]
 [ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="4_2nsxa"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_n4y43"]
