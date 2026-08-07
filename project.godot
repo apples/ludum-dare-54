@@ -28,6 +28,7 @@ MusicManager="*res://autoload/music_manager.tscn"
 UTILS="*res://autoload/utils.tscn"
 MobileOverlay="*res://autoload/mobile_overlay.tscn"
 SyncManager="*uid://xohxvtt4jjfo"
+MULT_UTILS="*uid://dj80m2bek2qwa"
 
 [display]
 

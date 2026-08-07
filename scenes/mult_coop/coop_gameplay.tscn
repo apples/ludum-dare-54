@@ -3,7 +3,10 @@
 [ext_resource type="PackedScene" uid="uid://bntus5i5oiycw" path="res://coop_objects/frame/frame.tscn" id="1_ao7wb"]
 [ext_resource type="Script" uid="uid://blfmwswarpr4w" path="res://scenes/mult_coop/coop_gameplay.gd" id="1_hvyaj"]
 [ext_resource type="PackedScene" uid="uid://c2r5waegywblf" path="res://coop_objects/boss/boss.tscn" id="3_r3pep"]
+[ext_resource type="PackedScene" uid="uid://dn10jnwgm3tre" path="res://coop_objects/raft/raft.tscn" id="4_vaf5l"]
 [ext_resource type="Script" uid="uid://102ie0rnxebk" path="res://addons/delta_rollback/NetworkTimer.gd" id="4_yaq1m"]
+[ext_resource type="AudioStream" uid="uid://bflv5fnr5rfe2" path="res://assets/music/down_the_river.ogg" id="6_yorhr"]
+[ext_resource type="AudioStream" uid="uid://bqwvc1mimfnlo" path="res://assets/sfx/river_water_moving.ogg" id="7_vdmc8"]
 
 [node name="CoopGameplay" type="Node2D" unique_id=1664179620]
 script = ExtResource("1_hvyaj")
@@ -12,6 +15,8 @@ script = ExtResource("1_hvyaj")
 
 [node name="Boss" parent="." unique_id=976065110 instance=ExtResource("3_r3pep")]
 position = Vector2(880, 128)
+
+[node name="Raft" parent="." unique_id=503271954 instance=ExtResource("4_vaf5l")]
 
 [node name="Score" type="Label" parent="." unique_id=175553259]
 offset_left = 101.0
@@ -37,3 +42,13 @@ text = "0"
 [node name="NetworkTimer" type="Node" parent="." unique_id=1546440446]
 script = ExtResource("4_yaq1m")
 metadata/_custom_type_script = "uid://102ie0rnxebk"
+
+[node name="BGM" type="AudioStreamPlayer" parent="." unique_id=1550827489]
+stream = ExtResource("6_yorhr")
+autoplay = true
+bus = &"Music"
+
+[node name="WaterSFX" type="AudioStreamPlayer" parent="." unique_id=1008372397]
+stream = ExtResource("7_vdmc8")
+autoplay = true
+bus = &"Sound_effects"

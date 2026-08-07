@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://dpeaqiietnegy"]
+
+[ext_resource type="SpriteFrames" uid="uid://gyet4lfrp57h" path="res://assets/player_sprite_frames.tres" id="1_3kvjk"]
+[ext_resource type="Script" uid="uid://ca1mr6t8mre21" path="res://coop_objects/player/player.gd" id="1_j664l"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fvkgo"]
+radius = 20.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fvkgo"]
+size = Vector2(28, 28)
+
+[node name="Player" type="CharacterBody2D" unique_id=1636118768]
+script = ExtResource("1_j664l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=237016637]
+shape = SubResource("CircleShape2D_fvkgo")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=308514878]
+sprite_frames = ExtResource("1_3kvjk")
+animation = &"down"
+
+[node name="GrabArea" type="Area2D" parent="." unique_id=1608145833]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GrabArea" unique_id=1825310776]
+shape = SubResource("RectangleShape2D_fvkgo")
+
+[node name="HoldRoot" type="Node2D" parent="." unique_id=687105030]

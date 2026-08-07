@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dj80m2bek2qwa"]
+
+[ext_resource type="Script" uid="uid://xidpmie2rwgq" path="res://autoload/mult_utils.gd" id="1_n68bh"]
+[ext_resource type="Script" uid="uid://kdu6lvrwghaj" path="res://addons/delta_rollback/NetworkRandomNumberGenerator.gd" id="2_ufl3g"]
+
+[node name="MultUtils" type="Node" unique_id=115655526]
+script = ExtResource("1_n68bh")
+
+[node name="NetworkRandomNumberGenerator" type="Node" parent="." unique_id=1322471346]
+script = ExtResource("2_ufl3g")
+metadata/_custom_type_script = "uid://kdu6lvrwghaj"

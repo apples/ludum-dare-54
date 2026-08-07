@@ -6,6 +6,9 @@ var tile_break_scene = preload("res://singleplayer_objects/VFX/tile_break/tile_b
 @export var tile_object: Node
 var tile_object_name : StringName
 
+var raft_ref: CoopRaft
+var grid_pos: Vector2i
+
 @onready var burning_sfx = $Burning
 @onready var fire_sprite = $Fire
 @onready var fire_progress = $Fire/ProgressBar
@@ -39,7 +42,7 @@ func _set_health(value: int):
 	health = value
 	if health <= 0:
 		queue_free()
-		var tile_break= tile_break_scene.instantiate() #does this need to be mult spawned? just visual, but queue_free could replicate out before _set_health gets hit
+		var tile_break= tile_break_scene.instantiate() #TODO does this need to be mult spawned? just visual, but queue_free could replicate out before _set_health gets hit
 		tile_break.position = self.position
 		get_parent().add_child(tile_break)
 	else:
@@ -82,12 +85,11 @@ func _on_fire_network_timer_timeout() -> void:
 		return
 	damage(1)
 	
-	assert(false, "need to implement grabbing adjascent neighbors in raft class")
-	var adjacent_tiles = []
+	var adjacent_tiles = raft_ref.get_adjacent_tiles(grid_pos)
 	for tile in adjacent_tiles:
-		var fire_spread_chance = randi_range(0, 5)
+		var fire_spread_chance = MULT_UTILS.mult_rng.randi_range(0, 5)
 		
-		if fire_spread_chance == 1:
+		if fire_spread_chance == 0:
 			tile.ignite()
 
 
