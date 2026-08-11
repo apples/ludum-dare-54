@@ -1,4 +1,4 @@
-extends CharacterBody2D
+class_name CoopPlayer extends CharacterBody2D
 
 @export var raft: CoopRaft
 
@@ -65,3 +65,8 @@ func _save_state() -> Dictionary:
 func _load_state(state: Dictionary) -> void:
 	grid_pos = state['grid_pos']
 	last_grid_pos = state['last_grid_pos']
+
+func _network_spawn(data: Dictionary) -> void:
+	grid_pos = data.get("grid_pos")
+	last_grid_pos = grid_pos
+	position = raft.grid_pos_to_global_position(grid_pos)

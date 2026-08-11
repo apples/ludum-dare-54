@@ -50,6 +50,8 @@ var music_vol: float:
 	set(v):
 		boss_music.volume_db = linear_to_db(v)
 
+func _ready() -> void:
+	AudioServer.set_bus_mute(AudioServer.get_bus_index("BossMusic"), true)
 
 func _set_healthbar(t: float):
 	health_bar.size.y = health_bar_initial_height * t

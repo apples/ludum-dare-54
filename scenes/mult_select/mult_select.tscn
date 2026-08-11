@@ -1,3 +1,87 @@
 [gd_scene format=3 uid="uid://cq1blbsf371uo"]
 
+[ext_resource type="Script" uid="uid://dbrqj00g48h5p" path="res://scenes/mult_select/mult_select.gd" id="1_5uqkn"]
+[ext_resource type="PackedScene" uid="uid://bntus5i5oiycw" path="res://coop_objects/frame/frame.tscn" id="1_81mnu"]
+[ext_resource type="PackedScene" uid="uid://c2r5waegywblf" path="res://coop_objects/boss/boss.tscn" id="2_5uqkn"]
+[ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="4_qs35y"]
+
 [node name="MultSelect" type="Node2D" unique_id=1418272728]
+script = ExtResource("1_5uqkn")
+
+[node name="Frame" parent="." unique_id=1448582416 instance=ExtResource("1_81mnu")]
+
+[node name="Boss" parent="." unique_id=976065110 instance=ExtResource("2_5uqkn")]
+position = Vector2(880, 128)
+
+[node name="Coop" type="Label" parent="." unique_id=1543703501]
+offset_left = 458.0
+offset_top = 163.0
+offset_right = 509.0
+offset_bottom = 186.0
+theme = ExtResource("4_qs35y")
+theme_override_font_sizes/font_size = 32
+text = "CO-OP"
+
+[node name="CHost" type="Button" parent="Coop" unique_id=2004637956]
+layout_mode = 0
+offset_left = -88.0
+offset_top = 31.0
+offset_right = 13.0
+offset_bottom = 65.0
+theme = ExtResource("4_qs35y")
+text = "HOST"
+
+[node name="CJoin" type="Button" parent="Coop" unique_id=762168390]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 31.0
+offset_right = 142.0
+offset_bottom = 65.0
+theme = ExtResource("4_qs35y")
+text = "JOIN"
+
+[node name="Versus" type="Label" parent="." unique_id=172895180]
+offset_left = 453.0
+offset_top = 288.0
+offset_right = 512.0
+offset_bottom = 311.0
+theme = ExtResource("4_qs35y")
+theme_override_font_sizes/font_size = 32
+text = "VERSUS"
+
+[node name="VHost" type="Button" parent="Versus" unique_id=1261323088]
+layout_mode = 0
+offset_left = -84.0
+offset_top = 38.0
+offset_right = 17.0
+offset_bottom = 72.0
+theme = ExtResource("4_qs35y")
+text = "HOST"
+
+[node name="VJoin" type="Button" parent="Versus" unique_id=1497497180]
+layout_mode = 0
+offset_left = 53.0
+offset_top = 38.0
+offset_right = 154.0
+offset_bottom = 72.0
+theme = ExtResource("4_qs35y")
+text = "JOIN"
+
+[node name="LineEdit" type="LineEdit" parent="." unique_id=1225327697]
+offset_left = 402.0
+offset_top = 469.0
+offset_right = 573.0
+offset_bottom = 500.0
+placeholder_text = "127.0.0.1"
+
+[node name="Label" type="Label" parent="." unique_id=1669948163]
+offset_left = 459.0
+offset_top = 437.0
+offset_right = 499.0
+offset_bottom = 460.0
+text = "IP:"
+
+[connection signal="pressed" from="Coop/CHost" to="." method="_on_c_host_pressed"]
+[connection signal="pressed" from="Coop/CJoin" to="." method="_on_c_join_pressed"]
+[connection signal="pressed" from="Versus/VHost" to="." method="_on_v_host_pressed"]
+[connection signal="pressed" from="Versus/VJoin" to="." method="_on_v_join_pressed"]

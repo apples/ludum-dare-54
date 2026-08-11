@@ -9,7 +9,7 @@ radius = 20.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fvkgo"]
 size = Vector2(28, 28)
 
-[node name="Player" type="CharacterBody2D" unique_id=1636118768]
+[node name="Player" type="CharacterBody2D" unique_id=1636118768 groups=["network_sync"]]
 script = ExtResource("1_j664l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=237016637]

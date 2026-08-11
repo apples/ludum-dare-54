@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dg72v4woihvei" path="res://coop_objects/raft/raft.gd" id="1_gchu3"]
 [ext_resource type="AudioStream" uid="uid://bbtiuerh6ttx4" path="res://assets/sfx/raft_hit_cannonball.ogg" id="2_2rwrh"]
 
-[node name="Raft" type="Node2D" unique_id=503271954]
+[node name="Raft" type="Node2D" unique_id=503271954 groups=["network_sync"]]
 script = ExtResource("1_gchu3")
 
 [node name="Hit" type="AudioStreamPlayer" parent="." unique_id=1613217156]

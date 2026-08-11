@@ -71,6 +71,7 @@ position = Vector2(0, 10.5)
 sprite_frames = SubResource("SpriteFrames_fvkgo")
 
 [node name="Fire" type="AnimatedSprite2D" parent="." unique_id=171869222]
+visible = false
 sprite_frames = SubResource("SpriteFrames_l3aa2")
 autoplay = "default"
 

@@ -2,7 +2,7 @@ class_name CoopRaft extends Node2D
 
 const TILE_SPACING := Vector2(32, 32)
 
-var raft_tile_scene = preload("res://singleplayer_objects/raft_tile/raft_tile.tscn")
+var raft_tile_scene = preload("res://coop_objects/tile/tile.tscn")
 
 var tiles = {}
 
@@ -33,3 +33,18 @@ func grid_pos_to_global_position(coord: Vector2i) -> Vector2:
 
 func get_tile(coord: Vector2i):
 	return tiles.get(coord)
+
+func remove_tile(coord: Vector2i):
+	tiles.erase(coord)
+
+func generate_initial_platform():
+	var new_tile : CoopTile
+	for r in range(8,12):
+		for c in range(6,11):
+			new_tile = raft_tile_scene.instantiate()
+			new_tile.name = "Tile_%s_%s" % [c, r]
+			new_tile.raft_ref = self
+			new_tile.grid_pos = Vector2i(c, r)
+			new_tile.position = TILE_SPACING * Vector2(c, r)
+			tiles.set(Vector2i(c, r), new_tile)
+			add_child(new_tile)

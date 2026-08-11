@@ -1,3 +1,45 @@
 [gd_scene format=3 uid="uid://dlscwsmo1ab10"]
 
+[ext_resource type="Script" uid="uid://qmo7ijxtti5n" path="res://scenes/lobby/lobby.gd" id="1_mlusu"]
+[ext_resource type="PackedScene" uid="uid://bntus5i5oiycw" path="res://coop_objects/frame/frame.tscn" id="1_ukx7c"]
+[ext_resource type="PackedScene" uid="uid://c2r5waegywblf" path="res://coop_objects/boss/boss.tscn" id="2_mlusu"]
+
 [node name="Lobby" type="Node2D" unique_id=192613534]
+script = ExtResource("1_mlusu")
+
+[node name="Frame" parent="." unique_id=1448582416 instance=ExtResource("1_ukx7c")]
+
+[node name="Boss" parent="." unique_id=976065110 instance=ExtResource("2_mlusu")]
+position = Vector2(880, 128)
+
+[node name="Label" type="Label" parent="." unique_id=1590641410]
+offset_left = 253.0
+offset_top = 83.0
+offset_right = 314.0
+offset_bottom = 106.0
+text = "Players:"
+
+[node name="CheckButton" type="CheckButton" parent="." unique_id=2015767852]
+offset_left = 616.0
+offset_top = 78.0
+offset_right = 711.0
+offset_bottom = 109.0
+text = "Public"
+
+[node name="StartButton" type="Button" parent="." unique_id=302510503]
+offset_left = 601.0
+offset_top = 350.0
+offset_right = 657.0
+offset_bottom = 381.0
+text = "START"
+
+[node name="Button" type="Button" parent="." unique_id=831438153]
+offset_left = 268.0
+offset_top = 371.0
+offset_right = 318.0
+offset_bottom = 402.0
+text = "BACK"
+
+[connection signal="toggled" from="CheckButton" to="." method="_on_check_button_toggled"]
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
