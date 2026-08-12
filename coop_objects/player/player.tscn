@@ -10,6 +10,8 @@ radius = 20.0
 size = Vector2(28, 28)
 
 [node name="Player" type="CharacterBody2D" unique_id=1636118768 groups=["network_sync"]]
+z_index = 1
+motion_mode = 1
 script = ExtResource("1_j664l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=237016637]

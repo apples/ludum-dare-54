@@ -33,12 +33,11 @@ func on_sync_start():
 	mult_ids.sort()
 	
 	var player : CoopPlayer
-	var initial_pos = Vector2i(11, 8)
+	var initial_pos = Vector2i(10, 8)
 	for peer in mult_ids:
 		player = SyncManager.spawn("Player" + str(peer), self, player_scene, {grid_pos = initial_pos})
 		initial_pos += Vector2i.LEFT
 		player.set_multiplayer_authority(peer)
-		player.raft = raft
 	
 	if multiplayer.is_server():
 		SyncManager.start_logging("user://detailed_logs/Horse1.log")

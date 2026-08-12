@@ -22,6 +22,9 @@ var push_ticks := 0
 
 
 func _network_process(input: Dictionary):
+	if !input:
+		return
+	
 	var lr: int = (1 if input["right"] else 0) - (1 if input["left"] else 0)
 	var ud: int = (1 if input["down"] else 0) - (1 if input["up"] else 0)
 	var direction := Vector2i(lr, ud)
@@ -69,4 +72,14 @@ func _load_state(state: Dictionary) -> void:
 func _network_spawn(data: Dictionary) -> void:
 	grid_pos = data.get("grid_pos")
 	last_grid_pos = grid_pos
+	raft = get_parent().find_child("Raft")
 	position = raft.grid_pos_to_global_position(grid_pos)
+
+func _get_local_input() -> Dictionary:
+	var input := {}
+	input["left"] = Input.is_action_pressed("left")
+	input["right"] = Input.is_action_pressed("right")
+	input["up"] = Input.is_action_pressed("up")
+	input["down"] = Input.is_action_pressed("down")
+	input["interact"] = Input.is_action_pressed("interact")
+	return input
