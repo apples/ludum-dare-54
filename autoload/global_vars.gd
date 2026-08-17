@@ -6,6 +6,15 @@ enum {
 	DIFF_HARD,
 }
 
+enum object_type{
+	WOOD,
+	WATER,
+	HAMMER,
+	CANNON,
+	BOMB,
+	GEM
+}
+
 var score = 0
 var level = 1
 var upgradeCharges = 0

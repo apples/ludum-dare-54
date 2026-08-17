@@ -31,13 +31,18 @@ func get_adjacent_tiles(coord : Vector2i):
 func grid_pos_to_global_position(coord: Vector2i) -> Vector2:
 	return global_position + (Vector2(coord.x, coord.y) * TILE_SPACING)
 
-func get_tile(coord: Vector2i):
+func get_tile(coord: Vector2i) -> CoopTile:
 	return tiles.get(coord)
 
-func remove_tile(coord: Vector2i):
+func remove_tile(coord: Vector2i) -> void:
 	tiles.erase(coord)
 
-func generate_initial_platform():
+func place_object(tile: CoopTile, object):
+	tile.tile_object = object
+	tile.tile_object.reparent(tile)
+	#tile.tile_object.grid_pos = tile.grid_pos
+
+func generate_initial_platform() -> void:
 	var new_tile : CoopTile
 	for r in range(8,12):
 		for c in range(6,11):

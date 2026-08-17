@@ -1,0 +1,25 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://bw862dnl0tel0"]
+
+[ext_resource type="Texture2D" uid="uid://k3qht7uajmwr" path="res://assets/textures/water_bucket.png" id="1_cmqc2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ncrmv"]
+atlas = ExtResource("1_cmqc2")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5i8o7"]
+atlas = ExtResource("1_cmqc2")
+region = Rect2(32, 0, 32, 32)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ncrmv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5i8o7")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]

@@ -3,8 +3,11 @@ class_name CoopTile extends Node2D
 var damage_number_scene = preload("res://singleplayer_objects/damage_numbers/damage_numbers.tscn")
 var tile_break_scene = preload("res://singleplayer_objects/VFX/tile_break/tile_break.tscn")
 
-@export var tile_object: Node
+@export var tile_object: CoopItem = null
 var tile_object_name : StringName
+
+var player_ref : CoopPlayer = null
+var player_ref_name : StringName
 
 var raft_ref: CoopRaft
 var grid_pos: Vector2i
@@ -80,6 +83,33 @@ func ignite(amount: int = max_fire_health_ticks):
 		burning_sfx.play()
 		fire_timer.start()
 
+func push(player_grid_pos: Vector2i) -> bool:
+	var dir := grid_pos - player_grid_pos
+	var next_tile = raft_ref.get_tile(grid_pos + dir)
+	
+	if tile_object:
+		if tile_object.is_moving:
+			return false
+		
+		if next_tile && !next_tile.tile_object:
+			tile_object.is_moving = true
+			next_tile.tile_object = tile_object
+			tile_object = null
+			return true
+		else:
+			return false
+	elif player_ref:
+		if player_ref.move_ticks != 0:
+			return false
+		
+		if next_tile && !next_tile.player_ref:
+			next_tile.player_ref = player_ref
+			player_ref = null
+			return true
+		else:
+			return false
+			
+	return false
 
 func _on_fire_network_timer_timeout() -> void:
 	if not is_on_fire:
@@ -99,6 +129,7 @@ func _save_state() -> Dictionary:
 		health = health,
 		fire_health_ticks = fire_health_ticks,
 		tile_object_name = tile_object.name if tile_object else StringName(""),
+		player_ref_name = player_ref.name if player_ref else StringName(""),
 	}
 
 func _load_state(state: Dictionary) -> void:
@@ -107,3 +138,6 @@ func _load_state(state: Dictionary) -> void:
 	if tile_object_name != state['tile_object_name']:
 		tile_object_name = state['tile_object_name']
 		tile_object = get_parent().find_child(tile_object_name) if tile_object_name != StringName("") else null
+	if player_ref_name != state['player_ref_name']:
+		player_ref_name = state['player_ref_name']
+		player_ref = get_parent().find_child(player_ref_name) if player_ref_name != StringName("") else null

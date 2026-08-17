@@ -1,0 +1,25 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://b18injv8x1ht3"]
+
+[ext_resource type="Texture2D" uid="uid://gjuu4n56twal" path="res://assets/textures/driftwood.png" id="1_44pgt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vm7dr"]
+atlas = ExtResource("1_44pgt")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_37dme"]
+atlas = ExtResource("1_44pgt")
+region = Rect2(32, 0, 32, 32)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vm7dr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_37dme")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]

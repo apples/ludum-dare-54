@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cjcvj2iq3844v"]
 
 [ext_resource type="Script" uid="uid://dfbwyd065hitp" path="res://singleplayer_objects/VFX/cannon_shoot/cannon_shoot.gd" id="1_p8e8x"]
-[ext_resource type="SpriteFrames" uid="uid://dn5w6ck5u7ltw" path="res://assets/cannon_sprite_frames.tres" id="2_slnps"]
+[ext_resource type="SpriteFrames" uid="uid://dn5w6ck5u7ltw" path="res://assets/sprite_frames/cannon_sprite_frames.tres" id="2_slnps"]
 [ext_resource type="Texture2D" uid="uid://cvx8tblwa0wnh" path="res://assets/textures/cannonball_16x16.png" id="3_6r4tx"]
 [ext_resource type="Texture2D" uid="uid://bmi05uwgklewy" path="res://assets/textures/bomb_explosion.png" id="3_uho1d"]
 

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b5kjc4dtf8rfy"]
 
 [ext_resource type="Script" uid="uid://dhjq5crvrcbqe" path="res://singleplayer_objects/VFX/cannon_confetti/cannon_confetti.gd" id="1_amjhl"]
-[ext_resource type="SpriteFrames" uid="uid://dn5w6ck5u7ltw" path="res://assets/cannon_sprite_frames.tres" id="2_4yojv"]
+[ext_resource type="SpriteFrames" uid="uid://dn5w6ck5u7ltw" path="res://assets/sprite_frames/cannon_sprite_frames.tres" id="2_4yojv"]
 
 [sub_resource type="Animation" id="Animation_3bvqf"]
 length = 0.001

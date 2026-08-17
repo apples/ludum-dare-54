@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dx3s8nr73iqx"]
 
-[ext_resource type="SpriteFrames" uid="uid://dn5w6ck5u7ltw" path="res://assets/cannon_sprite_frames.tres" id="1_qplhl"]
+[ext_resource type="SpriteFrames" uid="uid://dn5w6ck5u7ltw" path="res://assets/sprite_frames/cannon_sprite_frames.tres" id="1_qplhl"]
 [ext_resource type="Script" uid="uid://ct2m6xoi3y1dr" path="res://singleplayer_objects/raft_objects/cannon.gd" id="2_w3xid"]
 [ext_resource type="PackedScene" uid="uid://cbabtsw1lkkct" path="res://singleplayer_objects/raft_objects/raft_object.tscn" id="3_vstby"]
 

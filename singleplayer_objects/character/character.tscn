@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dq2hajjggev1k" path="res://state_machine/state_machine.gd" id="3_r6tfj"]
 [ext_resource type="Script" uid="uid://dfwi5hlkems84" path="res://singleplayer_objects/character/state_idle.gd" id="4_da5o3"]
 [ext_resource type="Script" uid="uid://brqlml107p22v" path="res://singleplayer_objects/character/state_walking.gd" id="5_ukidj"]
-[ext_resource type="SpriteFrames" uid="uid://gyet4lfrp57h" path="res://assets/player_sprite_frames.tres" id="6_nl5pa"]
+[ext_resource type="SpriteFrames" uid="uid://gyet4lfrp57h" path="res://assets/sprite_frames/player_sprite_frames.tres" id="6_nl5pa"]
 [ext_resource type="Script" uid="uid://dqlsxtvk07q3i" path="res://singleplayer_objects/character/state_extinguish.gd" id="6_ur5xh"]
 [ext_resource type="Script" uid="uid://lfs5ntmftdpy" path="res://singleplayer_objects/character/state_disabled.gd" id="7_bynp1"]
 [ext_resource type="Script" uid="uid://bhgc45x301d7" path="res://singleplayer_objects/character/state_holding.gd" id="8_pch0l"]
@@ -14,45 +14,45 @@ radius = 20.6155
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_82k2k"]
 
-[node name="Character" type="CharacterBody2D" groups=["player"]]
+[node name="Character" type="CharacterBody2D" unique_id=1623213799 groups=["player"]]
 motion_mode = 1
 script = ExtResource("1_eald6")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1171076191]
 shape = SubResource("CircleShape2D_nrjej")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=533342411]
 sprite_frames = ExtResource("6_nl5pa")
 animation = &"down"
 frame_progress = 0.17917
 
-[node name="HoldRoot" type="Node2D" parent="."]
+[node name="HoldRoot" type="Node2D" parent="." unique_id=165347730]
 position = Vector2(0, -16)
 
-[node name="GrabArea" type="Area2D" parent="."]
+[node name="GrabArea" type="Area2D" parent="." unique_id=383592019]
 collision_layer = 0
 collision_mask = 64
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GrabArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GrabArea" unique_id=743346939]
 shape = SubResource("CircleShape2D_82k2k")
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("this", "default_state")]
+[node name="StateMachine" type="Node" parent="." unique_id=1000567332 node_paths=PackedStringArray("this", "default_state")]
 script = ExtResource("3_r6tfj")
 this = NodePath("..")
 default_state = NodePath("Idle")
 
-[node name="Idle" type="Node" parent="StateMachine"]
+[node name="Idle" type="Node" parent="StateMachine" unique_id=411346853]
 script = ExtResource("4_da5o3")
 
-[node name="Walking" type="Node" parent="StateMachine"]
+[node name="Walking" type="Node" parent="StateMachine" unique_id=1704244221]
 script = ExtResource("5_ukidj")
 
-[node name="Extinguish" type="Node" parent="StateMachine"]
+[node name="Extinguish" type="Node" parent="StateMachine" unique_id=1430944104]
 script = ExtResource("6_ur5xh")
 
-[node name="Disabled" type="Node" parent="StateMachine"]
+[node name="Disabled" type="Node" parent="StateMachine" unique_id=1995224825]
 script = ExtResource("7_bynp1")
 
-[node name="Holding" type="Node" parent="StateMachine"]
+[node name="Holding" type="Node" parent="StateMachine" unique_id=1255312166]
 script = ExtResource("8_pch0l")
