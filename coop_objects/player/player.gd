@@ -21,6 +21,7 @@ const move_delay_time_ticks := 6 # really this should be configurable in the opt
 const move_ticks_target := 8
 var move_ticks := 0
 var push_ticks := 0
+var recent_input_dir := Vector2i(0, 0)
 
 func _process(delta: float) -> void:
 	match facing_dir:
@@ -43,7 +44,15 @@ func _network_process(input: Dictionary):
 	var direction := Vector2i(lr, ud)
 	
 	if direction.x != 0 and direction.y != 0: #diagonal
-		direction.y = 0 #TODO when diagonal, most recent input should supercede
+		if recent_input_dir != Vector2i(0, 0):
+			direction = recent_input_dir
+		elif last_direction != Vector2i(0, 0):
+			recent_input_dir = direction - last_direction
+			direction = recent_input_dir
+		else:
+			direction.y = 0
+	else:
+		recent_input_dir = Vector2i(0, 0)
 	
 	if direction != Vector2i(0, 0):
 		facing_dir = direction
@@ -107,6 +116,7 @@ func _save_state() -> Dictionary:
 		last_grid_pos = last_grid_pos,
 		last_direction = last_direction,
 		move_ticks = move_ticks,
+		recent_input_dir = recent_input_dir,
 	}
 
 func _load_state(state: Dictionary) -> void:
@@ -114,6 +124,7 @@ func _load_state(state: Dictionary) -> void:
 	last_grid_pos = state['last_grid_pos']
 	last_direction = state['last_direction']
 	move_ticks = state['move_ticks']
+	recent_input_dir = state['recent_input_dir']
 
 func _network_spawn(data: Dictionary) -> void:
 	grid_pos = data.get("grid_pos")
