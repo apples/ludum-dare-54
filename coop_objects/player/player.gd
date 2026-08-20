@@ -14,7 +14,7 @@ var last_grid_pos: Vector2i = grid_pos
 var facing_dir := Vector2i(1, 0)
 var last_direction : Vector2i
 
-var held_object : Node
+var held_object : CoopItem
 var held_object_name : StringName
 
 const move_delay_time_ticks := 6 # really this should be configurable in the options, 6 = 0.1 seconds
@@ -34,6 +34,7 @@ func _process(delta: float) -> void:
 			anim.play("down")
 
 func _network_process(input: Dictionary):
+	held_object_name = held_object.name if held_object else StringName("")
 	if !input:
 		return
 	
@@ -67,6 +68,8 @@ func _network_process(input: Dictionary):
 					if move_ticks >= move_ticks_target:
 						last_grid_pos = grid_pos
 						grid_pos += direction
+						raft.get_tile(last_grid_pos).player_ref = null
+						raft.get_tile(grid_pos).player_ref = self
 						move_ticks = 0
 		elif facing_tile: # simply walk
 			if move_ticks >= move_ticks_target:
@@ -103,12 +106,14 @@ func _save_state() -> Dictionary:
 		grid_pos = grid_pos,
 		last_grid_pos = last_grid_pos,
 		last_direction = last_direction,
+		move_ticks = move_ticks,
 	}
 
 func _load_state(state: Dictionary) -> void:
 	grid_pos = state['grid_pos']
 	last_grid_pos = state['last_grid_pos']
 	last_direction = state['last_direction']
+	move_ticks = state['move_ticks']
 
 func _network_spawn(data: Dictionary) -> void:
 	grid_pos = data.get("grid_pos")

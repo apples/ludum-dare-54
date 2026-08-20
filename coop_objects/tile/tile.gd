@@ -37,6 +37,9 @@ func _process(delta: float) -> void:
 		fire_progress.value = float(fire_health_ticks) / float(max_fire_health_ticks)
 
 func _network_process(input: Dictionary):
+	player_ref_name = player_ref.name if player_ref else StringName("")
+	tile_object_name = tile_object.name if tile_object else StringName("")
+	
 	if is_on_fire:
 		if SyncManager.current_tick % 4 == 0 && fire_health_ticks < max_fire_health_ticks:
 			fire_health_ticks += 1
