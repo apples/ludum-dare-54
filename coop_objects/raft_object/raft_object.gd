@@ -7,7 +7,8 @@ var is_moving := false
 
 @onready var sprite := $AnimatedSprite2D
 
-const push_speed := 32.0 * 12.0
+#const push_speed := 32.0 * 12.0
+const push_ticks := 32.0 / 12.0
 
 const wood_frames = preload("res://assets/sprite_frames/wood_sprite_frames.tres")
 const water_frames = preload("res://assets/sprite_frames/bucket_sprite_frames.tres")
@@ -17,13 +18,23 @@ const bomb_frames = preload("res://assets/sprite_frames/bomb_sprite_frames.tres"
 const gem_frames = preload("res://assets/sprite_frames/gem_sprite_frames.tres")
 
 func _process(delta: float) -> void:
-	if position != Vector2.ZERO:
-		position = position.move_toward(Vector2.ZERO, push_speed * delta)
+	pass
+	#if position != Vector2.ZERO:
+		#position = position.move_toward(Vector2.ZERO, push_speed * delta)
 
 func _network_process(input: Dictionary):
-	pass
+	if is_moving:
+		position = position.move_toward(Vector2.ZERO, push_ticks)
+		if position == Vector2.ZERO:
+			is_moving = false
 
+func _save_state() -> Dictionary:
+	return {
+		is_moving = is_moving,
+	}
 
+func _load_state(state: Dictionary) -> void:
+	is_moving = state['is_moving']
 
 func _network_spawn(data: Dictionary) -> void:
 	type = data.type

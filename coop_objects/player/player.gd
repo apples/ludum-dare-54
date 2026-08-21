@@ -100,7 +100,6 @@ func _network_process(input: Dictionary):
 			pass
 	
 	if input["debug1"]:
-		print("debugged")
 		SyncManager.spawn("debugItem", raft.get_tile(grid_pos), debug_item, {type = GLOBAL_VARS.object_type.WOOD})
 	
 	move_ticks += 1

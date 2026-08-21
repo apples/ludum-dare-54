@@ -98,6 +98,7 @@ func push(player_grid_pos: Vector2i) -> bool:
 			tile_object.is_moving = true
 			next_tile.tile_object = tile_object
 			tile_object = null
+			next_tile.tile_object.reparent(next_tile)
 			return true
 		else:
 			return false
