@@ -3,10 +3,16 @@ class_name CoopTile extends Node2D
 var damage_number_scene = preload("res://singleplayer_objects/damage_numbers/damage_numbers.tscn")
 var tile_break_scene = preload("res://singleplayer_objects/VFX/tile_break/tile_break.tscn")
 
-@export var tile_object: CoopItem = null
+@export var tile_object: CoopItem = null:
+	set(value):
+		tile_object = value
+		tile_object_name = tile_object.name if tile_object else StringName("")
 var tile_object_name : StringName
 
-var player_ref : CoopPlayer = null
+var player_ref : CoopPlayer = null:
+	set(value):
+		player_ref = value
+		player_ref_name = player_ref.name if player_ref else StringName("")
 var player_ref_name : StringName
 
 var raft_ref: CoopRaft
@@ -37,8 +43,8 @@ func _process(delta: float) -> void:
 		fire_progress.value = float(fire_health_ticks) / float(max_fire_health_ticks)
 
 func _network_process(input: Dictionary):
-	player_ref_name = player_ref.name if player_ref else StringName("")
-	tile_object_name = tile_object.name if tile_object else StringName("")
+	#player_ref_name = player_ref.name if player_ref else StringName("")
+	#tile_object_name = tile_object.name if tile_object else StringName("")
 	
 	if is_on_fire:
 		if SyncManager.current_tick % 4 == 0 && fire_health_ticks < max_fire_health_ticks:
@@ -94,25 +100,20 @@ func push(player_grid_pos: Vector2i) -> bool:
 		if tile_object.is_moving:
 			return false
 		
-		if next_tile && !next_tile.tile_object:
+		if next_tile && !next_tile.tile_object && !next_tile.player_ref:
 			tile_object.is_moving = true
 			next_tile.tile_object = tile_object
 			tile_object = null
 			next_tile.tile_object.reparent(next_tile)
 			return true
-		else:
-			return false
 	elif player_ref:
-		if player_ref.move_ticks != 0:
+		if player_ref.move_ticks <= player_ref.move_ticks_target:
 			return false
 		
-		if next_tile && !next_tile.player_ref:
-			next_tile.player_ref = player_ref
-			player_ref = null
+		if next_tile && !next_tile.player_ref && !next_tile.tile_object:
+			player_ref.walk(dir)
 			return true
-		else:
-			return false
-			
+	
 	return false
 
 func _on_fire_network_timer_timeout() -> void:
@@ -132,8 +133,8 @@ func _save_state() -> Dictionary:
 	return {
 		health = health,
 		fire_health_ticks = fire_health_ticks,
-		tile_object_name = tile_object.name if tile_object else StringName(""),
-		player_ref_name = player_ref.name if player_ref else StringName(""),
+		tile_object_name = tile_object_name,
+		player_ref_name = player_ref_name,
 	}
 
 func _load_state(state: Dictionary) -> void:

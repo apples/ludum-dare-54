@@ -14,7 +14,10 @@ var last_grid_pos: Vector2i = grid_pos
 var facing_dir := Vector2i(1, 0)
 var last_direction : Vector2i
 
-var held_object : CoopItem
+var held_object : CoopItem:
+	set(value):
+		held_object = value
+		held_object_name = held_object.name if held_object else StringName("")
 var held_object_name : StringName
 
 const move_delay_time_ticks := 6 # really this should be configurable in the options, 6 = 0.1 seconds
@@ -35,7 +38,7 @@ func _process(delta: float) -> void:
 			anim.play("down")
 
 func _network_process(input: Dictionary):
-	held_object_name = held_object.name if held_object else StringName("")
+	#held_object_name = held_object.name if held_object else StringName("")
 	if !input:
 		return
 	
@@ -74,19 +77,9 @@ func _network_process(input: Dictionary):
 			push_ticks += 1
 			if push_ticks >= move_delay_time_ticks:
 				if facing_tile.push(grid_pos):
-					if move_ticks >= move_ticks_target:
-						last_grid_pos = grid_pos
-						grid_pos += direction
-						raft.get_tile(last_grid_pos).player_ref = null
-						raft.get_tile(grid_pos).player_ref = self
-						move_ticks = 0
+					walk(direction)
 		elif facing_tile: # simply walk
-			if move_ticks >= move_ticks_target:
-				last_grid_pos = grid_pos
-				grid_pos += direction
-				raft.get_tile(last_grid_pos).player_ref = null
-				raft.get_tile(grid_pos).player_ref = self
-				move_ticks = 0
+			walk(direction)
 	
 	if input["interact"]:
 		if !held_object:
@@ -108,6 +101,14 @@ func _network_process(input: Dictionary):
 		 raft.grid_pos_to_global_position(grid_pos),
 		 clampf(float(move_ticks) / float(move_ticks_target), 0.0, 1.0))
 	last_direction = direction
+
+func walk(direction: Vector2i):
+	if move_ticks >= move_ticks_target:
+		last_grid_pos = grid_pos
+		grid_pos += direction
+		raft.get_tile(last_grid_pos).player_ref = null
+		raft.get_tile(grid_pos).player_ref = self
+		move_ticks = 0
 
 func _save_state() -> Dictionary:
 	return {
@@ -144,3 +145,8 @@ func _get_local_input() -> Dictionary:
 	
 	input["debug1"] = Input.is_action_just_pressed("debug_1")
 	return input
+
+func _predict_remote_input(previous_input: Dictionary, ticks_since_real_input: int) -> Dictionary: # just setting all "is_action_just_pressed" actions to false
+	if ticks_since_real_input > 0:
+		previous_input["interact"] = false
+	return previous_input
