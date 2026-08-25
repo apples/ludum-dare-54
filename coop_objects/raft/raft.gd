@@ -41,7 +41,7 @@ func place_object(tile: CoopTile, object):
 	tile.tile_object = object
 	tile.tile_object.position = tile.position
 	tile.tile_object.target_pos = tile.position
-	check_matches()
+	check_matches(tile)
 
 func pickup_object(tile: CoopTile, player: CoopPlayer) -> void:
 	player.held_object = tile.tile_object
@@ -49,8 +49,37 @@ func pickup_object(tile: CoopTile, player: CoopPlayer) -> void:
 	player.held_object.global_position = player.global_position + Vector2(0, -16)
 	player.held_object.target_pos = player.held_object.position
 
-func check_matches() -> void:
-	pass
+func check_matches(tile: CoopTile) -> void:
+	var start_coord := tile.grid_pos
+	var type := tile.tile_object.type
+	var match_tiles := [tile]
+	
+	var axes = [
+		[Vector2i.LEFT, Vector2i.RIGHT], 
+		[Vector2i.UP, Vector2i.DOWN]
+	]
+	
+	for axis in axes:
+		var axis_matches := []
+		for dir in axis:
+			for i in range(1, 18):
+				var current = get_tile(start_coord + (dir * i))
+				
+				if current && current.tile_object && current.tile_object.type == type:
+					axis_matches.append(current)
+				else:
+					break
+		
+		if axis_matches.size() >= 2:
+			match_tiles.append_array(axis_matches)
+	
+	var level = match_tiles.size() - 2
+	
+	if level < 1:
+		return
+	
+	for m_tile in match_tiles:
+		m_tile.match_effect(type, level)
 
 func generate_initial_platform() -> void:
 	var new_tile : CoopTile

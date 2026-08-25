@@ -107,7 +107,7 @@ func push(player_grid_pos: Vector2i) -> bool:
 			next_tile.tile_object = tile_object
 			tile_object = null
 			next_tile.tile_object.target_pos = next_tile.position
-			raft_ref.check_matches()
+			raft_ref.check_matches(self)
 			return true
 	elif player_ref:
 		if player_ref.move_ticks <= player_ref.move_ticks_target || player_ref.held_object:
