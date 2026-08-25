@@ -49,7 +49,7 @@ func _network_process(input: Dictionary):
 	#tile_object_name = tile_object.name if tile_object else StringName("")
 	
 	if is_on_fire:
-		if SyncManager.current_tick % 4 == 0 && fire_health_ticks < max_fire_health_ticks:
+		if SyncManager.current_tick % 4 == 0 and fire_health_ticks < max_fire_health_ticks:
 			fire_health_ticks += 1
 
 func _set_health(value: int):
@@ -70,7 +70,7 @@ func _set_health(value: int):
 				$AnimatedSprite2D.frame = 0
 
 func _set_fire_health(value: int):
-	if fire_health_ticks > 0 && value == 0:
+	if fire_health_ticks > 0 and value == 0:
 		fire_sprite.visible = false
 		burning_sfx.stop()
 		fire_timer.stop()
@@ -102,7 +102,7 @@ func push(player_grid_pos: Vector2i) -> bool:
 		if tile_object.is_moving:
 			return false
 		
-		if next_tile && !next_tile.tile_object && !next_tile.player_ref:
+		if next_tile and !next_tile.tile_object and !next_tile.player_ref:
 			tile_object.is_moving = true
 			next_tile.tile_object = tile_object
 			tile_object = null
@@ -110,10 +110,10 @@ func push(player_grid_pos: Vector2i) -> bool:
 			raft_ref.check_matches(self)
 			return true
 	elif player_ref:
-		if player_ref.move_ticks <= player_ref.move_ticks_target || player_ref.held_object:
+		if player_ref.move_ticks <= player_ref.move_ticks_target or player_ref.held_object:
 			return false
 		
-		if next_tile && !next_tile.player_ref && !next_tile.tile_object:
+		if next_tile and !next_tile.player_ref and !next_tile.tile_object:
 			player_ref.walk(dir)
 			return true
 	

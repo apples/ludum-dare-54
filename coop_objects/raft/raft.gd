@@ -60,12 +60,12 @@ func check_matches(tile: CoopTile) -> void:
 	]
 	
 	for axis in axes:
-		var axis_matches := []
+		var axis_matches = []
 		for dir in axis:
 			for i in range(1, 18):
 				var current = get_tile(start_coord + (dir * i))
 				
-				if current && current.tile_object && current.tile_object.type == type:
+				if current and current.tile_object and current.tile_object.type == type:
 					axis_matches.append(current)
 				else:
 					break

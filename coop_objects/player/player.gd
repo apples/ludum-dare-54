@@ -69,16 +69,16 @@ func _network_process(input: Dictionary):
 	if direction == Vector2i.ZERO:
 		push_ticks = 0
 	else:
-		if held_object && (last_direction != direction && direction != Vector2i.ZERO): #directional place
-			if facing_player && !facing_player.held_object: #place on ally
+		if held_object and (last_direction != direction and direction != Vector2i.ZERO): #directional place
+			if facing_player and !facing_player.held_object: #place on ally
 				facing_player.held_object = held_object
 				held_object = null
 				facing_player.held_object.global_position = facing_player.global_position + Vector2(0, -16)
 				facing_player.held_object.target_pos = facing_player.held_object.global_position
-			elif facing_tile && !facing_obj: #place on tile
+			elif facing_tile and !facing_obj: #place on tile
 				raft.place_object(facing_tile, held_object)
 				held_object = null
-		elif facing_obj || facing_player: # start pushing
+		elif facing_obj or facing_player: # start pushing
 			push_ticks += 1
 			if push_ticks >= move_delay_time_ticks:
 				if facing_tile.push(grid_pos):
@@ -94,7 +94,7 @@ func _network_process(input: Dictionary):
 				pass
 			else: #pickup buoy
 				pass
-		elif facing_tile && !facing_obj: #swap-drop
+		elif facing_tile and !facing_obj: #swap-drop
 			raft.place_object(raft.get_tile(grid_pos), held_object)
 			held_object = null
 			walk(facing_dir)
