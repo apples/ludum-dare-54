@@ -23,6 +23,8 @@ var grid_pos: Vector2i
 @onready var fire_progress = $Fire/ProgressBar
 @onready var fire_timer = $FireNetworkTimer
 
+@onready var item_parent = $"root/CoopGameplay/ItemParent"
+
 @export var health: int = 3 :
 	set = _set_health
 @export var max_health: int = 3
@@ -104,7 +106,8 @@ func push(player_grid_pos: Vector2i) -> bool:
 			tile_object.is_moving = true
 			next_tile.tile_object = tile_object
 			tile_object = null
-			next_tile.tile_object.reparent(next_tile)
+			next_tile.tile_object.target_pos = next_tile.position
+			raft_ref.check_matches()
 			return true
 	elif player_ref:
 		if player_ref.move_ticks <= player_ref.move_ticks_target:
@@ -142,7 +145,7 @@ func _load_state(state: Dictionary) -> void:
 	fire_health_ticks = state['fire_health_ticks']
 	if tile_object_name != state['tile_object_name']:
 		tile_object_name = state['tile_object_name']
-		tile_object = get_parent().find_child(tile_object_name) if tile_object_name != StringName("") else null
+		tile_object = item_parent.find_child(tile_object_name, false) if tile_object_name != StringName("") else null
 	if player_ref_name != state['player_ref_name']:
 		player_ref_name = state['player_ref_name']
-		player_ref = get_parent().find_child(player_ref_name) if player_ref_name != StringName("") else null
+		player_ref = get_parent().find_child(player_ref_name, false) if player_ref_name != StringName("") else null

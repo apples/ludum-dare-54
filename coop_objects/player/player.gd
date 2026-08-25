@@ -6,6 +6,8 @@ class_name CoopPlayer extends CharacterBody2D
 @onready var hold_root = $HoldRoot
 @onready var grab_area = $GrabArea
 
+@onready var item_parent = $"root/CoopGameplay/ItemParent"
+
 var debug_item = preload("res://coop_objects/raft_object/raft_object.tscn")
 
 var walk_speed := 300
@@ -71,8 +73,11 @@ func _network_process(input: Dictionary):
 			if facing_player && !facing_player.held_object: #place on ally
 				facing_player.held_object = held_object
 				held_object = null
+				facing_player.held_object.global_position = facing_player.global_position + Vector2(0, -16)
+				facing_player.held_object.target_pos = facing_player.held_object.global_position
 			elif facing_tile && !facing_obj: #place on tile
 				raft.place_object(facing_tile, held_object)
+				held_object = null
 		elif facing_obj || facing_player: # start pushing
 			push_ticks += 1
 			if push_ticks >= move_delay_time_ticks:
@@ -84,7 +89,7 @@ func _network_process(input: Dictionary):
 	if input["interact"]:
 		if !held_object:
 			if facing_obj: #pickup object
-				pass
+				raft.pickup_object(facing_tile, self)
 			elif facing_player: #pickup player
 				pass
 			else: #pickup buoy
@@ -93,7 +98,7 @@ func _network_process(input: Dictionary):
 			pass
 	
 	if input["debug1"]:
-		SyncManager.spawn("debugItem", raft.get_tile(grid_pos), debug_item, {type = GLOBAL_VARS.object_type.WOOD})
+		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), debug_item, {type = GLOBAL_VARS.object_type.WOOD, grid_pos = grid_pos})
 	
 	move_ticks += 1
 	global_position = lerp(
@@ -117,6 +122,7 @@ func _save_state() -> Dictionary:
 		last_direction = last_direction,
 		move_ticks = move_ticks,
 		recent_input_dir = recent_input_dir,
+		held_object_name = held_object_name,
 	}
 
 func _load_state(state: Dictionary) -> void:
@@ -125,6 +131,10 @@ func _load_state(state: Dictionary) -> void:
 	last_direction = state['last_direction']
 	move_ticks = state['move_ticks']
 	recent_input_dir = state['recent_input_dir']
+	
+	if held_object_name != state['held_object_name']:
+		held_object_name = state['held_object_name']
+		held_object = item_parent.find_child(held_object_name, false) if held_object_name != StringName("") else null
 
 func _network_spawn(data: Dictionary) -> void:
 	grid_pos = data.get("grid_pos")

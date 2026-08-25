@@ -6,7 +6,7 @@
 [ext_resource type="SpriteFrames" uid="uid://bw862dnl0tel0" path="res://assets/sprite_frames/bucket_sprite_frames.tres" id="4_a5ush"]
 
 [node name="RaftObject" type="Node2D" unique_id=721020548 groups=["network_sync"]]
-z_index = 1
+z_index = 2
 script = ExtResource("1_jvb6y")
 
 [node name="Throw" type="AudioStreamPlayer" parent="." unique_id=1114066009]

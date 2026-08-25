@@ -79,4 +79,7 @@ scroll_active = false
 wait_time = 3.0
 one_shot = true
 
+[node name="ItemParent" type="Node2D" parent="." unique_id=36367041]
+position = Vector2(210, 48)
+
 [connection signal="timeout" from="DisconnectMessage/DisconnectTimer" to="." method="_on_disconnect_timer_timeout"]

@@ -4,6 +4,7 @@ var grid_pos: Vector2i
 var type : GLOBAL_VARS.object_type
 
 var is_moving := false
+var target_pos = Vector2.ZERO
 
 @onready var sprite := $AnimatedSprite2D
 
@@ -24,22 +25,30 @@ func _process(delta: float) -> void:
 
 func _network_process(input: Dictionary):
 	if is_moving:
-		position = position.move_toward(Vector2.ZERO, push_ticks)
-		if position == Vector2.ZERO:
+		position = position.move_toward(target_pos, push_ticks)
+		if position == target_pos:
 			is_moving = false
 
 func _save_state() -> Dictionary:
 	return {
 		is_moving = is_moving,
+		target_pos = target_pos,
 	}
 
 func _load_state(state: Dictionary) -> void:
 	is_moving = state['is_moving']
+	target_pos = state['target_pos']
 
 func _network_spawn(data: Dictionary) -> void:
 	type = data.type
 	
-	get_parent().tile_object = self
+	var raft : CoopRaft = get_parent().get_parent().find_child("Raft", false)
+	var tile = raft.get_tile(data.grid_pos)
+	
+	position = tile.position
+	target_pos = position
+	
+	tile.tile_object = self
 	
 	match type:
 		GLOBAL_VARS.object_type.WOOD:
