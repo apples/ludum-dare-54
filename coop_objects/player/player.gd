@@ -95,7 +95,9 @@ func _network_process(input: Dictionary):
 			else: #pickup buoy
 				pass
 		elif facing_tile && !facing_obj: #swap-drop
-			pass
+			raft.place_object(raft.get_tile(grid_pos), held_object)
+			held_object = null
+			walk(facing_dir)
 	
 	if input["debug1"]:
 		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), debug_item, {type = GLOBAL_VARS.object_type.WOOD, grid_pos = grid_pos})

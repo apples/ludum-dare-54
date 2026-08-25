@@ -110,7 +110,7 @@ func push(player_grid_pos: Vector2i) -> bool:
 			raft_ref.check_matches()
 			return true
 	elif player_ref:
-		if player_ref.move_ticks <= player_ref.move_ticks_target:
+		if player_ref.move_ticks <= player_ref.move_ticks_target || player_ref.held_object:
 			return false
 		
 		if next_tile && !next_tile.player_ref && !next_tile.tile_object:
