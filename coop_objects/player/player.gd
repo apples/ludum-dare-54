@@ -101,6 +101,16 @@ func _network_process(input: Dictionary):
 	
 	if input["debug1"]:
 		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), debug_item, {type = GLOBAL_VARS.object_type.WOOD, grid_pos = grid_pos})
+	if input["debug2"]:
+		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), debug_item, {type = GLOBAL_VARS.object_type.WATER, grid_pos = grid_pos})
+	if input["debug3"]:
+		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), debug_item, {type = GLOBAL_VARS.object_type.HAMMER, grid_pos = grid_pos})
+	if input["debug4"]:
+		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), debug_item, {type = GLOBAL_VARS.object_type.CANNON, grid_pos = grid_pos})
+	if input["debug5"]:
+		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), debug_item, {type = GLOBAL_VARS.object_type.BOMB, grid_pos = grid_pos})
+	if input["debug6"]:
+		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), debug_item, {type = GLOBAL_VARS.object_type.GEM, grid_pos = grid_pos})
 	
 	move_ticks += 1
 	global_position = lerp(
@@ -156,6 +166,11 @@ func _get_local_input() -> Dictionary:
 	input["interact"] = Input.is_action_just_pressed("interact")
 	
 	input["debug1"] = Input.is_action_just_pressed("debug_1")
+	input["debug2"] = Input.is_action_just_pressed("debug_2")
+	input["debug3"] = Input.is_action_just_pressed("debug_3")
+	input["debug4"] = Input.is_action_just_pressed("debug_4")
+	input["debug5"] = Input.is_action_just_pressed("debug_5")
+	input["debug6"] = Input.is_action_just_pressed("debug_6")
 	return input
 
 func _predict_remote_input(previous_input: Dictionary, ticks_since_real_input: int) -> Dictionary: # just setting all "is_action_just_pressed" actions to false
