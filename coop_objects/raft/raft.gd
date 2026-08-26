@@ -79,7 +79,65 @@ func check_matches(tile: CoopTile) -> void:
 		return
 	
 	for m_tile in match_tiles:
-		m_tile.match_effect(type, level)
+		match_effect(m_tile.grid_pos, type, level)
+
+func match_effect(coord: Vector2i, type: GLOBAL_VARS.object_type, level: int):
+	match type:
+		GLOBAL_VARS.object_type.WOOD:
+			wood_effect(coord, level)
+		GLOBAL_VARS.object_type.WATER:
+			water_effect(coord, level)
+		GLOBAL_VARS.object_type.HAMMER:
+			hammer_effect(coord, level)
+		GLOBAL_VARS.object_type.CANNON:
+			cannon_effect(coord, level)
+		GLOBAL_VARS.object_type.BOMB:
+			bomb_effect(coord, level)
+		GLOBAL_VARS.object_type.GEM:
+			gem_effect(coord, level)
+
+func wood_effect(coord: Vector2i, level: int):
+	pass
+
+func water_effect(coord: Vector2i, level: int):
+	var radius = level
+	
+	for x in range(-radius, radius + 1):
+		for y in range(-radius, radius + 1):
+			if x == 0 and y == 0:
+				continue
+			if abs(x) + abs(y) <= radius:
+				var target_coord = coord + Vector2i(x, y)
+				var tile = get_tile(target_coord)
+				if tile and tile.tile_object and tile.tile_object.type == GLOBAL_VARS.object_type.BOMB:
+					tile.tile_object.queue_free()
+					tile.tile_object = null
+
+func hammer_effect(coord: Vector2i, level: int):
+	var heal_strength = ((level + 1) % 2) + 1
+	var radius = ceili(level / 2.0)
+	
+	for x in range(-radius, radius + 1):
+		for y in range(-radius, radius + 1):
+			if x == 0 and y == 0:
+				continue
+			if abs(x) + abs(y) <= radius:
+				var target_coord = coord + Vector2i(x, y)
+				var tile = get_tile(target_coord)
+				if tile:
+					tile.damage(-heal_strength)
+
+func cannon_effect(coord: Vector2i, level: int):
+	pass
+
+func bomb_effect(coord: Vector2i, level: int):
+	var tile = get_tile(coord)
+	tile.damage(ceili(level / 2.0))
+	if MULT_UTILS.mult_rng.randi_range(0, 9) < level + 4:
+		tile.ignite()
+
+func gem_effect(coord: Vector2i, level: int):
+	pass
 
 func generate_initial_platform() -> void:
 	var new_tile : CoopTile
