@@ -23,7 +23,7 @@ var grid_pos: Vector2i
 @onready var fire_progress = $Fire/ProgressBar
 @onready var fire_timer = $FireNetworkTimer
 
-@onready var item_parent = $"root/CoopGameplay/ItemParent"
+@onready var item_parent = $"/root/CoopGameplay/ItemParent"
 
 @export var health: int = 3 :
 	set = _set_health
@@ -70,10 +70,14 @@ func _set_health(value: int):
 				$AnimatedSprite2D.frame = 0
 
 func _set_fire_health(value: int):
-	if fire_health_ticks > 0 and value == 0:
+	if fire_health_ticks > 0 and value == 0: #extinguish
 		fire_sprite.visible = false
 		burning_sfx.stop()
 		fire_timer.stop()
+	elif fire_health_ticks == max_fire_health_ticks and value < max_fire_health_ticks: #pause timer on extinguish start
+		fire_timer.pause()
+	elif is_on_fire and fire_health_ticks < max_fire_health_ticks and value == max_fire_health_ticks: #resume timer on fire regen
+		fire_timer.unpause()
 	fire_health_ticks = value
 
 func damage(value: int):
@@ -107,7 +111,7 @@ func push(player_grid_pos: Vector2i) -> bool:
 			next_tile.tile_object = tile_object
 			tile_object = null
 			next_tile.tile_object.target_pos = next_tile.position
-			raft_ref.check_matches(self)
+			raft_ref.check_matches(next_tile)
 			return true
 	elif player_ref:
 		if player_ref.move_ticks <= player_ref.move_ticks_target or player_ref.held_object:
@@ -126,7 +130,7 @@ func _on_fire_network_timer_timeout() -> void:
 	
 	var adjacent_tiles = raft_ref.get_adjacent_tiles(grid_pos)
 	for tile in adjacent_tiles:
-		var fire_spread_chance = MULT_UTILS.mult_rng.randi_range(0, 5)
+		var fire_spread_chance = MULT_UTILS.mult_rng.randi_range(0, 4)
 		
 		if fire_spread_chance == 0:
 			tile.ignite()

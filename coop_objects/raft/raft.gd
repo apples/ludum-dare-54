@@ -95,6 +95,10 @@ func match_effect(coord: Vector2i, type: GLOBAL_VARS.object_type, level: int):
 			bomb_effect(coord, level)
 		GLOBAL_VARS.object_type.GEM:
 			gem_effect(coord, level)
+	
+	var tile = get_tile(coord)
+	tile.tile_object.queue_free()
+	tile.tile_object = null
 
 func wood_effect(coord: Vector2i, level: int):
 	pass

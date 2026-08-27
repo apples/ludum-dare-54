@@ -6,7 +6,7 @@ class_name CoopPlayer extends CharacterBody2D
 @onready var hold_root = $HoldRoot
 @onready var grab_area = $GrabArea
 
-@onready var item_parent = $"root/CoopGameplay/ItemParent"
+@onready var item_parent = $"/root/CoopGameplay/ItemParent"
 
 var debug_item = preload("res://coop_objects/raft_object/raft_object.tscn")
 
@@ -63,6 +63,7 @@ func _network_process(input: Dictionary):
 		facing_dir = direction
 	var facing_pos = grid_pos + facing_dir
 	var facing_tile := raft.get_tile(facing_pos)
+	var standing_tile := raft.get_tile(grid_pos)
 	var facing_obj = facing_tile.tile_object if facing_tile else null
 	var facing_player = facing_tile.player_ref if facing_tile else null
 	
@@ -86,7 +87,7 @@ func _network_process(input: Dictionary):
 		elif facing_tile: # simply walk
 			walk(direction)
 	
-	if input["interact"]:
+	if input["interact_pressed"]:
 		if !held_object:
 			if facing_obj: #pickup object
 				raft.pickup_object(facing_tile, self)
@@ -95,9 +96,13 @@ func _network_process(input: Dictionary):
 			else: #pickup buoy
 				pass
 		elif facing_tile and !facing_obj: #swap-drop
-			raft.place_object(raft.get_tile(grid_pos), held_object)
+			raft.place_object(standing_tile, held_object)
 			held_object = null
 			walk(facing_dir)
+	
+	if input["interact"]:
+		if standing_tile.is_on_fire:
+			standing_tile.fire_health_ticks -= 1
 	
 	if input["debug1"]:
 		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), debug_item, {type = GLOBAL_VARS.object_type.WOOD, grid_pos = grid_pos})
@@ -163,7 +168,8 @@ func _get_local_input() -> Dictionary:
 	input["right"] = Input.is_action_pressed("right")
 	input["up"] = Input.is_action_pressed("up")
 	input["down"] = Input.is_action_pressed("down")
-	input["interact"] = Input.is_action_just_pressed("interact")
+	input["interact_pressed"] = Input.is_action_just_pressed("interact")
+	input["interact"] = Input.is_action_pressed("interact")
 	
 	input["debug1"] = Input.is_action_just_pressed("debug_1")
 	input["debug2"] = Input.is_action_just_pressed("debug_2")
@@ -175,5 +181,5 @@ func _get_local_input() -> Dictionary:
 
 func _predict_remote_input(previous_input: Dictionary, ticks_since_real_input: int) -> Dictionary: # just setting all "is_action_just_pressed" actions to false
 	if ticks_since_real_input > 0:
-		previous_input["interact"] = false
+		previous_input["interact_pressed"] = false
 	return previous_input
