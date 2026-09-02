@@ -4,12 +4,14 @@ var grid_pos: Vector2i
 var type : GLOBAL_VARS.object_type
 
 var is_moving := false
-var target_pos = Vector2.ZERO
+var target_pos := Vector2.ZERO
+var move_frames := 0
+var start_pos := Vector2.ZERO
 
 @onready var sprite := $AnimatedSprite2D
 
 #const push_speed := 32.0 * 12.0
-const push_ticks := 32.0 / 12.0
+#const push_ticks := 32.0 / 12.0
 
 const wood_frames = preload("res://assets/sprite_frames/wood_sprite_frames.tres")
 const water_frames = preload("res://assets/sprite_frames/bucket_sprite_frames.tres")
@@ -25,19 +27,27 @@ func _process(delta: float) -> void:
 
 func _network_process(input: Dictionary):
 	if is_moving:
-		position = position.move_toward(target_pos, push_ticks)
+		if move_frames == 0:
+			start_pos = position
+		move_frames += 1
+		position = start_pos.lerp(target_pos, move_frames / 12.0) #32 pixels in 12 ticks
 		if position == target_pos:
 			is_moving = false
+			move_frames = 0
 
 func _save_state() -> Dictionary:
 	return {
 		is_moving = is_moving,
 		target_pos = target_pos,
+		move_frames = move_frames,
+		start_pos = start_pos,
 	}
 
 func _load_state(state: Dictionary) -> void:
 	is_moving = state['is_moving']
 	target_pos = state['target_pos']
+	move_frames = state['move_frames']
+	start_pos = state['start_pos']
 
 func _network_spawn(data: Dictionary) -> void:
 	type = data.type
@@ -47,6 +57,7 @@ func _network_spawn(data: Dictionary) -> void:
 	
 	position = tile.position
 	target_pos = position
+	start_pos = position
 	
 	tile.tile_object = self
 	
