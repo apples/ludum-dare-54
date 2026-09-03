@@ -8,7 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://bflv5fnr5rfe2" path="res://assets/music/down_the_river.ogg" id="6_yorhr"]
 [ext_resource type="AudioStream" uid="uid://bqwvc1mimfnlo" path="res://assets/sfx/river_water_moving.ogg" id="7_vdmc8"]
 
-[node name="CoopGameplay" type="Node2D" unique_id=1664179620]
+[node name="CoopGameplay" type="Node2D" unique_id=1664179620 groups=["network_sync"]]
 script = ExtResource("1_hvyaj")
 
 [node name="Frame" parent="." unique_id=1448582416 instance=ExtResource("1_ao7wb")]

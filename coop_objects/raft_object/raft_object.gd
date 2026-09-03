@@ -31,7 +31,7 @@ func _network_process(input: Dictionary):
 			start_pos = position
 		move_frames += 1
 		position = start_pos.lerp(target_pos, move_frames / 12.0) #32 pixels in 12 ticks
-		if position == target_pos:
+		if move_frames == 12:
 			is_moving = false
 			move_frames = 0
 

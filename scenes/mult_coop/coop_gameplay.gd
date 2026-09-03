@@ -9,6 +9,9 @@ var player_scene = preload("res://coop_objects/player/player.tscn")
 
 @onready var raft = $Raft
 
+var score = 0
+var raft_charges = 1
+
 func _ready() -> void:
 	multiplayer.peer_disconnected.connect(on_error)
 	multiplayer.server_disconnected.connect(on_error)
@@ -63,3 +66,13 @@ func _on_disconnect_timer_timeout() -> void:
 	multiplayer.multiplayer_peer.close()
 	SyncManager.clear_peers()
 	UTILS.change_to_scene(mult_select_scene)
+
+func _save_state() -> Dictionary:
+	return {
+		score = score,
+		raft_charges = raft_charges,
+	}
+
+func _load_state(state: Dictionary) -> void:
+	score = state['score']
+	raft_charges = state['raft_charges']

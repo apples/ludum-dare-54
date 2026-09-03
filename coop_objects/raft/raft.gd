@@ -4,6 +4,8 @@ const TILE_SPACING := Vector2(32, 32)
 
 var raft_tile_scene = preload("res://coop_objects/tile/tile.tscn")
 
+@onready var gameplay = self.get_parent()
+
 var tiles = {}
 
 const NORTH := Vector2i(0, -1)
@@ -80,6 +82,8 @@ func check_matches(tile: CoopTile) -> void:
 	
 	for m_tile in match_tiles:
 		match_effect(m_tile.grid_pos, type, level)
+		if type == GLOBAL_VARS.object_type.WOOD:
+			return
 
 func match_effect(coord: Vector2i, type: GLOBAL_VARS.object_type, level: int):
 	match type:
@@ -101,9 +105,11 @@ func match_effect(coord: Vector2i, type: GLOBAL_VARS.object_type, level: int):
 	tile.tile_object = null
 
 func wood_effect(coord: Vector2i, level: int):
-	pass
+	gameplay.score += 10 * level
+	gameplay.raft_charges += level
 
 func water_effect(coord: Vector2i, level: int):
+	gameplay.score += 1 * level
 	var radius = level
 	
 	for x in range(-radius, radius + 1):
@@ -114,10 +120,12 @@ func water_effect(coord: Vector2i, level: int):
 				var target_coord = coord + Vector2i(x, y)
 				var tile = get_tile(target_coord)
 				if tile and tile.tile_object and tile.tile_object.type == GLOBAL_VARS.object_type.BOMB:
+					gameplay.score += 4 * level
 					tile.tile_object.queue_free()
 					tile.tile_object = null
 
 func hammer_effect(coord: Vector2i, level: int):
+	gameplay.score += 1 * level
 	var heal_strength = ((level + 1) % 2) + 1
 	var radius = ceili(level / 2.0)
 	
@@ -129,9 +137,12 @@ func hammer_effect(coord: Vector2i, level: int):
 				var target_coord = coord + Vector2i(x, y)
 				var tile = get_tile(target_coord)
 				if tile:
+					if tile.health < tile.max_health:
+						gameplay.score += 2 * level
 					tile.damage(-heal_strength)
 
 func cannon_effect(coord: Vector2i, level: int):
+	gameplay.score += 5 * level
 	pass
 
 func bomb_effect(coord: Vector2i, level: int):
@@ -141,7 +152,10 @@ func bomb_effect(coord: Vector2i, level: int):
 		tile.ignite()
 
 func gem_effect(coord: Vector2i, level: int):
-	pass
+	gameplay.score += 10 * level
+	hammer_effect(coord, level + 2)
+	water_effect(coord, level + 2)
+	#TODO player combo +++
 
 func generate_initial_platform() -> void:
 	var new_tile : CoopTile
