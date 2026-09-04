@@ -3,6 +3,7 @@ class_name CoopRaft extends Node2D
 const TILE_SPACING := Vector2(32, 32)
 
 var raft_tile_scene = preload("res://coop_objects/tile/tile.tscn")
+var cannonball_scene = preload("res://coop_objects/cannonball/cannonball.tscn")
 
 @onready var gameplay = self.get_parent()
 
@@ -143,7 +144,7 @@ func hammer_effect(coord: Vector2i, level: int):
 
 func cannon_effect(coord: Vector2i, level: int):
 	gameplay.score += 5 * level
-	pass
+	SyncManager.spawn("Cannonball", self, cannonball_scene, {pos = grid_pos_to_global_position(coord)})
 
 func bomb_effect(coord: Vector2i, level: int):
 	var tile = get_tile(coord)

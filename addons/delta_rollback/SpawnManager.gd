@@ -62,6 +62,7 @@ static func _node_name_sort_callback(a: Node, b: Node) -> bool:
 	return a.name.casecmp_to(b.name) == -1
 
 func _alphabetize_children(parent: Node) -> void:
+	return
 	var children = parent.get_children()
 	children.sort_custom(_node_name_sort_callback)
 	for index in range(children.size()):

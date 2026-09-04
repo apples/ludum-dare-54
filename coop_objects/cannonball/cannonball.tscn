@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cb33fud0brnat"]
+
+[ext_resource type="Script" uid="uid://c3t706dunwr1g" path="res://coop_objects/cannonball/cannonball.gd" id="1_buaoh"]
+[ext_resource type="Texture2D" uid="uid://cvx8tblwa0wnh" path="res://assets/textures/cannonball_16x16.png" id="1_diuif"]
+
+[sub_resource type="Curve" id="Curve_buaoh"]
+_data = [Vector2(0, 0), 0.0, 3.0545456, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Cannonball" type="Node2D" unique_id=1983263178 groups=["network_sync"]]
+script = ExtResource("1_buaoh")
+simple_curve = SubResource("Curve_buaoh")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1173152369]
+texture = ExtResource("1_diuif")
