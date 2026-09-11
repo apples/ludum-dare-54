@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://84fix6dy5pw5" path="res://coop_objects/raft_object/raft_object.gd" id="1_jvb6y"]
 [ext_resource type="AudioStream" uid="uid://87k37a2eduoa" path="res://assets/sfx/bomb_throw.ogg" id="2_iu0o1"]
 [ext_resource type="AudioStream" uid="uid://dpcq7d32jx2gp" path="res://assets/sfx/new_item_pickup.ogg" id="2_sld4n"]
-[ext_resource type="SpriteFrames" uid="uid://bw862dnl0tel0" path="res://assets/sprite_frames/bucket_sprite_frames.tres" id="4_a5ush"]
+[ext_resource type="SpriteFrames" uid="uid://c3be31ateoy2g" path="res://assets/sprite_frames/raft_object_frames.tres" id="4_a5ush"]
 
 [node name="RaftObject" type="Node2D" unique_id=721020548 groups=["network_sync"]]
 z_index = 2
@@ -21,4 +21,5 @@ bus = &"Sound_effects"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1593412830]
 sprite_frames = ExtResource("4_a5ush")
-autoplay = "default"
+animation = &"water"
+autoplay = "water"

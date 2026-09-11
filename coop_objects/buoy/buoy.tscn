@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://17rdny8wikd1"]
+
+[ext_resource type="Script" uid="uid://4hfgd5nj6bth" path="res://coop_objects/buoy/buoy.gd" id="1_radmy"]
+[ext_resource type="Texture2D" uid="uid://bny0ed2iln4kv" path="res://assets/textures/donut.png" id="1_rdpqq"]
+[ext_resource type="SpriteFrames" uid="uid://bw862dnl0tel0" path="res://assets/sprite_frames/bucket_sprite_frames.tres" id="2_radmy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fvkgo"]
+size = Vector2(32, 32)
+
+[node name="Buoy" type="Node2D" unique_id=1412000515 groups=["network_sync"]]
+script = ExtResource("1_radmy")
+
+[node name="FloatySprite" type="Sprite2D" parent="." unique_id=1220336840]
+texture = ExtResource("1_rdpqq")
+
+[node name="ItemSprite" type="AnimatedSprite2D" parent="." unique_id=1496137213]
+position = Vector2(0, -8)
+sprite_frames = ExtResource("2_radmy")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=644007041]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1241957025]
+visible = false
+shape = SubResource("RectangleShape2D_fvkgo")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

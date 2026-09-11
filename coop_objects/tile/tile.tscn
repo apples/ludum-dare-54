@@ -63,6 +63,9 @@ animations = [{
 offsets = PackedFloat32Array(0, 0.363, 0.429, 1)
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fvkgo"]
+size = Vector2(32, 32)
+
 [node name="Tile" type="Node2D" unique_id=1071285121 groups=["network_sync"]]
 script = ExtResource("1_t3ak0")
 
@@ -102,5 +105,13 @@ bus = &"Sound_effects"
 script = ExtResource("7_pvyr2")
 wait_ticks = 300
 metadata/_custom_type_script = "uid://102ie0rnxebk"
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1538056971]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1414760443]
+shape = SubResource("RectangleShape2D_fvkgo")
 
 [connection signal="timeout" from="FireNetworkTimer" to="." method="_on_fire_network_timer_timeout"]

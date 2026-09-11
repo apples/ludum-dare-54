@@ -40,8 +40,6 @@ var is_on_fire: bool:
 func _ready() -> void:
 	pass
 
-func _exit_tree() -> void:
-	pass
 
 func _process(delta: float) -> void:
 	if is_on_fire:

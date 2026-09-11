@@ -159,6 +159,7 @@ sync_debug={
 
 2d_physics/layer_1="Character"
 2d_physics/layer_2="Raft Tile"
+2d_physics/layer_3="buoy"
 
 [rendering]
 

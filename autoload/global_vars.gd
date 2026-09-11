@@ -12,7 +12,8 @@ enum object_type{
 	HAMMER,
 	CANNON,
 	BOMB,
-	GEM
+	GEM,
+	ALERT
 }
 
 var score = 0

@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://del76um5ga8g5"]
+
+[ext_resource type="Script" uid="uid://dkxynojxalph8" path="res://coop_objects/raft_object_warning/object_warning.gd" id="1_tun1r"]
+[ext_resource type="Texture2D" uid="uid://dfr7nvqhdiatt" path="res://assets/textures/alert.png" id="2_bve6l"]
+[ext_resource type="SpriteFrames" uid="uid://bw862dnl0tel0" path="res://assets/sprite_frames/bucket_sprite_frames.tres" id="3_7c3j4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7c3j4"]
+atlas = ExtResource("2_bve6l")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ctehv"]
+atlas = ExtResource("2_bve6l")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2jqr6"]
+atlas = ExtResource("2_bve6l")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smbu3"]
+atlas = ExtResource("2_bve6l")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wfh2"]
+atlas = ExtResource("2_bve6l")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_emi4y"]
+atlas = ExtResource("2_bve6l")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fvkgo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7c3j4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ctehv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2jqr6")
+}],
+"loop": 1,
+"name": &"bad",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_smbu3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5wfh2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_emi4y")
+}],
+"loop": 1,
+"name": &"good",
+"speed": 5.0
+}]
+
+[node name="ObjectWarning" type="Node2D" unique_id=2034862990]
+script = ExtResource("1_tun1r")
+
+[node name="AlertSprite" type="AnimatedSprite2D" parent="." unique_id=1223588403]
+sprite_frames = SubResource("SpriteFrames_fvkgo")
+animation = &"good"
+autoplay = "good"
+
+[node name="ObjectSprite" type="AnimatedSprite2D" parent="." unique_id=1306698540]
+sprite_frames = ExtResource("3_7c3j4")

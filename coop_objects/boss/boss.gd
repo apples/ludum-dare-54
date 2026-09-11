@@ -24,7 +24,7 @@ var base_health: int = (GLOBAL_VARS.difficulty + 1) * 5
 var health_per_level: int = 3
 var max_health := base_health
 
-var is_stunned := false
+var is_stunned := true
 var stun_length := 20
 
 var health := max_health:
@@ -52,6 +52,7 @@ var music_vol: float:
 
 func _ready() -> void:
 	AudioServer.set_bus_mute(AudioServer.get_bus_index("BossMusic"), true)
+	
 
 func _set_healthbar(t: float):
 	health_bar.size.y = health_bar_initial_height * t
@@ -70,6 +71,16 @@ func death():
 	tween.tween_property(self, "music_vol", 0.0, 2.0)
 	await tween.finished
 	AudioServer.set_bus_mute(AudioServer.get_bus_index("BossMusic"), true)
+
+func _save_state() -> Dictionary:
+	return {
+		health = health,
+		is_stunned = is_stunned,
+	}
+
+func _load_state(state: Dictionary) -> void:
+	health = state['health']
+	is_stunned = state['is_stunned']
 
 func _on_attack_timer_timeout() -> void:
 	pass # Replace with function body.

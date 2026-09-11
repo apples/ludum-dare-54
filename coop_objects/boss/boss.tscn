@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c2r5waegywblf"]
 
 [ext_resource type="Script" uid="uid://d31c4h367sr6k" path="res://coop_objects/boss/boss.gd" id="1_y7462"]
+[ext_resource type="Script" uid="uid://102ie0rnxebk" path="res://addons/delta_rollback/NetworkTimer.gd" id="2_4pvwp"]
 [ext_resource type="Texture2D" uid="uid://dsoaqxesa5x5e" path="res://assets/textures/char2_fadeout.png" id="2_5gj1h"]
 [ext_resource type="Texture2D" uid="uid://bmi05uwgklewy" path="res://assets/textures/bomb_explosion.png" id="2_62ox0"]
 [ext_resource type="Texture2D" uid="uid://d3u5e7iuyk16" path="res://assets/textures/char2_base.png" id="4_w8hgt"]
@@ -177,7 +178,7 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_s7cq8"]
 advance_mode = 2
-advance_expression = "is_alive"
+advance_expression = "not is_stunned"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ivxpb"]
 switch_mode = 2
@@ -204,16 +205,19 @@ states/fade_start/position = Vector2(196, 100)
 transitions = ["Start", "fade_start", SubResource("AnimationNodeStateMachineTransition_vsq6y"), "fade_start", "fade_in", SubResource("AnimationNodeStateMachineTransition_s7cq8"), "fade_in", "Normal", SubResource("AnimationNodeStateMachineTransition_ivxpb"), "Normal", "fade_out", SubResource("AnimationNodeStateMachineTransition_8dq3f"), "fade_out", "fade_in", SubResource("AnimationNodeStateMachineTransition_akx2x")]
 graph_offset = Vector2(-246, -10)
 
-[node name="Boss" type="Node2D" unique_id=976065110]
+[node name="Boss" type="Node2D" unique_id=976065110 groups=["network_sync"]]
 script = ExtResource("1_y7462")
 
-[node name="AttackTimer" type="Timer" parent="." unique_id=1015140901]
-one_shot = true
+[node name="StunTimer" type="Node" parent="." unique_id=1032969814]
+script = ExtResource("2_4pvwp")
 autostart = true
+wait_ticks = 600
+metadata/_custom_type_script = "uid://102ie0rnxebk"
 
-[node name="StunTimer" type="Timer" parent="." unique_id=629281367]
-wait_time = 10.0
-one_shot = true
+[node name="AttackTimer" type="Node" parent="." unique_id=288046855]
+script = ExtResource("2_4pvwp")
+wait_ticks = 60
+metadata/_custom_type_script = "uid://102ie0rnxebk"
 
 [node name="BlinkTimer" type="Timer" parent="." unique_id=1847173476]
 one_shot = true
@@ -306,7 +310,7 @@ stream = ExtResource("26_g5ha1")
 autoplay = true
 bus = &"BossMusic"
 
-[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
 [connection signal="timeout" from="StunTimer" to="." method="_on_stun_timer_timeout"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
 [connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]
 [connection signal="timeout" from="CPUParticles2D/ExplosionTimer" to="." method="_on_explosion_timer_timeout"]
