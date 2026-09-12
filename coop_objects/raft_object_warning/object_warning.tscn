@@ -2,7 +2,11 @@
 
 [ext_resource type="Script" uid="uid://dkxynojxalph8" path="res://coop_objects/raft_object_warning/object_warning.gd" id="1_tun1r"]
 [ext_resource type="Texture2D" uid="uid://dfr7nvqhdiatt" path="res://assets/textures/alert.png" id="2_bve6l"]
-[ext_resource type="SpriteFrames" uid="uid://bw862dnl0tel0" path="res://assets/sprite_frames/bucket_sprite_frames.tres" id="3_7c3j4"]
+[ext_resource type="SpriteFrames" uid="uid://c3be31ateoy2g" path="res://assets/sprite_frames/raft_object_frames.tres" id="3_7c3j4"]
+
+[sub_resource type="Curve" id="Curve_7c3j4"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.38764045, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7c3j4"]
 atlas = ExtResource("2_bve6l")
@@ -61,11 +65,13 @@ animations = [{
 
 [node name="ObjectWarning" type="Node2D" unique_id=2034862990]
 script = ExtResource("1_tun1r")
+simple_curve = SubResource("Curve_7c3j4")
 
 [node name="AlertSprite" type="AnimatedSprite2D" parent="." unique_id=1223588403]
 sprite_frames = SubResource("SpriteFrames_fvkgo")
 animation = &"good"
 autoplay = "good"
 
-[node name="ObjectSprite" type="AnimatedSprite2D" parent="." unique_id=1306698540]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1306698540]
 sprite_frames = ExtResource("3_7c3j4")
+animation = &"cannon"

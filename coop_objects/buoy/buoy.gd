@@ -5,12 +5,7 @@ var raft_ref
 
 @onready var item_sprite = $ItemSprite
 
-const wood_frames = preload("res://assets/sprite_frames/wood_sprite_frames.tres")
-const water_frames = preload("res://assets/sprite_frames/bucket_sprite_frames.tres")
-const hammer_frames = preload("res://assets/sprite_frames/hammer_sprite_frames.tres")
-const cannon_frames = preload("res://assets/sprite_frames/cannon_sprite_frames.tres")
-const bomb_frames = preload("res://assets/sprite_frames/bomb_sprite_frames.tres")
-const gem_frames = preload("res://assets/sprite_frames/gem_sprite_frames.tres")
+var warning_scene = preload("res://coop_objects/raft_object_warning/object_warning.tscn")
 
 
 func _network_process(input: Dictionary):
@@ -28,24 +23,25 @@ func _network_spawn(data: Dictionary) -> void:
 	item_type = data.type
 	position = data.pos
 	
-	raft_ref = get_parent().get_parent().find_child("Raft", false)
+	raft_ref = $"/root/CoopGameplay/Raft"
 	
 	match item_type:
 		GLOBAL_VARS.object_type.WOOD:
-			item_sprite.sprite_frames = wood_frames
+			item_sprite.play("wood")
 		GLOBAL_VARS.object_type.WATER:
-			item_sprite.sprite_frames = water_frames
+			item_sprite.play("water")
 		GLOBAL_VARS.object_type.HAMMER:
-			item_sprite.sprite_frames = hammer_frames
+			item_sprite.play("hammer")
 		GLOBAL_VARS.object_type.CANNON:
-			item_sprite.sprite_frames = cannon_frames
+			item_sprite.play("cannon")
 		GLOBAL_VARS.object_type.BOMB:
-			item_sprite.sprite_frames = bomb_frames
+			item_sprite.play("bomb")
 		GLOBAL_VARS.object_type.GEM:
-			item_sprite.sprite_frames = gem_frames
-	item_sprite.play()
+			item_sprite.play("gem")
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
+	var tile : CoopTile = area.get_parent() # actually we don't need the tile for anything
 	#spawn indicator on weighted random tile
-	pass # Replace with function body.
+	SyncManager.spawn("alert", $"/root/CoopGameplay/ItemParent", warning_scene, {grid_pos = tile.grid_pos, buoy_pos = global_position, good = true, item = item_type})
+	queue_free()

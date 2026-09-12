@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://4hfgd5nj6bth" path="res://coop_objects/buoy/buoy.gd" id="1_radmy"]
 [ext_resource type="Texture2D" uid="uid://bny0ed2iln4kv" path="res://assets/textures/donut.png" id="1_rdpqq"]
-[ext_resource type="SpriteFrames" uid="uid://bw862dnl0tel0" path="res://assets/sprite_frames/bucket_sprite_frames.tres" id="2_radmy"]
+[ext_resource type="SpriteFrames" uid="uid://c3be31ateoy2g" path="res://assets/sprite_frames/raft_object_frames.tres" id="3_radmy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fvkgo"]
 size = Vector2(32, 32)
@@ -15,7 +15,8 @@ texture = ExtResource("1_rdpqq")
 
 [node name="ItemSprite" type="AnimatedSprite2D" parent="." unique_id=1496137213]
 position = Vector2(0, -8)
-sprite_frames = ExtResource("2_radmy")
+sprite_frames = ExtResource("3_radmy")
+animation = &"cannon"
 
 [node name="Area2D" type="Area2D" parent="." unique_id=644007041]
 collision_layer = 4

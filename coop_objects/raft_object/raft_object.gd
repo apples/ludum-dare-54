@@ -36,8 +36,8 @@ func _load_state(state: Dictionary) -> void:
 	start_pos = state['start_pos']
 
 func _network_spawn(data: Dictionary) -> void:
-
-	var raft : CoopRaft = get_parent().get_parent().find_child("Raft", false)
+	type = data.type
+	var raft : CoopRaft = $"/root/CoopGameplay/Raft"
 	var tile = raft.get_tile(data.grid_pos)
 	
 	position = tile.position
