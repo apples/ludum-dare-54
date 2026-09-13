@@ -1,7 +1,7 @@
 extends Node2D
 
 var item_type : GLOBAL_VARS.object_type
-var raft_ref
+var raft_ref : CoopRaft
 
 @onready var item_sprite = $ItemSprite
 
@@ -41,7 +41,7 @@ func _network_spawn(data: Dictionary) -> void:
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	var tile : CoopTile = area.get_parent() # actually we don't need the tile for anything
-	#spawn indicator on weighted random tile
-	SyncManager.spawn("alert", $"/root/CoopGameplay/ItemParent", warning_scene, {grid_pos = tile.grid_pos, buoy_pos = global_position, good = true, item = item_type})
+	#var tile : CoopTile = area.get_parent() # actually we don't need the tile for anything
+	var spawn_pos = raft_ref.get_random_empty_tile().grid_pos
+	SyncManager.spawn("alert", $"/root/CoopGameplay/ItemParent", warning_scene, {grid_pos = spawn_pos, buoy_pos = global_position, good = true, item = item_type})
 	queue_free()

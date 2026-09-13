@@ -2,15 +2,46 @@ extends Node2D
 
 var mult_select_scene = "res://scenes/mult_select/mult_select.tscn"
 var player_scene = preload("res://coop_objects/player/player.tscn")
+var buoy_scene = preload("res://coop_objects/buoy/buoy.tscn")
 
 @onready var sync_status = $SyncStatus
 @onready var disconnect_notice = $DisconnectMessage
 @onready var disconnect_timer = $DisconnectMessage/DisconnectTimer
 
 @onready var raft = $Raft
+@onready var buoy_parent = $BuoyParent
 
 var score = 0
 var raft_charges = 1
+
+var column_ranges := [[1, 16], [5, 12], [7, 10]]
+var column_bag := []:
+	get:
+		if column_bag.is_empty():
+			for r in column_ranges:
+				for i in range(r[0], r[1]):
+					column_bag.append(i)
+			seed(MULT_UTILS.mult_rng.randi())
+			column_bag.shuffle()
+		return column_bag
+
+var spawnables = [
+	{ weight = 40, scene = GLOBAL_VARS.object_type.WOOD },
+	{ weight = 20, scene = GLOBAL_VARS.object_type.CANNON },
+	{ weight = 10, scene = GLOBAL_VARS.object_type.WATER },
+	{ weight = 10, scene = GLOBAL_VARS.object_type.HAMMER },
+	{ weight = 1, scene = GLOBAL_VARS.object_type.GEM},
+	{ weight = 1, scene = GLOBAL_VARS.object_type.BOMB },
+]
+var spawnables_bag := []:
+	get:
+		if spawnables_bag.is_empty():
+			for s in spawnables:
+				for i in range(s.weight):
+					spawnables_bag.append(s.scene)
+			seed(MULT_UTILS.mult_rng.randi())
+			spawnables_bag.shuffle()
+		return spawnables_bag
 
 func _ready() -> void:
 	multiplayer.peer_disconnected.connect(on_error)
@@ -41,6 +72,7 @@ func on_sync_start():
 		player = SyncManager.spawn("Player" + str(peer), self, player_scene, {grid_pos = initial_pos})
 		initial_pos += Vector2i.LEFT
 		player.set_multiplayer_authority(peer)
+		raft.players.append(player)
 	
 	if multiplayer.is_server():
 		SyncManager.start_logging("user://detailed_logs/Horse1.log")
@@ -76,3 +108,9 @@ func _save_state() -> Dictionary:
 func _load_state(state: Dictionary) -> void:
 	score = state['score']
 	raft_charges = state['raft_charges']
+
+
+func _on_network_timer_timeout() -> void:
+	var spawn_type = spawnables_bag.pop_back()
+	var spawn_pos = raft.global_position + Vector2(column_bag.pop_back() * 32, 0)
+	SyncManager.spawn("Buoy", buoy_parent, buoy_scene, {pos = spawn_pos, type = spawn_type})

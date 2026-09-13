@@ -42,6 +42,8 @@ text = "0"
 
 [node name="NetworkTimer" type="Node" parent="." unique_id=1546440446]
 script = ExtResource("4_yaq1m")
+autostart = true
+wait_ticks = 60
 metadata/_custom_type_script = "uid://102ie0rnxebk"
 
 [node name="BGM" type="AudioStreamPlayer" parent="." unique_id=1550827489]
@@ -82,4 +84,7 @@ one_shot = true
 [node name="ItemParent" type="Node2D" parent="." unique_id=36367041]
 position = Vector2(210, 48)
 
+[node name="BuoyParent" type="Node2D" parent="." unique_id=370643361]
+
+[connection signal="timeout" from="NetworkTimer" to="." method="_on_network_timer_timeout"]
 [connection signal="timeout" from="DisconnectMessage/DisconnectTimer" to="." method="_on_disconnect_timer_timeout"]

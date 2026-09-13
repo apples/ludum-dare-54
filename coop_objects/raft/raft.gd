@@ -7,7 +7,8 @@ var cannonball_scene = preload("res://coop_objects/cannonball/cannonball.tscn")
 
 @onready var gameplay = self.get_parent()
 
-var tiles = {}
+var tiles: Dictionary[Vector2i, CoopTile] = {}
+var players = []
 
 const NORTH := Vector2i(0, -1)
 const SOUTH := Vector2i(0, 1)
@@ -39,6 +40,29 @@ func get_tile(coord: Vector2i) -> CoopTile:
 
 func remove_tile(coord: Vector2i) -> void:
 	tiles.erase(coord)
+
+func get_random_empty_tile() -> CoopTile:
+	var empts = []
+	for t:CoopTile in tiles.values():
+		if not t.tile_object and not t.player_ref:
+			empts.append(t)
+	
+	if empts.is_empty(): #TODO more graceful losing scene transition. Slowmo and a zoom in?
+		UTILS.change_to_scene("res://scenes/lose_screen/lose_scene.tscn")
+		return null
+	
+	var not_near_player = empts
+	for e in empts:
+		for p in players:
+			var d = e.grid_pos - p.grid_pos
+			var grid_dist = abs(d.x) + abs(d.y)
+			if grid_dist <= 1:
+				not_near_player.erase(e)
+	
+	if not not_near_player.is_empty():
+		return not_near_player[MULT_UTILS.mult_rng.randi_range(0, not_near_player.size() - 1)]
+	else:
+		return empts[MULT_UTILS.mult_rng.randi_range(0, not_near_player.size() - 1)]
 
 func place_object(tile: CoopTile, object):
 	tile.tile_object = object
