@@ -5,7 +5,7 @@
 [ext_resource type="SpriteFrames" uid="uid://c3be31ateoy2g" path="res://assets/sprite_frames/raft_object_frames.tres" id="3_radmy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fvkgo"]
-size = Vector2(32, 32)
+size = Vector2(30, 30)
 
 [node name="Buoy" type="Node2D" unique_id=1412000515 groups=["network_sync"]]
 script = ExtResource("1_radmy")

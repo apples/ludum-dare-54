@@ -112,6 +112,7 @@ func push(player_grid_pos: Vector2i) -> bool:
 			next_tile.tile_object = tile_object
 			tile_object = null
 			next_tile.tile_object.target_pos = next_tile.position
+			next_tile.tile_object.grid_pos = next_tile.grid_pos
 			raft_ref.check_matches(next_tile)
 			return true
 	elif player_ref:

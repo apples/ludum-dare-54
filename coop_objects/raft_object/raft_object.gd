@@ -1,6 +1,6 @@
 class_name CoopItem extends Node2D
 
-var grid_pos: Vector2i
+var grid_pos: Vector2i #literally just for alerts
 var type : GLOBAL_VARS.object_type
 
 var is_moving := false
@@ -59,3 +59,5 @@ func _network_spawn(data: Dictionary) -> void:
 			sprite.play("bomb")
 		GLOBAL_VARS.object_type.GEM:
 			sprite.play("gem")
+	
+	raft.check_matches(tile)

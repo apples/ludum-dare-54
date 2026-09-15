@@ -19,7 +19,7 @@ func _network_process(input: Dictionary):
 	launch_frames += 1
 	var progress = launch_frames / float(frame_target)
 	sprite.global_position = last_buoy_pos.lerp(global_position, progress)
-	sprite.global_position.y += simple_curve.sample(progress)
+	sprite.global_position.y -= simple_curve.sample(progress) * 100
 	
 	if launch_frames == frame_target:
 		SyncManager.spawn("item", $"/root/CoopGameplay/ItemParent", item_scene, {type = spawn_item, grid_pos = grid_pos})
@@ -46,6 +46,7 @@ func _network_spawn(data: Dictionary) -> void:
 	var raft : CoopRaft = $"/root/CoopGameplay/Raft"
 	var tile = raft.get_tile(data.grid_pos)
 	
+	grid_pos = tile.grid_pos
 	position = tile.position
 	target_pos = position
 	start_pos = position

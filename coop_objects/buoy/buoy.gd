@@ -9,7 +9,7 @@ var warning_scene = preload("res://coop_objects/raft_object_warning/object_warni
 
 
 func _network_process(input: Dictionary):
-	position += Vector2.DOWN #this likely needs to be cut down to at third
+	position += Vector2.DOWN * 0.3125 #close enough to a third while being a power of two
 
 func _save_state() -> Dictionary:
 	return {

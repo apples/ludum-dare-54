@@ -211,11 +211,13 @@ script = ExtResource("1_y7462")
 [node name="StunTimer" type="Node" parent="." unique_id=1032969814]
 script = ExtResource("2_4pvwp")
 autostart = true
+one_shot = true
 wait_ticks = 600
 metadata/_custom_type_script = "uid://102ie0rnxebk"
 
 [node name="AttackTimer" type="Node" parent="." unique_id=288046855]
 script = ExtResource("2_4pvwp")
+autostart = true
 wait_ticks = 60
 metadata/_custom_type_script = "uid://102ie0rnxebk"
 

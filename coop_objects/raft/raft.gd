@@ -68,6 +68,7 @@ func place_object(tile: CoopTile, object):
 	tile.tile_object = object
 	tile.tile_object.position = tile.position
 	tile.tile_object.target_pos = tile.position
+	tile.tile_object.grid_pos = tile.grid_pos
 	check_matches(tile)
 
 func pickup_object(tile: CoopTile, player: CoopPlayer) -> void:
@@ -105,10 +106,15 @@ func check_matches(tile: CoopTile) -> void:
 	if level < 1:
 		return
 	
+	var one_time = false
 	for m_tile in match_tiles:
-		match_effect(m_tile.grid_pos, type, level)
+		if !one_time:
+			match_effect(m_tile.grid_pos, type, level)
+		else:
+			m_tile.tile_object.queue_free()
+			m_tile.tile_object = null
 		if type == GLOBAL_VARS.object_type.WOOD:
-			return
+			one_time = true
 
 func match_effect(coord: Vector2i, type: GLOBAL_VARS.object_type, level: int):
 	match type:

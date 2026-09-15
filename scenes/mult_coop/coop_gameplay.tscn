@@ -43,7 +43,7 @@ text = "0"
 [node name="NetworkTimer" type="Node" parent="." unique_id=1546440446]
 script = ExtResource("4_yaq1m")
 autostart = true
-wait_ticks = 60
+wait_ticks = 180
 metadata/_custom_type_script = "uid://102ie0rnxebk"
 
 [node name="BGM" type="AudioStreamPlayer" parent="." unique_id=1550827489]

@@ -5,7 +5,7 @@
 [ext_resource type="SpriteFrames" uid="uid://c3be31ateoy2g" path="res://assets/sprite_frames/raft_object_frames.tres" id="3_7c3j4"]
 
 [sub_resource type="Curve" id="Curve_7c3j4"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.38764045, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0), 0.0, 4.5, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -4.5, 0.0, 0, 0]
 point_count = 3
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7c3j4"]
@@ -63,7 +63,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="ObjectWarning" type="Node2D" unique_id=2034862990]
+[node name="ObjectWarning" type="Node2D" unique_id=2034862990 groups=["network_sync"]]
 script = ExtResource("1_tun1r")
 simple_curve = SubResource("Curve_7c3j4")
 
