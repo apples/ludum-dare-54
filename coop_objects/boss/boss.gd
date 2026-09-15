@@ -2,7 +2,7 @@ class_name CoopBoss extends Node2D
 
 signal boss_defeated
 
-@export var raft: Node
+@onready var raft: CoopRaft = $"/root/CoopGameplay/Raft"
 
 @onready var toss_source = $TossSource
 @onready var ouch_sfx = $Hit
@@ -11,6 +11,7 @@ signal boss_defeated
 @onready var animation_tree = $AnimationTree
 @onready var blink_timer = $BlinkTimer
 @onready var stun_timer = $StunTimer
+@onready var attack_timer = $AttackTimer
 @onready var explosions = $CPUParticles2D
 @onready var explosion_timer = $CPUParticles2D/ExplosionTimer
 
@@ -18,7 +19,8 @@ signal boss_defeated
 @onready var health_bar_initial_position = health_bar.position
 @onready var health_bar_initial_height = health_bar.size.y
 
-var bomb_scene = preload("res://singleplayer_objects/raft_objects/bomb.tscn")
+#var bomb_scene = preload("res://singleplayer_objects/raft_objects/bomb.tscn")
+var warning_scene = preload("res://coop_objects/raft_object_warning/object_warning.tscn")
 
 var base_health: int = (GLOBAL_VARS.difficulty + 1) * 5
 var health_per_level: int = 3
@@ -83,7 +85,8 @@ func _load_state(state: Dictionary) -> void:
 	is_stunned = state['is_stunned']
 
 func _on_attack_timer_timeout() -> void:
-	pass # Replace with function body.
+	var spawn_pos = raft.get_random_empty_tile().grid_pos
+	SyncManager.spawn("alert", $"/root/CoopGameplay/ItemParent", warning_scene, {grid_pos = spawn_pos, buoy_pos = global_position, good = false, item = GLOBAL_VARS.object_type.BOMB})
 
 
 func _on_stun_timer_timeout() -> void:
@@ -98,6 +101,8 @@ func _on_stun_timer_timeout() -> void:
 		max_health += int(float(health_per_level) * mult)
 	health = max_health
 	_set_healthbar(float(health) / float(max_health))
+	
+	attack_timer.start()
 	
 	AudioServer.set_bus_mute(AudioServer.get_bus_index("BossMusic"), false)
 	var tween = create_tween()

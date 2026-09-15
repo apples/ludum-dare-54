@@ -132,8 +132,9 @@ func match_effect(coord: Vector2i, type: GLOBAL_VARS.object_type, level: int):
 			gem_effect(coord, level)
 	
 	var tile = get_tile(coord)
-	tile.tile_object.queue_free()
-	tile.tile_object = null
+	if tile and tile.tile_object:
+		tile.tile_object.queue_free()
+		tile.tile_object = null
 
 func wood_effect(coord: Vector2i, level: int):
 	gameplay.score += 10 * level
