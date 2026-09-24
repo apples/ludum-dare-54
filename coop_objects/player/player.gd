@@ -160,8 +160,10 @@ func _save_state() -> Dictionary:
 		last_grid_pos = last_grid_pos,
 		last_direction = last_direction,
 		move_ticks = move_ticks,
+		push_ticks = push_ticks,
 		recent_input_dir = recent_input_dir,
 		held_object_name = held_object_name,
+		disabled = disabled,
 	}
 
 func _load_state(state: Dictionary) -> void:
@@ -169,7 +171,9 @@ func _load_state(state: Dictionary) -> void:
 	last_grid_pos = state['last_grid_pos']
 	last_direction = state['last_direction']
 	move_ticks = state['move_ticks']
+	push_ticks = state['push_ticks']
 	recent_input_dir = state['recent_input_dir']
+	disabled = state['disabled']
 	
 	if held_object_name != state['held_object_name']:
 		held_object_name = state['held_object_name']

@@ -24,6 +24,7 @@ var grid_pos: Vector2i
 @onready var fire_timer = $FireNetworkTimer
 
 @onready var item_parent = $"/root/CoopGameplay/ItemParent"
+@onready var gameplay = $"/root/CoopGameplay"
 
 @export var health: int = 3 :
 	set = _set_health
@@ -154,7 +155,7 @@ func _load_state(state: Dictionary) -> void:
 		tile_object = item_parent.find_child(tile_object_name, false) if tile_object_name != StringName("") else null
 	if player_ref_name != state['player_ref_name']:
 		player_ref_name = state['player_ref_name']
-		player_ref = get_parent().find_child(player_ref_name, false) if player_ref_name != StringName("") else null
+		player_ref = gameplay.find_child(player_ref_name, false) if player_ref_name != StringName("") else null
 
 func _network_spawn(data: Dictionary) -> void:
 	raft_ref = self.get_parent()
