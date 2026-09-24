@@ -28,9 +28,9 @@ var tetriminos = [
 func _ready():
 	render_selection()
 	
-	options.append(tetriminos.pop_at(MULT_UTILS.mult_rng.randi_range(0, tetriminos.size() - 1)))
-	options.append(tetriminos.pop_at(MULT_UTILS.mult_rng.randi_range(0, tetriminos.size() - 1)))
-	options.append(tetriminos.pop_at(MULT_UTILS.mult_rng.randi_range(0, tetriminos.size() - 1)))
+	options.append(tetriminos.pop_at(randi_range(0, tetriminos.size() - 1)))
+	options.append(tetriminos.pop_at(randi_range(0, tetriminos.size() - 1)))
+	options.append(tetriminos.pop_at(randi_range(0, tetriminos.size() - 1)))
 	
 	for i in range(3):
 		var nodes = option_nodes[i].get_parent().get_children()
@@ -50,6 +50,9 @@ func _process(delta: float) -> void:
 			selected = true
 			$UpgradeSelection.hide()
 			module.show()
+			for i in range(4):
+				options[selection][i] += Vector2i(6, 6)
+			check_valid()
 			update_tile_pos()
 			
 	else:
@@ -59,26 +62,9 @@ func _process(delta: float) -> void:
 		)
 		
 		if dir != Vector2i.ZERO:
-			var colliding = false
-			var touching = false
 			for i in range(4):
 				options[selection][i] += dir
-				var coord = options[selection][i]
-				if raft.get_tile(coord) != null:
-					colliding = true
-					#break
-				if raft.get_adjacent_tiles(coord).size() > 0:
-					touching = true
-			
-			if touching and not colliding:
-				valid = true
-				for tile : AnimatedSprite2D in module.get_children():
-					tile.modulate = Color.GREEN
-			else:
-				valid = false
-				for tile : AnimatedSprite2D in module.get_children():
-					tile.modulate = Color.RED
-			
+			check_valid()
 			update_tile_pos()
 		
 		if Input.is_action_just_pressed("interact") and valid:
@@ -94,3 +80,22 @@ func update_tile_pos():
 	var tiles = module.get_children()
 	for i in range(4):
 		tiles[i].position = raft.grid_pos_to_global_position(options[selection][i])
+
+func check_valid():
+	var colliding = false
+	var touching = false
+	for i in range(4):
+		var coord = options[selection][i]
+		if raft.get_tile(coord) != null:
+			colliding = true
+		if raft.get_adjacent_tiles(coord).size() > 0:
+			touching = true
+	
+	if touching and not colliding:
+		valid = true
+		for tile : AnimatedSprite2D in module.get_children():
+			tile.modulate = Color.GREEN
+	else:
+		valid = false
+		for tile : AnimatedSprite2D in module.get_children():
+			tile.modulate = Color.RED

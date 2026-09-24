@@ -60,9 +60,10 @@ func _network_process(input: Dictionary):
 	
 	if input["upgrade_pressed"] and gameplay.raft_charges > 0:
 		gameplay.raft_charges -= 1
-		var upgrade = upgrade_scene.instantiate()
-		gameplay.add_child(upgrade)
 		disabled = true
+		if self.is_multiplayer_authority():
+			var upgrade = upgrade_scene.instantiate()
+			gameplay.add_child(upgrade)
 		return
 	
 	var lr: int = (1 if input["right"] else 0) - (1 if input["left"] else 0)

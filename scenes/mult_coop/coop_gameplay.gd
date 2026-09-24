@@ -69,6 +69,8 @@ func _ready() -> void:
 		MULT_UTILS.mult_rng.set_seed(randi())
 		MULT_UTILS.sync_rng.rpc(MULT_UTILS.mult_rng.get_seed())
 		SyncManager.start()
+	
+	charge_label.text = str(raft_charges)
 
 func on_sync_start():
 	var mult_ids = []

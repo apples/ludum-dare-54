@@ -293,16 +293,20 @@ position = Vector2(0, 10.5)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Module" unique_id=990232713]
 modulate = Color(1, 1, 1, 0.49803922)
+y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_rqhft")
 
 [node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="Module" unique_id=24029139]
 modulate = Color(1, 1, 1, 0.49803922)
+y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_rqhft")
 
 [node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="Module" unique_id=312289874]
 modulate = Color(1, 1, 1, 0.49803922)
+y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_rqhft")
 
 [node name="AnimatedSprite2D4" type="AnimatedSprite2D" parent="Module" unique_id=1864376855]
 modulate = Color(1, 1, 1, 0.49803922)
+y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_rqhft")
