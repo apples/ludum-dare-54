@@ -155,3 +155,9 @@ func _load_state(state: Dictionary) -> void:
 	if player_ref_name != state['player_ref_name']:
 		player_ref_name = state['player_ref_name']
 		player_ref = get_parent().find_child(player_ref_name, false) if player_ref_name != StringName("") else null
+
+func _network_spawn(data: Dictionary) -> void:
+	raft_ref = self.get_parent()
+	grid_pos = data.coord
+	position = grid_pos * 32
+	raft_ref.add_tile(self)

@@ -41,6 +41,12 @@ func get_tile(coord: Vector2i) -> CoopTile:
 func remove_tile(coord: Vector2i) -> void:
 	tiles.erase(coord)
 
+func add_tile(tile: CoopTile) -> void:
+	tiles[tile.grid_pos] = tile
+
+func place_tile(coord: Vector2i) -> void:
+	SyncManager.spawn("Tile_%s_%s" % [coord.x, coord.y], self, raft_tile_scene, {coord = coord})
+
 func get_random_empty_tile() -> CoopTile:
 	var empts = []
 	for t:CoopTile in tiles.values():
@@ -51,7 +57,7 @@ func get_random_empty_tile() -> CoopTile:
 		UTILS.change_to_scene("res://scenes/lose_screen/lose_scene.tscn")
 		return null
 	
-	var not_near_player = empts
+	var not_near_player = empts.duplicate()
 	for e in empts:
 		for p in players:
 			var d = e.grid_pos - p.grid_pos

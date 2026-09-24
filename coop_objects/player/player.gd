@@ -7,14 +7,17 @@ class_name CoopPlayer extends CharacterBody2D
 @onready var grab_area = $GrabArea
 
 @onready var item_parent = $"/root/CoopGameplay/ItemParent"
+@onready var gameplay = self.get_parent()
 
 var debug_item = preload("res://coop_objects/raft_object/raft_object.tscn")
+var upgrade_scene = preload("res://scenes/coop_upgrade_select/coop_upgrade.tscn")
 
 var walk_speed := 300
 var grid_pos : Vector2i
 var last_grid_pos: Vector2i = grid_pos
 var facing_dir := Vector2i(1, 0)
 var last_direction : Vector2i
+var disabled := false
 
 var held_object : CoopItem:
 	set(value):
@@ -27,6 +30,8 @@ const move_ticks_target := 8
 var move_ticks := 0
 var push_ticks := 0
 var recent_input_dir := Vector2i(0, 0)
+
+var tile_placements : Array[Vector2i] = []
 
 func _process(delta: float) -> void:
 	match facing_dir:
@@ -42,6 +47,22 @@ func _process(delta: float) -> void:
 func _network_process(input: Dictionary):
 	#held_object_name = held_object.name if held_object else StringName("")
 	if !input:
+		return
+	
+	if input.has("upgrade_tiles") and input["upgrade_tiles"].size() > 0:
+		disabled = false
+		for i in input["upgrade_tiles"]:
+			raft.place_tile(i)
+		return
+	
+	if disabled:
+		return
+	
+	if input["upgrade_pressed"] and gameplay.raft_charges > 0:
+		gameplay.raft_charges -= 1
+		var upgrade = upgrade_scene.instantiate()
+		gameplay.add_child(upgrade)
+		disabled = true
 		return
 	
 	var lr: int = (1 if input["right"] else 0) - (1 if input["left"] else 0)
@@ -170,6 +191,11 @@ func _get_local_input() -> Dictionary:
 	input["down"] = Input.is_action_pressed("down")
 	input["interact_pressed"] = Input.is_action_just_pressed("interact")
 	input["interact"] = Input.is_action_pressed("interact")
+	input["upgrade_pressed"] = Input.is_action_just_pressed("execute")
+	
+	if gameplay.placed_tile_coords.size() > 1:
+		input["upgrade_tiles"] = gameplay.placed_tile_coords
+		gameplay.placed_tile_coords = []
 	
 	input["debug1"] = Input.is_action_just_pressed("debug_1")
 	input["debug2"] = Input.is_action_just_pressed("debug_2")

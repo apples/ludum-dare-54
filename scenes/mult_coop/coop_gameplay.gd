@@ -11,8 +11,18 @@ var buoy_scene = preload("res://coop_objects/buoy/buoy.tscn")
 @onready var raft = $Raft
 @onready var buoy_parent = $BuoyParent
 
-var score = 0
-var raft_charges = 1
+@onready var score_label := $Score
+@onready var charge_label := $Charges
+
+var score = 0:
+	set(x):
+		score = x
+		score_label.text = str(score)
+var raft_charges = 1:
+	set(x):
+		raft_charges = x
+		charge_label.text = str(raft_charges)
+var placed_tile_coords = []
 
 var column_ranges := [[1, 16], [5, 12], [7, 10]]
 var column_bag := []:
