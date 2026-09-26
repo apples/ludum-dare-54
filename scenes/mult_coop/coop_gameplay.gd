@@ -25,15 +25,7 @@ var raft_charges = 1:
 var placed_tile_coords = []
 
 var column_ranges := [[1, 16], [5, 12], [7, 10]]
-var column_bag := []:
-	get:
-		if column_bag.is_empty():
-			for r in column_ranges:
-				for i in range(r[0], r[1]):
-					column_bag.append(i)
-			seed(MULT_UTILS.mult_rng.randi())
-			column_bag.shuffle()
-		return column_bag
+var column_bag := []
 
 var spawnables = [
 	{ weight = 40, scene = GLOBAL_VARS.object_type.WOOD },
@@ -43,15 +35,7 @@ var spawnables = [
 	{ weight = 1, scene = GLOBAL_VARS.object_type.GEM},
 	{ weight = 1, scene = GLOBAL_VARS.object_type.BOMB },
 ]
-var spawnables_bag := []:
-	get:
-		if spawnables_bag.is_empty():
-			for s in spawnables:
-				for i in range(s.weight):
-					spawnables_bag.append(s.scene)
-			seed(MULT_UTILS.mult_rng.randi())
-			spawnables_bag.shuffle()
-		return spawnables_bag
+var spawnables_bag := []
 
 func _ready() -> void:
 	multiplayer.peer_disconnected.connect(on_error)
@@ -115,14 +99,35 @@ func _save_state() -> Dictionary:
 	return {
 		score = score,
 		raft_charges = raft_charges,
+		column_bag = column_bag.duplicate(),
+		spawnables_bag = spawnables_bag.duplicate(),
 	}
 
 func _load_state(state: Dictionary) -> void:
 	score = state['score']
 	raft_charges = state['raft_charges']
+	column_bag = state['column_bag'].duplicate()
+	spawnables_bag = state['spawnables_bag'].duplicate()
 
+func fill_column_bag():
+	for r in column_ranges:
+		for i in range(r[0], r[1]):
+			column_bag.append(i)
+	seed(MULT_UTILS.mult_rng.randi())
+	column_bag.shuffle()
+
+func fill_spawnables_bag():
+	for s in spawnables:
+		for i in range(s.weight):
+			spawnables_bag.append(s.scene)
+	seed(MULT_UTILS.mult_rng.randi())
+	spawnables_bag.shuffle()
 
 func _on_network_timer_timeout() -> void:
+	if column_bag.is_empty():
+		fill_column_bag()
+	if spawnables_bag.is_empty():
+		fill_spawnables_bag()
 	var spawn_type = spawnables_bag.pop_back()
 	var spawn_pos = raft.global_position + Vector2(column_bag.pop_back() * 32, 0)
 	SyncManager.spawn("Buoy", buoy_parent, buoy_scene, {pos = spawn_pos, type = spawn_type})

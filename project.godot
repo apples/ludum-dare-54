@@ -166,10 +166,6 @@ fast_forward={
 2d_physics/layer_2="Raft Tile"
 2d_physics/layer_3="buoy"
 
-[network]
-
-rollback/debug/random_rollback_ticks=5
-
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
