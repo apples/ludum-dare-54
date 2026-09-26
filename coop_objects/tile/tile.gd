@@ -3,17 +3,13 @@ class_name CoopTile extends Node2D
 var damage_number_scene = preload("res://singleplayer_objects/damage_numbers/damage_numbers.tscn")
 var tile_break_scene = preload("res://singleplayer_objects/VFX/tile_break/tile_break.tscn")
 
-@export var tile_object: CoopItem = null:
-	set(value):
-		tile_object = value
-		tile_object_name = tile_object.name if tile_object else StringName("")
-var tile_object_name : StringName
+@export var tile_object: CoopItem = null
+	#set(value):
+		#tile_object = value
+		#tile_object_name = tile_object.name if tile_object else StringName("")
+#var tile_object_name : StringName
 
-var player_ref : CoopPlayer = null:
-	set(value):
-		player_ref = value
-		player_ref_name = player_ref.name if player_ref else StringName("")
-var player_ref_name : StringName
+var player_ref : CoopPlayer = null
 
 var raft_ref: CoopRaft
 var grid_pos: Vector2i
@@ -110,10 +106,9 @@ func push(player_grid_pos: Vector2i) -> bool:
 			return false
 		
 		if next_tile and !next_tile.tile_object and !next_tile.player_ref:
-			tile_object.is_moving = true
 			next_tile.tile_object = tile_object
 			tile_object = null
-			next_tile.tile_object.target_pos = next_tile.position
+			next_tile.tile_object.start_move(position, next_tile.position)
 			next_tile.tile_object.grid_pos = next_tile.grid_pos
 			raft_ref.check_matches(next_tile)
 			return true
@@ -144,19 +139,15 @@ func _save_state() -> Dictionary:
 	return {
 		health = health,
 		fire_health_ticks = fire_health_ticks,
-		tile_object_name = tile_object_name,
-		player_ref_name = player_ref_name,
+		tile_object_path = tile_object.get_path() if tile_object else ^"",
+		player_ref_path = player_ref.get_path() if player_ref else ^"",
 	}
 
 func _load_state(state: Dictionary) -> void:
 	health = state['health']
 	fire_health_ticks = state['fire_health_ticks']
-	if tile_object_name != state['tile_object_name']:
-		tile_object_name = state['tile_object_name']
-		tile_object = item_parent.find_child(tile_object_name, false) if tile_object_name != StringName("") else null
-	if player_ref_name != state['player_ref_name']:
-		player_ref_name = state['player_ref_name']
-		player_ref = gameplay.find_child(player_ref_name, false) if player_ref_name != StringName("") else null
+	player_ref = gameplay.get_node_or_null(state['player_ref_path'])
+	tile_object = item_parent.get_node_or_null(state['tile_object_path'])
 
 func _network_spawn(data: Dictionary) -> void:
 	raft_ref = self.get_parent()

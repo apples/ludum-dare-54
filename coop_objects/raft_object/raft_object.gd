@@ -13,13 +13,21 @@ var start_pos := Vector2.ZERO
 
 func _network_process(input: Dictionary):
 	if is_moving:
-		if move_frames == 0:
-			start_pos = position
 		move_frames += 1
 		position = start_pos.lerp(target_pos, move_frames / 12.0) #32 pixels in 12 ticks
-		if move_frames == 12:
+		if move_frames >= 12:
 			is_moving = false
 			move_frames = 0
+
+func start_move(from: Vector2, to: Vector2):
+	is_moving = true
+	start_pos = from
+	target_pos = to
+
+func instant_move(pos: Vector2):
+	start_pos = pos
+	target_pos = pos
+	position = pos
 
 func _save_state() -> Dictionary:
 	return {
@@ -40,9 +48,7 @@ func _network_spawn(data: Dictionary) -> void:
 	var raft : CoopRaft = $"/root/CoopGameplay/Raft"
 	var tile = raft.get_tile(data.grid_pos)
 	
-	position = tile.position
-	target_pos = position
-	start_pos = position
+	instant_move(tile.position)
 	
 	tile.tile_object = self
 	

@@ -19,10 +19,10 @@ var facing_dir := Vector2i(1, 0)
 var last_direction : Vector2i
 var disabled := false
 
-var held_object : CoopItem:
-	set(value):
-		held_object = value
-		held_object_name = held_object.name if held_object else StringName("")
+var held_object : CoopItem
+	#set(value):
+		#held_object = value
+		#held_object_name = held_object.name if held_object else StringName("")
 var held_object_name : StringName
 
 const move_delay_time_ticks := 6 # really this should be configurable in the options, 6 = 0.1 seconds
@@ -162,8 +162,9 @@ func _save_state() -> Dictionary:
 		move_ticks = move_ticks,
 		push_ticks = push_ticks,
 		recent_input_dir = recent_input_dir,
-		held_object_name = held_object_name,
+		held_object_path = held_object.get_path() if held_object else ^"",
 		disabled = disabled,
+		facing_dir = facing_dir,
 	}
 
 func _load_state(state: Dictionary) -> void:
@@ -174,10 +175,9 @@ func _load_state(state: Dictionary) -> void:
 	push_ticks = state['push_ticks']
 	recent_input_dir = state['recent_input_dir']
 	disabled = state['disabled']
+	facing_dir = state['facing_dir']
 	
-	if held_object_name != state['held_object_name']:
-		held_object_name = state['held_object_name']
-		held_object = item_parent.find_child(held_object_name, false) if held_object_name != StringName("") else null
+	held_object = item_parent.get_node_or_null(state['held_object_path'])
 
 func _network_spawn(data: Dictionary) -> void:
 	grid_pos = data.get("grid_pos")
@@ -186,7 +186,6 @@ func _network_spawn(data: Dictionary) -> void:
 	position = raft.grid_pos_to_global_position(grid_pos)
 	var tile = raft.get_tile(grid_pos)
 	tile.player_ref = self
-	tile.player_ref_name = name
 
 func _get_local_input() -> Dictionary:
 	var input := {}

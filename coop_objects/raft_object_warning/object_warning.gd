@@ -48,9 +48,7 @@ func _network_spawn(data: Dictionary) -> void:
 	var tile = raft.get_tile(data.grid_pos)
 	
 	grid_pos = tile.grid_pos
-	position = tile.position
-	target_pos = position
-	start_pos = position
+	instant_move(tile.position)
 	
 	tile.tile_object = self
 	

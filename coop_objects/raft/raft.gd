@@ -79,16 +79,14 @@ func get_random_empty_tile() -> CoopTile:
 
 func place_object(tile: CoopTile, object):
 	tile.tile_object = object
-	tile.tile_object.position = tile.position
-	tile.tile_object.target_pos = tile.position
+	tile.tile_object.instant_move(tile.position)
 	tile.tile_object.grid_pos = tile.grid_pos
 	check_matches(tile)
 
 func pickup_object(tile: CoopTile, player: CoopPlayer) -> void:
 	player.held_object = tile.tile_object
 	tile.tile_object = null
-	player.held_object.global_position = player.global_position + Vector2(0, -16)
-	player.held_object.target_pos = player.held_object.position
+	player.held_object.instant_move(player.position + Vector2(0, -16) - position)
 
 func check_matches(tile: CoopTile) -> void:
 	var start_coord := tile.grid_pos
