@@ -85,7 +85,7 @@ func _load_state(state: Dictionary) -> void:
 	is_stunned = state['is_stunned']
 
 func _on_attack_timer_timeout() -> void:
-	var spawn_tile = raft.get_random_empty_tile().grid_pos
+	var spawn_tile = raft.get_random_empty_tile()
 	if spawn_tile != null:
 		SyncManager.spawn("alert", $"/root/CoopGameplay/ItemParent", warning_scene, 
 			{grid_pos = spawn_tile.grid_pos, buoy_pos = global_position, good = false, item = GLOBAL_VARS.object_type.BOMB})
