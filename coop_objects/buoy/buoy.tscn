@@ -4,9 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://bny0ed2iln4kv" path="res://assets/textures/donut.png" id="1_rdpqq"]
 [ext_resource type="SpriteFrames" uid="uid://c3be31ateoy2g" path="res://assets/sprite_frames/raft_object_frames.tres" id="3_radmy"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fvkgo"]
-size = Vector2(30, 30)
-
 [node name="Buoy" type="Node2D" unique_id=1412000515 groups=["network_sync"]]
 script = ExtResource("1_radmy")
 
@@ -17,13 +14,3 @@ texture = ExtResource("1_rdpqq")
 position = Vector2(0, -8)
 sprite_frames = ExtResource("3_radmy")
 animation = &"cannon"
-
-[node name="Area2D" type="Area2D" parent="." unique_id=644007041]
-collision_layer = 4
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1241957025]
-visible = false
-shape = SubResource("RectangleShape2D_fvkgo")
-
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

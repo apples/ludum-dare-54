@@ -38,6 +38,13 @@ func grid_pos_to_global_position(coord: Vector2i) -> Vector2:
 func get_tile(coord: Vector2i) -> CoopTile:
 	return tiles.get(coord)
 
+func get_highest_tile(column: int) -> CoopTile:
+	for row in range(15):
+		var tile: CoopTile = tiles.get(Vector2i(column, row))
+		if tile != null:
+			return tile
+	return null
+
 func remove_tile(coord: Vector2i) -> void:
 	tiles.erase(coord)
 
@@ -68,7 +75,7 @@ func get_random_empty_tile() -> CoopTile:
 	if not not_near_player.is_empty():
 		return not_near_player[MULT_UTILS.mult_rng.randi_range(0, not_near_player.size() - 1)]
 	else:
-		return empts[MULT_UTILS.mult_rng.randi_range(0, not_near_player.size() - 1)]
+		return empts[MULT_UTILS.mult_rng.randi_range(0, empts.size() - 1)]
 
 func place_object(tile: CoopTile, object):
 	tile.tile_object = object
