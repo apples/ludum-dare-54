@@ -23,7 +23,8 @@ func _network_process(input: Dictionary):
 	
 	if launch_frames == frame_target:
 		SyncManager.spawn("item", $"/root/CoopGameplay/ItemParent", item_scene, {type = spawn_item, grid_pos = grid_pos})
-		queue_free()
+		#queue_free()
+		SyncManager.despawn(self)
 
 func _save_state() -> Dictionary:
 	return {

@@ -21,7 +21,8 @@ func _network_process(input: Dictionary):
 	
 	if progress_ticks == max_ticks:
 		boss_ref.health -= 1
-		queue_free()
+		SyncManager.despawn(self)
+		#queue_free()
 		#TODO explosion
 
 func _save_state() -> Dictionary:

@@ -117,7 +117,8 @@ func check_matches(tile: CoopTile) -> void:
 		if !one_time:
 			match_effect(m_tile.grid_pos, type, level)
 		else:
-			m_tile.tile_object.queue_free()
+			#m_tile.tile_object.queue_free()
+			SyncManager.despawn(m_tile.tile_object)
 			m_tile.tile_object = null
 		if type == GLOBAL_VARS.object_type.WOOD:
 			one_time = true
@@ -139,7 +140,8 @@ func match_effect(coord: Vector2i, type: GLOBAL_VARS.object_type, level: int):
 	
 	var tile = get_tile(coord)
 	if tile and tile.tile_object:
-		tile.tile_object.queue_free()
+		SyncManager.despawn(tile.tile_object)
+		#tile.tile_object.queue_free()
 		tile.tile_object = null
 
 func wood_effect(coord: Vector2i, level: int):
@@ -159,7 +161,8 @@ func water_effect(coord: Vector2i, level: int):
 				var tile = get_tile(target_coord)
 				if tile and tile.tile_object and tile.tile_object.type == GLOBAL_VARS.object_type.BOMB:
 					gameplay.score += 4 * level
-					tile.tile_object.queue_free()
+					SyncManager.despawn(tile.tile_object)
+					#tile.tile_object.queue_free()
 					tile.tile_object = null
 
 func hammer_effect(coord: Vector2i, level: int):

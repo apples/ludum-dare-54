@@ -57,7 +57,8 @@ func _network_process(input: Dictionary):
 func _set_health(value: int):
 	health = value
 	if health <= 0:
-		queue_free()
+		#queue_free()
+		SyncManager.despawn(self)
 		raft_ref.remove_tile(grid_pos)
 		var tile_break= tile_break_scene.instantiate() #TODO does this need to be mult spawned? just visual, but queue_free could replicate out before _set_health gets hit
 		tile_break.position = self.position
