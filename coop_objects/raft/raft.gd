@@ -122,13 +122,15 @@ func check_matches(tile: CoopTile) -> void:
 		if !one_time:
 			match_effect(m_tile.grid_pos, type, level)
 		else:
-			#m_tile.tile_object.queue_free()
 			SyncManager.despawn(m_tile.tile_object)
 			m_tile.tile_object = null
 		if type == GLOBAL_VARS.object_type.WOOD:
 			one_time = true
 
 func match_effect(coord: Vector2i, type: GLOBAL_VARS.object_type, level: int):
+	var tile := get_tile(coord)
+	var item := tile.tile_object if tile else null
+	
 	match type:
 		GLOBAL_VARS.object_type.WOOD:
 			wood_effect(coord, level)
@@ -143,11 +145,10 @@ func match_effect(coord: Vector2i, type: GLOBAL_VARS.object_type, level: int):
 		GLOBAL_VARS.object_type.GEM:
 			gem_effect(coord, level)
 	
-	var tile = get_tile(coord)
-	if tile and tile.tile_object:
-		SyncManager.despawn(tile.tile_object)
-		#tile.tile_object.queue_free()
-		tile.tile_object = null
+	if item:
+		if tile and tile.tile_object == item:
+			tile.tile_object = null
+		SyncManager.despawn(item)
 
 func wood_effect(coord: Vector2i, level: int):
 	gameplay.score += 10 * level
@@ -194,7 +195,7 @@ func cannon_effect(coord: Vector2i, level: int):
 func bomb_effect(coord: Vector2i, level: int):
 	var tile = get_tile(coord)
 	tile.damage(ceili(level / 2.0))
-	if MULT_UTILS.mult_rng.randi_range(0, 9) < level + 4:
+	if tile and tile.health > 0 and MULT_UTILS.mult_rng.randi_range(0, 9) < level + 4:
 		tile.ignite()
 
 func gem_effect(coord: Vector2i, level: int):

@@ -35,6 +35,7 @@ func _save_state() -> Dictionary:
 		target_pos = target_pos,
 		move_frames = move_frames,
 		start_pos = start_pos,
+		grid_pos = grid_pos,
 	}
 
 func _load_state(state: Dictionary) -> void:
@@ -42,6 +43,7 @@ func _load_state(state: Dictionary) -> void:
 	target_pos = state['target_pos']
 	move_frames = state['move_frames']
 	start_pos = state['start_pos']
+	grid_pos = state['grid_pos']
 
 func _network_spawn(data: Dictionary) -> void:
 	type = data.type

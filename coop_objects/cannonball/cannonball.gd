@@ -8,7 +8,6 @@ var start_pos := Vector2.ZERO
 
 var ball_path: PackedVector2Array
 
-#var raft_ref : CoopRaft
 var boss_ref : CoopBoss
 
 @export var simple_curve : Curve
@@ -22,7 +21,6 @@ func _network_process(input: Dictionary):
 	if progress_ticks == max_ticks:
 		boss_ref.health -= 1
 		SyncManager.despawn(self)
-		#queue_free()
 		#TODO explosion
 
 func _save_state() -> Dictionary:
@@ -34,7 +32,6 @@ func _load_state(state: Dictionary) -> void:
 	progress_ticks = state['progress_ticks']
 
 func _network_spawn(data: Dictionary) -> void:
-	#raft_ref = $"/root/CoopGameplay/Raft"
 	boss_ref = $"/root/CoopGameplay/Boss"
 	global_position = data.pos
 	start_pos = global_position

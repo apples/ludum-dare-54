@@ -21,9 +21,8 @@ func _network_process(input: Dictionary):
 	sprite.global_position = last_buoy_pos.lerp(global_position, progress)
 	sprite.global_position.y -= simple_curve.sample(progress) * 100
 	
-	if launch_frames == frame_target:
+	if launch_frames >= frame_target:
 		SyncManager.spawn("item", $"/root/CoopGameplay/ItemParent", item_scene, {type = spawn_item, grid_pos = grid_pos})
-		#queue_free()
 		SyncManager.despawn(self)
 
 func _save_state() -> Dictionary:
