@@ -16,13 +16,13 @@ func _network_process(_data: Dictionary) -> void:
 
 
 func _save_state() -> Array:
-	return save_state()
+	return save_state().duplicate(true) #changed to a copy
 
 
 func _load_state(state: Array) -> void:
 	if SyncManager._logger:
 		SyncManager._logger.start_timing("property_manager")
-	load_state(state, SyncManager.load_type)
+	load_state(state.duplicate(true), SyncManager.load_type) #changed to a copy
 	if SyncManager._logger:
 		SyncManager._logger.stop_timing("property_manager", true)
 
@@ -32,7 +32,7 @@ func _interpolate_state(state_before: Array, state_after: Array, weight: float) 
 
 
 func _load_state_forward(state: Array, events: Dictionary) -> void:
-	load_state_forward(state, events)
+	load_state_forward(state.duplicate(true), events)
 
 
 static func _prepare_events_up_to_tick(sync_manager: Node, tick_number: int, events: Dictionary, state: Array) -> Dictionary:

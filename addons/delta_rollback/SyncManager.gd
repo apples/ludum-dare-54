@@ -1278,10 +1278,84 @@ func _process(delta: float) -> void:
 # This can be used for comparing input (to prevent a difference betwen predicted
 # input and real input from causing a rollback) and state (for when a property
 # is only used for interpolation).
+#
+# The input is canonicalised first so that the hash depends only on the contents
+# and not on dictionary iteration order.
+# The hash is written back into `input` under '$'.
 func _calculate_data_hash(input: Dictionary) -> int:
-	var serialized_hash: = sync_booster.hash_special_dict(input)
+	#var serialized_hash: = sync_booster.hash_special_dict(input) #old way that depending on node order
+	var serialized_hash := sync_booster.hash_special_dict(_canonicalize_for_hash(input, true))
 	input['$'] = serialized_hash
 	return serialized_hash
+
+
+# Returns `value` with every Dictionary's keys in a stable order, for hashing
+# only. Never mutates its argument, and returns the original object whenever
+# nothing beneath it needed to change.
+static func _canonicalize_for_hash(value, is_root := false):
+	if value is Dictionary:
+		return _canonicalize_dict(value, is_root)
+	if value is Array:
+		return _canonicalize_array(value)
+	return value
+
+
+static func _canonicalize_dict(dict: Dictionary, is_root: bool) -> Dictionary:
+	var keys: Array = dict.keys()
+	var sorted_keys := keys.duplicate()
+	_sort_keys(sorted_keys)
+	
+	# A stale '$' from a previous hash must not feed into the new one.
+	var rebuild := sorted_keys != keys or (is_root and dict.has('$'))
+	var values := []
+	values.resize(sorted_keys.size())
+	for i in sorted_keys.size():
+		var original = dict[sorted_keys[i]]
+		var canonical = _canonicalize_for_hash(original)
+		rebuild = rebuild or not is_same(original, canonical)
+		values[i] = canonical
+	
+	if not rebuild:
+		return dict
+	
+	var result := {}
+	for i in sorted_keys.size():
+		if is_root and sorted_keys[i] is String and sorted_keys[i] == '$':
+			continue
+		result[sorted_keys[i]] = values[i]
+	return result
+
+
+# Array order is meaningful and is preserved; only the contents are canonicalized.
+static func _canonicalize_array(array: Array) -> Array:
+	var canonical := []
+	canonical.resize(array.size())
+	var changed := false
+	for i in array.size():
+		canonical[i] = _canonicalize_for_hash(array[i])
+		changed = changed or not is_same(array[i], canonical[i])
+	return canonical if changed else array
+
+
+static func _sort_keys(keys: Array) -> void:
+	var all_strings := true
+	var all_ints := true
+	for k in keys:
+		var t := typeof(k)
+		all_strings = all_strings and t == TYPE_STRING
+		all_ints = all_ints and t == TYPE_INT
+	if all_strings or all_ints:
+		keys.sort()  # native, no Callable overhead; the common case
+	else:
+		keys.sort_custom(_compare_mixed_keys)
+
+
+static func _compare_mixed_keys(a, b) -> bool:
+	var ta := typeof(a)
+	var tb := typeof(b)
+	if ta != tb:
+		return ta < tb
+	return str(a) < str(b)
 
 func _on_received_input_tick(peer_id: int, serialized_msg: PackedByteArray) -> void:
 	if not started:

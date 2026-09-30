@@ -96,11 +96,11 @@ func damage(value: int):
 		if health < max_health:
 			health -= value
 	else:
-		health -= value
 		var dmg_number = damage_number_scene.instantiate()
 		dmg_number.number_value = value
 		dmg_number.position = self.position
 		get_parent().add_child(dmg_number)
+		health -= value
 
 func ignite(amount: int = max_fire_health_ticks):
 	if !is_on_fire:
