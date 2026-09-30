@@ -22,7 +22,12 @@ var grid_pos: Vector2i
 @onready var item_parent = $"/root/CoopGameplay/ItemParent"
 @onready var gameplay = $"/root/CoopGameplay"
 
+# Backing store for health. Assigning `health` runs the damage/death side
+# effects, so rollback writes `_health` directly instead - see _load_state().
+var _health: int = 3
+
 @export var health: int = 3 :
+	get = _get_health,
 	set = _set_health
 @export var max_health: int = 3
 
@@ -50,9 +55,12 @@ func _network_process(input: Dictionary):
 		if SyncManager.current_tick % 4 == 0 and fire_health_ticks < max_fire_health_ticks:
 			fire_health_ticks += 1
 
+func _get_health() -> int:
+	return _health
+
 func _set_health(value: int):
-	health = value
-	if health <= 0:
+	_health = value
+	if _health <= 0:
 		if tile_object:
 			SyncManager.despawn(tile_object)
 		SyncManager.despawn(self)
@@ -61,13 +69,16 @@ func _set_health(value: int):
 		tile_break.position = self.position
 		get_parent().add_child(tile_break)
 	else:
-		match health:
-			2:
-				$AnimatedSprite2D.frame = 1
-			1:
-				$AnimatedSprite2D.frame = 2
-			_:
-				$AnimatedSprite2D.frame = 0
+		_set_damage_sprite()
+
+func _set_damage_sprite() -> void:
+	match _health:
+		2:
+			$AnimatedSprite2D.frame = 1
+		1:
+			$AnimatedSprite2D.frame = 2
+		_:
+			$AnimatedSprite2D.frame = 0
 
 func _set_fire_health(value: int):
 	if fire_health_ticks > 0 and value == 0: #extinguish
@@ -145,7 +156,8 @@ func _save_state() -> Dictionary:
 	}
 
 func _load_state(state: Dictionary) -> void:
-	health = state['health']
+	_health = state['health']
+	_set_damage_sprite()
 	fire_health_ticks = state['fire_health_ticks']
 	player_ref = gameplay.get_node_or_null(state['player_ref_path'])
 	tile_object = item_parent.get_node_or_null(state['tile_object_path'])

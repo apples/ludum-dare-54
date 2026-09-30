@@ -215,3 +215,19 @@ func generate_initial_platform() -> void:
 			new_tile.position = TILE_SPACING * Vector2(c, r)
 			tiles.set(Vector2i(c, r), new_tile)
 			add_child(new_tile)
+
+func _save_state() -> Dictionary:
+	var tile_paths := []
+	for tile: CoopTile in tiles.values():
+		if is_instance_valid(tile):
+			tile_paths.append(tile.get_path())
+	return {
+		tile_paths = tile_paths,
+	}
+
+func _load_state(state: Dictionary) -> void:
+	tiles.clear()
+	for tile_path in state['tile_paths']:
+		var tile := get_node_or_null(tile_path) as CoopTile
+		if tile:
+			add_tile(tile)
