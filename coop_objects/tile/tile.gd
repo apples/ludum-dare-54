@@ -61,13 +61,13 @@ func _get_health() -> int:
 func _set_health(value: int):
 	_health = value
 	if _health <= 0:
-		if tile_object:
-			SyncManager.despawn(tile_object)
-		SyncManager.despawn(self)
-		raft_ref.remove_tile(grid_pos)
 		var tile_break= tile_break_scene.instantiate() #TODO does this need to be mult spawned? just visual, but queue_free could replicate out before _set_health gets hit
 		tile_break.position = self.position
 		get_parent().add_child(tile_break)
+		raft_ref.remove_tile(grid_pos)
+		if tile_object:
+			SyncManager.despawn(tile_object)
+		SyncManager.despawn(self)
 	else:
 		_set_damage_sprite()
 

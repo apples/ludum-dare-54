@@ -47,8 +47,6 @@ func _ready() -> void:
 	SyncManager.sync_regained.connect(on_resync)
 	SyncManager.sync_stopped.connect(_on_sync_stopped)
 	
-	raft.generate_initial_platform()
-	
 	if multiplayer.is_server():
 		MULT_UTILS.mult_rng.set_seed(randi())
 		MULT_UTILS.sync_rng.rpc(MULT_UTILS.mult_rng.get_seed())
@@ -57,6 +55,8 @@ func _ready() -> void:
 	charge_label.text = str(raft_charges)
 
 func on_sync_start():
+	raft.generate_initial_platform()
+	
 	var mult_ids = []
 	mult_ids.append(multiplayer.get_unique_id())
 	mult_ids.append_array(multiplayer.get_peers())

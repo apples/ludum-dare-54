@@ -205,16 +205,9 @@ func gem_effect(coord: Vector2i, level: int):
 	#TODO player combo +++
 
 func generate_initial_platform() -> void:
-	var new_tile : CoopTile
-	for r in range(8,12):
-		for c in range(6,11):
-			new_tile = raft_tile_scene.instantiate()
-			new_tile.name = "Tile_%s_%s" % [c, r]
-			new_tile.raft_ref = self
-			new_tile.grid_pos = Vector2i(c, r)
-			new_tile.position = TILE_SPACING * Vector2(c, r)
-			tiles.set(Vector2i(c, r), new_tile)
-			add_child(new_tile)
+	for r in range(8, 12):
+		for c in range(6, 11):
+			place_tile(Vector2i(c, r))
 
 func _save_state() -> Dictionary:
 	var tile_paths := []
