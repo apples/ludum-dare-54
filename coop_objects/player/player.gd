@@ -32,6 +32,8 @@ var push_ticks := 0
 var recent_input_dir := Vector2i(0, 0)
 
 var tile_placements : Array[Vector2i] = []
+var upgrade_node : Node
+var upgrade_allowed = true
 
 func _process(delta: float) -> void:
 	match facing_dir:
@@ -43,14 +45,21 @@ func _process(delta: float) -> void:
 			anim.play("up")
 		_:
 			anim.play("down")
+	
+	var want_upgrade := disabled and is_multiplayer_authority() and upgrade_allowed
+	var has_upgrade := is_instance_valid(upgrade_node) and not upgrade_node.is_queued_for_deletion()
+	if want_upgrade and not has_upgrade:
+		upgrade_allowed = false
+		upgrade_node = upgrade_scene.instantiate()
+		gameplay.add_child(upgrade_node)
 
 func _network_process(input: Dictionary):
-	#held_object_name = held_object.name if held_object else StringName("")
 	if !input:
 		return
 	
 	if input.has("upgrade_tiles") and input["upgrade_tiles"].size() > 0:
 		disabled = false
+		upgrade_allowed = true
 		for i in input["upgrade_tiles"]:
 			raft.place_tile(i)
 		return
@@ -61,9 +70,6 @@ func _network_process(input: Dictionary):
 	if input["upgrade_pressed"] and gameplay.raft_charges > 0:
 		gameplay.raft_charges -= 1
 		disabled = true
-		if self.is_multiplayer_authority():
-			var upgrade = upgrade_scene.instantiate()
-			gameplay.add_child(upgrade)
 		return
 	
 	var lr: int = (1 if input["right"] else 0) - (1 if input["left"] else 0)
@@ -197,7 +203,7 @@ func _get_local_input() -> Dictionary:
 	input["interact"] = Input.is_action_pressed("interact")
 	input["upgrade_pressed"] = Input.is_action_just_pressed("execute")
 	
-	if gameplay.placed_tile_coords.size() > 1:
+	if gameplay.placed_tile_coords.size() > 0:
 		input["upgrade_tiles"] = gameplay.placed_tile_coords
 		gameplay.placed_tile_coords = []
 	
@@ -210,6 +216,12 @@ func _get_local_input() -> Dictionary:
 	return input
 
 func _predict_remote_input(previous_input: Dictionary, ticks_since_real_input: int) -> Dictionary: # just setting all "is_action_just_pressed" actions to false
+	if !previous_input:
+		return {}
+	
 	if ticks_since_real_input > 0:
 		previous_input["interact_pressed"] = false
+		previous_input["upgrade_pressed"] = false
+		previous_input["upgrade_tiles"] = []
+		
 	return previous_input
