@@ -15,6 +15,8 @@ func _network_process(input: Dictionary):
 	if has_hit:
 		return
 	position += Vector2.DOWN * 0.3125 #close enough to a third while being a power of two
+	if position.y > 16 * 32:
+		SyncManager.despawn(self)
 	var highest_tile : CoopTile = raft_ref.get_highest_tile(column)
 	if highest_tile != null and position.y + 32 >= highest_tile.global_position.y:
 		launch()
