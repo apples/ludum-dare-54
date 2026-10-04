@@ -40,6 +40,10 @@ offset_right = 318.0
 offset_bottom = 402.0
 text = "BACK"
 
+[node name="Timer" type="Timer" parent="." unique_id=499818668]
+one_shot = true
+
 [connection signal="toggled" from="CheckButton" to="." method="_on_check_button_toggled"]
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

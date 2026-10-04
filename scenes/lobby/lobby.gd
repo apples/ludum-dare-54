@@ -3,6 +3,7 @@ extends Node2D
 @onready var players_label = $Label
 @onready var public_switch = $CheckButton
 @onready var start_button = $StartButton
+@onready var start_delay = $Timer
 
 var mult_select_scene = "res://scenes/mult_select/mult_select.tscn"
 var coop_gameplay_scene = "res://scenes/mult_coop/coop_gameplay.tscn"
@@ -36,6 +37,8 @@ func _ready() -> void:
 func on_connection(id):
 	update_players_list()
 	SyncManager.add_peer(id)
+	start_button.disabled = true
+	start_delay.start()
 
 func on_disconnect(id):
 	update_players_list()
@@ -72,3 +75,7 @@ func _on_start_button_pressed() -> void:
 @rpc("authority", "call_local")
 func start_game():
 	UTILS.change_to_scene(coop_gameplay_scene)
+
+
+func _on_timer_timeout() -> void:
+	start_button.disabled = !MULT_UTILS.is_hosting
