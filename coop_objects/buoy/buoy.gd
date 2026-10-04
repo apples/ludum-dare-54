@@ -21,7 +21,7 @@ func _network_process(input: Dictionary):
 
 func launch() -> void:
 	has_hit = true
-	var spawn_tile = raft_ref.get_random_empty_tile()
+	var spawn_tile = raft_ref.get_random_empty_tile_in_column(column)
 	if spawn_tile != null:
 		SyncManager.spawn("alert", $"/root/CoopGameplay/ItemParent", warning_scene, {grid_pos = spawn_tile.grid_pos, buoy_pos = global_position, good = true, item = item_type})
 	SyncManager.despawn(self)

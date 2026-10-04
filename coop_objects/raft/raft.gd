@@ -54,6 +54,35 @@ func add_tile(tile: CoopTile) -> void:
 func place_tile(coord: Vector2i) -> void:
 	SyncManager.spawn("Tile_%s_%s" % [coord.x, coord.y], self, raft_tile_scene, {coord = coord})
 
+func get_random_empty_tile_in_column(column: int) -> CoopTile:
+	var offset = 0
+	var col_tiles = []
+	for i in range(15):
+		for row in range(15):
+			var tile: CoopTile = tiles.get(Vector2i(column + offset, row))
+			if tile != null and not tile.tile_object and not tile.player_ref:
+				col_tiles.append(tile)
+		if col_tiles.size() > 0:
+			break
+		else:
+			if offset > 0:
+				offset = -offset
+			else:
+				offset = (-offset) + 1
+	
+	var not_near_player = col_tiles.duplicate()
+	for e in col_tiles:
+		for p in players:
+			var d = e.grid_pos - p.grid_pos
+			var grid_dist = abs(d.x) + abs(d.y)
+			if grid_dist <= 1:
+				not_near_player.erase(e)
+	
+	if not not_near_player.is_empty():
+		return not_near_player[MULT_UTILS.mult_rng.randi_range(0, not_near_player.size() - 1)]
+	else:
+		return col_tiles[MULT_UTILS.mult_rng.randi_range(0, col_tiles.size() - 1)]
+
 func get_random_empty_tile() -> CoopTile:
 	var empts = []
 	for t:CoopTile in tiles.values():
@@ -197,6 +226,7 @@ func bomb_effect(coord: Vector2i, level: int):
 	tile.damage(ceili(level / 2.0))
 	if tile and tile.health > 0 and MULT_UTILS.mult_rng.randi_range(0, 9) < level + 4:
 		tile.ignite()
+	#TODO check for players and splash them if tile is destroyed
 
 func gem_effect(coord: Vector2i, level: int):
 	gameplay.score += 10 * level
