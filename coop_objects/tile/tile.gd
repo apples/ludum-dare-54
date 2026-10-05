@@ -4,10 +4,6 @@ var damage_number_scene = preload("res://singleplayer_objects/damage_numbers/dam
 var tile_break_scene = preload("res://singleplayer_objects/VFX/tile_break/tile_break.tscn")
 
 @export var tile_object: CoopItem = null
-	#set(value):
-		#tile_object = value
-		#tile_object_name = tile_object.name if tile_object else StringName("")
-#var tile_object_name : StringName
 
 var player_ref : CoopPlayer = null
 
@@ -22,10 +18,9 @@ var grid_pos: Vector2i
 @onready var item_parent = $"/root/CoopGameplay/ItemParent"
 @onready var gameplay = $"/root/CoopGameplay"
 
-# Backing store for health. Assigning `health` runs the damage/death side
-# effects, so rollback writes `_health` directly instead - see _load_state().
-var _health: int = 3
+@onready var effect_sprite = $MatchEffect
 
+var _health: int = 3
 @export var health: int = 3 :
 	get = _get_health,
 	set = _set_health
@@ -48,9 +43,6 @@ func _process(delta: float) -> void:
 		fire_progress.value = float(fire_health_ticks) / float(max_fire_health_ticks)
 
 func _network_process(input: Dictionary):
-	#player_ref_name = player_ref.name if player_ref else StringName("")
-	#tile_object_name = tile_object.name if tile_object else StringName("")
-	
 	if is_on_fire:
 		if SyncManager.current_tick % 4 == 0 and fire_health_ticks < max_fire_health_ticks:
 			fire_health_ticks += 1
@@ -167,3 +159,16 @@ func _network_spawn(data: Dictionary) -> void:
 	grid_pos = data.coord
 	position = grid_pos * 32
 	raft_ref.add_tile(self)
+
+func play_effect(effect_name: String):
+	effect_sprite.show()
+	match(effect_name):
+		"hammer":
+			effect_sprite.play("hammer")
+		"water":
+			effect_sprite.play("water")
+		_:
+			effect_sprite.play("sparkle")
+
+func _on_match_effect_animation_finished() -> void:
+	effect_sprite.hide()

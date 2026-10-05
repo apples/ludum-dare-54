@@ -153,6 +153,7 @@ func check_matches(tile: CoopTile) -> void:
 		else:
 			SyncManager.despawn(m_tile.tile_object)
 			m_tile.tile_object = null
+			m_tile.play_effect("wood")
 		if type == GLOBAL_VARS.object_type.WOOD:
 			one_time = true
 
@@ -182,6 +183,8 @@ func match_effect(coord: Vector2i, type: GLOBAL_VARS.object_type, level: int):
 func wood_effect(coord: Vector2i, level: int):
 	gameplay.score += 10 * level
 	gameplay.raft_charges += level
+	var tile = get_tile(coord)
+	tile.play_effect("wood")
 
 func water_effect(coord: Vector2i, level: int):
 	gameplay.score += 1 * level
@@ -194,11 +197,15 @@ func water_effect(coord: Vector2i, level: int):
 			if abs(x) + abs(y) <= radius:
 				var target_coord = coord + Vector2i(x, y)
 				var tile = get_tile(target_coord)
-				if tile and tile.tile_object and tile.tile_object.type == GLOBAL_VARS.object_type.BOMB:
-					gameplay.score += 4 * level
-					SyncManager.despawn(tile.tile_object)
-					#tile.tile_object.queue_free()
-					tile.tile_object = null
+				if tile:
+					tile.play_effect("water")
+					if tile.tile_object and tile.tile_object.type == GLOBAL_VARS.object_type.BOMB:
+						gameplay.score += 4 * level
+						SyncManager.despawn(tile.tile_object)
+						tile.tile_object = null
+					if tile.tile_object and tile.is_on_fire:
+						gameplay.score += 1 * level
+						tile.fire_health_ticks = 0
 
 func hammer_effect(coord: Vector2i, level: int):
 	gameplay.score += 1 * level
@@ -213,16 +220,23 @@ func hammer_effect(coord: Vector2i, level: int):
 				var target_coord = coord + Vector2i(x, y)
 				var tile = get_tile(target_coord)
 				if tile:
+					tile.play_effect("hammer")
 					if tile.health < tile.max_health:
 						gameplay.score += 2 * level
 					tile.damage(-heal_strength)
+					if tile.tile_object and tile.is_on_fire:
+						gameplay.score += 1 * level
+						tile.fire_health_ticks = 0
 
 func cannon_effect(coord: Vector2i, level: int):
 	gameplay.score += 5 * level
 	SyncManager.spawn("Cannonball", self, cannonball_scene, {pos = grid_pos_to_global_position(coord)})
+	var tile = get_tile(coord)
+	tile.play_effect("cannon")
 
 func bomb_effect(coord: Vector2i, level: int):
 	var tile = get_tile(coord)
+	tile.play_effect("bomb")
 	tile.damage(ceili(level / 2.0))
 	if tile and tile.health > 0 and MULT_UTILS.mult_rng.randi_range(0, 9) < level + 4:
 		tile.ignite()
@@ -233,6 +247,8 @@ func gem_effect(coord: Vector2i, level: int):
 	hammer_effect(coord, level + 2)
 	water_effect(coord, level + 2)
 	#TODO player combo +++
+	var tile = get_tile(coord)
+	tile.play_effect("gem")
 
 func generate_initial_platform() -> void:
 	for r in range(8, 12):

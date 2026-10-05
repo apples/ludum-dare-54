@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b05by44t0qh7e" path="res://assets/textures/smoke_8x8.png" id="4_g2lgu"]
 [ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="5_vc3qp"]
 [ext_resource type="AudioStream" uid="uid://cy00b2n8c0qqk" path="res://assets/sfx/fire_burning.wav" id="6_pcs78"]
+[ext_resource type="SpriteFrames" uid="uid://nwsjja6k1wdg" path="res://assets/sprite_frames/tile_effect.tres" id="6_vb7mx"]
 [ext_resource type="Script" uid="uid://102ie0rnxebk" path="res://addons/delta_rollback/NetworkTimer.gd" id="7_pvyr2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_54oyg"]
@@ -97,6 +98,14 @@ max_value = 1.0
 value = 1.0
 show_percentage = false
 
+[node name="MatchEffect" type="AnimatedSprite2D" parent="." unique_id=1885997195]
+visible = false
+sprite_frames = ExtResource("6_vb7mx")
+animation = &"water"
+
+[node name="MatchSFX" type="AudioStreamPlayer" parent="." unique_id=1098268060]
+bus = &"Sound_effects"
+
 [node name="Burning" type="AudioStreamPlayer" parent="." unique_id=860521160]
 stream = ExtResource("6_pcs78")
 bus = &"Sound_effects"
@@ -114,4 +123,5 @@ monitoring = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1414760443]
 shape = SubResource("RectangleShape2D_fvkgo")
 
+[connection signal="animation_finished" from="MatchEffect" to="." method="_on_match_effect_animation_finished"]
 [connection signal="timeout" from="FireNetworkTimer" to="." method="_on_fire_network_timer_timeout"]
