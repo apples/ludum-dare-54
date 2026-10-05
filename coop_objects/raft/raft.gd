@@ -146,16 +146,19 @@ func check_matches(tile: CoopTile) -> void:
 	if level < 1:
 		return
 	
-	var one_time = false
-	for m_tile in match_tiles:
-		if !one_time:
-			match_effect(m_tile.grid_pos, type, level)
-		else:
+	var is_wood = type == GLOBAL_VARS.object_type.WOOD
+	for i in match_tiles.size():
+		var m_tile = match_tiles[i]
+
+		if i == 0:
+			m_tile.play_sfx(type)
+
+		if is_wood and i > 0:
 			SyncManager.despawn(m_tile.tile_object)
 			m_tile.tile_object = null
 			m_tile.play_effect("wood")
-		if type == GLOBAL_VARS.object_type.WOOD:
-			one_time = true
+		else:
+			match_effect(m_tile.grid_pos, type, level)
 
 func match_effect(coord: Vector2i, type: GLOBAL_VARS.object_type, level: int):
 	var tile := get_tile(coord)

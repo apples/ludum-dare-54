@@ -19,6 +19,14 @@ var grid_pos: Vector2i
 @onready var gameplay = $"/root/CoopGameplay"
 
 @onready var effect_sprite = $MatchEffect
+@onready var effect_sfx = $MatchSFX
+
+var water_sfx := preload("res://assets/sfx/water_kill_fire.ogg")
+var bomb_sfx := preload("res://assets/sfx/bomb_explode.ogg")
+var hammer_sfx := preload("res://assets/sfx/repair_hammer.ogg")
+var cannon_sfx := preload("res://assets/sfx/cannon_sfx.ogg")
+var gem_sfx := preload("res://assets/sfx/gem_combo_get.ogg")
+#var wood_sfx := preload("res://assets/sfx/water_kill_fire.ogg") #doesn't exist
 
 var _health: int = 3
 @export var health: int = 3 :
@@ -172,3 +180,19 @@ func play_effect(effect_name: String):
 
 func _on_match_effect_animation_finished() -> void:
 	effect_sprite.hide()
+
+func play_sfx(type: GLOBAL_VARS.object_type):
+	match(type):
+		GLOBAL_VARS.object_type.WATER:
+			effect_sfx.stream = water_sfx
+		GLOBAL_VARS.object_type.HAMMER:
+			effect_sfx.stream = hammer_sfx
+		GLOBAL_VARS.object_type.CANNON:
+			effect_sfx.stream = cannon_sfx
+		GLOBAL_VARS.object_type.GEM:
+			effect_sfx.stream = gem_sfx
+		GLOBAL_VARS.object_type.BOMB:
+			effect_sfx.stream = bomb_sfx
+		_: #wood
+			effect_sfx.stream = hammer_sfx
+	effect_sfx.play()
