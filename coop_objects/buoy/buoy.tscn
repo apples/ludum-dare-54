@@ -2,10 +2,17 @@
 
 [ext_resource type="Script" uid="uid://4hfgd5nj6bth" path="res://coop_objects/buoy/buoy.gd" id="1_radmy"]
 [ext_resource type="Texture2D" uid="uid://bny0ed2iln4kv" path="res://assets/textures/donut.png" id="1_rdpqq"]
+[ext_resource type="SpriteFrames" uid="uid://dquniopf2hsja" path="res://assets/sprite_frames/raft_object_frames_inv.tres" id="2_d2plu"]
 [ext_resource type="SpriteFrames" uid="uid://c3be31ateoy2g" path="res://assets/sprite_frames/raft_object_frames.tres" id="3_radmy"]
 
 [node name="Buoy" type="Node2D" unique_id=1412000515 groups=["network_sync"]]
 script = ExtResource("1_radmy")
+
+[node name="ReflectedItemSprite" type="AnimatedSprite2D" parent="." unique_id=1464172742]
+z_index = -100
+position = Vector2(0, 24)
+sprite_frames = ExtResource("2_d2plu")
+animation = &"water"
 
 [node name="FloatySprite" type="Sprite2D" parent="." unique_id=1220336840]
 texture = ExtResource("1_rdpqq")
@@ -13,4 +20,5 @@ texture = ExtResource("1_rdpqq")
 [node name="ItemSprite" type="AnimatedSprite2D" parent="." unique_id=1496137213]
 position = Vector2(0, -8)
 sprite_frames = ExtResource("3_radmy")
-animation = &"cannon"
+animation = &"water"
+autoplay = "water"

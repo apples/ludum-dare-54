@@ -10,12 +10,6 @@ void fragment()
 
 	float xRes = float(size.x);
 	float yRes = float(size.y);
-//
-//	float xFactor = float(xRes) / float(pixelSize);
-//	float yFactor = float(yRes) / float(pixelSize);
-//
-//	float grid_uv_x = round(SCREEN_UV.x * xFactor) / xFactor;
-//	float grid_uv_y = round(SCREEN_UV.y * yFactor) / yFactor;
 
 	float grid_uv_x = round((SCREEN_UV.x * xRes) / pixelSize);
 	float grid_uv_y = round((SCREEN_UV.y * yRes) / pixelSize);

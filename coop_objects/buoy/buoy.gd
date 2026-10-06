@@ -7,6 +7,7 @@ var has_hit := false
 var column := 0
 
 @onready var item_sprite = $ItemSprite
+@onready var reflected_item_sprite = $ReflectedItemSprite
 
 var warning_scene = preload("res://coop_objects/raft_object_warning/object_warning.tscn")
 
@@ -48,13 +49,19 @@ func _network_spawn(data: Dictionary) -> void:
 	match item_type:
 		GLOBAL_VARS.object_type.WOOD:
 			item_sprite.play("wood")
+			reflected_item_sprite.play("wood")
 		GLOBAL_VARS.object_type.WATER:
 			item_sprite.play("water")
+			reflected_item_sprite.play("water")
 		GLOBAL_VARS.object_type.HAMMER:
 			item_sprite.play("hammer")
+			reflected_item_sprite.play("hammer")
 		GLOBAL_VARS.object_type.CANNON:
 			item_sprite.play("cannon")
+			reflected_item_sprite.play("cannon")
 		GLOBAL_VARS.object_type.BOMB:
 			item_sprite.play("bomb")
+			reflected_item_sprite.play("bomb")
 		GLOBAL_VARS.object_type.GEM:
 			item_sprite.play("gem")
+			reflected_item_sprite.play("gem")

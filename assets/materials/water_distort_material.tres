@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://x41mvipplmv8"]
+
+[ext_resource type="Shader" uid="uid://e324r76jb65q" path="res://assets/materials/water_distort_shader.gdshader" id="1_bvfpw"]
+
+[resource]
+shader = ExtResource("1_bvfpw")
+shader_parameter/tint = Color(1.6364455e-06, 0.48820728, 0.65372753, 0.7058824)
