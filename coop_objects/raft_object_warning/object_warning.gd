@@ -8,6 +8,7 @@ var launch_frames := 0
 const frame_target = 60
 
 @onready var alert_sprite := $AlertSprite
+@onready var reflection := $Reflection
 
 var item_scene = preload("res://coop_objects/raft_object/raft_object.tscn")
 
@@ -19,7 +20,9 @@ func _network_process(input: Dictionary):
 	launch_frames += 1
 	var progress = launch_frames / float(frame_target)
 	sprite.global_position = last_buoy_pos.lerp(global_position, progress)
+	reflection.global_position = last_buoy_pos.lerp(global_position, progress)
 	sprite.global_position.y -= simple_curve.sample(progress) * 100
+	reflection.global_position.y += simple_curve.sample(progress) * 100
 	
 	if launch_frames >= frame_target:
 		SyncManager.spawn("item", $"/root/CoopGameplay/ItemParent", item_scene, {type = spawn_item, grid_pos = grid_pos})
@@ -63,13 +66,19 @@ func _network_spawn(data: Dictionary) -> void:
 	match spawn_item:
 		GLOBAL_VARS.object_type.WOOD:
 			sprite.play("wood")
+			reflection.play("wood")
 		GLOBAL_VARS.object_type.WATER:
 			sprite.play("water")
+			reflection.play("water")
 		GLOBAL_VARS.object_type.HAMMER:
 			sprite.play("hammer")
+			reflection.play("hammer")
 		GLOBAL_VARS.object_type.CANNON:
 			sprite.play("cannon")
+			reflection.play("cannon")
 		GLOBAL_VARS.object_type.BOMB:
 			sprite.play("bomb")
+			reflection.play("bomb")
 		GLOBAL_VARS.object_type.GEM:
 			sprite.play("gem")
+			reflection.play("gem")

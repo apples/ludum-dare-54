@@ -18,7 +18,7 @@ func _network_process(input: Dictionary):
 	global_position = start_pos.lerp(target, progress)
 	global_position.y += simple_curve.sample(progress)
 	
-	if progress_ticks == max_ticks:
+	if progress_ticks >= max_ticks:
 		boss_ref.health -= 1
 		SyncManager.despawn(self)
 		#TODO explosion

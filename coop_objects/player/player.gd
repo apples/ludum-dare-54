@@ -3,6 +3,7 @@ class_name CoopPlayer extends CharacterBody2D
 @export var raft: CoopRaft
 
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
+@onready var reflection: AnimatedSprite2D = $Reflection
 @onready var hold_root = $HoldRoot
 @onready var grab_area = $GrabArea
 
@@ -20,9 +21,6 @@ var last_direction : Vector2i
 var disabled := false
 
 var held_object : CoopItem
-	#set(value):
-		#held_object = value
-		#held_object_name = held_object.name if held_object else StringName("")
 var held_object_name : StringName
 
 const move_delay_time_ticks := 6 # really this should be configurable in the options, 6 = 0.1 seconds
@@ -39,12 +37,16 @@ func _process(delta: float) -> void:
 	match facing_dir:
 		Vector2i.LEFT:
 			anim.play("left")
+			reflection.play("left")
 		Vector2i.RIGHT:
 			anim.play("right")
+			reflection.play("right")
 		Vector2i.UP:
 			anim.play("up")
+			reflection.play("up")
 		_:
 			anim.play("down")
+			reflection.play("down")
 	
 	var want_upgrade := disabled and is_multiplayer_authority() and upgrade_allowed
 	var has_upgrade := is_instance_valid(upgrade_node) and not upgrade_node.is_queued_for_deletion()

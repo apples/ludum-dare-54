@@ -2,6 +2,20 @@
 
 [ext_resource type="Shader" uid="uid://e324r76jb65q" path="res://assets/materials/water_distort_shader.gdshader" id="1_bvfpw"]
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_a1hjq"]
+frequency = 0.03
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_dnhs7"]
+width = 128
+height = 128
+noise = SubResource("FastNoiseLite_a1hjq")
+seamless = true
+seamless_blend_skirt = 0.2
+
 [resource]
 shader = ExtResource("1_bvfpw")
-shader_parameter/tint = Color(1.6364455e-06, 0.48820728, 0.65372753, 0.7058824)
+shader_parameter/noise_tex = SubResource("NoiseTexture3D_dnhs7")
+shader_parameter/scale = 3.0
+shader_parameter/speed = 0.1
+shader_parameter/strength = 0.0090000004275
+shader_parameter/tint = Color(1, 1, 1, 0)
