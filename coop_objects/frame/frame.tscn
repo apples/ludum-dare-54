@@ -5,18 +5,9 @@
 [ext_resource type="TileSet" uid="uid://ddakmqeqs0fmb" path="res://assets/map_tiles2.tres" id="2_bsbbm"]
 [ext_resource type="Material" uid="uid://x41mvipplmv8" path="res://assets/materials/water_distort_material.tres" id="4_dnhs7"]
 [ext_resource type="Texture2D" uid="uid://cn0qmsqk0rxr4" path="res://assets/textures/border.png" id="4_ggi6v"]
+[ext_resource type="Material" uid="uid://b8lipcwfhwelk" path="res://assets/materials/cloud_material.tres" id="5_a1hjq"]
 [ext_resource type="Texture2D" uid="uid://dndc10kxm14um" path="res://assets/textures/char1.png" id="5_ispdn"]
-
-[sub_resource type="Gradient" id="Gradient_sk3l8"]
-offsets = PackedFloat32Array(0.47241378, 0.8862069)
-colors = PackedColorArray(0.039426524, 0.039426524, 0.039426524, 0.039426524, 1.0039686, 1.0039686, 1.0039686, 1)
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_1a5ij"]
-frequency = 0.005
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_l3aa2"]
-noise = SubResource("FastNoiseLite_1a5ij")
-color_ramp = SubResource("Gradient_sk3l8")
+[ext_resource type="Texture2D" uid="uid://cqiu2i8mgl132" path="res://assets/textures/cloud_texture.tres" id="5_xb8h4"]
 
 [node name="Frame" type="Node2D" unique_id=1448582416]
 script = ExtResource("1_atlwu")
@@ -37,18 +28,27 @@ offset_top = 32.0
 offset_right = 767.0
 offset_bottom = 512.0
 
-[node name="Clouds" type="TextureRect" parent="." unique_id=1066249510]
+[node name="Clouds" type="Sprite2D" parent="." unique_id=285496308]
+position = Vector2(-384, 272)
+texture = ExtResource("5_xb8h4")
+
+[node name="Clouds2" type="Sprite2D" parent="." unique_id=18390993]
+position = Vector2(768, 272)
+texture = ExtResource("5_xb8h4")
+
+[node name="WaterGlint" type="ColorRect" parent="." unique_id=1682894525]
+material = ExtResource("5_a1hjq")
 offset_left = 193.0
+offset_top = 32.0
 offset_right = 767.0
 offset_bottom = 512.0
-texture = SubResource("NoiseTexture2D_l3aa2")
 
 [node name="Tint" type="ColorRect" parent="." unique_id=858397398]
 offset_left = 192.0
 offset_top = 32.0
 offset_right = 767.0
 offset_bottom = 512.0
-color = Color(1.6364455e-06, 0.48820728, 0.65372753, 0.7058824)
+color = Color(0, 0.43733338, 0.64, 0.7058824)
 
 [node name="SlidingFrame" type="Node2D" parent="." unique_id=726020827]
 

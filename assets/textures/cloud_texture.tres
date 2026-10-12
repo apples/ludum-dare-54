@@ -1,0 +1,16 @@
+[gd_resource type="NoiseTexture2D" format=3 uid="uid://cqiu2i8mgl132"]
+
+[sub_resource type="Gradient" id="Gradient_sk3l8"]
+offsets = PackedFloat32Array(0.47241378, 0.8862069)
+colors = PackedColorArray(0.039426524, 0.039426524, 0.039426524, 0.039426524, 1.0039686, 1.0039686, 1.0039686, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1a5ij"]
+frequency = 0.005
+
+[resource]
+width = 1152
+height = 480
+generate_mipmaps = false
+noise = SubResource("FastNoiseLite_1a5ij")
+color_ramp = SubResource("Gradient_sk3l8")
+seamless = true

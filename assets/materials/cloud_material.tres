@@ -1,0 +1,25 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://b8lipcwfhwelk"]
+
+[ext_resource type="Shader" uid="uid://v7qcx0dxud7w" path="res://assets/materials/cloud_shader.gdshader" id="1_diqxp"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_a1hjq"]
+noise_type = 4
+frequency = 0.2
+fractal_octaves = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_dnhs7"]
+noise = SubResource("FastNoiseLite_a1hjq")
+seamless = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_sfsbp"]
+noise_type = 0
+frequency = 0.1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xb8h4"]
+noise = SubResource("FastNoiseLite_sfsbp")
+seamless = true
+
+[resource]
+shader = ExtResource("1_diqxp")
+shader_parameter/noise = SubResource("NoiseTexture2D_dnhs7")
+shader_parameter/noise2 = SubResource("NoiseTexture2D_xb8h4")
