@@ -106,21 +106,21 @@ func get_random_empty_tile() -> CoopTile:
 	else:
 		return empts[MULT_UTILS.mult_rng.randi_range(0, empts.size() - 1)]
 
-func place_object(tile: CoopTile, object):
+func place_object(tile: CoopTile, object, comboLevel = 0):
 	tile.tile_object = object
 	tile.tile_object.instant_move(tile.position)
 	tile.tile_object.grid_pos = tile.grid_pos
-	check_matches(tile)
+	check_matches(tile, comboLevel)
 
 func pickup_object(tile: CoopTile, player: CoopPlayer) -> void:
 	player.held_object = tile.tile_object
 	tile.tile_object = null
 	player.held_object.instant_move(player.position + Vector2(0, -16) - position)
 
-func check_matches(tile: CoopTile) -> void:
+func check_matches(tile: CoopTile, comboLevel = 0) -> void:
 	var start_coord := tile.grid_pos
 	var type := tile.tile_object.type
-	var match_tiles := [tile]
+	var match_tiles : Array[CoopTile] = [tile]
 	
 	var axes = [
 		[Vector2i.LEFT, Vector2i.RIGHT], 
@@ -146,112 +146,120 @@ func check_matches(tile: CoopTile) -> void:
 	if level < 1:
 		return
 	
-	var is_wood = type == GLOBAL_VARS.object_type.WOOD
-	for i in match_tiles.size():
-		var m_tile = match_tiles[i]
+	match_effect(match_tiles, type, level + comboLevel)
 
-		if i == 0:
-			m_tile.play_sfx(type)
-
-		if is_wood and i > 0:
-			SyncManager.despawn(m_tile.tile_object)
-			m_tile.tile_object = null
-			m_tile.play_effect("wood")
-		else:
-			match_effect(m_tile.grid_pos, type, level)
-
-func match_effect(coord: Vector2i, type: GLOBAL_VARS.object_type, level: int):
-	var tile := get_tile(coord)
-	var item := tile.tile_object if tile else null
-	
+func match_effect(match_tiles: Array[CoopTile], type: GLOBAL_VARS.object_type, level: int):
 	match type:
 		GLOBAL_VARS.object_type.WOOD:
-			wood_effect(coord, level)
+			wood_effect(match_tiles, level)
 		GLOBAL_VARS.object_type.WATER:
-			water_effect(coord, level)
+			water_effect(match_tiles, level)
 		GLOBAL_VARS.object_type.HAMMER:
-			hammer_effect(coord, level)
+			hammer_effect(match_tiles, level)
 		GLOBAL_VARS.object_type.CANNON:
-			cannon_effect(coord, level)
+			cannon_effect(match_tiles, level)
 		GLOBAL_VARS.object_type.BOMB:
-			bomb_effect(coord, level)
+			bomb_effect(match_tiles, level)
 		GLOBAL_VARS.object_type.GEM:
-			gem_effect(coord, level)
+			gem_effect(match_tiles, level)
 	
-	if item:
-		if tile and tile.tile_object == item:
+	for tile in match_tiles:
+		var item = tile.tile_object
+		if item:
 			tile.tile_object = null
-		SyncManager.despawn(item)
+			SyncManager.despawn(item)
 
-func wood_effect(coord: Vector2i, level: int):
+func wood_effect(match_tiles: Array[CoopTile], level: int):
 	gameplay.score += 10 * level
 	gameplay.raft_charges += level
-	var tile = get_tile(coord)
-	tile.play_effect("wood")
+	for tile in match_tiles:
+		tile.play_effect("wood")
 
-func water_effect(coord: Vector2i, level: int):
+func water_effect(match_tiles: Array[CoopTile], level: int):
 	gameplay.score += 1 * level
 	var radius = level
 	
-	for x in range(-radius, radius + 1):
-		for y in range(-radius, radius + 1):
-			if x == 0 and y == 0:
-				continue
-			if abs(x) + abs(y) <= radius:
-				var target_coord = coord + Vector2i(x, y)
-				var tile = get_tile(target_coord)
-				if tile:
-					tile.play_effect("water")
-					if tile.tile_object and tile.tile_object.type == GLOBAL_VARS.object_type.BOMB:
-						gameplay.score += 4 * level
-						SyncManager.despawn(tile.tile_object)
-						tile.tile_object = null
-					if tile.tile_object and tile.is_on_fire:
-						gameplay.score += 1 * level
-						tile.fire_health_ticks = 0
+	for source_tile in match_tiles:
+		var coord = source_tile.grid_pos
+		for x in range(-radius, radius + 1):
+			for y in range(-radius, radius + 1):
+				if x == 0 and y == 0:
+					continue
+				if abs(x) + abs(y) <= radius:
+					var target_coord = coord + Vector2i(x, y)
+					var tile = get_tile(target_coord)
+					if tile:
+						tile.play_effect("water")
+						if tile.tile_object and tile.tile_object.type == GLOBAL_VARS.object_type.BOMB:
+							gameplay.score += 4 * level
+							SyncManager.despawn(tile.tile_object)
+							tile.tile_object = null
+						if tile.tile_object and tile.is_on_fire:
+							gameplay.score += 1 * level
+							tile.fire_health_ticks = 0
 
-func hammer_effect(coord: Vector2i, level: int):
+func hammer_effect(match_tiles: Array[CoopTile], level: int):
 	gameplay.score += 1 * level
 	var heal_strength = ((level + 1) % 2) + 1
 	var radius = ceili(level / 2.0)
 	
-	for x in range(-radius, radius + 1):
-		for y in range(-radius, radius + 1):
-			if x == 0 and y == 0:
-				continue
-			if abs(x) + abs(y) <= radius:
-				var target_coord = coord + Vector2i(x, y)
-				var tile = get_tile(target_coord)
-				if tile:
-					tile.play_effect("hammer")
-					if tile.health < tile.max_health:
-						gameplay.score += 2 * level
-					tile.damage(-heal_strength)
-					if tile.tile_object and tile.is_on_fire:
-						gameplay.score += 1 * level
-						tile.fire_health_ticks = 0
+	for source_tile in match_tiles:
+		var coord = source_tile.grid_pos
+		for x in range(-radius, radius + 1):
+			for y in range(-radius, radius + 1):
+				if x == 0 and y == 0:
+					continue
+				if abs(x) + abs(y) <= radius:
+					var target_coord = coord + Vector2i(x, y)
+					var tile = get_tile(target_coord)
+					if tile:
+						tile.play_effect("hammer")
+						if tile.health < tile.max_health:
+							gameplay.score += 2 * level
+						tile.damage(-heal_strength)
+						if tile.tile_object and tile.is_on_fire:
+							gameplay.score += 1 * level
+							tile.fire_health_ticks = 0
 
-func cannon_effect(coord: Vector2i, level: int):
+func cannon_effect(match_tiles: Array[CoopTile], level: int):
 	gameplay.score += 5 * level
-	SyncManager.spawn("Cannonball", self, cannonball_scene, {pos = grid_pos_to_global_position(coord)})
-	var tile = get_tile(coord)
-	tile.play_effect("cannon")
+	for tile in match_tiles:
+		SyncManager.spawn("Cannonball", self, cannonball_scene, {pos = tile.global_position})
+		tile.play_effect("cannon")
 
-func bomb_effect(coord: Vector2i, level: int):
-	var tile = get_tile(coord)
-	tile.play_effect("bomb")
-	tile.damage(ceili(level / 2.0))
-	if tile and tile.health > 0 and MULT_UTILS.mult_rng.randi_range(0, 9) < level + 4:
-		tile.ignite()
-	#TODO check for players and splash them if tile is destroyed
+func bomb_effect(match_tiles: Array[CoopTile], level: int):
+	for tile in match_tiles:
+		tile.play_effect("bomb")
+		tile.damage(ceili(level / 2.0))
+		if tile and tile.health > 0 and MULT_UTILS.mult_rng.randi_range(0, 9) < level + 4:
+			tile.ignite()
+		#TODO check for players and splash them if tile is destroyed
 
-func gem_effect(coord: Vector2i, level: int):
+func gem_effect(match_tiles: Array[CoopTile], level: int):
 	gameplay.score += 10 * level
-	hammer_effect(coord, level + 2)
-	water_effect(coord, level + 2)
-	#TODO player combo +++
-	var tile = get_tile(coord)
-	tile.play_effect("gem")
+	var object_counter = {}
+	var vertical = (match_tiles[0].grid_pos.x - match_tiles[1].grid_pos.x) == 0
+	
+	for m_tile in match_tiles:
+		m_tile.play_effect("gem")
+		for i in range(15):
+			var c_tile : CoopTile
+			if vertical:
+				c_tile = get_tile(Vector2(i, m_tile.grid_pos.y))
+			else:
+				c_tile = get_tile(Vector2(m_tile.grid_pos.x, i))
+			
+			if c_tile and c_tile.tile_object:
+				var existing = object_counter.get(c_tile.tile_object.type)
+				object_counter[c_tile.tile_object.type] = existing + 1 if existing else 1
+				SyncManager.despawn(c_tile.tile_object)
+				c_tile.tile_object = null
+				c_tile.play_effect("gem")
+				gameplay.score += 5
+	
+	for key in object_counter.keys():
+		if object_counter[key] > 1:
+			match_effect(match_tiles, key, object_counter[key] - 1)
 
 func generate_initial_platform() -> void:
 	for r in range(8, 12):

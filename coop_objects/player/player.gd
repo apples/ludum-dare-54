@@ -10,7 +10,7 @@ class_name CoopPlayer extends CharacterBody2D
 @onready var item_parent = $"/root/CoopGameplay/ItemParent"
 @onready var gameplay = self.get_parent()
 
-var debug_item = preload("res://coop_objects/raft_object/raft_object.tscn")
+var debug_item
 var upgrade_scene = preload("res://scenes/coop_upgrade_select/coop_upgrade.tscn")
 
 var walk_speed := 300
@@ -33,7 +33,10 @@ var tile_placements : Array[Vector2i] = []
 var upgrade_node : Node
 var upgrade_allowed = true
 
-func _process(delta: float) -> void:
+func _ready() -> void:
+	debug_item = load("res://coop_objects/raft_object/raft_object.tscn")
+
+func _process(_delta: float) -> void:
 	match facing_dir:
 		Vector2i.LEFT:
 			anim.play("left")
@@ -225,5 +228,12 @@ func _predict_remote_input(previous_input: Dictionary, ticks_since_real_input: i
 		previous_input["interact_pressed"] = false
 		previous_input["upgrade_pressed"] = false
 		previous_input["upgrade_tiles"] = []
+		
+		previous_input["debug1"] = false
+		previous_input["debug2"] = false
+		previous_input["debug3"] = false
+		previous_input["debug4"] = false
+		previous_input["debug5"] = false
+		previous_input["debug6"] = false
 		
 	return previous_input
