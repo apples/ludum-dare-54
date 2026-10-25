@@ -173,7 +173,7 @@ func match_effect(match_tiles: Array[CoopTile], type: GLOBAL_VARS.object_type, l
 			tile.tile_object = null
 			SyncManager.despawn(item)
 	
-	if match_tiles.size() > 3:
+	if match_tiles.size() > 3 and type != GLOBAL_VARS.object_type.BOMB:
 		var g_tile = match_tiles[MULT_UTILS.mult_rng.randi_range(0, match_tiles.size() - 1)]
 		SyncManager.spawn("item", $"/root/CoopGameplay/ItemParent", item_scene, {type = GLOBAL_VARS.object_type.GEM, grid_pos = g_tile.grid_pos})
 
