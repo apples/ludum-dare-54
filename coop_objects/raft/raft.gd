@@ -4,6 +4,7 @@ const TILE_SPACING := Vector2(32, 32)
 
 var raft_tile_scene = preload("res://coop_objects/tile/tile.tscn")
 var cannonball_scene = preload("res://coop_objects/cannonball/cannonball.tscn")
+var item_scene = preload("res://coop_objects/raft_object/raft_object.tscn")
 
 @onready var gameplay = self.get_parent()
 
@@ -168,6 +169,10 @@ func match_effect(match_tiles: Array[CoopTile], type: GLOBAL_VARS.object_type, l
 		if item:
 			tile.tile_object = null
 			SyncManager.despawn(item)
+	
+	if match_tiles.size() > 3:
+		var g_tile = match_tiles[MULT_UTILS.mult_rng.randi_range(0, match_tiles.size() - 1)]
+		SyncManager.spawn("item", $"/root/CoopGameplay/ItemParent", item_scene, {type = GLOBAL_VARS.object_type.GEM, grid_pos = g_tile.grid_pos})
 
 func wood_effect(match_tiles: Array[CoopTile], level: int):
 	gameplay.score += 10 * level
