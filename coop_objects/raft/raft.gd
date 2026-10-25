@@ -82,6 +82,9 @@ func get_random_empty_tile_in_column(column: int) -> CoopTile:
 	if not not_near_player.is_empty():
 		return not_near_player[MULT_UTILS.mult_rng.randi_range(0, not_near_player.size() - 1)]
 	else:
+		if col_tiles.size() < 1: #TODO more graceful losing scene transition. Slowmo and a zoom in?
+			UTILS.change_to_scene("res://scenes/lose_screen/lose_scene.tscn")
+			return null
 		return col_tiles[MULT_UTILS.mult_rng.randi_range(0, col_tiles.size() - 1)]
 
 func get_random_empty_tile() -> CoopTile:

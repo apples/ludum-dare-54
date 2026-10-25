@@ -19,10 +19,12 @@ var last_grid_pos: Vector2i = grid_pos
 var facing_dir := Vector2i(1, 0)
 var last_direction : Vector2i
 var disabled := false
+var rooted := false
 
-var held_object : CoopItem
-var held_object_name : StringName
+var held_object : CoopItem = null
+var held_player : CoopPlayer = null
 
+const hold_offset = Vector2(0, -16)
 const move_delay_time_ticks := 6 # really this should be configurable in the options, 6 = 0.1 seconds
 const move_ticks_target := 8
 var move_ticks := 0
@@ -57,6 +59,11 @@ func _process(_delta: float) -> void:
 		upgrade_allowed = false
 		upgrade_node = upgrade_scene.instantiate()
 		gameplay.add_child(upgrade_node)
+	
+	if held_object:
+		held_object.global_position = global_position + hold_offset
+	if held_player:
+		held_player.global_position = global_position + hold_offset
 
 func _network_process(input: Dictionary):
 	if !input:
@@ -94,6 +101,10 @@ func _network_process(input: Dictionary):
 	
 	if direction != Vector2i(0, 0):
 		facing_dir = direction
+	
+	if rooted:
+		return
+	
 	var facing_pos = grid_pos + facing_dir
 	var facing_tile := raft.get_tile(facing_pos)
 	var standing_tile := raft.get_tile(grid_pos)
@@ -107,11 +118,15 @@ func _network_process(input: Dictionary):
 			if facing_player and !facing_player.held_object: #place on ally
 				facing_player.held_object = held_object
 				held_object = null
-				facing_player.held_object.global_position = facing_player.global_position + Vector2(0, -16)
-				facing_player.held_object.target_pos = facing_player.held_object.global_position
-			elif facing_tile and !facing_obj: #place on tile
+			elif facing_tile and !facing_obj and !facing_player: #place on tile
 				raft.place_object(facing_tile, held_object)
 				held_object = null
+		elif held_player and (last_direction != direction and direction != Vector2i.ZERO): #place player
+			if facing_tile and !facing_obj and !facing_player:
+				held_player.grid_pos = facing_pos
+				held_player.rooted = false
+				facing_tile.player_ref = held_player
+				held_player = null
 		elif facing_obj or facing_player: # start pushing
 			push_ticks += 1
 			if push_ticks >= move_delay_time_ticks:
@@ -121,17 +136,26 @@ func _network_process(input: Dictionary):
 			walk(direction)
 	
 	if input["interact_pressed"]:
-		if !held_object:
+		if !held_object and !held_player:
 			if facing_obj: #pickup object
 				raft.pickup_object(facing_tile, self)
 			elif facing_player: #pickup player
-				pass
+				held_player = facing_player
+				held_player.grid_pos = grid_pos
+				held_player.rooted = true
+				facing_tile.player_ref = null
 			else: #pickup buoy
 				pass
-		elif facing_tile and !facing_obj: #swap-drop
-			raft.place_object(standing_tile, held_object)
-			held_object = null
-			walk(facing_dir)
+		elif facing_tile and !facing_obj and !facing_player: #swap-drop
+			if held_object:
+				raft.place_object(standing_tile, held_object)
+				held_object = null
+				walk(facing_dir)
+			elif held_player:
+				held_player.rooted = false
+				walk(facing_dir)
+				standing_tile.player_ref = held_player
+				held_player = null
 	
 	if input["interact"]:
 		if standing_tile.is_on_fire:
@@ -174,7 +198,9 @@ func _save_state() -> Dictionary:
 		push_ticks = push_ticks,
 		recent_input_dir = recent_input_dir,
 		held_object_path = held_object.get_path() if held_object else ^"",
+		held_player_path = held_player.get_path() if held_player else ^"",
 		disabled = disabled,
+		rooted = rooted,
 		facing_dir = facing_dir,
 	}
 
@@ -186,9 +212,11 @@ func _load_state(state: Dictionary) -> void:
 	push_ticks = state['push_ticks']
 	recent_input_dir = state['recent_input_dir']
 	disabled = state['disabled']
+	rooted = state['rooted']
 	facing_dir = state['facing_dir']
 	
 	held_object = item_parent.get_node_or_null(state['held_object_path'])
+	held_player = gameplay.get_node_or_null(state['held_player_path'])
 
 func _network_spawn(data: Dictionary) -> void:
 	grid_pos = data.get("grid_pos")
