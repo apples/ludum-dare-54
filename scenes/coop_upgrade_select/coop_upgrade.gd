@@ -38,7 +38,7 @@ func _ready():
 			nodes[j + 1].position = options[i][j] * 32
 			
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not selected:
 		if Input.is_action_just_pressed("down"):
 			selection = (selection + 1) % 3

@@ -1,5 +1,7 @@
 class_name CoopItemWarning extends CoopItem
 
+var player_ref : CoopPlayer = null
+
 var spawn_item : GLOBAL_VARS.object_type
 var is_good := true
 var last_buoy_pos := Vector2.ZERO
@@ -19,13 +21,23 @@ func _network_process(input: Dictionary):
 	
 	launch_frames += 1
 	var progress = launch_frames / float(frame_target)
-	sprite.global_position = last_buoy_pos.lerp(global_position, progress)
-	reflection.global_position = last_buoy_pos.lerp(global_position, progress)
-	sprite.global_position.y -= simple_curve.sample(progress) * 100
-	reflection.global_position.y += simple_curve.sample(progress) * 100
+	if player_ref:
+		player_ref.global_position = last_buoy_pos.lerp(global_position, progress)
+		player_ref.global_position.y -= simple_curve.sample(progress) * 100
+	else:
+		sprite.global_position = last_buoy_pos.lerp(global_position, progress)
+		reflection.global_position = last_buoy_pos.lerp(global_position, progress)
+		sprite.global_position.y -= simple_curve.sample(progress) * 100
+		reflection.global_position.y += simple_curve.sample(progress) * 100
 	
 	if launch_frames >= frame_target:
-		SyncManager.spawn("item", $"/root/CoopGameplay/ItemParent", item_scene, {type = spawn_item, grid_pos = grid_pos})
+		if player_ref:
+			player_ref.rooted = false
+			player_ref.grid_pos = grid_pos
+			var raft : CoopRaft = $"/root/CoopGameplay/Raft"
+			raft.get_tile(grid_pos).player_ref = player_ref
+		else:
+			SyncManager.spawn("item", $"/root/CoopGameplay/ItemParent", item_scene, {type = spawn_item, grid_pos = grid_pos})
 		SyncManager.despawn(self)
 
 func _save_state() -> Dictionary:
@@ -61,6 +73,12 @@ func _network_spawn(data: Dictionary) -> void:
 		alert_sprite.play("good")
 	else:
 		alert_sprite.play("bad")
+	
+	if data.has("player_path"):
+		player_ref = $"/root/CoopGameplay".get_node_or_null(data.player_path)
+		sprite.hide()
+		reflection.hide()
+		return
 	
 	spawn_item = data.item
 	match spawn_item:

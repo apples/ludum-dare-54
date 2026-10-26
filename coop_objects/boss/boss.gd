@@ -2,7 +2,7 @@ class_name CoopBoss extends Node2D
 
 signal boss_defeated
 
-@onready var raft: CoopRaft = $"/root/CoopGameplay/Raft"
+@onready var raft: CoopRaft = get_node_or_null(^"/root/CoopGameplay/Raft")
 
 @onready var toss_source = $TossSource
 @onready var ouch_sfx = $Hit

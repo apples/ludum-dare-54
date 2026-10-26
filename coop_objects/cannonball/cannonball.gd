@@ -12,7 +12,7 @@ var boss_ref : CoopBoss
 
 @export var simple_curve : Curve
 
-func _network_process(input: Dictionary):
+func _network_process(_input: Dictionary):
 	progress_ticks += 1
 	var progress = progress_ticks / float(max_ticks)
 	global_position = start_pos.lerp(target, progress)

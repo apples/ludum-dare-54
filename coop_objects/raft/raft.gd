@@ -5,6 +5,7 @@ const TILE_SPACING := Vector2(32, 32)
 var raft_tile_scene = preload("res://coop_objects/tile/tile.tscn")
 var cannonball_scene = preload("res://coop_objects/cannonball/cannonball.tscn")
 var item_scene = preload("res://coop_objects/raft_object/raft_object.tscn")
+var buoy_scene = load("res://coop_objects/buoy/buoy.tscn")
 
 @onready var gameplay = self.get_parent()
 
@@ -39,10 +40,11 @@ func grid_pos_to_global_position(coord: Vector2i) -> Vector2:
 func get_tile(coord: Vector2i) -> CoopTile:
 	return tiles.get(coord)
 
-func get_highest_tile(column: int) -> CoopTile:
-	for row in range(15):
+func get_highest_tile(column: int, below: Vector2 = Vector2(0, -1000)) -> CoopTile:
+	var top_possible = (below.y - global_position.y) / TILE_SPACING.y
+	for row in range(max(top_possible, 0), 15):
 		var tile: CoopTile = tiles.get(Vector2i(column, row))
-		if tile != null:
+		if tile != null and tile.position.y:
 			return tile
 	return null
 
@@ -237,11 +239,15 @@ func cannon_effect(match_tiles: Array[CoopTile], level: int):
 
 func bomb_effect(match_tiles: Array[CoopTile], level: int):
 	for tile in match_tiles:
+		#var t_player = tile.player_ref
 		tile.play_effect("bomb")
 		tile.damage(ceili(level / 2.0))
 		if tile and tile.health > 0 and MULT_UTILS.mult_rng.randi_range(0, 9) < level + 4:
 			tile.ignite()
-		#TODO check for players and splash them if tile is destroyed
+		#if (!tile or tile.health < 1) and t_player: # splash player
+			#t_player.rooted = true
+			#SyncManager.spawn("Buoy", $"/root/CoopGameplay/BuoyParent", buoy_scene, {pos = grid_pos_to_global_position(t_player.grid_pos), player_path = t_player.get_path()})
+			#t_player.grid_pos = Vector2i(-1, -1)
 
 func gem_effect(match_tiles: Array[CoopTile], level: int):
 	gameplay.score += 10 * level

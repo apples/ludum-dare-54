@@ -2,6 +2,7 @@ class_name CoopTile extends Node2D
 
 var damage_number_scene = preload("res://singleplayer_objects/damage_numbers/damage_numbers.tscn")
 var tile_break_scene = preload("res://singleplayer_objects/VFX/tile_break/tile_break.tscn")
+var buoy_scene = load("res://coop_objects/buoy/buoy.tscn")
 
 @export var tile_object: CoopItem = null
 
@@ -46,11 +47,11 @@ func _ready() -> void:
 	pass
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if is_on_fire:
 		fire_progress.value = float(fire_health_ticks) / float(max_fire_health_ticks)
 
-func _network_process(input: Dictionary):
+func _network_process(_input: Dictionary):
 	if is_on_fire:
 		if SyncManager.current_tick % 4 == 0 and fire_health_ticks < max_fire_health_ticks:
 			fire_health_ticks += 1
@@ -65,6 +66,10 @@ func _set_health(value: int):
 		tile_break.position = self.position
 		get_parent().add_child(tile_break)
 		raft_ref.remove_tile(grid_pos)
+		if player_ref: # splash
+			player_ref.rooted = true
+			player_ref.grid_pos = Vector2i(-1, -1)
+			SyncManager.spawn("Buoy", $"/root/CoopGameplay/BuoyParent", buoy_scene, {pos = raft_ref.grid_pos_to_global_position(grid_pos), player_path = player_ref.get_path()})
 		if tile_object:
 			SyncManager.despawn(tile_object)
 		SyncManager.despawn(self)

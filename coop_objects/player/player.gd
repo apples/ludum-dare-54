@@ -12,6 +12,7 @@ class_name CoopPlayer extends CharacterBody2D
 
 var debug_item
 var upgrade_scene = preload("res://scenes/coop_upgrade_select/coop_upgrade.tscn")
+var buoy_scene = load("res://coop_objects/buoy/buoy.tscn")
 
 var walk_speed := 300
 var grid_pos : Vector2i
@@ -127,6 +128,11 @@ func _network_process(input: Dictionary):
 				held_player.rooted = false
 				facing_tile.player_ref = held_player
 				held_player = null
+			else: # splash
+				held_player.grid_pos = Vector2i(-1, -1)
+				SyncManager.spawn("Buoy", $"/root/CoopGameplay/BuoyParent", buoy_scene, 
+				{pos = raft.grid_pos_to_global_position(facing_pos), player_path = held_player.get_path()})
+				held_player = null
 		elif facing_obj or facing_player: # start pushing
 			push_ticks += 1
 			if push_ticks >= move_delay_time_ticks:
@@ -185,7 +191,8 @@ func walk(direction: Vector2i):
 	if move_ticks >= move_ticks_target:
 		last_grid_pos = grid_pos
 		grid_pos += direction
-		raft.get_tile(last_grid_pos).player_ref = null
+		if raft.get_tile(last_grid_pos):
+			raft.get_tile(last_grid_pos).player_ref = null
 		raft.get_tile(grid_pos).player_ref = self
 		move_ticks = 0
 

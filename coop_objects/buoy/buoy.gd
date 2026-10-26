@@ -3,6 +3,8 @@ extends Node2D
 var item_type : GLOBAL_VARS.object_type
 var raft_ref : CoopRaft
 
+var player_ref : CoopPlayer = null
+
 var has_hit := false
 var column := 0
 
@@ -12,13 +14,19 @@ var column := 0
 var warning_scene = preload("res://coop_objects/raft_object_warning/object_warning.tscn")
 
 
-func _network_process(input: Dictionary):
+func _network_process(_input: Dictionary):
 	if has_hit:
 		return
 	position += Vector2.DOWN * 0.3125 #close enough to a third while being a power of two
+	if player_ref:
+		player_ref.position = position + Vector2(0, -8)
 	if position.y > 16 * 32:
-		SyncManager.despawn(self)
-	var highest_tile : CoopTile = raft_ref.get_highest_tile(column)
+		if player_ref:
+			launch()
+		else:
+			SyncManager.despawn(self)
+		return
+	var highest_tile : CoopTile = raft_ref.get_highest_tile(column, position)
 	if highest_tile != null and position.y + 32 >= highest_tile.global_position.y:
 		launch()
 
@@ -26,7 +34,11 @@ func launch() -> void:
 	has_hit = true
 	var spawn_tile = raft_ref.get_random_empty_tile_in_column(column)
 	if spawn_tile != null:
-		SyncManager.spawn("alert", $"/root/CoopGameplay/ItemParent", warning_scene, {grid_pos = spawn_tile.grid_pos, buoy_pos = global_position, good = true, item = item_type})
+		if player_ref:
+			SyncManager.spawn("alert", $"/root/CoopGameplay/ItemParent", warning_scene,
+			{grid_pos = spawn_tile.grid_pos, buoy_pos = global_position, good = true, player_path = player_ref.get_path()})
+		else:
+			SyncManager.spawn("alert", $"/root/CoopGameplay/ItemParent", warning_scene, {grid_pos = spawn_tile.grid_pos, buoy_pos = global_position, good = true, item = item_type})
 	SyncManager.despawn(self)
 
 func _save_state() -> Dictionary:
@@ -40,12 +52,18 @@ func _load_state(state: Dictionary) -> void:
 	has_hit = state['has_hit']
 
 func _network_spawn(data: Dictionary) -> void:
-	item_type = data.type
 	position = data.pos
 	
 	raft_ref = $"/root/CoopGameplay/Raft"
 	column = roundi((position.x - raft_ref.global_position.x) / 32.0)
 	
+	if data.has("player_path"):
+		player_ref = $"/root/CoopGameplay".get_node_or_null(data.player_path)
+		item_sprite.hide()
+		reflected_item_sprite.hide()
+		return
+	
+	item_type = data.type
 	match item_type:
 		GLOBAL_VARS.object_type.WOOD:
 			item_sprite.play("wood")

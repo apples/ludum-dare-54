@@ -11,7 +11,7 @@ var start_pos := Vector2.ZERO
 @onready var sprite := $AnimatedSprite2D
 
 
-func _network_process(input: Dictionary):
+func _network_process(_input: Dictionary):
 	if is_moving:
 		move_frames += 1
 		position = start_pos.lerp(target_pos, move_frames / 12.0) #32 pixels in 12 ticks
