@@ -21,6 +21,7 @@ var facing_dir := Vector2i(1, 0)
 var last_direction : Vector2i
 var disabled := false
 var rooted := false
+var paddling := false
 
 var held_object : CoopItem = null
 var held_player : CoopPlayer = null
@@ -40,19 +41,22 @@ func _ready() -> void:
 	debug_item = load("res://coop_objects/raft_object/raft_object.tscn")
 
 func _process(_delta: float) -> void:
-	match facing_dir:
-		Vector2i.LEFT:
-			anim.play("left")
-			reflection.play("left")
-		Vector2i.RIGHT:
-			anim.play("right")
-			reflection.play("right")
-		Vector2i.UP:
-			anim.play("up")
-			reflection.play("up")
-		_:
-			anim.play("down")
-			reflection.play("down")
+	if paddling:
+		anim.play("spin")
+	else:
+		match facing_dir:
+			Vector2i.LEFT:
+				anim.play("left")
+				reflection.play("left")
+			Vector2i.RIGHT:
+				anim.play("right")
+				reflection.play("right")
+			Vector2i.UP:
+				anim.play("up")
+				reflection.play("up")
+			_:
+				anim.play("down")
+				reflection.play("down")
 	
 	var want_upgrade := disabled and is_multiplayer_authority() and upgrade_allowed
 	var has_upgrade := is_instance_valid(upgrade_node) and not upgrade_node.is_queued_for_deletion()
@@ -77,7 +81,16 @@ func _network_process(input: Dictionary):
 			raft.place_tile(i)
 		return
 	
-	if disabled:
+	if input["paddling_start"] and not raft.get_tile(grid_pos + Vector2i.DOWN) and not disabled:
+		paddling = true
+		anim.position = Vector2(0, 16)
+		gameplay.change_speed(1)
+	elif input["paddling_end"] and paddling:
+		paddling = false
+		anim.position = Vector2(0, 0)
+		gameplay.change_speed(-1)
+	
+	if disabled or paddling:
 		return
 	
 	if input["upgrade_pressed"] and gameplay.raft_charges > 0:
@@ -208,6 +221,7 @@ func _save_state() -> Dictionary:
 		held_player_path = held_player.get_path() if held_player else ^"",
 		disabled = disabled,
 		rooted = rooted,
+		paddling = paddling,
 		facing_dir = facing_dir,
 	}
 
@@ -220,6 +234,7 @@ func _load_state(state: Dictionary) -> void:
 	recent_input_dir = state['recent_input_dir']
 	disabled = state['disabled']
 	rooted = state['rooted']
+	paddling = state['paddling']
 	facing_dir = state['facing_dir']
 	
 	held_object = item_parent.get_node_or_null(state['held_object_path'])
@@ -242,6 +257,8 @@ func _get_local_input() -> Dictionary:
 	input["interact_pressed"] = Input.is_action_just_pressed("interact")
 	input["interact"] = Input.is_action_pressed("interact")
 	input["upgrade_pressed"] = Input.is_action_just_pressed("execute")
+	input["paddling_start"] = Input.is_action_just_pressed("fast_forward")
+	input["paddling_end"] = Input.is_action_just_released("fast_forward")
 	
 	if gameplay.placed_tile_coords.size() > 0:
 		input["upgrade_tiles"] = gameplay.placed_tile_coords
@@ -262,6 +279,8 @@ func _predict_remote_input(previous_input: Dictionary, ticks_since_real_input: i
 	if ticks_since_real_input > 0:
 		previous_input["interact_pressed"] = false
 		previous_input["upgrade_pressed"] = false
+		previous_input["paddling_start"] = false
+		previous_input["paddling_end"] = false
 		previous_input["upgrade_tiles"] = []
 		
 		previous_input["debug1"] = false

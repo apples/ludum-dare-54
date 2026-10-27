@@ -11,13 +11,15 @@ var column := 0
 @onready var item_sprite = $ItemSprite
 @onready var reflected_item_sprite = $ReflectedItemSprite
 
+@onready var gameplay = self.get_parent().get_parent()
+
 var warning_scene = preload("res://coop_objects/raft_object_warning/object_warning.tscn")
 
 
 func _network_process(_input: Dictionary):
 	if has_hit:
 		return
-	position += Vector2.DOWN * 0.3125 #close enough to a third while being a power of two
+	position += Vector2.DOWN * 0.3125 * gameplay.boost_mult
 	if player_ref:
 		player_ref.position = position + Vector2(0, -8)
 	if position.y > 16 * 32:

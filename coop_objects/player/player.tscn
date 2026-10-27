@@ -26,7 +26,7 @@ animation = &"left"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=308514878]
 sprite_frames = ExtResource("1_3kvjk")
-animation = &"left"
+animation = &"spin"
 
 [node name="GrabArea" type="Area2D" parent="." unique_id=1608145833]
 

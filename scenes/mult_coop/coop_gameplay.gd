@@ -14,6 +14,10 @@ var buoy_scene = preload("res://coop_objects/buoy/buoy.tscn")
 @onready var score_label := $Score
 @onready var charge_label := $Charges
 
+@onready var buoy_timer = $NetworkTimer
+const base_timer_ticks = 180
+var boost_mult = 1
+
 var score = 0:
 	set(x):
 		score = x
@@ -98,6 +102,7 @@ func _on_disconnect_timer_timeout() -> void:
 func _save_state() -> Dictionary:
 	return {
 		score = score,
+		boost_mult = boost_mult,
 		raft_charges = raft_charges,
 		column_bag = column_bag.duplicate(),
 		spawnables_bag = spawnables_bag.duplicate(),
@@ -105,6 +110,7 @@ func _save_state() -> Dictionary:
 
 func _load_state(state: Dictionary) -> void:
 	score = state['score']
+	boost_mult = state['boost_mult']
 	raft_charges = state['raft_charges']
 	column_bag = state['column_bag'].duplicate()
 	spawnables_bag = state['spawnables_bag'].duplicate()
@@ -122,6 +128,13 @@ func fill_spawnables_bag():
 			spawnables_bag.append(s.scene)
 	seed(MULT_UTILS.mult_rng.randi())
 	spawnables_bag.shuffle()
+
+func change_speed(amount):
+	boost_mult = maxi(boost_mult + amount, 1)
+	
+	var new_wait: int = base_timer_ticks / boost_mult
+	SyncManager.set_synced(buoy_timer, "ticks_left", maxi((buoy_timer.ticks_left * new_wait) / buoy_timer.wait_ticks, 1))
+	SyncManager.set_synced(buoy_timer, "wait_ticks", new_wait)
 
 func _on_network_timer_timeout() -> void:
 	if column_bag.is_empty():
