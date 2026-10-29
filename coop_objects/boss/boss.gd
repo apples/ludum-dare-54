@@ -3,6 +3,7 @@ class_name CoopBoss extends Node2D
 signal boss_defeated
 
 @onready var raft: CoopRaft = get_node_or_null(^"/root/CoopGameplay/Raft")
+@onready var item_parent = get_node_or_null(^"/root/CoopGameplay/ItemParent")
 
 @onready var toss_source = $TossSource
 @onready var ouch_sfx = $Hit
@@ -19,7 +20,9 @@ signal boss_defeated
 @onready var health_bar_initial_position = health_bar.position
 @onready var health_bar_initial_height = health_bar.size.y
 
-#var bomb_scene = preload("res://singleplayer_objects/raft_objects/bomb.tscn")
+@onready var daze_timer_line = $DazeTimerLine
+@onready var daze_duration_line = $DazeDurationLine
+
 var warning_scene = preload("res://coop_objects/raft_object_warning/object_warning.tscn")
 
 var base_health: int = (GLOBAL_VARS.difficulty + 1) * 5
@@ -28,6 +31,14 @@ var max_health := base_health
 
 var is_stunned := true
 var stun_length := 20
+
+var daze_timer_ticks := 0 #ticks left to trigger a daze
+var daze_duration_ticks := 0 #actual active daze duration
+var recent_max_duration_ticks := 0
+const max_daze_timer_ticks := 240
+const daze_effect_ticks := 300
+const point_count := 64
+const point_length := 64
 
 var health := max_health:
 	get:
@@ -54,11 +65,55 @@ var music_vol: float:
 
 func _ready() -> void:
 	AudioServer.set_bus_mute(AudioServer.get_bus_index("BossMusic"), true)
+
+func _process(_delta: float) -> void:
+	var current_point_count = ceil(64 * (float(daze_timer_ticks) / max_daze_timer_ticks))
+	if daze_timer_line.get_point_count() > current_point_count:
+		daze_timer_line.remove_point(daze_timer_line.get_point_count() - 1)
+	if current_point_count > 0:
+		daze_timer_line.set_point_position(daze_timer_line.get_point_count() - 1, Vector2(
+				-sin((float(daze_timer_ticks) / max_daze_timer_ticks) * 2 * PI) * point_length, 
+				-cos((float(daze_timer_ticks) / max_daze_timer_ticks) * 2 * PI) * point_length))
 	
+	current_point_count = ceil(64 * (float(daze_duration_ticks) / recent_max_duration_ticks))
+	if daze_duration_line.get_point_count() > current_point_count:
+		daze_duration_line.remove_point(daze_duration_line.get_point_count() - 1)
+		if current_point_count == 0:
+			recent_max_duration_ticks = 0
+	if current_point_count > 0:
+		daze_duration_line.set_point_position(daze_duration_line.get_point_count() - 1, Vector2(
+				-sin((float(daze_duration_ticks) / recent_max_duration_ticks) * 2 * PI) * (point_length - 10), 
+				-cos((float(daze_duration_ticks) / recent_max_duration_ticks) * 2 * PI) * (point_length - 10)))
+
+func _network_process(_input: Dictionary):
+	if daze_timer_ticks > 0:
+		daze_timer_ticks -= 1
+	if daze_duration_ticks > 0:
+		daze_duration_ticks -= 1
+	elif attack_timer._paused:
+		attack_timer.unpause()
 
 func _set_healthbar(t: float):
 	health_bar.size.y = health_bar_initial_height * t
 	health_bar.position.y = health_bar_initial_position.y + (health_bar_initial_height - health_bar.size.y) * health_bar.scale.y
+
+func daze():
+	if daze_timer_ticks > 0:
+		animation_tree["parameters/Normal/wince/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
+		attack_timer.pause()
+		daze_duration_ticks += daze_effect_ticks
+		recent_max_duration_ticks = daze_duration_ticks
+		daze_duration_line.clear_points()
+		for i in range(point_count):
+			daze_duration_line.add_point(Vector2(
+				-sin((i / float(point_count)) * 2 * PI) * (point_length - 10), 
+				-cos((i / float(point_count)) * 2 * PI) * (point_length - 10)))
+	daze_timer_ticks = max_daze_timer_ticks
+	daze_timer_line.clear_points()
+	for i in range(point_count):
+		daze_timer_line.add_point(Vector2(
+			-sin((i / float(point_count)) * 2 * PI) * point_length, 
+			-cos((i / float(point_count)) * 2 * PI) * point_length))
 
 func death():
 	is_stunned = true
@@ -78,16 +133,20 @@ func _save_state() -> Dictionary:
 	return {
 		health = health,
 		is_stunned = is_stunned,
+		daze_timer_ticks = daze_timer_ticks,
+		daze_duration_ticks = daze_duration_ticks,
 	}
 
 func _load_state(state: Dictionary) -> void:
 	health = state['health']
 	is_stunned = state['is_stunned']
+	daze_timer_ticks = state['daze_timer_ticks']
+	daze_duration_ticks = state['daze_duration_ticks']
 
 func _on_attack_timer_timeout() -> void:
 	var spawn_tile = raft.get_random_empty_tile()
 	if spawn_tile != null:
-		SyncManager.spawn("alert", $"/root/CoopGameplay/ItemParent", warning_scene, 
+		SyncManager.spawn("alert", item_parent, warning_scene, 
 			{grid_pos = spawn_tile.grid_pos, buoy_pos = global_position, good = false, item = GLOBAL_VARS.object_type.BOMB})
 
 

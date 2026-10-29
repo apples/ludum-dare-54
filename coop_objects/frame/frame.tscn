@@ -29,10 +29,12 @@ offset_right = 767.0
 offset_bottom = 512.0
 
 [node name="Clouds" type="Sprite2D" parent="." unique_id=285496308]
+visible = false
 position = Vector2(-384, 272)
 texture = ExtResource("5_xb8h4")
 
 [node name="Clouds2" type="Sprite2D" parent="." unique_id=18390993]
+visible = false
 position = Vector2(768, 272)
 texture = ExtResource("5_xb8h4")
 

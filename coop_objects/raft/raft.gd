@@ -8,6 +8,8 @@ var item_scene = preload("res://coop_objects/raft_object/raft_object.tscn")
 var buoy_scene = load("res://coop_objects/buoy/buoy.tscn")
 
 @onready var gameplay = self.get_parent()
+@onready var boss = $"/root/CoopGameplay/Boss"
+@onready var item_parent = $"/root/CoopGameplay/ItemParent"
 
 var tiles: Dictionary[Vector2i, CoopTile] = {}
 var players = []
@@ -175,9 +177,11 @@ func match_effect(match_tiles: Array[CoopTile], type: GLOBAL_VARS.object_type, l
 			tile.tile_object = null
 			SyncManager.despawn(item)
 	
-	if match_tiles.size() > 3 and type != GLOBAL_VARS.object_type.BOMB:
-		var g_tile = match_tiles[MULT_UTILS.mult_rng.randi_range(0, match_tiles.size() - 1)]
-		SyncManager.spawn("item", $"/root/CoopGameplay/ItemParent", item_scene, {type = GLOBAL_VARS.object_type.GEM, grid_pos = g_tile.grid_pos})
+	if type != GLOBAL_VARS.object_type.BOMB:
+		boss.daze()
+		if match_tiles.size() > 3:
+			var g_tile = match_tiles[MULT_UTILS.mult_rng.randi_range(0, match_tiles.size() - 1)]
+			SyncManager.spawn("item", item_parent, item_scene, {type = GLOBAL_VARS.object_type.GEM, grid_pos = g_tile.grid_pos})
 
 func wood_effect(match_tiles: Array[CoopTile], level: int):
 	gameplay.score += 10 * level
@@ -244,10 +248,6 @@ func bomb_effect(match_tiles: Array[CoopTile], level: int):
 		tile.damage(ceili(level / 2.0))
 		if tile and tile.health > 0 and MULT_UTILS.mult_rng.randi_range(0, 9) < level + 4:
 			tile.ignite()
-		#if (!tile or tile.health < 1) and t_player: # splash player
-			#t_player.rooted = true
-			#SyncManager.spawn("Buoy", $"/root/CoopGameplay/BuoyParent", buoy_scene, {pos = grid_pos_to_global_position(t_player.grid_pos), player_path = t_player.get_path()})
-			#t_player.grid_pos = Vector2i(-1, -1)
 
 func gem_effect(match_tiles: Array[CoopTile], level: int):
 	gameplay.score += 10 * level
