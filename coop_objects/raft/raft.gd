@@ -22,6 +22,24 @@ const EAST := Vector2i(1, 0)
 func _ready() -> void:
 	pass
 
+func _network_process(_input: Dictionary) -> void:
+	_process_fires()
+
+func _process_fires() -> void:
+	var burning: Array[CoopTile] = []
+	for tile: CoopTile in tiles.values():
+		if tile.is_on_fire:
+			burning.append(tile)
+	burning.sort_custom(_tile_pos_sort)
+	for tile in burning:
+		if is_instance_valid(tile) and tiles.get(tile.grid_pos) == tile:
+			tile.process_fire()
+
+func _tile_pos_sort(a: CoopTile, b: CoopTile) -> bool:
+	if a.grid_pos.x != b.grid_pos.x:
+		return a.grid_pos.x < b.grid_pos.x
+	return a.grid_pos.y < b.grid_pos.y
+
 func get_adjacent_tiles(coord : Vector2i):
 	var adj_tiles = []
 	

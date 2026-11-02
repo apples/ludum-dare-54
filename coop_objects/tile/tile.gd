@@ -1,5 +1,7 @@
 class_name CoopTile extends Node2D
 
+const FIRE_BURN_TICKS := 300
+
 var damage_number_scene = preload("res://singleplayer_objects/damage_numbers/damage_numbers.tscn")
 var tile_break_scene = preload("res://singleplayer_objects/VFX/tile_break/tile_break.tscn")
 var buoy_scene = load("res://coop_objects/buoy/buoy.tscn")
@@ -14,7 +16,6 @@ var grid_pos: Vector2i
 @onready var burning_sfx = $Burning
 @onready var fire_sprite = $Fire
 @onready var fire_progress = $Fire/ProgressBar
-@onready var fire_timer = $FireNetworkTimer
 
 @onready var item_parent = $"/root/CoopGameplay/ItemParent"
 @onready var gameplay = $"/root/CoopGameplay"
@@ -39,6 +40,8 @@ var _health: int = 3
 	set = _set_fire_health
 @export var max_fire_health_ticks: int = 60
 
+var burn_ticks_left: int = 0
+
 var is_on_fire: bool:
 	get:
 		return fire_health_ticks > 0
@@ -51,18 +54,13 @@ func _process(_delta: float) -> void:
 	if is_on_fire:
 		fire_progress.value = float(fire_health_ticks) / float(max_fire_health_ticks)
 
-func _network_process(_input: Dictionary):
-	if is_on_fire:
-		if SyncManager.current_tick % 4 == 0 and fire_health_ticks < max_fire_health_ticks:
-			fire_health_ticks += 1
-
 func _get_health() -> int:
 	return _health
 
 func _set_health(value: int):
 	_health = value
 	if _health <= 0:
-		var tile_break= tile_break_scene.instantiate() #TODO does this need to be mult spawned? just visual, but queue_free could replicate out before _set_health gets hit
+		var tile_break= tile_break_scene.instantiate()
 		tile_break.position = self.position
 		get_parent().add_child(tile_break)
 		raft_ref.remove_tile(grid_pos)
@@ -86,15 +84,21 @@ func _set_damage_sprite() -> void:
 			$AnimatedSprite2D.frame = 0
 
 func _set_fire_health(value: int):
-	if fire_health_ticks > 0 and value == 0: #extinguish
-		fire_sprite.visible = false
+	var was_on_fire := fire_health_ticks > 0
+	fire_health_ticks = clampi(value, 0, max_fire_health_ticks)
+	if was_on_fire and fire_health_ticks == 0:
+		burn_ticks_left = 0
+	_refresh_fire_visuals()
+
+func _refresh_fire_visuals() -> void:
+	if not is_node_ready():
+		return
+	fire_sprite.visible = is_on_fire
+	if is_on_fire:
+		if not burning_sfx.playing:
+			burning_sfx.play()
+	elif burning_sfx.playing:
 		burning_sfx.stop()
-		fire_timer.stop()
-	elif fire_health_ticks == max_fire_health_ticks and value < max_fire_health_ticks: #pause timer on extinguish start
-		fire_timer.pause()
-	elif is_on_fire and fire_health_ticks < max_fire_health_ticks and value == max_fire_health_ticks: #resume timer on fire regen
-		fire_timer.unpause()
-	fire_health_ticks = value
 
 func damage(value: int):
 	if value < 0:
@@ -108,11 +112,9 @@ func damage(value: int):
 		health -= value
 
 func ignite(amount: int = max_fire_health_ticks):
-	if !is_on_fire:
+	if !is_on_fire and amount > 0:
 		fire_health_ticks = amount
-		fire_sprite.visible = true
-		burning_sfx.play()
-		fire_timer.start()
+		burn_ticks_left = FIRE_BURN_TICKS
 
 func push(player_grid_pos: Vector2i) -> bool:
 	var dir := grid_pos - player_grid_pos
@@ -139,23 +141,31 @@ func push(player_grid_pos: Vector2i) -> bool:
 	
 	return false
 
-func _on_fire_network_timer_timeout() -> void:
-	if not is_on_fire:
-		return
-	damage(1)
+func process_fire() -> void:
+	if SyncManager.current_tick % 4 == 0 and fire_health_ticks < max_fire_health_ticks:
+		fire_health_ticks += 1
 	
-	var adjacent_tiles = raft_ref.get_adjacent_tiles(grid_pos)
-	for tile in adjacent_tiles:
-		var fire_spread_chance = MULT_UTILS.mult_rng.randi_range(0, 4)
-		
-		if fire_spread_chance == 0:
-			tile.ignite()
+	if fire_health_ticks < max_fire_health_ticks:
+		return
+	
+	burn_ticks_left -= 1
+	if burn_ticks_left > 0:
+		return
+	
+	burn_ticks_left = FIRE_BURN_TICKS
+	_spread_fire()
+	damage(1)
 
+func _spread_fire() -> void:
+	for tile in raft_ref.get_adjacent_tiles(grid_pos):
+		if MULT_UTILS.mult_rng.randi_range(0, 4) == 0:
+			tile.ignite()
 
 func _save_state() -> Dictionary:
 	return {
 		health = health,
 		fire_health_ticks = fire_health_ticks,
+		burn_ticks_left = burn_ticks_left,
 		tile_object_path = tile_object.get_path() if tile_object else ^"",
 		player_ref_path = player_ref.get_path() if player_ref else ^"",
 	}
@@ -163,6 +173,7 @@ func _save_state() -> Dictionary:
 func _load_state(state: Dictionary) -> void:
 	_health = state['health']
 	_set_damage_sprite()
+	burn_ticks_left = state['burn_ticks_left']
 	fire_health_ticks = state['fire_health_ticks']
 	player_ref = gameplay.get_node_or_null(state['player_ref_path'])
 	tile_object = item_parent.get_node_or_null(state['tile_object_path'])

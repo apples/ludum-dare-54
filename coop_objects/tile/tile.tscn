@@ -7,7 +7,6 @@
 [ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="5_vc3qp"]
 [ext_resource type="AudioStream" uid="uid://cy00b2n8c0qqk" path="res://assets/sfx/fire_burning.wav" id="6_pcs78"]
 [ext_resource type="SpriteFrames" uid="uid://nwsjja6k1wdg" path="res://assets/sprite_frames/tile_effect.tres" id="6_vb7mx"]
-[ext_resource type="Script" uid="uid://102ie0rnxebk" path="res://addons/delta_rollback/NetworkTimer.gd" id="7_pvyr2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_54oyg"]
 atlas = ExtResource("2_f8yy2")
@@ -110,11 +109,6 @@ bus = &"Sound_effects"
 stream = ExtResource("6_pcs78")
 bus = &"Sound_effects"
 
-[node name="FireNetworkTimer" type="Node" parent="." unique_id=1670047148]
-script = ExtResource("7_pvyr2")
-wait_ticks = 300
-metadata/_custom_type_script = "uid://102ie0rnxebk"
-
 [node name="Area2D" type="Area2D" parent="." unique_id=1538056971]
 collision_layer = 2
 collision_mask = 0
@@ -124,4 +118,3 @@ monitoring = false
 shape = SubResource("RectangleShape2D_fvkgo")
 
 [connection signal="animation_finished" from="MatchEffect" to="." method="_on_match_effect_animation_finished"]
-[connection signal="timeout" from="FireNetworkTimer" to="." method="_on_fire_network_timer_timeout"]
