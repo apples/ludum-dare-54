@@ -16,7 +16,13 @@ var buoy_scene = preload("res://coop_objects/buoy/buoy.tscn")
 
 @onready var buoy_timer = $NetworkTimer
 const base_timer_ticks = 180
+const CLIENT_LOAD_TIMEOUT := 15.0
 var boost_mult = 1
+
+var _scene_ready := false
+var _start_failed := false
+var _sync_start_timer: SceneTreeTimer
+var _start_requested := false
 
 var score = 0:
 	set(x):
@@ -43,6 +49,7 @@ var spawnables_bag := []
 
 func _ready() -> void:
 	multiplayer.peer_disconnected.connect(on_error)
+	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	multiplayer.server_disconnected.connect(on_error)
 	
 	SyncManager.sync_started.connect(on_sync_start)
@@ -50,13 +57,52 @@ func _ready() -> void:
 	SyncManager.sync_lost.connect(on_unsync)
 	SyncManager.sync_regained.connect(on_resync)
 	SyncManager.sync_stopped.connect(_on_sync_stopped)
+	MULT_UTILS.gameplay_peer_ready.connect(_on_gameplay_peer_ready)
 	
-	if multiplayer.is_server():
-		MULT_UTILS.mult_rng.set_seed(randi())
-		MULT_UTILS.sync_rng.rpc(MULT_UTILS.mult_rng.get_seed())
-		SyncManager.start()
 	
 	charge_label.text = str(raft_charges)
+	_scene_ready = true
+	
+	if multiplayer.is_server():
+		_try_start_sync()
+	else:
+		MULT_UTILS.notify_gameplay_ready()
+
+func _on_gameplay_peer_ready(_peer_id: int) -> void:
+	_try_start_sync()
+
+func _try_start_sync() -> void:
+	if _start_failed or _start_requested or not _scene_ready \
+			or not multiplayer.is_server() or SyncManager.started:
+		return
+	
+	for peer_id in multiplayer.get_peers():
+		if not MULT_UTILS.gameplay_ready_peers.has(peer_id):
+			if _sync_start_timer == null:
+				_sync_start_timer = get_tree().create_timer(CLIENT_LOAD_TIMEOUT)
+				_sync_start_timer.timeout.connect(_on_sync_start_timeout)
+			return
+	
+	# everyone's loaded
+	_start_requested = true
+	_sync_start_timer = null
+	MULT_UTILS.mult_rng.set_seed(randi())
+	MULT_UTILS.sync_rng.rpc(MULT_UTILS.mult_rng.get_seed())
+	SyncManager.start()
+
+func _on_sync_start_timeout() -> void:
+	_sync_start_timer = null
+	if _start_failed or _start_requested or SyncManager.started:
+		return
+	
+	for peer_id in multiplayer.get_peers():
+		if not MULT_UTILS.gameplay_ready_peers.has(peer_id):
+			_start_failed = true
+			on_error("Timed out waiting for all players to finish loading")
+			return
+
+func _on_peer_disconnected(peer_id: int) -> void:
+	MULT_UTILS.gameplay_ready_peers.erase(peer_id)
 
 func on_sync_start():
 	raft.generate_initial_platform()
@@ -80,15 +126,18 @@ func on_sync_start():
 		SyncManager.start_logging("user://detailed_logs/Horse2.log")
 
 func on_unsync():
+	print("SYNC LOST")
 	sync_status.show()
 
 func on_resync():
 	sync_status.hide()
 
 func _on_sync_stopped():
+	print("SYNC STOPPED")
 	SyncManager.stop_logging()
 
-func on_error(error):
+func on_error(error = null):
+	print("SYNC ERROR:")
 	print(error)
 	disconnect_notice.show()
 	disconnect_timer.start()

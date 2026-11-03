@@ -66,7 +66,7 @@ func _set_health(value: int):
 		raft_ref.remove_tile(grid_pos)
 		if player_ref: # splash
 			player_ref.rooted = true
-			player_ref.grid_pos = Vector2i(-1, -1)
+			#player_ref.grid_pos = Vector2i(-1, -1)
 			SyncManager.spawn("Buoy", $"/root/CoopGameplay/BuoyParent", buoy_scene, {pos = raft_ref.grid_pos_to_global_position(grid_pos), player_path = player_ref.get_path()})
 		if tile_object:
 			SyncManager.despawn(tile_object)

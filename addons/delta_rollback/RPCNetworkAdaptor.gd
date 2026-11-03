@@ -19,7 +19,7 @@ func _remote_ping_back(msg: Dictionary) -> void:
 func send_remote_start(peer_id: int) -> void:
 	rpc_id(peer_id, "_remote_start")
 
-@rpc("any_peer", "unreliable")
+@rpc("any_peer", "call_remote", "reliable")
 func _remote_start() -> void:
 	emit_signal("received_remote_start")
 

@@ -142,7 +142,8 @@ func _network_process(input: Dictionary):
 				facing_tile.player_ref = held_player
 				held_player = null
 			else: # splash
-				held_player.grid_pos = Vector2i(-1, -1)
+				held_player.rooted = true
+				#held_player.grid_pos = Vector2i(-1, -1)
 				SyncManager.spawn("Buoy", $"/root/CoopGameplay/BuoyParent", buoy_scene, 
 				{pos = raft.grid_pos_to_global_position(facing_pos), player_path = held_player.get_path()})
 				held_player = null
@@ -167,9 +168,9 @@ func _network_process(input: Dictionary):
 				pass
 		elif facing_tile and !facing_obj and !facing_player: #swap-drop
 			if held_object:
+				walk(facing_dir)
 				raft.place_object(standing_tile, held_object)
 				held_object = null
-				walk(facing_dir)
 			elif held_player:
 				held_player.rooted = false
 				walk(facing_dir)
