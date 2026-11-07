@@ -15,9 +15,10 @@ var buoy_scene = preload("res://coop_objects/buoy/buoy.tscn")
 @onready var charge_label := $Charges
 
 @onready var buoy_timer = $NetworkTimer
-const base_timer_ticks = 180
+const BASE_TIMER_TICKS = 180
 const CLIENT_LOAD_TIMEOUT := 15.0
 var boost_mult = 1
+var buoys : Array[Node2D] = []
 
 var _scene_ready := false
 var _start_failed := false
@@ -148,22 +149,6 @@ func _on_disconnect_timer_timeout() -> void:
 	SyncManager.clear_peers()
 	UTILS.change_to_scene(mult_select_scene)
 
-func _save_state() -> Dictionary:
-	return {
-		score = score,
-		boost_mult = boost_mult,
-		raft_charges = raft_charges,
-		column_bag = column_bag.duplicate(),
-		spawnables_bag = spawnables_bag.duplicate(),
-	}
-
-func _load_state(state: Dictionary) -> void:
-	score = state['score']
-	boost_mult = state['boost_mult']
-	raft_charges = state['raft_charges']
-	column_bag = state['column_bag'].duplicate()
-	spawnables_bag = state['spawnables_bag'].duplicate()
-
 func fill_column_bag():
 	for r in column_ranges:
 		for i in range(r[0], r[1]):
@@ -181,9 +166,45 @@ func fill_spawnables_bag():
 func change_speed(amount):
 	boost_mult = maxi(boost_mult + amount, 1)
 	
-	var new_wait: int = base_timer_ticks / boost_mult
+	@warning_ignore("integer_division")
+	var new_wait: int = BASE_TIMER_TICKS / boost_mult
 	SyncManager.set_synced(buoy_timer, "ticks_left", maxi((buoy_timer.ticks_left * new_wait) / buoy_timer.wait_ticks, 1))
 	SyncManager.set_synced(buoy_timer, "wait_ticks", new_wait)
+
+func get_buoy_in_range(coord: Vector2, height: int) -> Node2D:
+	for buoy in buoys:
+		@warning_ignore("integer_division")
+		if buoy.position.x == coord.x and buoy.position.y < coord.y + (height / 2) and buoy.position.y > coord.y - (height / 2):
+			return buoy
+	return null
+
+func _save_state() -> Dictionary:
+	var buoy_paths := []
+	for buoy in buoys:
+		if is_instance_valid(buoy):
+			buoy_paths.append(buoy.get_path())
+	
+	return {
+		score = score,
+		boost_mult = boost_mult,
+		raft_charges = raft_charges,
+		column_bag = column_bag.duplicate(),
+		spawnables_bag = spawnables_bag.duplicate(),
+		buoy_paths = buoy_paths,
+	}
+
+func _load_state(state: Dictionary) -> void:
+	score = state['score']
+	boost_mult = state['boost_mult']
+	raft_charges = state['raft_charges']
+	column_bag = state['column_bag'].duplicate()
+	spawnables_bag = state['spawnables_bag'].duplicate()
+	
+	buoys.clear()
+	for buoy_path in state['buoy_paths']:
+		var buoy := get_node_or_null(buoy_path)
+		if buoy:
+			buoys.append(buoy)
 
 func _on_network_timer_timeout() -> void:
 	if column_bag.is_empty():

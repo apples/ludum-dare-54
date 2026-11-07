@@ -48,11 +48,16 @@ func _load_state(state: Dictionary) -> void:
 func _network_spawn(data: Dictionary) -> void:
 	type = data.type
 	var raft : CoopRaft = $"/root/CoopGameplay/Raft"
-	var tile = raft.get_tile(data.grid_pos)
 	
-	instant_move(tile.position)
-	
-	tile.tile_object = self
+	if data.has("player_path"):
+		var player_ref = $"/root/CoopGameplay".get_node_or_null(data.player_path)
+		player_ref.held_object = self
+		instant_move(player_ref.position)
+	else:
+		var tile = raft.get_tile(data.grid_pos)
+		instant_move(tile.position)
+		tile.tile_object = self
+		raft.check_matches(tile)
 	
 	match type:
 		GLOBAL_VARS.object_type.WOOD:
@@ -67,5 +72,3 @@ func _network_spawn(data: Dictionary) -> void:
 			sprite.play("bomb")
 		GLOBAL_VARS.object_type.GEM:
 			sprite.play("gem")
-	
-	raft.check_matches(tile)

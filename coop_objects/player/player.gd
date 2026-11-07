@@ -10,7 +10,7 @@ class_name CoopPlayer extends CharacterBody2D
 @onready var item_parent = $"/root/CoopGameplay/ItemParent"
 @onready var gameplay = self.get_parent()
 
-var debug_item
+var item_scene
 var upgrade_scene = preload("res://scenes/coop_upgrade_select/coop_upgrade.tscn")
 var buoy_scene = load("res://coop_objects/buoy/buoy.tscn")
 
@@ -38,7 +38,7 @@ var upgrade_node : Node
 var upgrade_allowed = true
 
 func _ready() -> void:
-	debug_item = load("res://coop_objects/raft_object/raft_object.tscn")
+	item_scene = load("res://coop_objects/raft_object/raft_object.tscn")
 
 func _process(_delta: float) -> void:
 	if paddling:
@@ -143,7 +143,6 @@ func _network_process(input: Dictionary):
 				held_player = null
 			else: # splash
 				held_player.rooted = true
-				#held_player.grid_pos = Vector2i(-1, -1)
 				SyncManager.spawn("Buoy", $"/root/CoopGameplay/BuoyParent", buoy_scene, 
 				{pos = raft.grid_pos_to_global_position(facing_pos), player_path = held_player.get_path()})
 				held_player = null
@@ -165,7 +164,14 @@ func _network_process(input: Dictionary):
 				held_player.rooted = true
 				facing_tile.player_ref = null
 			else: #pickup buoy
-				pass
+				var buoy = gameplay.get_buoy_in_range(raft.grid_pos_to_global_position(facing_pos), 30)
+				if buoy:
+					if buoy.player_ref:
+						held_player = buoy.player_ref
+						held_player.grid_pos = grid_pos
+					else:
+						SyncManager.spawn("item", $"/root/CoopGameplay/ItemParent", item_scene, {type = buoy.item_type, player_path = self.get_path()})
+					SyncManager.despawn(buoy)
 		elif facing_tile and !facing_obj and !facing_player: #swap-drop
 			if held_object:
 				walk(facing_dir)
@@ -182,17 +188,17 @@ func _network_process(input: Dictionary):
 			standing_tile.fire_health_ticks -= 1
 	
 	if input["debug1"]:
-		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), debug_item, {type = GLOBAL_VARS.object_type.WOOD, grid_pos = grid_pos})
+		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), item_scene, {type = GLOBAL_VARS.object_type.WOOD, grid_pos = grid_pos})
 	if input["debug2"]:
-		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), debug_item, {type = GLOBAL_VARS.object_type.WATER, grid_pos = grid_pos})
+		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), item_scene, {type = GLOBAL_VARS.object_type.WATER, grid_pos = grid_pos})
 	if input["debug3"]:
-		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), debug_item, {type = GLOBAL_VARS.object_type.HAMMER, grid_pos = grid_pos})
+		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), item_scene, {type = GLOBAL_VARS.object_type.HAMMER, grid_pos = grid_pos})
 	if input["debug4"]:
-		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), debug_item, {type = GLOBAL_VARS.object_type.CANNON, grid_pos = grid_pos})
+		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), item_scene, {type = GLOBAL_VARS.object_type.CANNON, grid_pos = grid_pos})
 	if input["debug5"]:
-		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), debug_item, {type = GLOBAL_VARS.object_type.BOMB, grid_pos = grid_pos})
+		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), item_scene, {type = GLOBAL_VARS.object_type.BOMB, grid_pos = grid_pos})
 	if input["debug6"]:
-		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), debug_item, {type = GLOBAL_VARS.object_type.GEM, grid_pos = grid_pos})
+		SyncManager.spawn("debugItem", get_parent().find_child("ItemParent"), item_scene, {type = GLOBAL_VARS.object_type.GEM, grid_pos = grid_pos})
 	
 	move_ticks += 1
 	global_position = lerp(

@@ -26,6 +26,7 @@ func _network_process(_input: Dictionary):
 		if player_ref:
 			launch()
 		else:
+			gameplay.buoys.erase(self)
 			SyncManager.despawn(self)
 		return
 	var highest_tile : CoopTile = raft_ref.get_highest_tile(column, position)
@@ -41,6 +42,7 @@ func launch() -> void:
 			{grid_pos = spawn_tile.grid_pos, buoy_pos = global_position, good = true, player_path = player_ref.get_path()})
 		else:
 			SyncManager.spawn("alert", $"/root/CoopGameplay/ItemParent", warning_scene, {grid_pos = spawn_tile.grid_pos, buoy_pos = global_position, good = true, item = item_type})
+	gameplay.buoys.erase(self)
 	SyncManager.despawn(self)
 
 func _save_state() -> Dictionary:
@@ -55,6 +57,7 @@ func _load_state(state: Dictionary) -> void:
 
 func _network_spawn(data: Dictionary) -> void:
 	position = data.pos
+	gameplay.buoys.append(self)
 	
 	raft_ref = $"/root/CoopGameplay/Raft"
 	column = roundi((position.x - raft_ref.global_position.x) / 32.0)
