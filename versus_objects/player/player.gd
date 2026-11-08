@@ -1,0 +1,300 @@
+class_name VersusPlayer extends CharacterBody2D
+
+@export var raft: VersusRaft
+
+@onready var anim: AnimatedSprite2D = $AnimatedSprite2D
+@onready var reflection: AnimatedSprite2D = $Reflection
+@onready var hold_root = $HoldRoot
+@onready var grab_area = $GrabArea
+
+@onready var gameplay = self.get_parent()
+
+var item_scene
+var upgrade_scene = preload("res://scenes/versus_upgrade_select/versus_upgrade.tscn")
+var buoy_scene = load("res://versus_objects/buoy/buoy.tscn")
+
+var walk_speed := 300
+var grid_pos : Vector2i
+var last_grid_pos: Vector2i = grid_pos
+var facing_dir := Vector2i(1, 0)
+var last_direction : Vector2i
+var disabled := false
+var rooted := false
+var paddling := false
+
+var held_object : VersusItem = null
+var held_player : VersusPlayer = null
+
+const hold_offset = Vector2(0, -16)
+const move_delay_time_ticks := 6 # really this should be configurable in the options, 6 = 0.1 seconds
+const move_ticks_target := 8
+var move_ticks := 0
+var push_ticks := 0
+var recent_input_dir := Vector2i(0, 0)
+
+var tile_placements : Array[Vector2i] = []
+var upgrade_node : Node
+var upgrade_allowed = true
+
+func _ready() -> void:
+	item_scene = load("res://versus_objects/raft_object/raft_object.tscn")
+
+func _process(_delta: float) -> void:
+	if paddling:
+		anim.play("spin")
+	else:
+		match facing_dir:
+			Vector2i.LEFT:
+				anim.play("left")
+				reflection.play("left")
+			Vector2i.RIGHT:
+				anim.play("right")
+				reflection.play("right")
+			Vector2i.UP:
+				anim.play("up")
+				reflection.play("up")
+			_:
+				anim.play("down")
+				reflection.play("down")
+	
+	var want_upgrade := disabled and is_multiplayer_authority() and upgrade_allowed
+	var has_upgrade := is_instance_valid(upgrade_node) and not upgrade_node.is_queued_for_deletion()
+	if want_upgrade and not has_upgrade:
+		upgrade_allowed = false
+		upgrade_node = upgrade_scene.instantiate()
+		upgrade_node.player = self
+		gameplay.add_child(upgrade_node)
+	
+	if held_object:
+		held_object.global_position = global_position + hold_offset
+	if held_player:
+		held_player.global_position = global_position + hold_offset
+
+func _network_process(input: Dictionary):
+	if !input:
+		return
+	
+	if input.has("upgrade_tiles") and input["upgrade_tiles"].size() > 0:
+		disabled = false
+		upgrade_allowed = true
+		for i in input["upgrade_tiles"]:
+			raft.place_tile(i)
+		return
+	
+	if input["paddling_start"] and not raft.get_tile(grid_pos + Vector2i.DOWN) and not disabled:
+		paddling = true
+		anim.position = Vector2(0, 16)
+		raft.change_buoy_speed(1)
+	elif input["paddling_end"] and paddling:
+		paddling = false
+		anim.position = Vector2(0, 0)
+		raft.change_buoy_speed(-1)
+	
+	if disabled or paddling:
+		return
+	
+	if input["upgrade_pressed"]:
+		if gameplay.spend_charge(raft.raft_index):
+			disabled = true
+			return
+	
+	var lr: int = (1 if input["right"] else 0) - (1 if input["left"] else 0)
+	var ud: int = (1 if input["down"] else 0) - (1 if input["up"] else 0)
+	var direction := Vector2i(lr, ud)
+	
+	if direction.x != 0 and direction.y != 0: #diagonal
+		if recent_input_dir != Vector2i(0, 0):
+			direction = recent_input_dir
+		elif last_direction != Vector2i(0, 0):
+			recent_input_dir = direction - last_direction
+			direction = recent_input_dir
+		else:
+			direction.y = 0
+	else:
+		recent_input_dir = Vector2i(0, 0)
+	
+	if direction != Vector2i(0, 0):
+		facing_dir = direction
+	
+	if rooted:
+		return
+	
+	var facing_pos = grid_pos + facing_dir
+	var facing_tile := raft.get_tile(facing_pos)
+	var standing_tile := raft.get_tile(grid_pos)
+	var facing_obj = facing_tile.tile_object if facing_tile else null
+	var facing_player = facing_tile.player_ref if facing_tile else null
+	
+	if direction == Vector2i.ZERO:
+		push_ticks = 0
+	else:
+		if held_object and (last_direction != direction and direction != Vector2i.ZERO): #directional place
+			if facing_player and !facing_player.held_object: #place on ally
+				facing_player.held_object = held_object
+				held_object = null
+			elif facing_tile and !facing_obj and !facing_player: #place on tile
+				raft.place_object(facing_tile, held_object)
+				held_object = null
+		elif held_player and (last_direction != direction and direction != Vector2i.ZERO): #place player
+			if facing_tile and !facing_obj and !facing_player:
+				held_player.grid_pos = facing_pos
+				held_player.rooted = false
+				facing_tile.player_ref = held_player
+				held_player = null
+			else: # splash
+				held_player.rooted = true
+				SyncManager.spawn("Buoy", $"/root/VersusGameplay/BuoyParent", buoy_scene, 
+				{pos = raft.grid_pos_to_global_position(facing_pos), raft_path = raft.get_path(), player_path = held_player.get_path()})
+				held_player = null
+		elif facing_obj or facing_player: # start pushing
+			push_ticks += 1
+			if push_ticks >= move_delay_time_ticks:
+				if facing_tile.push(grid_pos):
+					walk(direction)
+		elif facing_tile: # simply walk
+			walk(direction)
+	
+	if input["interact_pressed"]:
+		if !held_object and !held_player:
+			if facing_obj: #pickup object
+				raft.pickup_object(facing_tile, self)
+			elif facing_player: #pickup player
+				held_player = facing_player
+				held_player.grid_pos = grid_pos
+				held_player.rooted = true
+				facing_tile.player_ref = null
+			else: #pickup buoy
+				var buoy = gameplay.get_buoy_in_range(raft.grid_pos_to_global_position(facing_pos), 30)
+				if buoy:
+					if buoy.player_ref:
+						held_player = buoy.player_ref
+						held_player.grid_pos = grid_pos
+					else:
+						SyncManager.spawn("item", raft, item_scene, {type = buoy.item_type, player_path = self.get_path()})
+					SyncManager.despawn(buoy)
+		elif facing_tile and !facing_obj and !facing_player: #swap-drop
+			if held_object:
+				walk(facing_dir)
+				raft.place_object(standing_tile, held_object)
+				held_object = null
+			elif held_player:
+				held_player.rooted = false
+				walk(facing_dir)
+				standing_tile.player_ref = held_player
+				held_player = null
+	
+	if input["interact"]:
+		if standing_tile.is_on_fire:
+			standing_tile.fire_health_ticks -= 1
+	
+	if input["debug1"]:
+		SyncManager.spawn("debugItem", raft, item_scene, {type = GLOBAL_VARS.object_type.WOOD, grid_pos = grid_pos})
+	if input["debug2"]:
+		SyncManager.spawn("debugItem", raft, item_scene, {type = GLOBAL_VARS.object_type.WATER, grid_pos = grid_pos})
+	if input["debug3"]:
+		SyncManager.spawn("debugItem", raft, item_scene, {type = GLOBAL_VARS.object_type.HAMMER, grid_pos = grid_pos})
+	if input["debug4"]:
+		SyncManager.spawn("debugItem", raft, item_scene, {type = GLOBAL_VARS.object_type.CANNON, grid_pos = grid_pos})
+	if input["debug5"]:
+		SyncManager.spawn("debugItem", raft, item_scene, {type = GLOBAL_VARS.object_type.BOMB, grid_pos = grid_pos})
+	if input["debug6"]:
+		SyncManager.spawn("debugItem", raft, item_scene, {type = GLOBAL_VARS.object_type.GEM, grid_pos = grid_pos})
+	
+	move_ticks += 1
+	global_position = lerp(
+		raft.grid_pos_to_global_position(last_grid_pos),
+		 raft.grid_pos_to_global_position(grid_pos),
+		 clampf(float(move_ticks) / float(move_ticks_target), 0.0, 1.0))
+	last_direction = direction
+
+func walk(direction: Vector2i):
+	if move_ticks >= move_ticks_target:
+		last_grid_pos = grid_pos
+		grid_pos += direction
+		if raft.get_tile(last_grid_pos):
+			raft.get_tile(last_grid_pos).player_ref = null
+		raft.get_tile(grid_pos).player_ref = self
+		move_ticks = 0
+
+func _save_state() -> Dictionary:
+	return {
+		grid_pos = grid_pos,
+		last_grid_pos = last_grid_pos,
+		last_direction = last_direction,
+		move_ticks = move_ticks,
+		push_ticks = push_ticks,
+		recent_input_dir = recent_input_dir,
+		held_object_path = held_object.get_path() if held_object else ^"",
+		held_player_path = held_player.get_path() if held_player else ^"",
+		disabled = disabled,
+		rooted = rooted,
+		paddling = paddling,
+		facing_dir = facing_dir,
+	}
+
+func _load_state(state: Dictionary) -> void:
+	grid_pos = state['grid_pos']
+	last_grid_pos = state['last_grid_pos']
+	last_direction = state['last_direction']
+	move_ticks = state['move_ticks']
+	push_ticks = state['push_ticks']
+	recent_input_dir = state['recent_input_dir']
+	disabled = state['disabled']
+	rooted = state['rooted']
+	paddling = state['paddling']
+	facing_dir = state['facing_dir']
+	
+	held_object = gameplay.get_node_or_null(state['held_object_path'])
+	held_player = gameplay.get_node_or_null(state['held_player_path'])
+
+func _network_spawn(data: Dictionary) -> void:
+	grid_pos = data.get("grid_pos")
+	last_grid_pos = grid_pos
+	raft = get_node(data.raft_path)
+	position = raft.grid_pos_to_global_position(grid_pos)
+	var tile = raft.get_tile(grid_pos)
+	tile.player_ref = self
+
+func _get_local_input() -> Dictionary:
+	var input := {}
+	input["left"] = Input.is_action_pressed("left")
+	input["right"] = Input.is_action_pressed("right")
+	input["up"] = Input.is_action_pressed("up")
+	input["down"] = Input.is_action_pressed("down")
+	input["interact_pressed"] = Input.is_action_just_pressed("interact")
+	input["interact"] = Input.is_action_pressed("interact")
+	input["upgrade_pressed"] = Input.is_action_just_pressed("execute")
+	input["paddling_start"] = Input.is_action_just_pressed("fast_forward")
+	input["paddling_end"] = Input.is_action_just_released("fast_forward")
+	
+	if gameplay.placed_tile_coords.size() > 0:
+		input["upgrade_tiles"] = gameplay.placed_tile_coords
+		gameplay.placed_tile_coords = []
+	
+	input["debug1"] = Input.is_action_just_pressed("debug_1")
+	input["debug2"] = Input.is_action_just_pressed("debug_2")
+	input["debug3"] = Input.is_action_just_pressed("debug_3")
+	input["debug4"] = Input.is_action_just_pressed("debug_4")
+	input["debug5"] = Input.is_action_just_pressed("debug_5")
+	input["debug6"] = Input.is_action_just_pressed("debug_6")
+	return input
+
+func _predict_remote_input(previous_input: Dictionary, ticks_since_real_input: int) -> Dictionary: # just setting all "is_action_just_pressed" actions to false
+	if !previous_input:
+		return {}
+	
+	if ticks_since_real_input > 0:
+		previous_input["interact_pressed"] = false
+		previous_input["upgrade_pressed"] = false
+		previous_input["paddling_start"] = false
+		previous_input["paddling_end"] = false
+		previous_input["upgrade_tiles"] = []
+		
+		previous_input["debug1"] = false
+		previous_input["debug2"] = false
+		previous_input["debug3"] = false
+		previous_input["debug4"] = false
+		previous_input["debug5"] = false
+		previous_input["debug6"] = false
+		
+	return previous_input

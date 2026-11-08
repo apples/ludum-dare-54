@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://c3gpuvpmyc2le"]
+
+[ext_resource type="SpriteFrames" uid="uid://gyet4lfrp57h" path="res://assets/sprite_frames/player_sprite_frames.tres" id="1_3kvjk"]
+[ext_resource type="Script" uid="uid://bgrcqcupioonr" path="res://versus_objects/player/player.gd" id="1_j664l"]
+[ext_resource type="SpriteFrames" uid="uid://cx3nkjf50v8kq" path="res://assets/sprite_frames/player_frames_inv.tres" id="2_awm4l"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fvkgo"]
+radius = 20.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fvkgo"]
+size = Vector2(28, 28)
+
+[node name="Player" type="CharacterBody2D" unique_id=2136118768 groups=["network_sync"]]
+z_index = 1
+motion_mode = 1
+script = ExtResource("1_j664l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=737016637]
+shape = SubResource("CircleShape2D_fvkgo")
+
+[node name="Reflection" type="AnimatedSprite2D" parent="." unique_id=1082793468]
+z_index = -100
+position = Vector2(0, 32)
+sprite_frames = ExtResource("2_awm4l")
+animation = &"left"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=808514878]
+sprite_frames = ExtResource("1_3kvjk")
+animation = &"spin"
+
+[node name="GrabArea" type="Area2D" parent="." unique_id=2108145833]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GrabArea" unique_id=177827128]
+shape = SubResource("RectangleShape2D_fvkgo")
+
+[node name="HoldRoot" type="Node2D" parent="." unique_id=1187105030]
+position = Vector2(0, -16)

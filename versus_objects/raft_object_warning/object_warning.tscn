@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://b61joh6ne3wyn"]
+
+[ext_resource type="Script" uid="uid://d2iju5v0rovrw" path="res://versus_objects/raft_object_warning/object_warning.gd" id="1_tun1r"]
+[ext_resource type="Texture2D" uid="uid://dfr7nvqhdiatt" path="res://assets/textures/alert.png" id="2_bve6l"]
+[ext_resource type="SpriteFrames" uid="uid://c3be31ateoy2g" path="res://assets/sprite_frames/raft_object_frames.tres" id="3_7c3j4"]
+[ext_resource type="SpriteFrames" uid="uid://dquniopf2hsja" path="res://assets/sprite_frames/raft_object_frames_inv.tres" id="4_ctehv"]
+
+[sub_resource type="Curve" id="Curve_7c3j4"]
+_data = [Vector2(0, 0), 0.0, 4.5, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -4.5, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7c3j4"]
+atlas = ExtResource("2_bve6l")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ctehv"]
+atlas = ExtResource("2_bve6l")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2jqr6"]
+atlas = ExtResource("2_bve6l")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smbu3"]
+atlas = ExtResource("2_bve6l")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wfh2"]
+atlas = ExtResource("2_bve6l")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_emi4y"]
+atlas = ExtResource("2_bve6l")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fvkgo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7c3j4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ctehv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2jqr6")
+}],
+"loop": 1,
+"name": &"bad",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_smbu3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5wfh2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_emi4y")
+}],
+"loop": 1,
+"name": &"good",
+"speed": 5.0
+}]
+
+[node name="ObjectWarning" type="Node2D" unique_id=387379342 groups=["network_sync"]]
+script = ExtResource("1_tun1r")
+simple_curve = SubResource("Curve_7c3j4")
+
+[node name="AlertSprite" type="AnimatedSprite2D" parent="." unique_id=1723588403]
+sprite_frames = SubResource("SpriteFrames_fvkgo")
+animation = &"good"
+autoplay = "good"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1806698540]
+sprite_frames = ExtResource("3_7c3j4")
+animation = &"cannon"
+
+[node name="Reflection" type="AnimatedSprite2D" parent="." unique_id=1689141238]
+z_index = -100
+position = Vector2(0, 32)
+sprite_frames = ExtResource("4_ctehv")
+animation = &"cannon"

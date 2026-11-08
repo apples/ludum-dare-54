@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cwkn3tj0caqmi"]
+
+[ext_resource type="Script" uid="uid://brdpj6gtkagv8" path="res://versus_objects/raft/raft.gd" id="1_gchu3"]
+[ext_resource type="AudioStream" uid="uid://bbtiuerh6ttx4" path="res://assets/sfx/raft_hit_cannonball.ogg" id="2_2rwrh"]
+[ext_resource type="Script" uid="uid://102ie0rnxebk" path="res://addons/delta_rollback/NetworkTimer.gd" id="4_yaq1m"]
+
+[node name="Raft" type="Node2D" unique_id=1003271954 groups=["network_sync"]]
+y_sort_enabled = true
+script = ExtResource("1_gchu3")
+
+[node name="BuoyTimer" type="Node" parent="." unique_id=1541288818]
+script = ExtResource("4_yaq1m")
+autostart = true
+wait_ticks = 180
+metadata/_custom_type_script = "uid://102ie0rnxebk"
+
+[node name="Hit" type="AudioStreamPlayer" parent="." unique_id=2113217156]
+stream = ExtResource("2_2rwrh")
+bus = &"Sound_effects"
+
+[connection signal="timeout" from="BuoyTimer" to="." method="_on_buoy_timer_timeout"]

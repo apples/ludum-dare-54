@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://d0henlo3d8y25"]
+
+[ext_resource type="Script" uid="uid://l6gwgvxp1yip" path="res://versus_objects/raft_object/raft_object.gd" id="1_jvb6y"]
+[ext_resource type="AudioStream" uid="uid://87k37a2eduoa" path="res://assets/sfx/bomb_throw.ogg" id="2_iu0o1"]
+[ext_resource type="AudioStream" uid="uid://dpcq7d32jx2gp" path="res://assets/sfx/new_item_pickup.ogg" id="2_sld4n"]
+[ext_resource type="SpriteFrames" uid="uid://c3be31ateoy2g" path="res://assets/sprite_frames/raft_object_frames.tres" id="4_a5ush"]
+
+[node name="RaftObject" type="Node2D" unique_id=1221020548 groups=["network_sync"]]
+z_index = 2
+script = ExtResource("1_jvb6y")
+
+[node name="Throw" type="AudioStreamPlayer" parent="." unique_id=1614066009]
+stream = ExtResource("2_iu0o1")
+volume_db = -4.0
+bus = &"Sound_effects"
+
+[node name="Toss" type="AudioStreamPlayer" parent="." unique_id=1475602263]
+stream = ExtResource("2_sld4n")
+volume_db = 5.0
+bus = &"Sound_effects"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2093412830]
+sprite_frames = ExtResource("4_a5ush")
+animation = &"water"
+autoplay = "water"

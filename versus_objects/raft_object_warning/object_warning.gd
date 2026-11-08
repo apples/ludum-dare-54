@@ -1,0 +1,103 @@
+class_name VersusItemWarning extends VersusItem
+
+var player_ref : VersusPlayer = null
+
+var spawn_item : GLOBAL_VARS.object_type
+var is_good := true
+var last_buoy_pos := Vector2.ZERO
+var launch_frames := 0
+
+const frame_target = 60
+
+@onready var alert_sprite := $AlertSprite
+@onready var reflection := $Reflection
+
+var item_scene = preload("res://versus_objects/raft_object/raft_object.tscn")
+
+@export var simple_curve : Curve
+
+func _network_process(input: Dictionary):
+	super._network_process(input)
+	
+	launch_frames += 1
+	var progress = launch_frames / float(frame_target)
+	if player_ref:
+		player_ref.global_position = last_buoy_pos.lerp(global_position, progress)
+		player_ref.global_position.y -= simple_curve.sample(progress) * 100
+	else:
+		sprite.global_position = last_buoy_pos.lerp(global_position, progress)
+		reflection.global_position = last_buoy_pos.lerp(global_position, progress)
+		sprite.global_position.y -= simple_curve.sample(progress) * 100
+		reflection.global_position.y += simple_curve.sample(progress) * 100
+	
+	if launch_frames >= frame_target:
+		if player_ref:
+			player_ref.rooted = false
+			player_ref.grid_pos = grid_pos
+			var raft : VersusRaft = get_parent()
+			raft.get_tile(grid_pos).player_ref = player_ref
+		else:
+			var raft : VersusRaft = get_parent()
+			SyncManager.spawn("item", raft, item_scene, {type = spawn_item, grid_pos = grid_pos})
+		SyncManager.despawn(self)
+
+func _save_state() -> Dictionary:
+	return {
+		is_moving = is_moving,
+		target_pos = target_pos,
+		move_frames = move_frames,
+		start_pos = start_pos,
+		launch_frames = launch_frames,
+	}
+
+func _load_state(state: Dictionary) -> void:
+	is_moving = state['is_moving']
+	target_pos = state['target_pos']
+	move_frames = state['move_frames']
+	start_pos = state['start_pos']
+	launch_frames = state['launch_frames']
+
+func _network_spawn(data: Dictionary) -> void:
+	type = GLOBAL_VARS.object_type.ALERT
+	var raft : VersusRaft = get_parent()
+	var tile = raft.get_tile(data.grid_pos)
+	
+	grid_pos = tile.grid_pos
+	instant_move(tile.position)
+	
+	tile.tile_object = self
+	
+	last_buoy_pos = data.buoy_pos
+	
+	is_good = data.good
+	if is_good:
+		alert_sprite.play("good")
+	else:
+		alert_sprite.play("bad")
+	
+	if data.has("player_path"):
+		player_ref = raft.gameplay.get_node_or_null(data.player_path)
+		sprite.hide()
+		reflection.hide()
+		return
+	
+	spawn_item = data.item
+	match spawn_item:
+		GLOBAL_VARS.object_type.WOOD:
+			sprite.play("wood")
+			reflection.play("wood")
+		GLOBAL_VARS.object_type.WATER:
+			sprite.play("water")
+			reflection.play("water")
+		GLOBAL_VARS.object_type.HAMMER:
+			sprite.play("hammer")
+			reflection.play("hammer")
+		GLOBAL_VARS.object_type.CANNON:
+			sprite.play("cannon")
+			reflection.play("cannon")
+		GLOBAL_VARS.object_type.BOMB:
+			sprite.play("bomb")
+			reflection.play("bomb")
+		GLOBAL_VARS.object_type.GEM:
+			sprite.play("gem")
+			reflection.play("gem")

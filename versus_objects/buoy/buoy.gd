@@ -1,0 +1,90 @@
+extends Node2D
+
+var item_type : GLOBAL_VARS.object_type
+var raft_ref : VersusRaft
+
+var player_ref : VersusPlayer = null
+
+var has_hit := false
+var column := 0
+
+@onready var item_sprite = $ItemSprite
+@onready var reflected_item_sprite = $ReflectedItemSprite
+
+@onready var gameplay = self.get_parent().get_parent()
+
+var warning_scene = preload("res://versus_objects/raft_object_warning/object_warning.tscn")
+
+
+func _network_process(_input: Dictionary):
+	if has_hit:
+		return
+	position += Vector2.DOWN * 0.3125 * raft_ref.boost_mult
+	if player_ref:
+		player_ref.position = position + Vector2(0, -8)
+	if position.y > 16 * 32:
+		if player_ref:
+			launch()
+		else:
+			gameplay.buoys.erase(self)
+			SyncManager.despawn(self)
+		return
+	var highest_tile : VersusTile = raft_ref.get_highest_tile(column, position)
+	if highest_tile != null and position.y + 32 >= highest_tile.global_position.y:
+		launch()
+
+func launch() -> void:
+	has_hit = true
+	var spawn_tile = raft_ref.get_random_empty_tile_in_column(column)
+	if spawn_tile != null:
+		if player_ref:
+			SyncManager.spawn("alert", raft_ref, warning_scene,
+			{grid_pos = spawn_tile.grid_pos, buoy_pos = global_position, good = true, player_path = player_ref.get_path()})
+		else:
+			SyncManager.spawn("alert", raft_ref, warning_scene, {grid_pos = spawn_tile.grid_pos, buoy_pos = global_position, good = true, item = item_type})
+	gameplay.buoys.erase(self)
+	SyncManager.despawn(self)
+
+func _save_state() -> Dictionary:
+	return {
+		position = position,
+		has_hit = has_hit,
+	}
+
+func _load_state(state: Dictionary) -> void:
+	position = state['position']
+	has_hit = state['has_hit']
+
+func _network_spawn(data: Dictionary) -> void:
+	position = data.pos
+	gameplay.buoys.append(self)
+	
+	raft_ref = get_node(data.raft_path)
+	column = clampi(roundi((position.x - raft_ref.global_position.x) / 32.0), 0, raft_ref.BUILD_COLUMNS - 1)
+	
+	if data.has("player_path"):
+		player_ref = gameplay.get_node_or_null(data.player_path)
+		item_sprite.hide()
+		reflected_item_sprite.hide()
+		return
+	
+	item_type = data.type
+	match item_type:
+		GLOBAL_VARS.object_type.WOOD:
+			item_sprite.play("wood")
+			reflected_item_sprite.play("wood")
+		GLOBAL_VARS.object_type.WATER:
+			item_sprite.play("water")
+			reflected_item_sprite.play("water")
+		GLOBAL_VARS.object_type.HAMMER:
+			item_sprite.play("hammer")
+			reflected_item_sprite.play("hammer")
+		GLOBAL_VARS.object_type.CANNON:
+			item_sprite.play("cannon")
+			reflected_item_sprite.play("cannon")
+		GLOBAL_VARS.object_type.BOMB:
+			item_sprite.play("bomb")
+			reflected_item_sprite.play("bomb")
+		GLOBAL_VARS.object_type.GEM:
+			item_sprite.play("gem")
+			reflected_item_sprite.play("gem")

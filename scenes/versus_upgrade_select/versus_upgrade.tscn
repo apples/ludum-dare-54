@@ -1,0 +1,311 @@
+[gd_scene format=3 uid="uid://d1eeq2y1q13w"]
+
+[ext_resource type="Script" uid="uid://diagu0usot82k" path="res://scenes/versus_upgrade_select/versus_upgrade.gd" id="1_i153o"]
+[ext_resource type="SpriteFrames" uid="uid://t7vja78g544d" path="res://assets/sprite_frames/upgrade_box_sprite_frames.tres" id="2_o4o1g"]
+[ext_resource type="Texture2D" uid="uid://ba2lrx4jj1x3m" path="res://assets/textures/raff.png" id="3_j6wh4"]
+[ext_resource type="Texture2D" uid="uid://bxw6lmushninn" path="res://assets/textures/spacebar_frames.png" id="3_jfvk1"]
+[ext_resource type="Theme" uid="uid://b4i4qyx8hd1tk" path="res://assets/themes/ui_theme.tres" id="4_4ab5b"]
+[ext_resource type="SpriteFrames" uid="uid://dbjtsnbtal48n" path="res://assets/sprite_frames/key.tres" id="4_o4o1g"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l3aa2"]
+atlas = ExtResource("3_j6wh4")
+region = Rect2(0, 0, 32, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ab5b"]
+atlas = ExtResource("3_jfvk1")
+region = Rect2(0, 0, 132, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o4o1g"]
+atlas = ExtResource("3_jfvk1")
+region = Rect2(132, 0, 132, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fvkgo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ab5b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o4o1g")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j6wh4"]
+atlas = ExtResource("3_j6wh4")
+region = Rect2(0, 0, 32, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l0ci2"]
+atlas = ExtResource("3_j6wh4")
+region = Rect2(32, 0, 32, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ai2h0"]
+atlas = ExtResource("3_j6wh4")
+region = Rect2(64, 0, 32, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rqhft"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j6wh4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l0ci2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ai2h0")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="VersusUpgrade" type="Node2D" unique_id=1947772460]
+script = ExtResource("1_i153o")
+
+[node name="UpgradeSelection" type="Control" parent="." unique_id=898743405]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Box1" type="Control" parent="UpgradeSelection" unique_id=2083384615]
+anchors_preset = 0
+offset_left = 226.0
+offset_top = 68.0
+offset_right = 354.0
+offset_bottom = 196.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UpgradeSelection/Box1" unique_id=482739079]
+modulate = Color(1, 1, 1, 0.49803922)
+position = Vector2(64, 64)
+sprite_frames = ExtResource("2_o4o1g")
+animation = &"selected"
+
+[node name="Sprite2D" type="Sprite2D" parent="UpgradeSelection/Box1" unique_id=668542830]
+texture = SubResource("AtlasTexture_l3aa2")
+offset = Vector2(16, 64)
+
+[node name="Sprite2D2" type="Sprite2D" parent="UpgradeSelection/Box1" unique_id=553873722]
+texture = SubResource("AtlasTexture_l3aa2")
+offset = Vector2(16, 64)
+
+[node name="Sprite2D3" type="Sprite2D" parent="UpgradeSelection/Box1" unique_id=-1656130795]
+texture = SubResource("AtlasTexture_l3aa2")
+offset = Vector2(16, 64)
+
+[node name="Sprite2D4" type="Sprite2D" parent="UpgradeSelection/Box1" unique_id=552024846]
+texture = SubResource("AtlasTexture_l3aa2")
+offset = Vector2(16, 64)
+
+[node name="Box2" type="Control" parent="UpgradeSelection" unique_id=2029143501]
+anchors_preset = 0
+offset_left = 226.0
+offset_top = 218.0
+offset_right = 354.0
+offset_bottom = 346.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UpgradeSelection/Box2" unique_id=-1540666796]
+modulate = Color(1, 1, 1, 0.49803922)
+position = Vector2(64, 64)
+sprite_frames = ExtResource("2_o4o1g")
+animation = &"selected"
+
+[node name="Sprite2D" type="Sprite2D" parent="UpgradeSelection/Box2" unique_id=649596906]
+texture = SubResource("AtlasTexture_l3aa2")
+offset = Vector2(16, 64)
+
+[node name="Sprite2D2" type="Sprite2D" parent="UpgradeSelection/Box2" unique_id=-1519252195]
+texture = SubResource("AtlasTexture_l3aa2")
+offset = Vector2(16, 64)
+
+[node name="Sprite2D3" type="Sprite2D" parent="UpgradeSelection/Box2" unique_id=1656301408]
+texture = SubResource("AtlasTexture_l3aa2")
+offset = Vector2(16, 64)
+
+[node name="Sprite2D4" type="Sprite2D" parent="UpgradeSelection/Box2" unique_id=-1598572791]
+texture = SubResource("AtlasTexture_l3aa2")
+offset = Vector2(16, 64)
+
+[node name="Box3" type="Control" parent="UpgradeSelection" unique_id=1971194853]
+anchors_preset = 0
+offset_left = 226.0
+offset_top = 368.0
+offset_right = 354.0
+offset_bottom = 496.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UpgradeSelection/Box3" unique_id=601567287]
+modulate = Color(1, 1, 1, 0.49803922)
+position = Vector2(64, 64)
+sprite_frames = ExtResource("2_o4o1g")
+animation = &"selected"
+
+[node name="Sprite2D" type="Sprite2D" parent="UpgradeSelection/Box3" unique_id=857215987]
+texture = SubResource("AtlasTexture_l3aa2")
+offset = Vector2(16, 64)
+
+[node name="Sprite2D2" type="Sprite2D" parent="UpgradeSelection/Box3" unique_id=622217032]
+texture = SubResource("AtlasTexture_l3aa2")
+offset = Vector2(16, 64)
+
+[node name="Sprite2D3" type="Sprite2D" parent="UpgradeSelection/Box3" unique_id=1448192776]
+texture = SubResource("AtlasTexture_l3aa2")
+offset = Vector2(16, 64)
+
+[node name="Sprite2D4" type="Sprite2D" parent="UpgradeSelection/Box3" unique_id=1449644476]
+texture = SubResource("AtlasTexture_l3aa2")
+offset = Vector2(16, 64)
+
+[node name="Spacebar" type="AnimatedSprite2D" parent="UpgradeSelection" unique_id=-1946272406]
+position = Vector2(556, 164)
+sprite_frames = SubResource("SpriteFrames_fvkgo")
+autoplay = "default"
+
+[node name="WASD" type="Node2D" parent="UpgradeSelection" unique_id=-1580469167]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UpgradeSelection/WASD" unique_id=-2021570682]
+position = Vector2(442, 82)
+sprite_frames = ExtResource("4_o4o1g")
+autoplay = "default"
+
+[node name="Label" type="Label" parent="UpgradeSelection/WASD/AnimatedSprite2D" unique_id=544611170]
+offset_left = -2.0
+offset_top = -9.0
+offset_right = 8.0
+offset_bottom = 6.0
+theme = ExtResource("4_4ab5b")
+text = "W"
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="UpgradeSelection/WASD" unique_id=-1851321234]
+position = Vector2(450.5, 120)
+sprite_frames = ExtResource("4_o4o1g")
+autoplay = "default"
+
+[node name="Label" type="Label" parent="UpgradeSelection/WASD/AnimatedSprite2D2" unique_id=1151144406]
+offset_left = -2.0
+offset_top = -9.0
+offset_right = 8.0
+offset_bottom = 14.0
+theme = ExtResource("4_4ab5b")
+text = "S"
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="UpgradeSelection/WASD" unique_id=1293234892]
+modulate = Color(1, 1, 1, 0.49803922)
+position = Vector2(412, 120)
+sprite_frames = ExtResource("4_o4o1g")
+
+[node name="Label" type="Label" parent="UpgradeSelection/WASD/AnimatedSprite2D3" unique_id=1671428378]
+offset_left = -2.0
+offset_top = -9.0
+offset_right = 9.0
+offset_bottom = 14.0
+theme = ExtResource("4_4ab5b")
+text = "A"
+
+[node name="AnimatedSprite2D4" type="AnimatedSprite2D" parent="UpgradeSelection/WASD" unique_id=1843656567]
+position = Vector2(489, 120)
+sprite_frames = ExtResource("4_o4o1g")
+
+[node name="Label" type="Label" parent="UpgradeSelection/WASD/AnimatedSprite2D4" unique_id=1598118099]
+offset_left = 6.0
+offset_top = 7.0
+offset_right = 18.0
+offset_bottom = 22.0
+theme = ExtResource("4_4ab5b")
+text = "D"
+
+[node name="ArrowKeys" type="Node2D" parent="UpgradeSelection" unique_id=2134399443]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UpgradeSelection/ArrowKeys" unique_id=1853676807]
+position = Vector2(661, 79)
+sprite_frames = ExtResource("4_o4o1g")
+autoplay = "default"
+
+[node name="Label" type="Label" parent="UpgradeSelection/ArrowKeys/AnimatedSprite2D" unique_id=1867532206]
+offset_left = -7.0
+offset_top = 4.0
+offset_right = 5.0
+offset_bottom = 19.0
+rotation = -1.5707964
+theme = ExtResource("4_4ab5b")
+text = "→"
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="UpgradeSelection/ArrowKeys" unique_id=-1907495857]
+position = Vector2(661, 117)
+sprite_frames = ExtResource("4_o4o1g")
+autoplay = "default"
+
+[node name="Label" type="Label" parent="UpgradeSelection/ArrowKeys/AnimatedSprite2D2" unique_id=1894943635]
+offset_left = 8.0
+offset_top = -7.0
+offset_right = 20.0
+offset_bottom = 8.0
+rotation = 1.5707964
+theme = ExtResource("4_4ab5b")
+text = "→"
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="UpgradeSelection/ArrowKeys" unique_id=1981779981]
+modulate = Color(1, 1, 1, 0.49803922)
+position = Vector2(699, 117)
+sprite_frames = ExtResource("4_o4o1g")
+
+[node name="Label" type="Label" parent="UpgradeSelection/ArrowKeys/AnimatedSprite2D3" unique_id=1226631778]
+offset_left = -5.0
+offset_top = -9.0
+offset_right = 7.0
+offset_bottom = 6.0
+rotation = 1.5707964
+theme = ExtResource("4_4ab5b")
+text = "→"
+
+[node name="AnimatedSprite2D4" type="AnimatedSprite2D" parent="UpgradeSelection/ArrowKeys" unique_id=-2092665645]
+position = Vector2(623, 117)
+sprite_frames = ExtResource("4_o4o1g")
+
+[node name="Label" type="Label" parent="UpgradeSelection/ArrowKeys/AnimatedSprite2D4" unique_id=834397995]
+offset_left = 6.0
+offset_top = 7.0
+offset_right = 18.0
+offset_bottom = 22.0
+rotation = 3.1415927
+theme = ExtResource("4_4ab5b")
+text = "→"
+
+[node name="Label" type="Label" parent="UpgradeSelection" unique_id=-2018123115]
+layout_mode = 0
+offset_left = 546.0
+offset_top = 69.0
+offset_right = 586.0
+offset_bottom = 92.0
+theme = ExtResource("4_4ab5b")
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 38
+text = "Or"
+
+[node name="Module" type="Node2D" parent="." unique_id=1848962077]
+visible = false
+position = Vector2(0, 10.5)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Module" unique_id=1695265417]
+modulate = Color(1, 1, 1, 0.49803922)
+y_sort_enabled = true
+sprite_frames = SubResource("SpriteFrames_rqhft")
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="Module" unique_id=524029139]
+modulate = Color(1, 1, 1, 0.49803922)
+y_sort_enabled = true
+sprite_frames = SubResource("SpriteFrames_rqhft")
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="Module" unique_id=2017322578]
+modulate = Color(1, 1, 1, 0.49803922)
+y_sort_enabled = true
+sprite_frames = SubResource("SpriteFrames_rqhft")
+
+[node name="AnimatedSprite2D4" type="AnimatedSprite2D" parent="Module" unique_id=1569409559]
+modulate = Color(1, 1, 1, 0.49803922)
+y_sort_enabled = true
+sprite_frames = SubResource("SpriteFrames_rqhft")

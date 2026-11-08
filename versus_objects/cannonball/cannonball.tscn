@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dn368tamom6o4"]
+
+[ext_resource type="Script" uid="uid://cf3x7up8re2u1" path="res://versus_objects/cannonball/cannonball.gd" id="1_buaoh"]
+[ext_resource type="SpriteFrames" uid="uid://c3be31ateoy2g" path="res://assets/sprite_frames/raft_object_frames.tres" id="2_frames"]
+
+[sub_resource type="Curve" id="Curve_buaoh"]
+_data = [Vector2(0, 0), 0.0, 3.0545456, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Cannonball" type="Node2D" unique_id=335779530 groups=["network_sync"]]
+script = ExtResource("1_buaoh")
+simple_curve = SubResource("Curve_buaoh")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1673152369]
+sprite_frames = ExtResource("2_frames")
+animation = &"bomb"

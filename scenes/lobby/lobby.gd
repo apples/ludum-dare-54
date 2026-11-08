@@ -6,6 +6,7 @@ extends Node2D
 
 var mult_select_scene = "res://scenes/mult_select/mult_select.tscn"
 var coop_gameplay_scene = "res://scenes/mult_coop/coop_gameplay.tscn"
+var versus_gameplay_scene = "res://scenes/mult_versus/versus_gameplay.tscn"
 
 var player_names = []
 
@@ -104,4 +105,7 @@ func _on_start_button_pressed() -> void:
 
 @rpc("authority", "call_local", "reliable")
 func start_game():
-	UTILS.change_to_scene(coop_gameplay_scene)
+	if MULT_UTILS.is_coop:
+		UTILS.change_to_scene(coop_gameplay_scene)
+	else:
+		UTILS.change_to_scene(versus_gameplay_scene)

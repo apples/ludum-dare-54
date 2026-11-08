@@ -13,6 +13,7 @@
 script = ExtResource("1_atlwu")
 
 [node name="UnderTiles" type="TileMapLayer" parent="." unique_id=954179432]
+visible = false
 tile_set = ExtResource("2_1mly0")
 
 [node name="WaterTiles" type="TileMapLayer" parent="." unique_id=1680082434]
