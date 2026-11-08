@@ -42,5 +42,3 @@ func _on_main_menu_button_pressed():
 	GLOBAL_VARS.level = 0
 	GLOBAL_VARS.match3_paused = false
 	UTILS.change_to_scene("res://scenes/main_menu/main_menu.tscn")
-
-
