@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dqp7g1d0a8gbg" path="res://versus_objects/frame/frame.tscn" id="1_ao7wb"]
 [ext_resource type="Script" uid="uid://bsncre87p116h" path="res://scenes/mult_versus/versus_gameplay.gd" id="1_hvyaj"]
-[ext_resource type="PackedScene" path="res://versus_objects/raft/raft.tscn" id="4_vaf5l"]
+[ext_resource type="PackedScene" uid="uid://cwkn3tj0caqmi" path="res://versus_objects/raft/raft.tscn" id="4_vaf5l"]
 [ext_resource type="AudioStream" uid="uid://bflv5fnr5rfe2" path="res://assets/music/down_the_river.ogg" id="6_yorhr"]
 [ext_resource type="AudioStream" uid="uid://bqwvc1mimfnlo" path="res://assets/sfx/river_water_moving.ogg" id="7_vdmc8"]
 

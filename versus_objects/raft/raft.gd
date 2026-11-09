@@ -172,6 +172,9 @@ func get_random_empty_tile() -> VersusTile:
 	else:
 		return empts[MULT_UTILS.mult_rng.randi_range(0, empts.size() - 1)]
 
+func get_upper_left_tile():
+	return tiles[tiles.keys().reduce(func(accum, tile): return tile if tile.x + tile.y < accum.x + accum.y else accum)]
+
 func place_object(tile: VersusTile, object, comboLevel = 0):
 	tile.tile_object = object
 	tile.tile_object.instant_move(tile.position)
@@ -347,9 +350,9 @@ func gem_effect(match_tiles: Array[VersusTile], level: int):
 		if object_counter[key] > 1:
 			match_effect(match_tiles, key, object_counter[key] - 1)
 
-func generate_initial_platform() -> void:
-	for r in range(8, 12):
-		for c in range(6, 11):
+func generate_initial_platform(offset: Vector2 = Vector2(0, 0)) -> void:
+	for r in range(0 + offset.y, 4 + offset.y):
+		for c in range(0 + offset.x, 5 + offset.x):
 			place_tile(Vector2i(c, r))
 
 func fill_column_bag():

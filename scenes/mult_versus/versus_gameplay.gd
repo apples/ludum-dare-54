@@ -7,8 +7,8 @@ var player_scene = preload("res://versus_objects/player/player.tscn")
 @onready var disconnect_notice = $DisconnectMessage
 @onready var disconnect_timer = $DisconnectMessage/DisconnectTimer
 
-@onready var raft1 = $Raft1
-@onready var raft2 = $Raft2
+@onready var raft1 := $Raft1
+@onready var raft2 := $Raft2
 @onready var rafts := [raft1, raft2]
 @onready var buoy_parent = $BuoyParent
 
@@ -108,8 +108,8 @@ func _on_peer_disconnected(peer_id: int) -> void:
 	MULT_UTILS.gameplay_ready_peers.erase(peer_id)
 
 func on_sync_start():
-	raft1.generate_initial_platform()
-	raft2.generate_initial_platform()
+	raft1.generate_initial_platform(Vector2(4, 8))
+	raft2.generate_initial_platform(Vector2(3, 8))
 	
 	var mult_ids = []
 	mult_ids.append(multiplayer.get_unique_id())
@@ -121,8 +121,8 @@ func on_sync_start():
 	var player : VersusPlayer
 	for i in range(mult_ids.size()):
 		var peer = mult_ids[i]
-		var raft_node = raft1 if i % 2 == 0 else raft2
-		var initial_pos = Vector2i(9, 10) - Vector2i(per_raft_slots[raft_node], 0)
+		var raft_node := raft1 if i % 2 == 0 else raft2
+		var initial_pos = raft_node.get_upper_left_tile().grid_pos + Vector2i(per_raft_slots[raft_node], 0) # works up to 5 players per raft
 		per_raft_slots[raft_node] += 1
 		player = SyncManager.spawn("Player" + str(peer), self, player_scene, {grid_pos = initial_pos, raft_path = raft_node.get_path()})
 		player.set_multiplayer_authority(peer)
