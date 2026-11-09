@@ -67,12 +67,17 @@ func _process(_delta: float) -> void:
 		if dir != Vector2i.ZERO:
 			for i in range(4):
 				options[selection][i] += dir
+			if not is_in_bounds():
+				for i in range(4):
+					options[selection][i] -= dir
 			check_valid()
 			update_tile_pos()
 		
-		if Input.is_action_just_pressed("interact") and valid:
-			gameplay.placed_tile_coords = options[selection]
-			queue_free()
+		if Input.is_action_just_pressed("interact"):
+			check_valid()
+			if valid:
+				gameplay.placed_tile_coords = options[selection]
+				queue_free()
 
 func render_selection():
 	option_nodes[0].play("selected" if selection == 0 else "unselected")
@@ -102,3 +107,15 @@ func check_valid():
 		valid = false
 		for tile : AnimatedSprite2D in module.get_children():
 			tile.modulate = Color.RED
+
+func is_in_bounds():
+	for i in range(4):
+		var coord = options[selection][i]
+		if coord.x < 0 or coord.x > 11 or coord.y < 0 or coord.y > 14:
+			return false
+		if raft.raft_index == 0 and coord.x < 2 and coord.y < 4:
+			return false
+		elif raft.raft_index == 1 and coord.x > 9 and coord.y < 4:
+			return false
+	
+	return true
