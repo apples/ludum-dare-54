@@ -8,9 +8,10 @@ const DAZE_SECONDS := 5.0
 const DAZE_EFFECT_TICKS := 300 # DAZE_SECONDS * 60 (60 ticks per second)
 
 var raft_tile_scene = preload("res://versus_objects/tile/tile.tscn")
-var bomb_projectile_scene = preload("res://versus_objects/cannonball/cannonball.tscn")
+#var bomb_projectile_scene = preload("res://versus_objects/cannonball/cannonball.tscn")
 var item_scene = preload("res://versus_objects/raft_object/raft_object.tscn")
 var buoy_scene = load("res://versus_objects/buoy/buoy.tscn")
+var warning_scene = preload("res://versus_objects/raft_object_warning/object_warning.tscn")
 
 @onready var gameplay = self.get_parent()
 @onready var buoy_timer = $BuoyTimer
@@ -301,16 +302,17 @@ func cannon_effect(match_tiles: Array[VersusTile], level: int):
 	gameplay.score += 5 * level
 	if opponent == null:
 		return
+	for i in range(level - 1):
+		var rand_match = match_tiles[MULT_UTILS.mult_rng.randi_range(0, match_tiles.size())]
+		match_tiles.append(rand_match)
 	for tile in match_tiles:
 		tile.play_effect("cannon")
-		var target_tile = opponent.get_random_tile()
-		var target_coord = null if target_tile == null else target_tile.grid_pos
-		SyncManager.spawn("Bomb", self, bomb_projectile_scene, {
-			pos = tile.global_position,
-			opponent_path = opponent.get_path(),
-			target_coord = target_coord,
-			level = level,
-		})
+		var target_tile = opponent.get_random_empty_tile()
+		if target_tile:
+			SyncManager.spawn("alert", opponent, warning_scene, {
+				grid_pos = target_tile.grid_pos, buoy_pos = tile.global_position, good = false, item = GLOBAL_VARS.object_type.BOMB})
+		else:
+			return
 
 func bomb_effect(match_tiles: Array[VersusTile], level: int):
 	for tile in match_tiles:
