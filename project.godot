@@ -42,6 +42,14 @@ window/stretch/mode="canvas_items"
 
 enabled=PackedStringArray("res://addons/delta_rollback/plugin.cfg")
 
+[file_customization]
+
+folder_colors={
+"res://coop_objects/": "green",
+"res://scenes/": "purple",
+"res://versus_objects/": "orange"
+}
+
 [global_group]
 
 network_sync=""

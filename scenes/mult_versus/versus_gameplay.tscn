@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dqp7g1d0a8gbg" path="res://versus_objects/frame/frame.tscn" id="1_ao7wb"]
 [ext_resource type="Script" uid="uid://bsncre87p116h" path="res://scenes/mult_versus/versus_gameplay.gd" id="1_hvyaj"]
 [ext_resource type="PackedScene" uid="uid://cwkn3tj0caqmi" path="res://versus_objects/raft/raft.tscn" id="4_vaf5l"]
+[ext_resource type="PackedScene" uid="uid://8aye28ht4ylu" path="res://versus_objects/boss/boss.tscn" id="6_qrj7w"]
 [ext_resource type="AudioStream" uid="uid://bflv5fnr5rfe2" path="res://assets/music/down_the_river.ogg" id="6_yorhr"]
 [ext_resource type="AudioStream" uid="uid://bqwvc1mimfnlo" path="res://assets/sfx/river_water_moving.ogg" id="7_vdmc8"]
 
@@ -86,5 +87,12 @@ offset_bottom = 28.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 text = "0"
+
+[node name="Boss1" parent="." unique_id=976065110 instance=ExtResource("6_qrj7w")]
+position = Vector2(81, 97)
+
+[node name="Boss2" parent="." unique_id=1269670722 instance=ExtResource("6_qrj7w")]
+position = Vector2(912, 97)
+raft_index = 1
 
 [connection signal="timeout" from="DisconnectMessage/DisconnectTimer" to="." method="_on_disconnect_timer_timeout"]
