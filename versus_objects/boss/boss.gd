@@ -25,7 +25,7 @@ const daze_effect_ticks := 300
 const point_count := 64
 const point_length := 64
 
-@export var raft_index = 0
+@export var raft : VersusRaft
 
 var music_vol: float:
 	get:
@@ -36,13 +36,14 @@ var music_vol: float:
 func _ready() -> void:
 	AudioServer.set_bus_mute(AudioServer.get_bus_index("BossMusic"), true)
 	
-	if raft_index == 1:
+	if raft.raft_index == 1:
 		$FaceRig/Base.flip_h = true
 		$FaceRig/Pupils.flip_h = true
 		$FaceRig/Eyes.flip_h = true
 		$FaceRig/Mouth.flip_h = true
 		$FadeAnim.flip_h = true
-		position.x -= 32
+		$FaceRig.position.x -= 32
+		$FadeAnim.position.x -= 32
 
 func _process(_delta: float) -> void:
 	var current_point_count = ceil(64 * (float(daze_timer_ticks) / max_daze_timer_ticks))
@@ -68,11 +69,14 @@ func _network_process(_input: Dictionary):
 		daze_timer_ticks -= 1
 	if daze_duration_ticks > 0:
 		daze_duration_ticks -= 1
+		if daze_duration_ticks <= 0:
+			raft.buoy_timer.unpause()
 
 func daze():
 	if daze_timer_ticks > 0:
 		animation_tree["parameters/Normal/wince/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
 		daze_duration_ticks += daze_effect_ticks
+		raft.buoy_timer.pause()
 		recent_max_duration_ticks = daze_duration_ticks
 		daze_duration_line.clear_points()
 		for i in range(point_count):

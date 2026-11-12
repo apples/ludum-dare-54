@@ -13,6 +13,7 @@ var item_scene = preload("res://versus_objects/raft_object/raft_object.tscn")
 var buoy_scene = load("res://versus_objects/buoy/buoy.tscn")
 var warning_scene = preload("res://versus_objects/raft_object_warning/object_warning.tscn")
 
+var boss : VersusBoss
 @onready var gameplay = self.get_parent()
 @onready var buoy_timer = $BuoyTimer
 
@@ -46,7 +47,10 @@ const WEST := Vector2i(-1, 0)
 const EAST := Vector2i(1, 0)
 
 func _ready() -> void:
-	pass
+	if raft_index == 0:
+		boss = $"/root/VersusGameplay/Boss1"
+	else:
+		boss = $"/root/VersusGameplay/Boss2"
 
 func _network_process(_input: Dictionary) -> void:
 	_process_fires()
@@ -239,15 +243,10 @@ func match_effect(match_tiles: Array[VersusTile], type: GLOBAL_VARS.object_type,
 			SyncManager.despawn(item)
 	
 	if type != GLOBAL_VARS.object_type.BOMB:
-		_daze_opponent()
+		opponent.boss.daze()
 		if match_tiles.size() > 3:
 			var g_tile = match_tiles[MULT_UTILS.mult_rng.randi_range(0, match_tiles.size() - 1)]
 			SyncManager.spawn("item", self, item_scene, {type = GLOBAL_VARS.object_type.GEM, grid_pos = g_tile.grid_pos})
-
-func _daze_opponent() -> void:
-	if opponent:
-		opponent.daze_ticks += DAZE_EFFECT_TICKS
-		opponent.buoy_timer.pause()
 
 func wood_effect(match_tiles: Array[VersusTile], level: int):
 	gameplay.score += 10 * level

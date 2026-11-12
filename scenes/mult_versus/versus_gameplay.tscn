@@ -88,11 +88,12 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 text = "0"
 
-[node name="Boss1" parent="." unique_id=976065110 instance=ExtResource("6_qrj7w")]
+[node name="Boss1" parent="." unique_id=976065110 node_paths=PackedStringArray("raft") instance=ExtResource("6_qrj7w")]
 position = Vector2(81, 97)
+raft = NodePath("../Raft1")
 
-[node name="Boss2" parent="." unique_id=1269670722 instance=ExtResource("6_qrj7w")]
+[node name="Boss2" parent="." unique_id=1269670722 node_paths=PackedStringArray("raft") instance=ExtResource("6_qrj7w")]
 position = Vector2(912, 97)
-raft_index = 1
+raft = NodePath("../Raft2")
 
 [connection signal="timeout" from="DisconnectMessage/DisconnectTimer" to="." method="_on_disconnect_timer_timeout"]
