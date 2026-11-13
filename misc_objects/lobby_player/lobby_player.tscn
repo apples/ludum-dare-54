@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://get5k5dampt8"]
+
+[ext_resource type="Script" uid="uid://dcomsrioxfsce" path="res://misc_objects/lobby_player/lobby_player.gd" id="1_tbovq"]
+[ext_resource type="Texture2D" uid="uid://dsu1nd4ooli8w" path="res://icon.svg" id="2_o0th6"]
+
+[node name="LobbyPlayer" type="HBoxContainer" unique_id=1901572715]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_tbovq")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1627960013]
+layout_mode = 2
+texture = ExtResource("2_o0th6")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="." unique_id=1678926082]
+layout_mode = 2
+text = "Test"
+
+[node name="Button" type="Button" parent="." unique_id=145353462]
+layout_mode = 2
+text = "Kick"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

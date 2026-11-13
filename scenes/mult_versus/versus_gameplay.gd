@@ -116,12 +116,16 @@ func on_sync_start():
 	mult_ids.append_array(multiplayer.get_peers())
 	mult_ids.sort()
 	
-	# versus: players are split between the two rafts
+	var use_teams = not (MULT_UTILS.team1_players.is_empty() and MULT_UTILS.team2_players.is_empty())
 	var per_raft_slots = {raft1: 0, raft2: 0}
 	var player : VersusPlayer
 	for i in range(mult_ids.size()):
 		var peer = mult_ids[i]
-		var raft_node := raft1 if i % 2 == 0 else raft2
+		var raft_node
+		if use_teams:
+			raft_node = raft1 if MULT_UTILS.team1_players.has(peer) else raft2
+		else:
+			raft_node = raft1 if i % 2 == 0 else raft2
 		var initial_pos = raft_node.get_upper_left_tile().grid_pos + Vector2i(per_raft_slots[raft_node], 0) # works up to 5 players per raft
 		per_raft_slots[raft_node] += 1
 		player = SyncManager.spawn("Player" + str(peer), self, player_scene, {grid_pos = initial_pos, raft_path = raft_node.get_path()})
@@ -129,9 +133,9 @@ func on_sync_start():
 		raft_node.players.append(player)
 	
 	if multiplayer.is_server():
-		SyncManager.start_logging("user://detailed_logs/Horse1.log")
+		SyncManager.start_logging("user://detailed_logs/ServerLog.log")
 	else:
-		SyncManager.start_logging("user://detailed_logs/Horse2.log")
+		SyncManager.start_logging("user://detailed_logs/ClientLog.log")
 
 func on_unsync():
 	print("SYNC LOST")

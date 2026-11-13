@@ -9,6 +9,10 @@ var is_public := false
 
 var mult_name := ""
 
+# peer ids on each raft (team 0 -> raft1, team 1 -> raft2 in versus, everyone on team 1 in coop)
+var team1_players: Array = []
+var team2_players: Array = []
+
 var ip_target := "127.0.0.1"
 const port := 12702
 const max_connections = 8
@@ -22,6 +26,13 @@ var gameplay_ready_peers := {}
 
 func clear_lobby_ready() -> void:
 	lobby_ready_peers.clear()
+
+func clear_teams() -> void:
+	team1_players = []
+	team2_players = []
+
+func get_team_of_peer(peer_id: int) -> int:
+	return 1 if team2_players.has(peer_id) else 0
 
 func clear_gameplay_ready() -> void:
 	gameplay_ready_peers.clear()
