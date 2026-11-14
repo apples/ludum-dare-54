@@ -30,8 +30,8 @@ var column_ranges := [[0, 12], [3, 8], [5, 7]]
 var column_bag := []
 
 var spawnables = [
-	{ weight = 40, scene = GLOBAL_VARS.object_type.WOOD },
-	{ weight = 20, scene = GLOBAL_VARS.object_type.CANNON },
+	{ weight = 10, scene = GLOBAL_VARS.object_type.WOOD },
+	{ weight = 40, scene = GLOBAL_VARS.object_type.CANNON },
 	{ weight = 10, scene = GLOBAL_VARS.object_type.WATER },
 	{ weight = 10, scene = GLOBAL_VARS.object_type.HAMMER },
 	{ weight = 1, scene = GLOBAL_VARS.object_type.GEM},
