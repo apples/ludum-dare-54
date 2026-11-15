@@ -165,6 +165,8 @@ func _save_state() -> Dictionary:
 		health = health,
 		fire_health_ticks = fire_health_ticks,
 		burn_ticks_left = burn_ticks_left,
+		#tile_object_path = tile_object.get_path() if tile_object else ^"",
+		#player_ref_path = player_ref.get_path() if player_ref else ^"",
 		tile_object_path = tile_object.get_path() if _in_tree(tile_object) else ^"",
 		player_ref_path = player_ref.get_path() if _in_tree(player_ref) else ^"",
 	}

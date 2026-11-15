@@ -24,8 +24,6 @@ func _ready() -> void:
 	if ProjectSettings.has_setting(REUSE_DESPAWNED_NODES_SETTING):
 		reuse_despawned_nodes = ProjectSettings.get_setting(REUSE_DESPAWNED_NODES_SETTING)
 	ticks_before_remove = ProjectSettings.get_setting("network/rollback/max_buffer_size") + 2
-	
-#	add_to_group('network_sync')
 
 func reset() -> void:
 	spawn_records.clear()
@@ -34,7 +32,8 @@ func reset() -> void:
 	connections.clear()
 	
 	for node in spawned_nodes.values():
-		node.queue_free()
+		if node and is_instance_valid(node):
+			node.queue_free()
 	spawned_nodes.clear()
 	
 	interpolation_nodes.clear()

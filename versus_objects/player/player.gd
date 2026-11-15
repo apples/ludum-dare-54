@@ -36,6 +36,8 @@ var tile_placements : Array[Vector2i] = []
 var upgrade_node : Node
 var upgrade_allowed = true
 
+var _prev_action_state := {}
+
 func _ready() -> void:
 	item_scene = load("res://versus_objects/raft_object/raft_object.tscn")
 
@@ -255,28 +257,34 @@ func _network_spawn(data: Dictionary) -> void:
 	var tile = raft.get_tile(grid_pos)
 	tile.player_ref = self
 
+# replaces is_action_just_pressed
+func _action_edge(action: String, pressed: bool) -> bool:
+	var just_pressed = pressed and not _prev_action_state.get(action, false)
+	_prev_action_state[action] = pressed
+	return just_pressed
+
 func _get_local_input() -> Dictionary:
 	var input := {}
 	input["left"] = Input.is_action_pressed("left")
 	input["right"] = Input.is_action_pressed("right")
 	input["up"] = Input.is_action_pressed("up")
 	input["down"] = Input.is_action_pressed("down")
-	input["interact_pressed"] = Input.is_action_just_pressed("interact")
-	input["interact"] = Input.is_action_pressed("interact")
-	input["upgrade_pressed"] = Input.is_action_just_pressed("execute")
-	input["paddling_start"] = Input.is_action_just_pressed("fast_forward")
-	input["paddling_end"] = Input.is_action_just_released("fast_forward")
+	
+	var fast_forward := Input.is_action_pressed("fast_forward")
+	input["paddling_end"] = not fast_forward and _prev_action_state.get("fast_forward", false)
+	input["paddling_start"] = _action_edge("fast_forward", fast_forward)
+	
+	var interact := Input.is_action_pressed("interact")
+	input["interact"] = interact
+	input["interact_pressed"] = _action_edge("interact", interact)
+	input["upgrade_pressed"] = _action_edge("execute", Input.is_action_pressed("execute"))
 	
 	if gameplay.placed_tile_coords.size() > 0:
 		input["upgrade_tiles"] = gameplay.placed_tile_coords
 		gameplay.placed_tile_coords = []
 	
-	input["debug1"] = Input.is_action_just_pressed("debug_1")
-	input["debug2"] = Input.is_action_just_pressed("debug_2")
-	input["debug3"] = Input.is_action_just_pressed("debug_3")
-	input["debug4"] = Input.is_action_just_pressed("debug_4")
-	input["debug5"] = Input.is_action_just_pressed("debug_5")
-	input["debug6"] = Input.is_action_just_pressed("debug_6")
+	for i in range(1, 7):
+		input["debug%d" % i] = _action_edge("debug_%d" % i, Input.is_action_pressed("debug_%d" % i))
 	return input
 
 func _predict_remote_input(previous_input: Dictionary, ticks_since_real_input: int) -> Dictionary: # just setting all "is_action_just_pressed" actions to false

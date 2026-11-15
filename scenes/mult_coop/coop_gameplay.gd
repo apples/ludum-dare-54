@@ -89,6 +89,11 @@ func _try_start_sync() -> void:
 	_sync_start_timer = null
 	MULT_UTILS.mult_rng.set_seed(randi())
 	MULT_UTILS.sync_rng.rpc(MULT_UTILS.mult_rng.get_seed())
+	
+	var rtt := MULT_UTILS.get_measured_rtt_msec()
+	if rtt > 0:
+		SyncManager.set_input_delay(clampi(ceili(rtt / 33.333), 2, 6))
+	
 	SyncManager.start()
 
 func _on_sync_start_timeout() -> void:
@@ -122,9 +127,9 @@ func on_sync_start():
 		raft.players.append(player)
 	
 	if multiplayer.is_server():
-		SyncManager.start_logging("user://detailed_logs/Horse1.log")
+		SyncManager.start_logging(MULT_UTILS.get_log_path("Horse1"))
 	else:
-		SyncManager.start_logging("user://detailed_logs/Horse2.log")
+		SyncManager.start_logging(MULT_UTILS.get_log_path("Horse2"))
 
 func on_unsync():
 	print("SYNC LOST")
@@ -173,6 +178,8 @@ func change_speed(amount):
 
 func get_buoy_in_range(coord: Vector2, height: int) -> Node2D:
 	for buoy in buoys:
+		if not is_instance_valid(buoy):
+			continue
 		@warning_ignore("integer_division")
 		if buoy.position.x == coord.x and buoy.position.y < coord.y + (height / 2) and buoy.position.y > coord.y - (height / 2):
 			return buoy

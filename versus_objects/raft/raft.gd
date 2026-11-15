@@ -305,7 +305,7 @@ func cannon_effect(match_tiles: Array[VersusTile], level: int):
 	if opponent == null:
 		return
 	for i in range(level - 1):
-		var rand_match = match_tiles[MULT_UTILS.mult_rng.randi_range(0, match_tiles.size())]
+		var rand_match = match_tiles[MULT_UTILS.mult_rng.randi_range(0, match_tiles.size() - 1)]
 		match_tiles.append(rand_match)
 	for tile in match_tiles:
 		tile.play_effect("cannon")

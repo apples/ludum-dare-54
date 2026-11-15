@@ -433,7 +433,9 @@ func start_logging(log_file_path: String, match_info: Dictionary = {}) -> void:
 	else:
 		_logger.stop()
 	
-	if _logger.start(log_file_path, network_adaptor.get_network_unique_id(), match_info) != OK:
+	var err = _logger.start(log_file_path, network_adaptor.get_network_unique_id(), match_info)
+	if err != OK:
+		push_error("Delta rollback: failed to open log file '%s' (error: %s). Logging is disabled." % [log_file_path, error_string(err)])
 		stop_logging()
 
 func stop_logging() -> void:
