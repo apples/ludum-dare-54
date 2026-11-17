@@ -177,6 +177,8 @@ fast_forward={
 [network]
 
 rollback/input_delay=6
+rollback/debug/random_rollback_ticks=5
+rollback/debug/check_local_state_consistency=true
 
 [rendering]
 

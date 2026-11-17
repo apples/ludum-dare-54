@@ -73,7 +73,7 @@ func _process(_delta: float) -> void:
 		held_player.global_position = global_position + hold_offset
 
 func _network_process(input: Dictionary):
-	if !input:
+	if !input or gameplay.dying:
 		return
 	
 	if input.has("upgrade_tiles") and input["upgrade_tiles"].size() > 0:

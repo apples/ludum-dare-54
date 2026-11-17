@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dfr7nvqhdiatt" path="res://assets/textures/alert.png" id="2_bve6l"]
 [ext_resource type="SpriteFrames" uid="uid://c3be31ateoy2g" path="res://assets/sprite_frames/raft_object_frames.tres" id="3_7c3j4"]
 [ext_resource type="SpriteFrames" uid="uid://dquniopf2hsja" path="res://assets/sprite_frames/raft_object_frames_inv.tres" id="4_ctehv"]
+[ext_resource type="Script" uid="uid://bfd3skxuccpxt" path="res://sandbox.gd" id="5_alt6h"]
 
 [sub_resource type="Curve" id="Curve_7c3j4"]
 _data = [Vector2(0, 0), 0.0, 4.5, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -4.5, 0.0, 0, 0]
@@ -82,3 +83,13 @@ z_index = -100
 position = Vector2(0, 32)
 sprite_frames = ExtResource("4_ctehv")
 animation = &"cannon"
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=371659880]
+z_index = 100
+color = Color(0, 0, 0, 0)
+invert_enabled = true
+invert_border = 1200.0
+polygon = PackedVector2Array(0, -32, -22.627417, -22.627417, -32, -1.9593702e-15, -22.627417, 22.627417, -3.9187403e-15, 32, 22.627417, 22.627417, 32, 5.8781105e-15, 22.627417, -22.627417)
+uv = PackedVector2Array(32, 32, 32, -32, -32, -32, -32, 32)
+script = ExtResource("5_alt6h")
+point_count = 8

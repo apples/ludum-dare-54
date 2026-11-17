@@ -6,20 +6,36 @@ var spawn_item : GLOBAL_VARS.object_type
 var is_good := true
 var last_buoy_pos := Vector2.ZERO
 var launch_frames := 0
+var is_killing := false
 
 const frame_target = 60
 
 @onready var alert_sprite := $AlertSprite
 @onready var reflection := $Reflection
+@onready var poly := $Polygon2D
 
 var item_scene = preload("res://coop_objects/raft_object/raft_object.tscn")
 
 @export var simple_curve : Curve
 
+func _process(delta: float) -> void:
+	if is_killing:
+		poly.color += Color(0, 0, 0, delta)
+		poly.rotation += delta * 2.0
+		if player_ref:
+			poly.global_position = player_ref.global_position
+		else:
+			poly.global_position = sprite.global_position
+
 func _network_process(input: Dictionary):
 	super._network_process(input)
 	
-	launch_frames += 1
+	if is_killing:
+		if SyncManager.current_tick % 3 == 0:
+			launch_frames += 1
+	else:
+		launch_frames += 1
+	
 	var progress = launch_frames / float(frame_target)
 	if player_ref:
 		player_ref.global_position = last_buoy_pos.lerp(global_position, progress)
@@ -31,6 +47,9 @@ func _network_process(input: Dictionary):
 		reflection.global_position.y += simple_curve.sample(progress) * 100
 	
 	if launch_frames >= frame_target:
+		if is_killing:
+			get_parent().get_parent().end_game()
+			return
 		if player_ref:
 			player_ref.rooted = false
 			player_ref.grid_pos = grid_pos
@@ -100,3 +119,5 @@ func _network_spawn(data: Dictionary) -> void:
 		GLOBAL_VARS.object_type.GEM:
 			sprite.play("gem")
 			reflection.play("gem")
+	
+	is_killing = data.is_killing

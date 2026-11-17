@@ -37,11 +37,15 @@ func launch() -> void:
 	has_hit = true
 	var spawn_tile = raft_ref.get_random_empty_tile_in_column(column)
 	if spawn_tile != null:
+		var killing = spawn_tile.player_ref != null and not gameplay.dying
+		if killing:
+			gameplay.dying = true
 		if player_ref:
 			SyncManager.spawn("alert", $"/root/CoopGameplay/ItemParent", warning_scene,
-			{grid_pos = spawn_tile.grid_pos, buoy_pos = global_position, good = true, player_path = player_ref.get_path()})
+			{grid_pos = spawn_tile.grid_pos, buoy_pos = global_position, good = true, player_path = player_ref.get_path(), is_killing = killing})
 		else:
-			SyncManager.spawn("alert", $"/root/CoopGameplay/ItemParent", warning_scene, {grid_pos = spawn_tile.grid_pos, buoy_pos = global_position, good = true, item = item_type})
+			SyncManager.spawn("alert", $"/root/CoopGameplay/ItemParent", warning_scene, 
+			{grid_pos = spawn_tile.grid_pos, buoy_pos = global_position, good = true, item = item_type, is_killing = killing})
 	gameplay.buoys.erase(self)
 	SyncManager.despawn(self)
 

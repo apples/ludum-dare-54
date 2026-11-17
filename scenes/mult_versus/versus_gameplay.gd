@@ -22,6 +22,7 @@ var _start_failed := false
 var _sync_start_timer: SceneTreeTimer
 var _start_requested := false
 var _game_over := false
+var dying := false
 
 var score = 0:
 	set(x):
@@ -202,10 +203,12 @@ func _save_state() -> Dictionary:
 		score = score,
 		raft_charges = raft_charges.duplicate(),
 		buoy_paths = buoy_paths,
+		dying = dying,
 	}
 
 func _load_state(state: Dictionary) -> void:
 	score = state['score']
+	dying = state['dying']
 	raft_charges = state['raft_charges'].duplicate()
 	_update_charge_labels(0)
 	_update_charge_labels(1)

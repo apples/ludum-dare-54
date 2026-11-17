@@ -171,7 +171,7 @@ func _save_state() -> Dictionary:
 		player_ref_path = player_ref.get_path() if _in_tree(player_ref) else ^"",
 	}
 
-func _in_tree(node: Node) -> bool:
+func _in_tree(node) -> bool:
 	return node != null and is_instance_valid(node) and node.is_inside_tree()
 
 func _load_state(state: Dictionary) -> void:

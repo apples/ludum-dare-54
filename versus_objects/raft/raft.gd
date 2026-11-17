@@ -148,8 +148,10 @@ func get_random_empty_tile_in_column(column: int) -> VersusTile:
 	if not not_near_player.is_empty():
 		return not_near_player[MULT_UTILS.mult_rng.randi_range(0, not_near_player.size() - 1)]
 	else:
-		if col_tiles.size() < 1: #TODO more graceful ending scene transition. Slowmo and a zoom in?
-			gameplay.end_game(raft_index)
+		if col_tiles.size() < 1:
+			for t: VersusTile in tiles.values():
+				if not t.tile_object:
+					return t
 			return null
 		return col_tiles[MULT_UTILS.mult_rng.randi_range(0, col_tiles.size() - 1)]
 
@@ -159,8 +161,10 @@ func get_random_empty_tile() -> VersusTile:
 		if not t.tile_object and not t.player_ref:
 			empts.append(t)
 	
-	if empts.is_empty(): #TODO more graceful losing scene transition. Slowmo and a zoom in?
-		gameplay.end_game(raft_index)
+	if empts.is_empty():
+		for t: VersusTile in tiles.values():
+			if not t.tile_object:
+				return t
 		return null
 	
 	var not_near_player = empts.duplicate()
@@ -191,6 +195,9 @@ func pickup_object(tile: VersusTile, player: VersusPlayer) -> void:
 	player.held_object.instant_move(player.position + Vector2(0, -16) - position)
 
 func check_matches(tile: VersusTile, comboLevel = 0) -> void:
+	if gameplay.dying:
+		return
+	
 	var start_coord := tile.grid_pos
 	var type := tile.tile_object.type
 	var match_tiles : Array[VersusTile] = [tile]
@@ -311,8 +318,11 @@ func cannon_effect(match_tiles: Array[VersusTile], level: int):
 		tile.play_effect("cannon")
 		var target_tile = opponent.get_random_empty_tile()
 		if target_tile:
+			var killing = target_tile.player_ref != null and not gameplay.dying
+			if killing:
+				gameplay.dying = true
 			SyncManager.spawn("alert", opponent, warning_scene, {
-				grid_pos = target_tile.grid_pos, buoy_pos = tile.global_position, good = false, item = GLOBAL_VARS.object_type.BOMB})
+				grid_pos = target_tile.grid_pos, buoy_pos = tile.global_position, good = false, item = GLOBAL_VARS.object_type.BOMB, is_killing = killing})
 		else:
 			return
 

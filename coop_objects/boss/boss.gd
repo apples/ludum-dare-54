@@ -146,8 +146,11 @@ func _load_state(state: Dictionary) -> void:
 func _on_attack_timer_timeout() -> void:
 	var spawn_tile = raft.get_random_empty_tile()
 	if spawn_tile != null:
+		var killing = spawn_tile.player_ref != null and not get_parent().dying
+		if killing:
+			get_parent().dying = true
 		SyncManager.spawn("alert", item_parent, warning_scene, 
-			{grid_pos = spawn_tile.grid_pos, buoy_pos = global_position, good = false, item = GLOBAL_VARS.object_type.BOMB})
+			{grid_pos = spawn_tile.grid_pos, buoy_pos = global_position, good = false, item = GLOBAL_VARS.object_type.BOMB, is_killing = killing})
 
 
 func _on_stun_timer_timeout() -> void:

@@ -24,6 +24,8 @@ var _scene_ready := false
 var _start_failed := false
 var _sync_start_timer: SceneTreeTimer
 var _start_requested := false
+var _game_over := false
+var dying := false
 
 var score = 0:
 	set(x):
@@ -185,6 +187,14 @@ func get_buoy_in_range(coord: Vector2, height: int) -> Node2D:
 			return buoy
 	return null
 
+func end_game() -> void:
+	if _game_over:
+		return
+	_game_over = true
+	GLOBAL_VARS.score = score
+	
+	UTILS.change_to_scene("res://scenes/lose_screen/lose_scene.tscn")
+
 func _save_state() -> Dictionary:
 	var buoy_paths := []
 	for buoy in buoys:
@@ -198,6 +208,7 @@ func _save_state() -> Dictionary:
 		column_bag = column_bag.duplicate(),
 		spawnables_bag = spawnables_bag.duplicate(),
 		buoy_paths = buoy_paths,
+		dying = dying
 	}
 
 func _load_state(state: Dictionary) -> void:
@@ -206,6 +217,7 @@ func _load_state(state: Dictionary) -> void:
 	raft_charges = state['raft_charges']
 	column_bag = state['column_bag'].duplicate()
 	spawnables_bag = state['spawnables_bag'].duplicate()
+	dying = state['dying']
 	
 	buoys.clear()
 	for buoy_path in state['buoy_paths']:
