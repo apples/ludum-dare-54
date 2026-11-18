@@ -8,6 +8,7 @@ _data = [Vector2(0, 0), 0.0, 3.0545456, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="Cannonball" type="Node2D" unique_id=1983263178 groups=["network_sync"]]
+z_index = 1
 script = ExtResource("1_buaoh")
 simple_curve = SubResource("Curve_buaoh")
 

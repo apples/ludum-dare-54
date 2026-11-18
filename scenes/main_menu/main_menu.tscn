@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://biykrbabiptbm" path="res://scenes/main_menu/main_menu.gd" id="1_n47ym"]
 [ext_resource type="PackedScene" uid="uid://bdpx1uwt1ltf7" path="res://singleplayer_objects/frame/frame.tscn" id="2_hu3nl"]
 [ext_resource type="PackedScene" uid="uid://db55dqikpqoof" path="res://singleplayer_objects/boss/boss.tscn" id="3_kvxel"]
-[ext_resource type="Texture2D" uid="uid://bvmks1y37tkks" path="res://assets/textures/instructions_image.png" id="4_xp3ti"]
 [ext_resource type="Texture2D" uid="uid://c3k0k8bv0ywm" path="res://assets/textures/logo.png" id="7_bfq6d"]
 [ext_resource type="Script" uid="uid://jjg8y8exshsv" path="res://singleplayer_objects/raft/item_spawner.gd" id="7_sdryq"]
 [ext_resource type="Texture2D" uid="uid://bqlwl5r3a0tt3" path="res://assets/textures/gear_icon.png" id="8_adhxf"]
@@ -509,15 +508,6 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("7_bfq6d")
 stretch_mode = 5
-
-[node name="TextureRect2" type="TextureRect" parent="." unique_id=800701941]
-visible = false
-z_index = 12
-offset_left = 274.0
-offset_top = 226.0
-offset_right = 782.0
-offset_bottom = 426.0
-texture = ExtResource("4_xp3ti")
 
 [node name="start_game" type="Button" parent="." unique_id=1514501908]
 z_index = 9

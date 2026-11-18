@@ -65,10 +65,12 @@ tile_map_data = PackedByteArray("AAAGAAEABAAAAAAAAAAGAAIABAAAAAEAAAAGAAMABAAAAAI
 tile_set = ExtResource("2_1mly0")
 
 [node name="Frame" type="Sprite2D" parent="." unique_id=506430613]
+z_index = 1
 position = Vector2(480, 270)
 texture = ExtResource("4_ggi6v")
 
 [node name="Character" type="Sprite2D" parent="." unique_id=871654318]
+z_index = 1
 position = Vector2(88, 269)
 texture = ExtResource("5_ispdn")
 region_enabled = true

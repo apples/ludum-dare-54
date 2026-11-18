@@ -206,6 +206,7 @@ transitions = ["Start", "fade_start", SubResource("AnimationNodeStateMachineTran
 graph_offset = Vector2(-246, -10)
 
 [node name="Boss" type="Node2D" unique_id=976065110 groups=["network_sync"]]
+z_index = 1
 script = ExtResource("1_y7462")
 
 [node name="StunTimer" type="Node" parent="." unique_id=1032969814]
