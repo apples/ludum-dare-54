@@ -14,6 +14,7 @@ var valid := false
 @onready var gameplay = self.get_parent()
 
 @onready var module = $Module
+@onready var input_timer = $InputTimer
 
 var tetriminos = [
 	[Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0)],
@@ -61,7 +62,14 @@ func _process(_delta: float) -> void:
 			int(Input.is_action_just_pressed("down")) - int(Input.is_action_just_pressed("up"))
 		)
 		
+		if dir == Vector2i.ZERO and input_timer.is_stopped():
+			dir = Vector2i(
+				int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left")),
+				int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
+			)
+		
 		if dir != Vector2i.ZERO:
+			input_timer.start()
 			for i in range(4):
 				options[selection][i] += dir
 			if not is_in_bounds():

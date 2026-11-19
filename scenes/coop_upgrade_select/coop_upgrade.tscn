@@ -310,3 +310,7 @@ sprite_frames = SubResource("SpriteFrames_rqhft")
 modulate = Color(1, 1, 1, 0.49803922)
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_rqhft")
+
+[node name="InputTimer" type="Timer" parent="." unique_id=1230913739]
+wait_time = 0.1
+one_shot = true
