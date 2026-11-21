@@ -32,17 +32,17 @@ func instant_move(pos: Vector2):
 func _save_state() -> Dictionary:
 	return {
 		is_moving = is_moving,
-		target_pos = target_pos,
+		#target_pos = target_pos,
 		move_frames = move_frames,
-		start_pos = start_pos,
+		#start_pos = start_pos,
 		grid_pos = grid_pos,
 	}
 
 func _load_state(state: Dictionary) -> void:
 	is_moving = state['is_moving']
-	target_pos = state['target_pos']
+	#target_pos = state['target_pos']
 	move_frames = state['move_frames']
-	start_pos = state['start_pos']
+	#start_pos = state['start_pos']
 	grid_pos = state['grid_pos']
 
 func _network_spawn(data: Dictionary) -> void:
